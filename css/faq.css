@@ -1,0 +1,14 @@
+/* FAQ Specific Styles */
+.faq-item.active .faq-arrow {
+    transform: rotate(180deg);
+}
+
+.faq-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.faq-question:hover {
+    background: #f8f9fa;
+}
+
+/* Additional styles for FAQ are handled by JavaScript */
