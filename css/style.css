@@ -1,19 +1,22 @@
-/* Rosary73 Website Stylesheet */
-/* Global Styles */
+/* Rosary73 Website Stylesheet - Marian Theme */
+/* Global Styles with Blessed Virgin Mary Colors */
 :root {
-    --primary-blue: #4169E1;
-    --primary-dark: #2952C7;
-    --primary-light: #6B8BF5;
+    /* Marian Color Palette */
+    --marian-blue: #5B9BD5;        /* Light Blue of Mary's mantle */
+    --marian-blue-dark: #4A8BC2;   /* Deeper blue for hover states */
+    --marian-blue-light: #87CEEB;  /* Sky blue accent */
+    --holy-gold: #FFD700;           /* Divine gold */
+    --holy-gold-dark: #FFC700;      /* Deeper gold */
+    --holy-gold-light: #FFF3CD;     /* Light gold background */
+    --pure-white: #FFFFFF;          /* Purity white */
+    --soft-white: #FAFAFA;          /* Soft white background */
+    --text-dark: #2C3E50;           /* Readable dark text */
+    --text-light: #5A6C7D;          /* Secondary text */
     --success-green: #4CAF50;
-    --warning-orange: #FF9800;
-    --error-red: #f44336;
-    --background: #f5f5f5;
-    --text-dark: #333333;
-    --text-light: #666666;
-    --white: #ffffff;
+    --error-red: #E74C3C;
     --border-radius: 12px;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --box-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
+    --box-shadow: 0 4px 6px rgba(91, 155, 213, 0.1);
+    --box-shadow-hover: 0 8px 16px rgba(91, 155, 213, 0.2);
     --transition: all 0.3s ease;
 }
 
@@ -26,7 +29,7 @@
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     color: var(--text-dark);
-    background: var(--white);
+    background: var(--pure-white);
     overflow-x: hidden;
     line-height: 1.6;
 }
@@ -56,15 +59,15 @@ p {
 
 a {
     text-decoration: none;
-    color: var(--primary-blue);
+    color: var(--marian-blue);
     transition: var(--transition);
 }
 
 a:hover {
-    color: var(--primary-dark);
+    color: var(--marian-blue-dark);
 }
 
-/* Buttons */
+/* Buttons with Marian Theme */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -81,26 +84,39 @@ a:hover {
 }
 
 .btn-primary {
-    background: var(--primary-blue);
-    color: var(--white);
+    background: linear-gradient(135deg, var(--marian-blue), var(--marian-blue-dark));
+    color: var(--pure-white);
+    border: 2px solid var(--marian-blue);
 }
 
 .btn-primary:hover {
-    background: var(--primary-dark);
+    background: linear-gradient(135deg, var(--marian-blue-dark), var(--marian-blue));
     transform: translateY(-2px);
-    box-shadow: var(--box-shadow-hover);
+    box-shadow: 0 8px 20px rgba(91, 155, 213, 0.3);
 }
 
 .btn-secondary {
-    background: var(--white);
-    color: var(--primary-blue);
-    border: 2px solid var(--primary-blue);
+    background: var(--pure-white);
+    color: var(--marian-blue);
+    border: 2px solid var(--holy-gold);
 }
 
 .btn-secondary:hover {
-    background: var(--primary-blue);
-    color: var(--white);
+    background: var(--holy-gold-light);
+    border-color: var(--holy-gold-dark);
     transform: translateY(-2px);
+}
+
+.btn-gold {
+    background: linear-gradient(135deg, var(--holy-gold), var(--holy-gold-dark));
+    color: var(--text-dark);
+    border: none;
+}
+
+.btn-gold:hover {
+    background: linear-gradient(135deg, var(--holy-gold-dark), var(--holy-gold));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
 }
 
 .btn-large {
@@ -109,24 +125,26 @@ a:hover {
 }
 
 .btn-white {
-    background: var(--white);
-    color: var(--primary-blue);
+    background: var(--pure-white);
+    color: var(--marian-blue);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .btn-white:hover {
-    background: var(--background);
+    background: var(--soft-white);
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .btn-white-outline {
     background: transparent;
-    color: var(--white);
-    border: 2px solid var(--white);
+    color: var(--pure-white);
+    border: 2px solid var(--pure-white);
 }
 
 .btn-white-outline:hover {
-    background: var(--white);
-    color: var(--primary-blue);
+    background: var(--pure-white);
+    color: var(--marian-blue);
 }
 
 .btn img {
@@ -134,16 +152,17 @@ a:hover {
     height: 24px;
 }
 
-/* Navigation */
+/* Navigation with Marian Theme */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 20px rgba(91, 155, 213, 0.1);
     z-index: 1000;
     padding: 16px 0;
+    border-bottom: 2px solid var(--holy-gold-light);
 }
 
 .navbar .container {
@@ -158,7 +177,7 @@ a:hover {
     gap: 12px;
     font-size: 24px;
     font-weight: 700;
-    color: var(--primary-blue);
+    color: var(--marian-blue);
 }
 
 .logo {
@@ -179,7 +198,7 @@ a:hover {
 .nav-toggle span {
     width: 24px;
     height: 3px;
-    background: var(--text-dark);
+    background: var(--marian-blue);
     border-radius: 2px;
     transition: var(--transition);
 }
@@ -204,7 +223,7 @@ a:hover {
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--primary-blue);
+    background: var(--holy-gold);
     transition: var(--transition);
 }
 
@@ -212,11 +231,11 @@ a:hover {
     width: 100%;
 }
 
-/* Hero Section */
+/* Hero Section with Marian Blue Gradient */
 .hero {
     padding-top: 120px;
     padding-bottom: 80px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--marian-blue-light) 0%, var(--marian-blue) 50%, var(--marian-blue-dark) 100%);
     position: relative;
     overflow: hidden;
 }
@@ -228,7 +247,18 @@ a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,50 Q25,30 50,50 T100,50 L100,100 L0,100 Z' fill='%23FFFFFF' opacity='0.1'/%3E%3C/svg%3E") repeat-x;
 }
 
 .hero-content {
@@ -241,21 +271,23 @@ a:hover {
 }
 
 .hero-title {
-    color: var(--white);
+    color: var(--pure-white);
     font-size: 3.5rem;
     margin-bottom: 16px;
     animation: fadeInUp 0.8s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .hero-subtitle {
-    color: rgba(255, 255, 255, 0.95);
+    color: var(--holy-gold);
     font-size: 2rem;
     margin-bottom: 24px;
     animation: fadeInUp 1s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .hero-description {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     font-size: 1.125rem;
     margin-bottom: 32px;
     animation: fadeInUp 1.2s ease;
@@ -273,19 +305,20 @@ a:hover {
 }
 
 .link-highlight {
-    color: var(--white);
+    color: var(--pure-white);
     font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 215, 0, 0.2);
+    border: 1px solid var(--holy-gold);
     border-radius: 8px;
     transition: var(--transition);
 }
 
 .link-highlight:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 215, 0, 0.3);
     transform: translateX(4px);
 }
 
@@ -299,18 +332,20 @@ a:hover {
     max-width: 400px;
     height: auto;
     border-radius: 32px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--holy-gold-light);
 }
 
 .floating-badge {
     position: absolute;
     padding: 8px 16px;
-    background: var(--white);
-    color: var(--primary-blue);
+    background: var(--pure-white);
+    color: var(--marian-blue);
     border-radius: 20px;
     font-weight: 600;
     font-size: 14px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--holy-gold);
     animation: floatBadge 4s ease-in-out infinite;
 }
 
@@ -346,10 +381,10 @@ a:hover {
     height: 100%;
 }
 
-/* Features Section */
+/* Features Section with Marian Theme */
 .features {
     padding: 80px 0;
-    background: var(--background);
+    background: linear-gradient(180deg, var(--soft-white) 0%, var(--holy-gold-light) 100%);
 }
 
 .section-header {
@@ -359,7 +394,7 @@ a:hover {
 
 .section-title {
     margin-bottom: 16px;
-    color: var(--text-dark);
+    color: var(--marian-blue);
 }
 
 .section-subtitle {
@@ -374,17 +409,36 @@ a:hover {
 }
 
 .feature-card {
-    background: var(--white);
+    background: var(--pure-white);
     padding: 32px;
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 4px 12px rgba(91, 155, 213, 0.1);
     transition: var(--transition);
     text-align: center;
+    border-top: 3px solid var(--holy-gold);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--holy-gold), var(--marian-blue), var(--holy-gold));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover::before {
+    transform: scaleX(1);
 }
 
 .feature-card:hover {
     transform: translateY(-8px);
-    box-shadow: var(--box-shadow-hover);
+    box-shadow: 0 12px 24px rgba(91, 155, 213, 0.2);
 }
 
 .feature-icon {
@@ -394,8 +448,9 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-light), var(--primary-blue));
+    background: linear-gradient(135deg, var(--marian-blue-light), var(--marian-blue));
     border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(91, 155, 213, 0.3);
 }
 
 .feature-icon svg {
@@ -407,11 +462,11 @@ a:hover {
 .feature-icon svg circle,
 .feature-icon svg rect,
 .feature-icon svg line {
-    stroke: var(--white);
+    stroke: var(--pure-white);
 }
 
 .feature-icon svg text {
-    fill: var(--white);
+    fill: var(--pure-white);
 }
 
 .feature-title {
@@ -424,10 +479,10 @@ a:hover {
     line-height: 1.8;
 }
 
-/* How It Works */
+/* How It Works with Gold Accents */
 .how-it-works {
     padding: 80px 0;
-    background: var(--white);
+    background: var(--pure-white);
 }
 
 .steps-container {
@@ -448,31 +503,32 @@ a:hover {
     width: 60px;
     height: 60px;
     margin: 0 auto 24px;
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
-    color: var(--white);
+    background: linear-gradient(135deg, var(--holy-gold), var(--holy-gold-dark));
+    color: var(--text-dark);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
     font-weight: 700;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
 }
 
 .step-content h3 {
     margin-bottom: 12px;
-    color: var(--text-dark);
+    color: var(--marian-blue);
 }
 
 .step-arrow {
     font-size: 32px;
-    color: var(--primary-blue);
+    color: var(--holy-gold);
     margin: 0 20px;
 }
 
 /* Pricing Section */
 .pricing {
     padding: 80px 0;
-    background: var(--background);
+    background: linear-gradient(180deg, var(--holy-gold-light) 0%, var(--soft-white) 100%);
 }
 
 .pricing-grid {
@@ -484,23 +540,25 @@ a:hover {
 }
 
 .pricing-card {
-    background: var(--white);
+    background: var(--pure-white);
     padding: 40px 32px;
     border-radius: var(--border-radius);
     text-align: center;
     position: relative;
     transition: var(--transition);
+    border: 2px solid var(--holy-gold-light);
 }
 
 .pricing-card.featured {
     transform: scale(1.05);
-    box-shadow: 0 8px 32px rgba(65, 105, 225, 0.2);
-    border: 2px solid var(--primary-blue);
+    box-shadow: 0 8px 32px rgba(91, 155, 213, 0.2);
+    border: 2px solid var(--holy-gold);
 }
 
 .pricing-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--box-shadow-hover);
+    box-shadow: 0 8px 24px rgba(91, 155, 213, 0.15);
+    border-color: var(--marian-blue);
 }
 
 .pricing-card.featured:hover {
@@ -512,8 +570,8 @@ a:hover {
     top: -12px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--primary-blue);
-    color: var(--white);
+    background: linear-gradient(135deg, var(--holy-gold), var(--holy-gold-dark));
+    color: var(--text-dark);
     padding: 4px 16px;
     border-radius: 20px;
     font-size: 12px;
@@ -541,7 +599,7 @@ a:hover {
 .price {
     font-size: 48px;
     font-weight: 700;
-    color: var(--primary-blue);
+    color: var(--marian-blue);
 }
 
 .period {
@@ -562,10 +620,10 @@ a:hover {
     font-size: 16px;
 }
 
-/* CTA Section */
+/* CTA Section with Marian Blue */
 .cta {
     padding: 100px 0;
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+    background: linear-gradient(135deg, var(--marian-blue), var(--marian-blue-dark));
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -578,7 +636,7 @@ a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
 }
 
 .cta-content {
@@ -587,12 +645,12 @@ a:hover {
 }
 
 .cta-title {
-    color: var(--white);
+    color: var(--pure-white);
     margin-bottom: 16px;
 }
 
 .cta-description {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     font-size: 1.125rem;
     max-width: 600px;
     margin: 0 auto 32px;
@@ -610,16 +668,17 @@ a:hover {
 }
 
 .link-white {
-    color: var(--white);
+    color: var(--holy-gold);
     font-weight: 600;
     text-decoration: underline;
 }
 
-/* Footer */
+/* Footer with Marian Theme */
 .footer {
-    background: var(--text-dark);
-    color: var(--white);
+    background: linear-gradient(180deg, var(--text-dark) 0%, #1a2332 100%);
+    color: var(--pure-white);
     padding: 60px 0 20px;
+    border-top: 3px solid var(--holy-gold);
 }
 
 .footer-content {
@@ -642,6 +701,11 @@ a:hover {
     filter: brightness(0) invert(1);
 }
 
+.brand-text {
+    color: var(--marian-blue-light);
+    font-weight: 700;
+}
+
 .footer-tagline {
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 24px;
@@ -658,19 +722,19 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(91, 155, 213, 0.2);
     border-radius: 50%;
-    color: var(--white);
+    color: var(--pure-white);
     transition: var(--transition);
 }
 
 .social-links a:hover {
-    background: var(--primary-blue);
+    background: var(--marian-blue);
     transform: translateY(-2px);
 }
 
 .footer-title {
-    color: var(--white);
+    color: var(--holy-gold);
     margin-bottom: 16px;
     font-size: 18px;
 }
@@ -689,14 +753,14 @@ a:hover {
 }
 
 .footer-links a:hover {
-    color: var(--white);
+    color: var(--marian-blue-light);
     transform: translateX(4px);
     display: inline-block;
 }
 
 .footer-bottom {
     padding-top: 32px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
     text-align: center;
     color: rgba(255, 255, 255, 0.7);
 }
@@ -704,7 +768,43 @@ a:hover {
 .footer-verse {
     margin-top: 12px;
     font-style: italic;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--holy-gold-light);
+}
+
+/* Privacy Notice Section */
+.privacy-notice {
+    background: linear-gradient(135deg, var(--holy-gold-light), var(--soft-white));
+    padding: 40px;
+    border-radius: var(--border-radius);
+    margin: 40px 0;
+    border: 2px solid var(--holy-gold);
+}
+
+.privacy-notice h3 {
+    color: var(--marian-blue);
+    margin-bottom: 20px;
+}
+
+.privacy-notice ul {
+    list-style: none;
+    padding: 0;
+}
+
+.privacy-notice li {
+    padding: 12px 0;
+    padding-left: 30px;
+    position: relative;
+    color: var(--text-dark);
+    line-height: 1.8;
+}
+
+.privacy-notice li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--marian-blue);
+    font-weight: bold;
+    font-size: 18px;
 }
 
 /* Animations */
@@ -737,6 +837,15 @@ a:hover {
     }
 }
 
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .nav-toggle {
@@ -749,10 +858,11 @@ a:hover {
         top: 100%;
         left: 0;
         right: 0;
-        background: var(--white);
+        background: var(--pure-white);
         flex-direction: column;
         padding: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(91, 155, 213, 0.1);
+        border-top: 2px solid var(--holy-gold);
     }
     
     .nav-menu.active {
