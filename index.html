@@ -14,6 +14,7 @@
     <title>Rosary73 - Unite in Prayer with 73 Unique Voices | Honoring the Blessed Virgin Mary</title>
     
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/carousel.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
@@ -41,40 +42,130 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
+    <!-- Hero Section with Bead Carousel -->
+    <section id="home" class="hero-carousel">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <span class="holy-cross">✚</span>
-                    <h1 class="hero-title">Unite in Prayer</h1>
-                    <h2 class="hero-subtitle">73 Voices, One Rosary</h2>
-                    <p class="hero-description">
-                        Experience the power of community prayer through the intercession of the Blessed Virgin Mary. 
-                        Rosary73 brings together 73 unique voices from around the world, each contributing one prayer 
-                        to create a complete rosary that honors Our Lady.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#" class="btn btn-large btn-primary">
-                            <img src="images/apple-icon.svg" alt="iOS" style="width: 24px; filter: brightness(0) invert(1);">
-                            Coming to App Store
-                        </a>
-                        <a href="#" class="btn btn-large btn-gold">
-                            <img src="images/android-icon.svg" alt="Android" style="width: 24px;">
-                            Coming to Google Play
-                        </a>
+            <div class="hero-carousel-content">
+                <h1 class="carousel-title">Unite in Prayer with 73 Unique Voices</h1>
+                <p class="carousel-subtitle">Join thousands worldwide in this revolutionary prayer experience</p>
+                
+                <!-- Bead Carousel -->
+                <div class="bead-carousel-container">
+                    <button class="carousel-nav carousel-prev" onclick="changeSlide(-1)">‹</button>
+                    <button class="carousel-nav carousel-next" onclick="changeSlide(1)">›</button>
+                    
+                    <div class="bead-carousel">
+                        <!-- Slide 1: Start a Rosary -->
+                        <div class="carousel-slide active">
+                            <div class="bead-image-container">
+                                <img src="https://raw.githubusercontent.com/toespin/rosary73/main/assets/images/bead_start.png" alt="Start a Rosary" class="bead-image">
+                            </div>
+                            <h2 class="bead-title">Start a Rosary</h2>
+                            <p class="bead-description">
+                                Begin a new rosary with your prayer intention. Be the first voice in a chorus of 73 believers 
+                                united in prayer to the Blessed Virgin Mary.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 2: Join Active Rosaries -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <img src="https://raw.githubusercontent.com/toespin/rosary73/main/assets/images/bead_participate.png" alt="Join Rosaries" class="bead-image">
+                            </div>
+                            <h2 class="bead-title">Join Active Rosaries</h2>
+                            <p class="bead-description">
+                                Participate in ongoing rosaries by adding your voice. Each rosary needs 73 unique participants 
+                                to complete this powerful communal prayer.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 3: Record Your Prayers -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <img src="https://raw.githubusercontent.com/toespin/rosary73/main/assets/images/bead_record.png" alt="Record Prayers" class="bead-image">
+                            </div>
+                            <h2 class="bead-title">Record Your Prayers</h2>
+                            <p class="bead-description">
+                                Record the 7 essential prayers in your own voice. Your recordings are saved in the cloud and 
+                                can be part of countless rosaries.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 4: Listen to Finished Rosaries -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <img src="https://raw.githubusercontent.com/toespin/rosary73/main/assets/images/bead_finished.png" alt="Finished Rosaries" class="bead-image">
+                            </div>
+                            <h2 class="bead-title">Listen to Finished Rosaries</h2>
+                            <p class="bead-description">
+                                Experience the beauty of 73 voices united in prayer. Listen to complete rosaries and feel 
+                                the power of global community prayer.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 5: Create Groups -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <img src="https://raw.githubusercontent.com/toespin/rosary73/main/assets/images/bead_group.png" alt="Create Groups" class="bead-image">
+                            </div>
+                            <h2 class="bead-title">Create Prayer Groups</h2>
+                            <p class="bead-description">
+                                Form private groups for your family, parish, or community. Share the spiritual journey with 
+                                those who matter most in your faith life.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 6: Gift Subscriptions -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <img src="https://raw.githubusercontent.com/toespin/rosary73/main/assets/images/bead_gift.png" alt="Gift Subscriptions" class="bead-image">
+                            </div>
+                            <h2 class="bead-title">Gift the Power of Prayer</h2>
+                            <p class="bead-description">
+                                Share the gift of prayer by gifting subscriptions to loved ones. Help others join this 
+                                global community of believers.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 7: Subscribe -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <img src="https://raw.githubusercontent.com/toespin/rosary73/main/assets/images/bead_subscribe.png" alt="Subscribe" class="bead-image">
+                            </div>
+                            <h2 class="bead-title">Join Our Community</h2>
+                            <p class="bead-description">
+                                Start with a 7-day free trial, then continue your prayer journey with our affordable 
+                                subscription starting at just $0.99/month.
+                            </p>
+                        </div>
                     </div>
-                    <div class="blessing-text">
-                        👑 "Hail Mary, full of grace, the Lord is with thee" - Join our global community in honoring the Queen of Heaven
+                    
+                    <!-- Carousel Indicators -->
+                    <div class="carousel-indicators">
+                        <span class="indicator active" onclick="goToSlide(0)"></span>
+                        <span class="indicator" onclick="goToSlide(1)"></span>
+                        <span class="indicator" onclick="goToSlide(2)"></span>
+                        <span class="indicator" onclick="goToSlide(3)"></span>
+                        <span class="indicator" onclick="goToSlide(4)"></span>
+                        <span class="indicator" onclick="goToSlide(5)"></span>
+                        <span class="indicator" onclick="goToSlide(6)"></span>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <div class="phone-mockup">
-                        <img src="images/app-mockup.png" alt="Rosary73 App Screenshot">
-                        <div class="floating-badge badge-1">73 Voices</div>
-                        <div class="floating-badge badge-2">✚ Blessed</div>
-                        <div class="floating-badge badge-3">Multi-Language</div>
-                    </div>
+                
+                <!-- Download Buttons -->
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-large btn-primary">
+                        <img src="images/apple-icon.svg" alt="iOS" style="width: 24px; filter: brightness(0) invert(1);">
+                        Coming to App Store
+                    </a>
+                    <a href="#" class="btn btn-large btn-gold">
+                        <img src="images/android-icon.svg" alt="Android" style="width: 24px;">
+                        Coming to Google Play
+                    </a>
+                </div>
+                
+                <div class="blessing-text">
+                    👑 "Hail Mary, full of grace, the Lord is with thee" - Join our TestFlight Beta Today!
                 </div>
             </div>
         </div>
@@ -87,8 +178,8 @@
     <section id="features" class="features">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Blessed Features for Your Prayer Journey</h2>
-                <p class="section-subtitle">Discover how Rosary73 enriches your devotion to Our Lady</p>
+                <h2 class="section-title">Why Choose Rosary73?</h2>
+                <p class="section-subtitle">Experience the unique features that make our app special</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
@@ -101,36 +192,7 @@
                     <h3 class="feature-title">73 Unique Voices</h3>
                     <p class="feature-description">
                         Each prayer in your rosary is recorded by a different person, creating a truly 
-                        communal prayer experience that spans the globe in devotion to Mary.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
-                            <circle cx="9" cy="9" r="4" stroke="white" stroke-width="2" fill="none"/>
-                            <circle cx="15" cy="9" r="4" stroke="white" stroke-width="2" fill="none"/>
-                            <circle cx="12" cy="15" r="4" stroke="white" stroke-width="2" fill="none"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Prayer Communities</h3>
-                    <p class="feature-description">
-                        Create private groups for your family, parish, or Marian devotion group. 
-                        Share the spiritual journey with those who share your love for Our Lady.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
-                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"/>
-                            <circle cx="12" cy="12" r="3" fill="white"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Your Voice Matters</h3>
-                    <p class="feature-description">
-                        Record your prayers to contribute to the global rosary. Your voice becomes part of 
-                        countless rosaries, spreading grace through Our Lady's intercession.
+                        communal prayer experience that spans the globe.
                     </p>
                 </div>
                 
@@ -141,10 +203,10 @@
                             <path d="M9 12L11 14L15 10" stroke="white" stroke-width="2" fill="none"/>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Privacy & Security</h3>
+                    <h3 class="feature-title">Privacy Protected</h3>
                     <p class="feature-description">
-                        Your prayers and personal information are protected. Choose to remain anonymous 
-                        or use voice synthesis for complete privacy while still participating.
+                        Choose to remain anonymous, use voice synthesis, or participate silently. 
+                        Your privacy and comfort are our priority.
                     </p>
                 </div>
                 
@@ -155,24 +217,10 @@
                             <path d="M12 2L21 7V12C21 16.55 18.16 20.74 14 22C14 14 14 6 14 2H12Z"/>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Multi-Language Prayers</h3>
+                    <h3 class="feature-title">Multi-Language</h3>
                     <p class="feature-description">
-                        Pray in your preferred language - English, Spanish, Filipino, Latin, and more. 
+                        Pray in English, Spanish, Filipino, Latin, and more languages coming soon. 
                         Honor Mary in the language of your heart.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
-                            <rect x="4" y="6" width="16" height="12" rx="2" stroke="white" stroke-width="2" fill="none"/>
-                            <path d="M12 10V14M10 12H14" stroke="white" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Gift of Prayer</h3>
-                    <p class="feature-description">
-                        Share the gift of prayer by gifting subscriptions to loved ones. 
-                        Help others join in devotion to the Blessed Mother.
                     </p>
                 </div>
             </div>
@@ -191,14 +239,14 @@
                     <div class="step-number">1</div>
                     <div class="step-content">
                         <h3>Prepare Your Heart</h3>
-                        <p>Record 7 essential prayers or choose to participate silently. Your contribution, whether voiced or silent, matters.</p>
+                        <p>Record 7 essential prayers or choose to participate silently. Your contribution matters.</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-content">
                         <h3>Join in Prayer</h3>
-                        <p>Start a rosary with your intention or join others. Each rosary brings together 73 souls in prayer.</p>
+                        <p>Start a rosary with your intention or join others. Each rosary brings together 73 souls.</p>
                     </div>
                 </div>
                 <div class="step">
@@ -366,5 +414,6 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/carousel.js"></script>
 </body>
 </html>
