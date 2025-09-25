@@ -78,8 +78,8 @@
 }
 
 .bead-image-container {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     margin: 0 auto 30px;
     display: flex;
     align-items: center;
@@ -87,26 +87,46 @@
     position: relative;
 }
 
+/* Pulsing effect behind bead */
 .bead-image-container::after {
     content: '';
     position: absolute;
-    width: 220px;
-    height: 220px;
+    width: 280px;
+    height: 280px;
     border: 2px solid rgba(93, 173, 226, 0.2);
     border-radius: 50%;
     animation: pulse 3s ease-in-out infinite;
 }
 
-/* CSS Bead Design */
+/* Updated Bead Visual - Now using actual images */
 .bead-visual {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
+    width: 200px;
+    height: 200px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: transform 0.3s ease;
+    transform: rotate(-4deg); /* Slight rotation for natural look */
+}
+
+.bead-visual:hover {
+    transform: rotate(4deg) scale(1.05);
+}
+
+/* Bead Image */
+.bead-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+}
+
+/* Fallback for when images aren't loaded - shows colored circles with icons */
+.bead-visual.fallback {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
     box-shadow: 
         0 15px 35px rgba(0, 0, 0, 0.3),
         inset 0 3px 15px rgba(255, 255, 255, 0.6),
@@ -114,47 +134,43 @@
     border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-.bead-visual:hover {
-    transform: scale(1.05) rotate(5deg);
-}
-
-/* Individual Bead Solid Colors */
-.bead-start {
+/* Fallback Individual Bead Solid Colors - only used if images fail to load */
+.bead-start.fallback {
     background: #8B3A8B;
     background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 70%);
 }
 
-.bead-participate {
+.bead-participate.fallback {
     background: #DC143C;
     background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 70%);
 }
 
-.bead-record {
+.bead-record.fallback {
     background: #FF8C00;
     background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 70%);
 }
 
-.bead-finished {
+.bead-finished.fallback {
     background: #008B8B;
     background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 70%);
 }
 
-.bead-group {
+.bead-group.fallback {
     background: #4682B4;
     background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 70%);
 }
 
-.bead-gift {
+.bead-gift.fallback {
     background: #FFD700;
     background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 70%);
 }
 
-.bead-subscribe {
+.bead-subscribe.fallback {
     background: #5DADE2;
     background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 70%);
 }
 
-/* Bead Icon */
+/* Bead Icon - only shown in fallback mode */
 .bead-icon {
     font-size: 60px;
     color: white;
@@ -162,36 +178,24 @@
     position: relative;
     z-index: 2;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    display: none; /* Hidden by default when using images */
 }
 
-/* Rosary Chain Effect */
-.bead-visual::before {
-    content: '';
+.fallback .bead-icon {
+    display: block; /* Show icon only in fallback mode */
+}
+
+/* Chain connecting beads - optional visual element */
+.bead-chain {
     position: absolute;
-    width: 6px;
-    height: 50px;
+    width: 4px;
+    height: 60px;
     background: linear-gradient(to bottom, #8B7355, #6B5D54);
-    top: -50px;
+    top: -60px;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 3px;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Glass Overlay Effect */
-.bead-visual::after {
-    content: '';
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    right: 10%;
-    bottom: 50%;
-    background: linear-gradient(to bottom, 
-        rgba(255, 255, 255, 0.5) 0%, 
-        rgba(255, 255, 255, 0.2) 50%, 
-        transparent 100%);
-    border-radius: 50%;
-    pointer-events: none;
+    border-radius: 2px;
+    opacity: 0.3;
 }
 
 .bead-title {
@@ -347,11 +351,16 @@
     }
     
     .bead-image-container {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .bead-visual {
         width: 150px;
         height: 150px;
     }
     
-    .bead-visual {
+    .bead-visual.fallback {
         width: 120px;
         height: 120px;
     }
@@ -396,6 +405,16 @@
 @media (max-width: 480px) {
     .bead-carousel-container {
         padding: 30px 15px;
+    }
+    
+    .bead-image-container {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .bead-visual {
+        width: 120px;
+        height: 120px;
     }
     
     .carousel-nav {
