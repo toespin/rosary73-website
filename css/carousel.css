@@ -98,16 +98,85 @@
     animation: pulse 3s ease-in-out infinite;
 }
 
+/* CSS Bead Design */
+.bead-visual {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        inset 0 2px 10px rgba(255, 255, 255, 0.5),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.bead-visual:hover {
+    transform: scale(1.05) rotate(5deg);
+}
+
+/* Individual Bead Styles */
+.bead-start {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bead-participate {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.bead-record {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.bead-finished {
+    background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+
+.bead-group {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.bead-gift {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+}
+
+.bead-subscribe {
+    background: linear-gradient(135deg, #5DADE2 0%, #3498DB 100%);
+}
+
+/* Bead Icon */
+.bead-icon {
+    font-size: 60px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+/* Rosary Chain Effect */
+.bead-visual::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 40px;
+    background: linear-gradient(to bottom, #8B7355, #6B5D54);
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    opacity: 0.6;
+}
+
 .bead-image {
     width: 180px;
     height: 180px;
     object-fit: contain;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
     transition: transform 0.3s ease;
-}
-
-.bead-image:hover {
-    transform: scale(1.05) rotate(5deg);
+    display: none; /* Hide img tags since they don't load */
 }
 
 .bead-title {
@@ -171,12 +240,14 @@
     background: #D5DBDB;
     cursor: pointer;
     transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
 
 .indicator.active {
     background: linear-gradient(135deg, #FFD700, #DAA520);
     width: 30px;
     border-radius: 6px;
+    border-color: #FFD700;
 }
 
 .indicator:hover {
@@ -234,6 +305,15 @@
     }
 }
 
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: 200px 0;
+    }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .carousel-title {
@@ -254,9 +334,13 @@
         height: 150px;
     }
     
-    .bead-image {
-        width: 130px;
-        height: 130px;
+    .bead-visual {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .bead-icon {
+        font-size: 40px;
     }
     
     .bead-title {
