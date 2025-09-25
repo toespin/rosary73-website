@@ -60,7 +60,7 @@
 
 .bead-carousel {
     position: relative;
-    min-height: 400px;
+    min-height: 450px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,9 +77,10 @@
     display: block;
 }
 
+/* Desktop: 20% larger (320px * 1.2 = 384px) */
 .bead-image-container {
-    width: 320px;
-    height: 320px;
+    width: 384px;
+    height: 384px;
     margin: 0 auto 30px;
     display: flex;
     align-items: center;
@@ -91,17 +92,17 @@
 .bead-image-container::after {
     content: '';
     position: absolute;
-    width: 340px;
-    height: 340px;
+    width: 408px;
+    height: 408px;
     border: 2px solid rgba(93, 173, 226, 0.2);
     border-radius: 50%;
     animation: pulse 3s ease-in-out infinite;
 }
 
-/* Updated Bead Visual - Much larger to fill the container */
+/* Desktop: 20% larger (300px * 1.2 = 360px) */
 .bead-visual {
-    width: 300px;
-    height: 300px;
+    width: 360px;
+    height: 360px;
     position: relative;
     display: flex;
     align-items: center;
@@ -124,8 +125,8 @@
 
 /* Fallback for when images aren't loaded - shows colored circles with icons */
 .bead-visual.fallback {
-    width: 280px;
-    height: 280px;
+    width: 336px;
+    height: 336px;
     border-radius: 50%;
     box-shadow: 
         0 20px 40px rgba(0, 0, 0, 0.3),
@@ -172,7 +173,7 @@
 
 /* Bead Icon - only shown in fallback mode */
 .bead-icon {
-    font-size: 80px;
+    font-size: 90px;
     color: white;
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     position: relative;
@@ -335,7 +336,7 @@
     }
 }
 
-/* Mobile Responsive */
+/* Mobile Responsive - 20% larger (240px * 1.2 = 288px) */
 @media (max-width: 768px) {
     .carousel-title {
         font-size: 2rem;
@@ -350,23 +351,24 @@
         margin: 0 20px 40px;
     }
     
+    /* Mobile: 20% larger */
     .bead-image-container {
+        width: 288px;
+        height: 288px;
+    }
+    
+    .bead-visual {
+        width: 264px;
+        height: 264px;
+    }
+    
+    .bead-visual.fallback {
         width: 240px;
         height: 240px;
     }
     
-    .bead-visual {
-        width: 220px;
-        height: 220px;
-    }
-    
-    .bead-visual.fallback {
-        width: 200px;
-        height: 200px;
-    }
-    
     .bead-icon {
-        font-size: 60px;
+        font-size: 72px;
     }
     
     .bead-title {
@@ -402,28 +404,35 @@
     }
 }
 
+/* Small Mobile - 75% larger (200px * 1.75 = 350px) */
 @media (max-width: 480px) {
     .bead-carousel-container {
         padding: 30px 15px;
+        min-height: 500px;
     }
     
+    .bead-carousel {
+        min-height: 450px;
+    }
+    
+    /* Small mobile: 75% larger */
     .bead-image-container {
-        width: 200px;
-        height: 200px;
+        width: 350px;
+        height: 350px;
     }
     
     .bead-visual {
-        width: 180px;
-        height: 180px;
+        width: 315px;
+        height: 315px;
     }
     
     .bead-visual.fallback {
-        width: 160px;
-        height: 160px;
+        width: 280px;
+        height: 280px;
     }
     
     .bead-icon {
-        font-size: 50px;
+        font-size: 80px;
     }
     
     .carousel-nav {
