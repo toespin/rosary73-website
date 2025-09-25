@@ -28,7 +28,7 @@
 }
 
 .carousel-title {
-    font-size: 3rem;
+    font-size: 2.5rem;  /* Reduced from 3rem */
     font-weight: 700;
     background: linear-gradient(135deg, #5DADE2 0%, #3498DB 100%);
     -webkit-background-clip: text;
@@ -39,7 +39,7 @@
 }
 
 .carousel-subtitle {
-    font-size: 1.25rem;
+    font-size: 1.1rem;  /* Reduced from 1.25rem */
     color: #5D6D7E;
     margin-bottom: 50px;
     animation: fadeInUp 1s ease;
@@ -56,6 +56,7 @@
     padding: 60px;
     border: 2px solid rgba(255, 215, 0, 0.3);
     animation: fadeInUp 1.2s ease;
+    overflow: hidden;  /* Prevent overflow */
 }
 
 .bead-carousel {
@@ -200,14 +201,14 @@
 }
 
 .bead-title {
-    font-size: 2rem;
+    font-size: 1.75rem;  /* Reduced from 2rem */
     color: #2C3E50;
     margin-bottom: 20px;
     font-weight: 700;
 }
 
 .bead-description {
-    font-size: 1.125rem;
+    font-size: 1rem;  /* Reduced from 1.125rem */
     color: #5D6D7E;
     line-height: 1.8;
     max-width: 600px;
@@ -288,7 +289,7 @@
 .blessing-text {
     color: #DAA520;
     font-style: italic;
-    font-size: 1.1rem;
+    font-size: 1rem;  /* Reduced from 1.1rem */
     padding: 20px;
     background: #FFF8DC;
     border-radius: 16px;
@@ -339,11 +340,11 @@
 /* Mobile Responsive - 20% larger (240px * 1.2 = 288px) */
 @media (max-width: 768px) {
     .carousel-title {
-        font-size: 2rem;
+        font-size: 1.75rem;  /* Reduced from 2rem */
     }
     
     .carousel-subtitle {
-        font-size: 1rem;
+        font-size: 0.9rem;  /* Reduced from 1rem */
     }
     
     .bead-carousel-container {
@@ -372,11 +373,11 @@
     }
     
     .bead-title {
-        font-size: 1.5rem;
+        font-size: 1.3rem;  /* Reduced from 1.5rem */
     }
     
     .bead-description {
-        font-size: 1rem;
+        font-size: 0.9rem;  /* Reduced from 1rem */
     }
     
     .carousel-nav {
@@ -399,40 +400,60 @@
     }
     
     .blessing-text {
-        font-size: 1rem;
+        font-size: 0.9rem;  /* Reduced from 1rem */
         margin: 0 20px;
     }
 }
 
-/* Small Mobile - 75% larger (200px * 1.75 = 350px) */
+/* Small Mobile - Fixed to prevent overflow */
 @media (max-width: 480px) {
     .bead-carousel-container {
-        padding: 30px 15px;
-        min-height: 500px;
+        padding: 20px 10px;  /* Reduced padding */
+        margin: 0 10px 30px;  /* Reduced margins */
+        overflow: hidden;
     }
     
     .bead-carousel {
-        min-height: 450px;
+        min-height: 380px;  /* Reduced height */
+        overflow: hidden;
     }
     
-    /* Small mobile: 75% larger */
+    /* Small mobile: Constrained to screen width */
     .bead-image-container {
-        width: 350px;
-        height: 350px;
+        width: 260px;  /* Reduced from 350px to fit screen */
+        height: 260px;
+        max-width: calc(100vw - 40px);  /* Ensure it doesn't exceed viewport */
+    }
+    
+    /* Hide pulsing circle on small mobile to prevent overflow */
+    .bead-image-container::after {
+        display: none;
     }
     
     .bead-visual {
-        width: 315px;
-        height: 315px;
+        width: 240px;  /* Reduced from 315px */
+        height: 240px;
+        max-width: calc(100vw - 60px);
     }
     
     .bead-visual.fallback {
-        width: 280px;
-        height: 280px;
+        width: 220px;
+        height: 220px;
     }
     
     .bead-icon {
-        font-size: 80px;
+        font-size: 60px;
+    }
+    
+    .bead-title {
+        font-size: 1.2rem;  /* Smaller font */
+        padding: 0 10px;  /* Add padding to prevent edge touching */
+    }
+    
+    .bead-description {
+        font-size: 0.85rem;  /* Smaller font */
+        padding: 0 10px;  /* Add padding */
+        line-height: 1.6;
     }
     
     .carousel-nav {
@@ -440,9 +461,28 @@
         transform: none;
         display: inline-block;
         margin: 10px 5px;
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
     }
     
     .carousel-nav:hover {
         transform: scale(1.1);
+    }
+    
+    .carousel-indicators {
+        margin-top: 20px;
+        gap: 8px;
+    }
+    
+    .indicator {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .blessing-text {
+        font-size: 0.85rem;
+        margin: 0 10px;
+        padding: 15px;
     }
 }
