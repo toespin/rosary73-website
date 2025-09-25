@@ -1,0 +1,168 @@
+<!-- Updated Bead Carousel Section with Actual Bead Images -->
+<!-- Replace the existing bead carousel section in index.html with this code -->
+
+<!-- Bead Carousel -->
+<div class="bead-carousel-container">
+    <button class="carousel-nav carousel-prev" onclick="changeSlide(-1)">‹</button>
+    <button class="carousel-nav carousel-next" onclick="changeSlide(1)">›</button>
+    
+    <div class="bead-carousel">
+        <!-- Slide 1: Start a Rosary -->
+        <div class="carousel-slide active">
+            <div class="bead-image-container">
+                <div class="bead-visual">
+                    <!-- Using actual bead image from mobile app -->
+                    <img src="images/beads/bead_start.png" 
+                         alt="Start a Rosary Bead" 
+                         class="bead-image"
+                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                    <!-- Fallback if image doesn't load -->
+                    <div class="bead-icon" style="display:none;">✚</div>
+                </div>
+            </div>
+            <h2 class="bead-title">Start a Rosary</h2>
+            <p class="bead-description">
+                Begin a new rosary with your prayer intention. Be the first voice in a chorus of 73 believers 
+                united in prayer to the Blessed Virgin Mary.
+            </p>
+        </div>
+        
+        <!-- Slide 2: Join Active Rosaries -->
+        <div class="carousel-slide">
+            <div class="bead-image-container">
+                <div class="bead-visual">
+                    <img src="images/beads/bead_participate.png" 
+                         alt="Join Active Rosaries Bead" 
+                         class="bead-image"
+                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                    <div class="bead-icon" style="display:none;">🤝</div>
+                </div>
+            </div>
+            <h2 class="bead-title">Join Active Rosaries</h2>
+            <p class="bead-description">
+                Participate in ongoing rosaries by adding your voice. Each rosary needs 73 unique participants 
+                to complete this powerful communal prayer.
+            </p>
+        </div>
+        
+        <!-- Slide 3: Record Your Prayers -->
+        <div class="carousel-slide">
+            <div class="bead-image-container">
+                <div class="bead-visual">
+                    <img src="images/beads/bead_record.png" 
+                         alt="Record Your Prayers Bead" 
+                         class="bead-image"
+                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                    <div class="bead-icon" style="display:none;">🎤</div>
+                </div>
+            </div>
+            <h2 class="bead-title">Record Your Prayers</h2>
+            <p class="bead-description">
+                Record the 7 essential prayers in your own voice. Your recordings are saved in the cloud and 
+                can be part of countless rosaries.
+            </p>
+        </div>
+        
+        <!-- Slide 4: Listen to Finished Rosaries -->
+        <div class="carousel-slide">
+            <div class="bead-image-container">
+                <div class="bead-visual">
+                    <img src="images/beads/bead_finished.png" 
+                         alt="Listen to Finished Rosaries Bead" 
+                         class="bead-image"
+                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                    <div class="bead-icon" style="display:none;">🎧</div>
+                </div>
+            </div>
+            <h2 class="bead-title">Listen to Finished Rosaries</h2>
+            <p class="bead-description">
+                Experience the beauty of 73 voices united in prayer. Listen to complete rosaries and feel 
+                the power of global community prayer.
+            </p>
+        </div>
+        
+        <!-- Slide 5: Create Groups -->
+        <div class="carousel-slide">
+            <div class="bead-image-container">
+                <div class="bead-visual">
+                    <img src="images/beads/bead_group.png" 
+                         alt="Create Prayer Groups Bead" 
+                         class="bead-image"
+                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                    <div class="bead-icon" style="display:none;">👥</div>
+                </div>
+            </div>
+            <h2 class="bead-title">Create Prayer Groups</h2>
+            <p class="bead-description">
+                Form private groups for your family, parish, or community. Share the spiritual journey with 
+                those who matter most in your faith life.
+            </p>
+        </div>
+        
+        <!-- Slide 6: Gift Subscriptions -->
+        <div class="carousel-slide">
+            <div class="bead-image-container">
+                <div class="bead-visual">
+                    <img src="images/beads/bead_gift.png" 
+                         alt="Gift Subscriptions Bead" 
+                         class="bead-image"
+                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                    <div class="bead-icon" style="display:none;">🎁</div>
+                </div>
+            </div>
+            <h2 class="bead-title">Gift the Power of Prayer</h2>
+            <p class="bead-description">
+                Share the gift of prayer by gifting subscriptions to loved ones. Help others join this 
+                global community of believers.
+            </p>
+        </div>
+        
+        <!-- Slide 7: Subscribe -->
+        <div class="carousel-slide">
+            <div class="bead-image-container">
+                <div class="bead-visual">
+                    <img src="images/beads/bead_subscribe.png" 
+                         alt="Subscribe to Service Bead" 
+                         class="bead-image"
+                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                    <div class="bead-icon" style="display:none;">👑</div>
+                </div>
+            </div>
+            <h2 class="bead-title">Join Our Community</h2>
+            <p class="bead-description">
+                Start with a 7-day free trial, then continue your prayer journey with our affordable 
+                subscription starting at just $0.99/month.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Carousel Indicators -->
+    <div class="carousel-indicators">
+        <span class="indicator active" onclick="goToSlide(0)"></span>
+        <span class="indicator" onclick="goToSlide(1)"></span>
+        <span class="indicator" onclick="goToSlide(2)"></span>
+        <span class="indicator" onclick="goToSlide(3)"></span>
+        <span class="indicator" onclick="goToSlide(4)"></span>
+        <span class="indicator" onclick="goToSlide(5)"></span>
+        <span class="indicator" onclick="goToSlide(6)"></span>
+    </div>
+</div>
+
+<!-- 
+IMPORTANT: You need to manually download the bead images from the mobile app repository:
+1. Go to https://github.com/toespin/rosary73/tree/main/assets/images
+2. Download these 7 bead images:
+   - bead_start.png
+   - bead_participate.png
+   - bead_record.png
+   - bead_finished.png
+   - bead_group.png
+   - bead_gift.png
+   - bead_subscribe.png
+3. Place them in your website's images/beads/ folder
+4. Commit and push them to your rosary73-website repository
+
+Alternative for testing: You can temporarily use the GitHub raw URLs directly:
+- Replace "images/beads/bead_start.png" with "https://raw.githubusercontent.com/toespin/rosary73/main/assets/images/bead_start.png"
+- Do the same for all other bead images
+-->
