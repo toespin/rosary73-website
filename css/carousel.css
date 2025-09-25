@@ -78,8 +78,8 @@
 }
 
 .bead-image-container {
-    width: 250px;
-    height: 250px;
+    width: 320px;
+    height: 320px;
     margin: 0 auto 30px;
     display: flex;
     align-items: center;
@@ -87,21 +87,21 @@
     position: relative;
 }
 
-/* Pulsing effect behind bead */
+/* Pulsing effect behind bead - now smaller since bead is bigger */
 .bead-image-container::after {
     content: '';
     position: absolute;
-    width: 280px;
-    height: 280px;
+    width: 340px;
+    height: 340px;
     border: 2px solid rgba(93, 173, 226, 0.2);
     border-radius: 50%;
     animation: pulse 3s ease-in-out infinite;
 }
 
-/* Updated Bead Visual - Now using actual images */
+/* Updated Bead Visual - Much larger to fill the container */
 .bead-visual {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     position: relative;
     display: flex;
     align-items: center;
@@ -111,27 +111,27 @@
 }
 
 .bead-visual:hover {
-    transform: rotate(4deg) scale(1.05);
+    transform: rotate(4deg) scale(1.08);
 }
 
-/* Bead Image */
+/* Bead Image - fills the entire visual container */
 .bead-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.35));
 }
 
 /* Fallback for when images aren't loaded - shows colored circles with icons */
 .bead-visual.fallback {
-    width: 160px;
-    height: 160px;
+    width: 280px;
+    height: 280px;
     border-radius: 50%;
     box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.3),
-        inset 0 3px 15px rgba(255, 255, 255, 0.6),
-        inset 0 -3px 15px rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        inset 0 5px 20px rgba(255, 255, 255, 0.6),
+        inset 0 -5px 20px rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Fallback Individual Bead Solid Colors - only used if images fail to load */
@@ -172,12 +172,12 @@
 
 /* Bead Icon - only shown in fallback mode */
 .bead-icon {
-    font-size: 60px;
+    font-size: 80px;
     color: white;
-    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     position: relative;
     z-index: 2;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
     display: none; /* Hidden by default when using images */
 }
 
@@ -351,22 +351,22 @@
     }
     
     .bead-image-container {
-        width: 180px;
-        height: 180px;
+        width: 240px;
+        height: 240px;
     }
     
     .bead-visual {
-        width: 150px;
-        height: 150px;
+        width: 220px;
+        height: 220px;
     }
     
     .bead-visual.fallback {
-        width: 120px;
-        height: 120px;
+        width: 200px;
+        height: 200px;
     }
     
     .bead-icon {
-        font-size: 40px;
+        font-size: 60px;
     }
     
     .bead-title {
@@ -408,13 +408,22 @@
     }
     
     .bead-image-container {
-        width: 150px;
-        height: 150px;
+        width: 200px;
+        height: 200px;
     }
     
     .bead-visual {
-        width: 120px;
-        height: 120px;
+        width: 180px;
+        height: 180px;
+    }
+    
+    .bead-visual.fallback {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .bead-icon {
+        font-size: 50px;
     }
     
     .carousel-nav {
