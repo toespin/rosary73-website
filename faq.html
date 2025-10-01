@@ -10,6 +10,43 @@
     <link rel="stylesheet" href="css/faq.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* BIGGER Decorative Rosary Styles */
+        .rosary-decoration {
+            position: absolute;
+            opacity: 0.12;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .rosary-decoration img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .rosary-accent-inline {
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            margin: 0 30px;
+            vertical-align: middle;
+            opacity: 0.5;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .rosary-decoration { display: none; }
+            .rosary-accent-inline { width: 80px; height: 80px; margin: 0 15px; }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -35,8 +72,15 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <section class="page-header" style="background: linear-gradient(135deg, #5DADE2 0%, #3498DB 100%); padding-top: 120px; padding-bottom: 60px;">
+    <!-- Page Header with BIGGER rosary decoration -->
+    <section class="page-header" style="background: linear-gradient(135deg, #5DADE2 0%, #3498DB 100%); padding-top: 120px; padding-bottom: 60px; position: relative; overflow: hidden;">
+        <div class="rosary-decoration" style="right: -50px; top: 20%; width: 180px; height: 250px; opacity: 0.15;">
+            <img src="images/rosary102.png" alt="Decorative Rosary">
+        </div>
+        <div class="rosary-decoration" style="left: -50px; bottom: 10%; width: 180px; height: 250px; opacity: 0.15;">
+            <img src="images/rosary103.png" alt="Decorative Rosary">
+        </div>
+        
         <div class="container">
             <h1 style="color: white; text-align: center;">Frequently Asked Questions</h1>
             <p style="color: rgba(255,255,255,0.9); text-align: center; max-width: 600px; margin: 20px auto; font-size: 1.125rem;">Everything you need to know about Rosary73</p>
@@ -44,11 +88,24 @@
     </section>
 
     <!-- FAQ Content -->
-    <section style="padding: 80px 0; background: #f5f5f5;">
+    <section style="padding: 80px 0; background: #f5f5f5; position: relative;">
+        <!-- BIGGER Background decorations -->
+        <div class="rosary-decoration" style="left: 2%; top: 5%; width: 150px; height: 200px; opacity: 0.08;">
+            <img src="images/rosary100.png" alt="Decorative Rosary">
+        </div>
+        <div class="rosary-decoration" style="right: 2%; bottom: 5%; width: 150px; height: 200px; opacity: 0.08;">
+            <img src="images/rosary104.png" alt="Decorative Rosary">
+        </div>
+        
         <div class="container">
             <div style="max-width: 800px; margin: 0 auto;">
                 
-                <h2 style="margin-bottom: 40px; text-align: center; color: #3498DB;">✚ General Questions</h2>
+                <!-- Section Header with rosary images -->
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <img src="images/rosary105.png" alt="Rosary" class="rosary-accent-inline">
+                    <h2 style="display: inline-block; margin: 0 20px; color: #3498DB; vertical-align: middle;">✚ General Questions</h2>
+                    <img src="images/rosary101.png" alt="Rosary" class="rosary-accent-inline" style="animation-delay: 3s;">
+                </div>
                 
                 <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
                     <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
@@ -173,15 +230,36 @@
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
+                <!-- UPDATED Pricing FAQ -->
+                <div class="faq-item" style="background: #E8F4FD; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #5DADE2;">
                     <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
                         How much does the subscription cost?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow" style="transition: transform 0.3s; color: #5DADE2;">▼</span>
                     </div>
                     <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
-                            After a 7-day free trial, pricing varies by region: Philippines: ₱25/month or ₱250/year; USA/Canada/Australia: $0.99/month or $9.99/year; EU/UK: €0.99/month or €9.99/year. Annual plans save you about 17%!
-                        </p>
+                        <div style="padding: 20px 0; color: #666; line-height: 1.8;">
+                            <p style="margin-bottom: 20px;"><strong>After a 7-day free trial, our subscription rates are incredibly affordable:</strong></p>
+                            
+                            <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                                <h4 style="color: #3498DB; margin-bottom: 10px;">🇵🇭 Philippines:</h4>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>₱25.00</strong> per month</li>
+                                    <li><strong>₱250.00</strong> per year (save 17%!)</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                                <h4 style="color: #3498DB; margin-bottom: 10px;">🌍 All Other Countries:</h4>
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>$1.00 USD</strong> per month</li>
+                                    <li><strong>$9.99 USD</strong> per year (save 17%!)</li>
+                                </ul>
+                            </div>
+                            
+                            <p style="padding: 15px; background: #FFF8DC; border-radius: 8px; border-left: 4px solid #FFD700;">
+                                <strong>✝️ Special Provisions:</strong> Free subscriptions are available for clergy, religious sisters and brothers, and those experiencing financial hardship. No one should be excluded from prayer due to financial constraints.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
@@ -235,12 +313,20 @@
                     </div>
                 </div>
                 
-                <div style="background: linear-gradient(135deg, #5DADE2, #3498DB); padding: 40px; border-radius: 12px; margin: 60px 0; text-align: center;">
-                    <h3 style="color: white; margin-bottom: 20px;">Still have questions?</h3>
-                    <p style="color: rgba(255,255,255,0.9); font-size: 1.125rem; margin-bottom: 30px;">
+                <!-- CTA Section with BIGGER rosary images -->
+                <div style="background: linear-gradient(135deg, #5DADE2, #3498DB); padding: 40px; border-radius: 12px; margin: 60px 0; text-align: center; position: relative; overflow: hidden;">
+                    <div class="rosary-decoration" style="left: -30px; top: -30px; width: 120px; height: 120px; opacity: 0.2;">
+                        <img src="images/rosary105.png" alt="Decorative Rosary">
+                    </div>
+                    <div class="rosary-decoration" style="right: -30px; bottom: -30px; width: 120px; height: 120px; opacity: 0.2;">
+                        <img src="images/rosary100.png" alt="Decorative Rosary">
+                    </div>
+                    
+                    <h3 style="color: white; margin-bottom: 20px; position: relative;">Still have questions?</h3>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1.125rem; margin-bottom: 30px; position: relative;">
                         Our support team is here to help you get the most out of Rosary73.
                     </p>
-                    <a href="contact.html" class="btn btn-large btn-white">Contact Support</a>
+                    <a href="contact.html" class="btn btn-large btn-white" style="position: relative;">Contact Support</a>
                 </div>
             </div>
         </div>
