@@ -19,10 +19,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        /* Decorative Rosary Styles - BIGGER */
+        /* Decorative Rosary Styles - MORE VISIBLE with lower opacity */
         .rosary-decoration {
             position: absolute;
-            opacity: 0.15;
+            opacity: 0.06; /* Lowered from 0.15 for more visibility */
             z-index: 1;
             pointer-events: none;
         }
@@ -65,22 +65,47 @@
             height: 120px;
             margin: 0 30px;
             vertical-align: middle;
-            opacity: 0.7;
+            opacity: 0.4; /* Lowered from 0.7 for more visibility */
+        }
+        
+        /* Custom styles for R73 logo */
+        .logo-r73 {
+            height: 45px;
+            width: auto;
+        }
+        
+        .feature-icon-r73 {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            padding: 8px;
+            object-fit: contain;
+        }
+        
+        .step-number-r73 {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            padding: 10px;
+            object-fit: contain;
+            margin-bottom: 20px;
         }
         
         @media (max-width: 768px) {
             .rosary-decoration { display: none; }
             .rosary-accent { width: 80px; height: 80px; margin: 0 15px; }
+            .logo-r73 { height: 35px; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navigation with NEW R73 LOGO -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <img src="images/logo.svg" alt="Rosary73" class="logo">
-                <span class="brand-text">Rosary73</span>
+                <img src="images/R73logo.png" alt="Rosary73" class="logo-r73">
             </div>
             <button class="nav-toggle" id="navToggle">
                 <span></span>
@@ -100,7 +125,7 @@
 
     <!-- Hero Section with Bead Carousel -->
     <section id="home" class="hero-carousel" style="position: relative; overflow: hidden;">
-        <!-- Decorative Rosaries - BIGGER -->
+        <!-- Decorative Rosaries - MORE VISIBLE -->
         <div class="rosary-decoration rosary-left">
             <img src="images/rosary100.png" alt="Decorative Rosary">
         </div>
@@ -279,14 +304,14 @@
         </div>
     </section>
 
-    <!-- Rosary Divider with BIGGER Images -->
+    <!-- Rosary Divider with MORE VISIBLE Images -->
     <div class="rosary-divider" style="display: flex; align-items: center; justify-content: center; padding: 20px 0;">
         <img src="images/rosary104.png" alt="Rosary" class="rosary-accent rosary-floating">
         <span style="margin: 0 20px;">• • • ✚ • • •</span>
         <img src="images/rosary105.png" alt="Rosary" class="rosary-accent rosary-floating" style="animation-delay: 3s;">
     </div>
 
-    <!-- Features Section -->
+    <!-- Features Section with R73 LOGO ICONS -->
     <section id="features" class="features" style="position: relative;">
         <div class="container">
             <div class="section-header">
@@ -296,10 +321,7 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
-                            <path d="M12 2L2 7V12C2 16.5 4.23 20.68 7.62 23.15L12 24L16.38 23.15C19.77 20.68 22 16.5 22 12V7L12 2Z"/>
-                            <text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="bold">73</text>
-                        </svg>
+                        <img src="images/R73logo.png" alt="73 Voices" class="feature-icon-r73">
                     </div>
                     <h3 class="feature-title">73 Unique Voices</h3>
                     <p class="feature-description">
@@ -310,10 +332,7 @@
                 
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
-                            <path d="M19 3H5C3.89 3 3 3.89 3 5V19C3 20.11 3.89 21 5 21H19C20.11 21 21 20.11 21 19V5C21 3.89 20.11 3 19 3Z"/>
-                            <path d="M9 12L11 14L15 10" stroke="white" stroke-width="2" fill="none"/>
-                        </svg>
+                        <img src="images/R73logo.png" alt="Privacy Protected" class="feature-icon-r73">
                     </div>
                     <h3 class="feature-title">Privacy Protected</h3>
                     <p class="feature-description">
@@ -324,10 +343,7 @@
                 
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
-                            <path d="M12 2L3 7V12C3 16.55 5.84 20.74 10 22C10 14 10 6 10 2H12Z" opacity="0.5"/>
-                            <path d="M12 2L21 7V12C21 16.55 18.16 20.74 14 22C14 14 14 6 14 2H12Z"/>
-                        </svg>
+                        <img src="images/R73logo.png" alt="Multi-Language" class="feature-icon-r73">
                     </div>
                     <h3 class="feature-title">Multi-Language</h3>
                     <p class="feature-description">
@@ -338,13 +354,13 @@
             </div>
         </div>
         
-        <!-- BIGGER Decorative rosary on the side -->
-        <div class="rosary-decoration" style="right: -100px; top: 20%; width: 200px; height: 300px; opacity: 0.12;">
+        <!-- MORE VISIBLE Decorative rosary on the side -->
+        <div class="rosary-decoration" style="right: -100px; top: 20%; width: 200px; height: 300px; opacity: 0.05;">
             <img src="images/rosary102.png" alt="Decorative Rosary">
         </div>
     </section>
 
-    <!-- How It Works Section -->
+    <!-- How It Works Section with R73 LOGO STEP NUMBERS -->
     <section id="how-it-works" class="how-it-works">
         <div class="container">
             <div class="section-header">
@@ -353,21 +369,21 @@
             </div>
             <div class="steps-container">
                 <div class="step">
-                    <div class="step-number">1</div>
+                    <img src="images/R73logo.png" alt="Step 1" class="step-number-r73">
                     <div class="step-content">
                         <h3>Prepare Your Heart</h3>
                         <p>Record 7 essential prayers or choose to participate silently. Your contribution matters.</p>
                     </div>
                 </div>
                 <div class="step">
-                    <div class="step-number">2</div>
+                    <img src="images/R73logo.png" alt="Step 2" class="step-number-r73">
                     <div class="step-content">
                         <h3>Join in Prayer</h3>
                         <p>Start a rosary with your intention or join others. Each rosary brings together 73 souls.</p>
                     </div>
                 </div>
                 <div class="step">
-                    <div class="step-number">3</div>
+                    <img src="images/R73logo.png" alt="Step 3" class="step-number-r73">
                     <div class="step-content">
                         <h3>Experience Grace</h3>
                         <p>Listen to complete rosaries, feeling the power of united prayer through Mary's intercession.</p>
@@ -382,8 +398,8 @@
 
     <!-- Privacy Notice Section -->
     <section style="padding: 80px 0; background: #FFF8DC; position: relative; overflow: hidden;">
-        <!-- BIGGER Background decorative rosary -->
-        <div class="rosary-decoration" style="left: 5%; top: 10%; width: 180px; height: 250px; opacity: 0.08;">
+        <!-- MORE VISIBLE Background decorative rosary -->
+        <div class="rosary-decoration" style="left: 5%; top: 10%; width: 180px; height: 250px; opacity: 0.04;">
             <img src="images/rosary103.png" alt="Decorative Rosary">
         </div>
         
@@ -413,11 +429,11 @@
 
     <!-- UPDATED Pricing Section -->
     <section id="pricing" class="pricing" style="position: relative; overflow: hidden;">
-        <!-- BIGGER Decorative rosaries -->
-        <div class="rosary-decoration" style="left: -100px; top: 30%; width: 200px; height: 280px; opacity: 0.1; transform: rotate(-20deg);">
+        <!-- MORE VISIBLE Decorative rosaries -->
+        <div class="rosary-decoration" style="left: -100px; top: 30%; width: 200px; height: 280px; opacity: 0.05; transform: rotate(-20deg);">
             <img src="images/rosary100.png" alt="Decorative Rosary">
         </div>
-        <div class="rosary-decoration" style="right: -100px; bottom: 20%; width: 200px; height: 280px; opacity: 0.1; transform: rotate(20deg);">
+        <div class="rosary-decoration" style="right: -100px; bottom: 20%; width: 200px; height: 280px; opacity: 0.05; transform: rotate(20deg);">
             <img src="images/rosary101.png" alt="Decorative Rosary">
         </div>
         
@@ -430,9 +446,9 @@
             <div style="max-width: 800px; margin: 0 auto; text-align: center;">
                 <div style="background: white; padding: 60px 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(93, 173, 226, 0.15); border: 2px solid #FFD700;">
                     <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
-                        <img src="images/rosary104.png" alt="Rosary" style="width: 100px; height: 100px; opacity: 0.7; margin-right: 20px;">
+                        <img src="images/rosary104.png" alt="Rosary" style="width: 100px; height: 100px; opacity: 0.4; margin-right: 20px;">
                         <h3 style="font-size: 2rem; color: #3498DB; margin: 0;">Simple & Affordable</h3>
-                        <img src="images/rosary105.png" alt="Rosary" style="width: 100px; height: 100px; opacity: 0.7; margin-left: 20px;">
+                        <img src="images/rosary105.png" alt="Rosary" style="width: 100px; height: 100px; opacity: 0.4; margin-left: 20px;">
                     </div>
                     
                     <p style="font-size: 1.25rem; color: #5D6D7E; line-height: 1.8; margin-bottom: 30px;">
@@ -507,8 +523,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-brand">
-                        <img src="images/logo.svg" alt="Rosary73" class="footer-logo">
-                        <span class="brand-text" style="color: #5DADE2;">Rosary73</span>
+                        <img src="images/R73logo.png" alt="Rosary73" class="footer-logo" style="height: 40px; width: auto;">
                     </div>
                     <p class="footer-tagline">Unite in Prayer with 73 Unique Voices</p>
                     <p style="color: #FFD700; margin-top: 15px;">✚ Honoring the Blessed Virgin Mary ✚</p>
