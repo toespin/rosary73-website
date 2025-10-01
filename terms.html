@@ -9,6 +9,26 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Decorative Rosary Styles */
+        .rosary-decoration {
+            position: absolute;
+            opacity: 0.06;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .rosary-decoration img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        @media (max-width: 768px) {
+            .rosary-decoration { display: none; }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -34,17 +54,30 @@
     </nav>
 
     <!-- Page Header -->
-    <section class="page-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding-top: 120px; padding-bottom: 60px;">
+    <section class="page-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding-top: 120px; padding-bottom: 60px; position: relative; overflow: hidden;">
+        <!-- Decorative rosary -->
+        <div class="rosary-decoration" style="right: 5%; top: 20%; width: 100px; height: 150px; opacity: 0.1;">
+            <img src="images/rosary102.png" alt="Decorative Rosary">
+        </div>
+        
         <div class="container">
             <h1 style="color: white; text-align: center;">Terms of Service</h1>
-            <p style="color: rgba(255,255,255,0.9); text-align: center; max-width: 600px; margin: 20px auto; font-size: 1.125rem;">Last updated: September 22, 2025</p>
+            <p style="color: rgba(255,255,255,0.9); text-align: center; max-width: 600px; margin: 20px auto; font-size: 1.125rem;">Last updated: October 1, 2025</p>
         </div>
     </section>
 
     <!-- Terms Content -->
-    <section style="padding: 80px 0; background: #f5f5f5;">
+    <section style="padding: 80px 0; background: #f5f5f5; position: relative;">
+        <!-- Decorative rosaries -->
+        <div class="rosary-decoration" style="left: 2%; top: 10%; width: 80px; height: 120px;">
+            <img src="images/rosary100.png" alt="Decorative Rosary">
+        </div>
+        <div class="rosary-decoration" style="right: 2%; bottom: 10%; width: 80px; height: 120px;">
+            <img src="images/rosary104.png" alt="Decorative Rosary">
+        </div>
+        
         <div class="container">
-            <div style="max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px;">
+            <div style="max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
                 
                 <h2>1. Acceptance of Terms</h2>
                 <p>By downloading, installing, or using the Rosary73 application ("the App"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the App.</p>
@@ -53,9 +86,10 @@
                 <p>Rosary73 is an interactive audio rosary application that allows users to:</p>
                 <ul>
                     <li>Record prayer audio</li>
-                    <li>Participate in communal rosaries</li>
-                    <li>Create and join prayer groups</li>
+                    <li>Participate in communal rosaries with 73 unique voices</li>
+                    <li>Create and join prayer groups (minimum 75 members)</li>
                     <li>Access completed rosary recordings</li>
+                    <li>Gift subscriptions to others</li>
                 </ul>
                 
                 <h2>3. User Accounts</h2>
@@ -64,53 +98,91 @@
                     <li>Maintaining the confidentiality of your account credentials</li>
                     <li>All activities that occur under your account</li>
                     <li>Providing accurate and current information</li>
+                    <li>Notifying us immediately of any unauthorized use</li>
                 </ul>
                 
-                <h2>4. Subscription and Payment</h2>
-                <p>After a 7-day free trial, continued use of the App requires a paid subscription:</p>
+                <h2 style="background: #E8F4FD; padding: 15px; border-left: 4px solid #5DADE2; margin: 30px 0;">4. Subscription and Payment</h2>
+                <p>After a 7-day free trial, continued use of premium features requires a paid subscription:</p>
+                
+                <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h3 style="color: #3498DB; margin-bottom: 15px;">Subscription Rates (Effective October 1, 2025):</h3>
+                    
+                    <p><strong>Philippines:</strong></p>
+                    <ul style="margin-bottom: 20px;">
+                        <li>Monthly: ₱25.00 PHP</li>
+                        <li>Annual: ₱250.00 PHP (save 17%)</li>
+                    </ul>
+                    
+                    <p><strong>All Other Countries:</strong></p>
+                    <ul>
+                        <li>Monthly: $1.00 USD</li>
+                        <li>Annual: $9.99 USD (save 17%)</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Special Provisions:</strong></p>
                 <ul>
-                    <li>Subscriptions are billed monthly or annually</li>
-                    <li>Prices vary by region as displayed in the App</li>
+                    <li><strong>Clergy & Religious:</strong> Free subscriptions available for ordained clergy, religious sisters, and religious brothers upon verification</li>
+                    <li><strong>Financial Hardship:</strong> Those experiencing financial difficulties may apply for a free or reduced subscription</li>
+                    <li><strong>Gift Subscriptions:</strong> Users may purchase subscriptions as gifts for others</li>
+                </ul>
+                
+                <p><strong>Payment Terms:</strong></p>
+                <ul>
                     <li>Payments are processed securely through HitPay</li>
-                    <li>Subscriptions auto-renew unless canceled</li>
+                    <li>Subscriptions automatically renew unless canceled</li>
+                    <li>You may cancel at any time through the App settings</li>
+                    <li>No refunds for partial subscription periods</li>
+                    <li>Prices may be updated with 30 days notice</li>
                 </ul>
                 
                 <h2>5. User Content</h2>
                 <p>By recording and uploading prayers, you:</p>
                 <ul>
-                    <li>Grant Rosary73 a license to use your recordings in rosaries</li>
+                    <li>Grant Rosary73 a perpetual, worldwide license to use your recordings in rosaries</li>
                     <li>Confirm you have the right to share the content</li>
-                    <li>Agree your recordings may be heard by other users</li>
+                    <li>Agree your recordings may be heard by other users globally</li>
                     <li>Understand that prayer intentions may be shared within groups</li>
+                    <li>Acknowledge that recordings cannot be deleted once incorporated into completed rosaries</li>
                 </ul>
                 
                 <h2>6. Acceptable Use</h2>
                 <p>You agree not to:</p>
                 <ul>
-                    <li>Use the App for any unlawful purpose</li>
-                    <li>Upload inappropriate or offensive content</li>
+                    <li>Use the App for any unlawful or harmful purpose</li>
+                    <li>Upload inappropriate, offensive, or sacrilegious content</li>
                     <li>Harass, abuse, or harm other users</li>
                     <li>Attempt to breach security or interfere with the service</li>
-                    <li>Use the App for commercial purposes without permission</li>
+                    <li>Use the App for commercial purposes without written permission</li>
+                    <li>Share account credentials or circumvent subscription requirements</li>
+                    <li>Use automated systems or bots to access the App</li>
                 </ul>
                 
                 <h2>7. Privacy</h2>
-                <p>Your use of the App is also governed by our Privacy Policy. We are committed to protecting your personal information and prayer intentions.</p>
+                <p>Your use of the App is also governed by our Privacy Policy. We are committed to protecting your personal information and prayer intentions. We offer multiple privacy options including anonymous participation and voice synthesis.</p>
                 
                 <h2>8. Intellectual Property</h2>
-                <p>The App, including its design, features, and content (excluding user recordings), is the property of Rosary73 and is protected by copyright and other intellectual property laws.</p>
+                <p>The App, including its design, features, and content (excluding user recordings), is the property of Rosary73 and is protected by copyright and other intellectual property laws. The name "Rosary73" and associated logos are trademarks of our company.</p>
                 
                 <h2>9. Groups and Communities</h2>
                 <p>Group features are subject to additional rules:</p>
                 <ul>
-                    <li>Groups require a minimum of 75 active members</li>
+                    <li>Groups require a minimum of 75 active members with paid subscriptions</li>
                     <li>Group administrators have moderation responsibilities</li>
                     <li>Private groups are invitation-only</li>
-                    <li>Inactive groups may be archived after extended periods</li>
+                    <li>Public groups are open to all subscribers</li>
+                    <li>Groups falling below 75 active members become inactive</li>
+                    <li>Inactive groups may be archived after 90 days</li>
                 </ul>
                 
                 <h2>10. Termination</h2>
-                <p>We may terminate or suspend your account if you violate these terms. You may cancel your subscription at any time through the App settings.</p>
+                <p>We may terminate or suspend your account if you violate these terms. Upon termination:</p>
+                <ul>
+                    <li>Your access to premium features will cease immediately</li>
+                    <li>You may still listen to completed rosaries you participated in</li>
+                    <li>Your recordings remain part of completed rosaries</li>
+                    <li>No refunds will be provided for the current subscription period</li>
+                </ul>
                 
                 <h2>11. Disclaimers</h2>
                 <p>The App is provided "as is" without warranties of any kind. We do not guarantee:</p>
@@ -118,21 +190,37 @@
                     <li>Uninterrupted or error-free service</li>
                     <li>Accuracy of user-generated content</li>
                     <li>Specific spiritual or religious outcomes</li>
+                    <li>Compatibility with all devices or operating systems</li>
                 </ul>
                 
                 <h2>12. Limitation of Liability</h2>
-                <p>Rosary73 shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the App.</p>
+                <p>To the maximum extent permitted by law, Rosary73 shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the App, including but not limited to loss of data, spiritual distress, or missed prayer opportunities.</p>
                 
                 <h2>13. Changes to Terms</h2>
-                <p>We may update these terms from time to time. Continued use of the App after changes constitutes acceptance of the new terms.</p>
+                <p>We may update these terms from time to time. We will notify users of significant changes via email or in-app notification. Continued use of the App after changes constitutes acceptance of the new terms.</p>
                 
-                <h2>14. Contact Information</h2>
+                <h2>14. Dispute Resolution</h2>
+                <p>Any disputes arising from these terms shall first be addressed through good faith negotiation. If resolution cannot be reached, disputes shall be settled through binding arbitration.</p>
+                
+                <h2>15. Contact Information</h2>
                 <p>For questions about these Terms of Service, please contact us at:</p>
-                <p>Email: legal@rosary73.com<br>
-                Website: https://rosary73.com/contact</p>
+                <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <p><strong>Email:</strong> support@rosary73.com<br>
+                    <strong>Website:</strong> https://rosary73.com/contact<br>
+                    <strong>Address:</strong> [To be provided]</p>
+                </div>
                 
-                <h2>15. Governing Law</h2>
+                <h2>16. Governing Law</h2>
                 <p>These terms shall be governed by the laws of the jurisdiction in which Rosary73 operates, without regard to conflict of law principles.</p>
+                
+                <div style="background: #FFF8DC; padding: 20px; border-radius: 8px; margin-top: 40px; border: 1px solid #FFD700;">
+                    <p style="text-align: center; color: #DAA520; font-weight: 600; margin: 0;">
+                        ✚ Thank you for being part of the Rosary73 prayer community ✚<br>
+                        <span style="font-weight: normal; color: #5D6D7E; font-size: 0.9rem;">
+                            Together, we unite 73 voices in powerful prayer to honor the Blessed Virgin Mary
+                        </span>
+                    </p>
+                </div>
                 
             </div>
         </div>
