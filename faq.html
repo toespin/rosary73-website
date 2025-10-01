@@ -12,6 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* Custom styles for R73 logo - matching homepage */
+        .logo-r73 {
+            height: 45px;
+            width: auto;
+        }
+        
         /* BIGGER Decorative Rosary Styles */
         .rosary-decoration {
             position: absolute;
@@ -43,17 +49,18 @@
         }
         
         @media (max-width: 768px) {
+            .logo-r73 { height: 35px; }
             .rosary-decoration { display: none; }
             .rosary-accent-inline { width: 80px; height: 80px; margin: 0 15px; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navigation with NEW R73 LOGO and ROSARY73 TEXT -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <img src="images/logo.svg" alt="Rosary73" class="logo">
+                <img src="images/R73logo.png" alt="Rosary73" class="logo-r73">
                 <span class="brand-text">Rosary73</span>
             </div>
             <button class="nav-toggle" id="navToggle">
@@ -332,13 +339,13 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer with NEW R73 LOGO -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-brand">
-                        <img src="images/logo.svg" alt="Rosary73" class="footer-logo">
+                        <img src="images/R73logo.png" alt="Rosary73" class="footer-logo" style="height: 40px; width: auto;">
                         <span class="brand-text" style="color: #5DADE2;">Rosary73</span>
                     </div>
                     <p class="footer-tagline">Unite in Prayer with 73 Unique Voices</p>
