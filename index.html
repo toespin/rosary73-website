@@ -19,55 +19,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        /* Decorative Rosary Styles - MUCH MORE VISIBLE */
-        .rosary-decoration {
-            position: absolute;
-            opacity: 0.5; /* Increased from 0.06 for much more visibility */
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        .rosary-decoration img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        
-        .rosary-left {
-            left: -80px;
-            top: 50%;
-            transform: translateY(-50%) rotate(-15deg);
-            width: 250px;
-            height: 400px;
-        }
-        
-        .rosary-right {
-            right: -80px;
-            top: 50%;
-            transform: translateY(-50%) rotate(15deg);
-            width: 250px;
-            height: 400px;
-        }
-        
-        .rosary-floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-        
-        .rosary-accent {
-            display: inline-block;
-            width: 120px;
-            height: 120px;
-            margin: 0 30px;
-            vertical-align: middle;
-            opacity: 0.8; /* Increased from 0.4 for much more visibility */
-        }
-        
         /* Custom styles for R73 logo */
         .logo-r73 {
             height: 45px;
@@ -94,8 +45,6 @@
         }
         
         @media (max-width: 768px) {
-            .rosary-decoration { display: none; }
-            .rosary-accent { width: 80px; height: 80px; margin: 0 15px; }
             .logo-r73 { height: 35px; }
         }
     </style>
@@ -125,15 +74,7 @@
     </nav>
 
     <!-- Hero Section with Bead Carousel -->
-    <section id="home" class="hero-carousel" style="position: relative; overflow: hidden;">
-        <!-- Decorative Rosaries - MUCH MORE VISIBLE -->
-        <div class="rosary-decoration rosary-left">
-            <img src="images/rosary100.png" alt="Decorative Rosary">
-        </div>
-        <div class="rosary-decoration rosary-right">
-            <img src="images/rosary101.png" alt="Decorative Rosary">
-        </div>
-        
+    <section id="home" class="hero-carousel">
         <div class="container">
             <div class="hero-carousel-content">
                 <h1 class="carousel-title">Unite in Prayer with 73 Unique Voices</h1>
@@ -149,12 +90,10 @@
                         <div class="carousel-slide active">
                             <div class="bead-image-container">
                                 <div class="bead-visual">
-                                    <!-- Using actual bead image from mobile app -->
                                     <img src="images/beads/bead_start.png" 
                                          alt="Start a Rosary Bead" 
                                          class="bead-image"
                                          onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
-                                    <!-- Fallback if image doesn't load -->
                                     <div class="bead-icon" style="display:none;">✚</div>
                                 </div>
                             </div>
@@ -255,7 +194,7 @@
                             </p>
                         </div>
                         
-                        <!-- Slide 7: Subscribe - UPDATED TEXT -->
+                        <!-- Slide 7: Subscribe -->
                         <div class="carousel-slide">
                             <div class="bead-image-container">
                                 <div class="bead-visual">
@@ -305,15 +244,11 @@
         </div>
     </section>
 
-    <!-- Rosary Divider with MORE VISIBLE Images -->
-    <div class="rosary-divider" style="display: flex; align-items: center; justify-content: center; padding: 20px 0;">
-        <img src="images/rosary104.png" alt="Rosary" class="rosary-accent rosary-floating">
-        <span style="margin: 0 20px;">• • • ✚ • • •</span>
-        <img src="images/rosary105.png" alt="Rosary" class="rosary-accent rosary-floating" style="animation-delay: 3s;">
-    </div>
+    <!-- Rosary Divider -->
+    <div class="rosary-divider">• • • ✚ • • •</div>
 
     <!-- Features Section with R73 LOGO ICONS -->
-    <section id="features" class="features" style="position: relative;">
+    <section id="features" class="features">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Why Choose Rosary73?</h2>
@@ -354,11 +289,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- MORE VISIBLE Decorative rosary on the side -->
-        <div class="rosary-decoration" style="right: -100px; top: 20%; width: 200px; height: 300px; opacity: 0.5;">
-            <img src="images/rosary102.png" alt="Decorative Rosary">
-        </div>
     </section>
 
     <!-- How It Works Section with R73 LOGO STEP NUMBERS -->
@@ -398,12 +328,7 @@
     <div class="rosary-divider">• • • ✚ • • •</div>
 
     <!-- Privacy Notice Section -->
-    <section style="padding: 80px 0; background: #FFF8DC; position: relative; overflow: hidden;">
-        <!-- MORE VISIBLE Background decorative rosary -->
-        <div class="rosary-decoration" style="left: 5%; top: 10%; width: 180px; height: 250px; opacity: 0.4;">
-            <img src="images/rosary103.png" alt="Decorative Rosary">
-        </div>
-        
+    <section style="padding: 80px 0; background: #FFF8DC;">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title" style="color: #DAA520;">Your Privacy is Sacred</h2>
@@ -428,16 +353,8 @@
         </div>
     </section>
 
-    <!-- UPDATED Pricing Section -->
-    <section id="pricing" class="pricing" style="position: relative; overflow: hidden;">
-        <!-- MORE VISIBLE Decorative rosaries -->
-        <div class="rosary-decoration" style="left: -100px; top: 30%; width: 200px; height: 280px; opacity: 0.5; transform: rotate(-20deg);">
-            <img src="images/rosary100.png" alt="Decorative Rosary">
-        </div>
-        <div class="rosary-decoration" style="right: -100px; bottom: 20%; width: 200px; height: 280px; opacity: 0.5; transform: rotate(20deg);">
-            <img src="images/rosary101.png" alt="Decorative Rosary">
-        </div>
-        
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Blessings Within Reach</h2>
@@ -446,11 +363,7 @@
             
             <div style="max-width: 800px; margin: 0 auto; text-align: center;">
                 <div style="background: white; padding: 60px 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(93, 173, 226, 0.15); border: 2px solid #FFD700;">
-                    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
-                        <img src="images/rosary104.png" alt="Rosary" style="width: 100px; height: 100px; opacity: 0.8; margin-right: 20px;">
-                        <h3 style="font-size: 2rem; color: #3498DB; margin: 0;">Simple & Affordable</h3>
-                        <img src="images/rosary105.png" alt="Rosary" style="width: 100px; height: 100px; opacity: 0.8; margin-left: 20px;">
-                    </div>
+                    <h3 style="font-size: 2rem; color: #3498DB; margin-bottom: 30px;">Simple & Affordable</h3>
                     
                     <p style="font-size: 1.25rem; color: #5D6D7E; line-height: 1.8; margin-bottom: 30px;">
                         <strong style="color: #2C3E50;">For less than the price of a cup of coffee each month</strong>, 
