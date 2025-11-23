@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rosary73 - Unite in Prayer with 73 Unique Voices. Interactive audio rosary app where each prayer is recorded by a different person, creating a powerful community prayer experience.">
+    <meta name="keywords" content="rosary, prayer, Catholic, audio rosary, community prayer, mobile app, iOS, Android, Blessed Virgin Mary">
+    <meta property="og:title" content="Rosary73 - Unite in Prayer">
+    <meta property="og:description" content="Interactive audio rosary with 73 unique voices. Join thousands in prayer.">
+    <meta property="og:image" content="images/og-image.png">
+    <meta property="og:url" content="https://rosary73.com">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <title>Rosary73 - Unite in Prayer with 73 Unique Voices | Honoring the Blessed Virgin Mary</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/carousel.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles for R73 logo */
+        .logo-r73 {
+            height: 45px;
+            width: auto;
+        }
+        
+        .feature-icon-r73 {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            padding: 8px;
+            object-fit: contain;
+        }
+        
+        .step-number-r73 {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            padding: 10px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .logo-r73 { height: 35px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation with R73 LOGO and ROSARY73 TEXT -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="images/R73logo.png" alt="Rosary73" class="logo-r73">
+                <span class="brand-text">Rosary73</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                <li><a href="#download" class="nav-link btn-primary">Download</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Bead Carousel -->
+    <section id="home" class="hero-carousel">
+        <div class="container">
+            <div class="hero-carousel-content">
+                <h1 class="carousel-title">Unite in Prayer with 73 Unique Voices</h1>
+                <p class="carousel-subtitle">Join thousands worldwide in this revolutionary prayer experience</p>
+                
+                <!-- Bead Carousel -->
+                <div class="bead-carousel-container">
+                    <button class="carousel-nav carousel-prev" onclick="changeSlide(-1)">‹</button>
+                    <button class="carousel-nav carousel-next" onclick="changeSlide(1)">›</button>
+                    
+                    <div class="bead-carousel">
+                        <!-- Slide 1: Start a Rosary -->
+                        <div class="carousel-slide active">
+                            <div class="bead-image-container">
+                                <div class="bead-visual">
+                                    <img src="images/beads/bead_start.png" 
+                                         alt="Start a Rosary Bead" 
+                                         class="bead-image"
+                                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                    <div class="bead-icon" style="display:none;">✚</div>
+                                </div>
+                            </div>
+                            <h2 class="bead-title">Start a Rosary</h2>
+                            <p class="bead-description">
+                                Begin a new rosary with your prayer intention. Be the first voice in a chorus of 73 believers 
+                                united in prayer to the Blessed Virgin Mary.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 2: Join Active Rosaries -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <div class="bead-visual">
+                                    <img src="images/beads/bead_participate.png" 
+                                         alt="Join Active Rosaries Bead" 
+                                         class="bead-image"
+                                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                    <div class="bead-icon" style="display:none;">🤝</div>
+                                </div>
+                            </div>
+                            <h2 class="bead-title">Join Active Rosaries</h2>
+                            <p class="bead-description">
+                                Participate in ongoing rosaries by adding your voice. Each rosary needs 73 unique participants 
+                                to complete this powerful communal prayer.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 3: Record Your Prayers -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <div class="bead-visual">
+                                    <img src="images/beads/bead_record.png" 
+                                         alt="Record Your Prayers Bead" 
+                                         class="bead-image"
+                                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                    <div class="bead-icon" style="display:none;">🎤</div>
+                                </div>
+                            </div>
+                            <h2 class="bead-title">Record Your Prayers</h2>
+                            <p class="bead-description">
+                                Record the 7 essential prayers in your own voice. Your recordings are saved in the cloud and 
+                                can be part of countless rosaries.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 4: Listen to Finished Rosaries -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <div class="bead-visual">
+                                    <img src="images/beads/bead_finished.png" 
+                                         alt="Listen to Finished Rosaries Bead" 
+                                         class="bead-image"
+                                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                    <div class="bead-icon" style="display:none;">🎧</div>
+                                </div>
+                            </div>
+                            <h2 class="bead-title">Listen to Finished Rosaries</h2>
+                            <p class="bead-description">
+                                Experience the beauty of 73 voices united in prayer. Listen to complete rosaries and feel 
+                                the power of global community prayer.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 5: Create Groups -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <div class="bead-visual">
+                                    <img src="images/beads/bead_group.png" 
+                                         alt="Create Prayer Groups Bead" 
+                                         class="bead-image"
+                                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                    <div class="bead-icon" style="display:none;">👥</div>
+                                </div>
+                            </div>
+                            <h2 class="bead-title">Create Prayer Groups</h2>
+                            <p class="bead-description">
+                                Form private groups for your family, parish, or community. Share the spiritual journey with 
+                                those who matter most in your faith life.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 6: Gift Subscriptions -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <div class="bead-visual">
+                                    <img src="images/beads/bead_gift.png" 
+                                         alt="Gift Subscriptions Bead" 
+                                         class="bead-image"
+                                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                    <div class="bead-icon" style="display:none;">🎁</div>
+                                </div>
+                            </div>
+                            <h2 class="bead-title">Gift the Power of Prayer</h2>
+                            <p class="bead-description">
+                                Share the gift of prayer by gifting subscriptions to loved ones. Help others join this 
+                                global community of believers.
+                            </p>
+                        </div>
+                        
+                        <!-- Slide 7: Subscribe -->
+                        <div class="carousel-slide">
+                            <div class="bead-image-container">
+                                <div class="bead-visual">
+                                    <img src="images/beads/bead_subscribe.png" 
+                                         alt="Subscribe to Service Bead" 
+                                         class="bead-image"
+                                         onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                    <div class="bead-icon" style="display:none;">👑</div>
+                                </div>
+                            </div>
+                            <h2 class="bead-title">Join Our Community</h2>
+                            <p class="bead-description">
+                                Start with a 7-day free trial. Continue your prayer journey for less than the price of 
+                                a cup of coffee each month. Free subscriptions available for clergy, religious, and those in need.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Carousel Indicators -->
+                    <div class="carousel-indicators">
+                        <span class="indicator active" onclick="goToSlide(0)"></span>
+                        <span class="indicator" onclick="goToSlide(1)"></span>
+                        <span class="indicator" onclick="goToSlide(2)"></span>
+                        <span class="indicator" onclick="goToSlide(3)"></span>
+                        <span class="indicator" onclick="goToSlide(4)"></span>
+                        <span class="indicator" onclick="goToSlide(5)"></span>
+                        <span class="indicator" onclick="goToSlide(6)"></span>
+                    </div>
+                </div>
+                
+                <!-- Download Buttons -->
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-large btn-primary">
+                        <img src="images/apple-icon.svg" alt="iOS" style="width: 24px; filter: brightness(0) invert(1);">
+                        Coming to App Store
+                    </a>
+                    <a href="#" class="btn btn-large btn-gold">
+                        <img src="images/android-icon.svg" alt="Android" style="width: 24px;">
+                        Coming to Google Play
+                    </a>
+                </div>
+                
+                <div class="blessing-text">
+                    👑 "Hail Mary, full of grace, the Lord is with thee" - Join our TestFlight Beta Today!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rosary Divider -->
+    <div class="rosary-divider">• • • ✚ • • •</div>
+
+    <!-- Features Section with R73 LOGO ICONS -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose Rosary73?</h2>
+                <p class="section-subtitle">Experience the unique features that make our app special</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="images/R73logo.png" alt="73 Voices" class="feature-icon-r73">
+                    </div>
+                    <h3 class="feature-title">73 Unique Voices</h3>
+                    <p class="feature-description">
+                        Each prayer in your rosary is recorded by a different person, creating a truly 
+                        communal prayer experience that spans the globe.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="images/R73logo.png" alt="Privacy Protected" class="feature-icon-r73">
+                    </div>
+                    <h3 class="feature-title">Privacy Protected</h3>
+                    <p class="feature-description">
+                        Choose to remain anonymous, use voice synthesis, or participate silently. 
+                        Your privacy and comfort are our priority.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="images/R73logo.png" alt="Multi-Language" class="feature-icon-r73">
+                    </div>
+                    <h3 class="feature-title">Multi-Language</h3>
+                    <p class="feature-description">
+                        Pray in English, Spanish, Filipino, Latin, and more languages coming soon. 
+                        Honor Mary in the language of your heart.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section with R73 LOGO STEP NUMBERS -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Your Journey with Mary Begins Here</h2>
+                <p class="section-subtitle">Join the global prayer community in 3 simple steps</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <img src="images/R73logo.png" alt="Step 1" class="step-number-r73">
+                    <div class="step-content">
+                        <h3>Prepare Your Heart</h3>
+                        <p>Record 7 essential prayers or choose to participate silently. Your contribution matters.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <img src="images/R73logo.png" alt="Step 2" class="step-number-r73">
+                    <div class="step-content">
+                        <h3>Join in Prayer</h3>
+                        <p>Start a rosary with your intention or join others. Each rosary brings together 73 souls.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <img src="images/R73logo.png" alt="Step 3" class="step-number-r73">
+                    <div class="step-content">
+                        <h3>Experience Grace</h3>
+                        <p>Listen to complete rosaries, feeling the power of united prayer through Mary's intercession.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rosary Divider -->
+    <div class="rosary-divider">• • • ✚ • • •</div>
+
+    <!-- Privacy Notice Section -->
+    <section style="padding: 80px 0; background: #FFF8DC;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" style="color: #DAA520;">Your Privacy is Sacred</h2>
+                <p class="section-subtitle">We understand that prayer is personal</p>
+            </div>
+            <div style="max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 16px; border: 2px solid #FFD700;">
+                <h3 style="color: #3498DB; margin-bottom: 20px;">🔒 For Those Who Value Privacy</h3>
+                <p style="margin-bottom: 20px; color: #5D6D7E; line-height: 1.8;">
+                    We respect that not everyone wants their voice or identity public. Rosary73 offers multiple ways to participate while maintaining your privacy:
+                </p>
+                <ul style="color: #5D6D7E; line-height: 2; padding-left: 30px;">
+                    <li><strong>Anonymous Participation:</strong> Use a username that doesn't reveal your identity</li>
+                    <li><strong>Private Email:</strong> Sign up without using your personal email address</li>
+                    <li><strong>Silent Prayer:</strong> Participate by listening to finished rosaries - your silent prayers are equally powerful</li>
+                    <li><strong>Voice Synthesis:</strong> Use voice synthesizers to record prayers while keeping your natural voice private</li>
+                </ul>
+                <p style="margin-top: 30px; padding: 20px; background: #E8F4FD; border-radius: 8px; border-left: 4px solid #5DADE2;">
+                    <strong>Remember:</strong> Prayer is between you and God. Whether you lend your voice or pray silently, 
+                    your participation in the rosary brings grace through Our Lady's intercession.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Blessings Within Reach</h2>
+                <p class="section-subtitle">Experience the power of communal prayer</p>
+            </div>
+            
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <div style="background: white; padding: 60px 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(93, 173, 226, 0.15); border: 2px solid #FFD700;">
+                    <h3 style="font-size: 2rem; color: #3498DB; margin-bottom: 30px;">Simple & Affordable</h3>
+                    
+                    <p style="font-size: 1.25rem; color: #5D6D7E; line-height: 1.8; margin-bottom: 30px;">
+                        <strong style="color: #2C3E50;">For less than the price of a cup of coffee each month</strong>, 
+                        unite with believers worldwide in the most powerful prayer experience available today.
+                    </p>
+                    
+                    <div style="background: #E8F4FD; padding: 30px; border-radius: 16px; margin-bottom: 30px;">
+                        <p style="font-size: 1.1rem; color: #2C3E50; margin-bottom: 20px;">
+                            ☕ <strong>Think about it:</strong> One small sacrifice of your daily coffee 
+                            brings you an entire month of spiritual connection with 73 voices in prayer.
+                        </p>
+                        <p style="color: #5D6D7E; font-size: 1rem;">
+                            Check the app for our friendly and affordable subscription rates and learn how you can qualify for a free subscription.
+                        </p>
+                    </div>
+                    
+                    <div style="background: #FFF8DC; padding: 25px; border-radius: 12px; border-left: 4px solid #FFD700;">
+                        <p style="color: #DAA520; font-size: 1.1rem; margin-bottom: 15px;">
+                            <strong>✝️ Called to Serve?</strong>
+                        </p>
+                        <p style="color: #5D6D7E; font-size: 1rem; line-height: 1.6;">
+                            Free subscriptions are available for clergy, religious sisters and brothers, 
+                            and those experiencing financial hardship. No one should be excluded from prayer 
+                            due to financial constraints.
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 40px;">
+                        <p style="color: #5D6D7E; font-size: 1rem;">
+                            ✓ 7-day free trial to experience the full app<br>
+                            ✓ Cancel anytime with no questions asked<br>
+                            ✓ Secure payments via HitPay<br>
+                            ✓ Your support helps us maintain and improve the app
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="download" class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <span class="holy-cross" style="color: white; font-size: 3rem;">✚</span>
+                <h2 class="cta-title">Ready to Unite in Prayer?</h2>
+                <p class="cta-description">
+                    Join thousands of believers worldwide in this revolutionary prayer experience. 
+                    Through the intercession of the Blessed Virgin Mary, let your voice be part of something greater.
+                </p>
+                <div class="hero-buttons" style="justify-content: center;">
+                    <a href="#" class="btn btn-large btn-white">
+                        <img src="images/apple-icon.svg" alt="iOS" style="width: 24px;">
+                        Coming Soon to iOS
+                    </a>
+                    <a href="#" class="btn btn-large btn-gold">
+                        <img src="images/android-icon.svg" alt="Android" style="width: 24px;">
+                        Coming Soon to Android
+                    </a>
+                </div>
+                <p style="color: white; margin-top: 30px; font-size: 18px;">
+                    Can't wait? <a href="#" style="color: #FFD700; font-weight: 600;">Join our TestFlight Beta</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="images/R73logo.png" alt="Rosary73" class="footer-logo" style="height: 40px; width: auto;">
+                        <span class="brand-text" style="color: #5DADE2;">Rosary73</span>
+                    </div>
+                    <p class="footer-tagline">Unite in Prayer with 73 Unique Voices</p>
+                    <p style="color: #FFD700; margin-top: 15px;">✚ Honoring the Blessed Virgin Mary ✚</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title" style="color: #5DADE2;">Product</h4>
+                    <ul class="footer-links" style="list-style: none;">
+                        <li><a href="#features" style="color: rgba(255,255,255,0.8);">Features</a></li>
+                        <li><a href="#pricing" style="color: rgba(255,255,255,0.8);">Pricing</a></li>
+                        <li><a href="#how-it-works" style="color: rgba(255,255,255,0.8);">How It Works</a></li>
+                        <li><a href="faq.html" style="color: rgba(255,255,255,0.8);">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title" style="color: #5DADE2;">Company</h4>
+                    <ul class="footer-links" style="list-style: none;">
+                        <li><a href="about.html" style="color: rgba(255,255,255,0.8);">About Us</a></li>
+                        <li><a href="contact.html" style="color: rgba(255,255,255,0.8);">Contact</a></li>
+                        <li><a href="terms.html" style="color: rgba(255,255,255,0.8);">Terms of Service</a></li>
+                        <li><a href="privacy.html" style="color: rgba(255,255,255,0.8);">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title" style="color: #5DADE2;">Support</h4>
+                    <ul class="footer-links" style="list-style: none;">
+                        <li><a href="contact.html" style="color: rgba(255,255,255,0.8);">Contact Support</a></li>
+                        <li><a href="faq.html" style="color: rgba(255,255,255,0.8);">Help Center</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.8);">TestFlight Beta</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Rosary73. All rights reserved.</p>
+                <p class="footer-verse">"For where two or three are gathered in my name, there am I among them." - Matthew 18:20</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/carousel.js"></script>
+</body>
+</html>
