@@ -17,6 +17,76 @@
     <link rel="stylesheet" href="css/carousel.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Carousel integration adjustments */
+        .hero-visual-carousel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-container-hero {
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .bead-carousel-container {
+            position: relative;
+            padding: 40px 0;
+        }
+        
+        .carousel-slide {
+            text-align: center;
+        }
+        
+        .bead-image-container {
+            margin-bottom: 30px;
+        }
+        
+        .bead-visual {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .bead-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 30px rgba(93, 173, 226, 0.3));
+        }
+        
+        .bead-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 15px;
+        }
+        
+        .bead-description {
+            font-size: 1rem;
+            color: #5D6D7E;
+            line-height: 1.8;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 1024px) {
+            .hero-split {
+                grid-template-columns: 1fr !important;
+                gap: 60px !important;
+            }
+            
+            .hero-visual-carousel {
+                order: -1;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Modern Sticky Navigation with Blur -->
@@ -42,7 +112,7 @@
         </div>
     </nav>
 
-    <!-- REDESIGNED HERO: Split-Screen with Modern Gradient -->
+    <!-- HYBRID HERO: Modern Left Panel + Carousel Right Panel -->
     <section id="home" class="hero-modern">
         <div class="hero-background">
             <div class="gradient-orb orb-1"></div>
@@ -52,7 +122,7 @@
         
         <div class="container">
             <div class="hero-split">
-                <!-- Left: Text Content -->
+                <!-- Left: Text Content (Modern Design) -->
                 <div class="hero-text">
                     <div class="hero-badge">
                         <span class="badge-icon">✚</span>
@@ -105,34 +175,152 @@
                     </div>
                 </div>
                 
-                <!-- Right: Bead Showcase -->
-                <div class="hero-visual">
-                    <div class="bead-showcase">
-                        <div class="floating-bead bead-1" data-tooltip="Start a Rosary">
-                            <img src="images/beads/bead_start.png" alt="Start" class="bead-img">
+                <!-- Right: Bead Carousel (Restored from old design) -->
+                <div class="hero-visual-carousel">
+                    <div class="carousel-container-hero">
+                        <div class="bead-carousel-container">
+                            <button class="carousel-nav carousel-prev" onclick="changeSlide(-1)">‹</button>
+                            <button class="carousel-nav carousel-next" onclick="changeSlide(1)">›</button>
+                            
+                            <div class="bead-carousel">
+                                <!-- Slide 1: Start a Rosary -->
+                                <div class="carousel-slide active">
+                                    <div class="bead-image-container">
+                                        <div class="bead-visual">
+                                            <img src="images/beads/bead_start.png" 
+                                                 alt="Start a Rosary Bead" 
+                                                 class="bead-image"
+                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <div class="bead-icon" style="display:none;">✚</div>
+                                        </div>
+                                    </div>
+                                    <h2 class="bead-title">Start a Rosary</h2>
+                                    <p class="bead-description">
+                                        Begin a new rosary with your prayer intention. Be the first voice in a chorus of 73 believers 
+                                        united in prayer to the Blessed Virgin Mary.
+                                    </p>
+                                </div>
+                                
+                                <!-- Slide 2: Join Active Rosaries -->
+                                <div class="carousel-slide">
+                                    <div class="bead-image-container">
+                                        <div class="bead-visual">
+                                            <img src="images/beads/bead_participate.png" 
+                                                 alt="Join Active Rosaries Bead" 
+                                                 class="bead-image"
+                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <div class="bead-icon" style="display:none;">🤝</div>
+                                        </div>
+                                    </div>
+                                    <h2 class="bead-title">Join Active Rosaries</h2>
+                                    <p class="bead-description">
+                                        Participate in ongoing rosaries by adding your voice. Each rosary needs 73 unique participants 
+                                        to complete this powerful communal prayer.
+                                    </p>
+                                </div>
+                                
+                                <!-- Slide 3: Record Your Prayers -->
+                                <div class="carousel-slide">
+                                    <div class="bead-image-container">
+                                        <div class="bead-visual">
+                                            <img src="images/beads/bead_record.png" 
+                                                 alt="Record Your Prayers Bead" 
+                                                 class="bead-image"
+                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <div class="bead-icon" style="display:none;">🎤</div>
+                                        </div>
+                                    </div>
+                                    <h2 class="bead-title">Record Your Prayers</h2>
+                                    <p class="bead-description">
+                                        Record the 7 essential prayers in your own voice. Your recordings are saved in the cloud and 
+                                        can be part of countless rosaries.
+                                    </p>
+                                </div>
+                                
+                                <!-- Slide 4: Listen to Finished Rosaries -->
+                                <div class="carousel-slide">
+                                    <div class="bead-image-container">
+                                        <div class="bead-visual">
+                                            <img src="images/beads/bead_finished.png" 
+                                                 alt="Listen to Finished Rosaries Bead" 
+                                                 class="bead-image"
+                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <div class="bead-icon" style="display:none;">🎧</div>
+                                        </div>
+                                    </div>
+                                    <h2 class="bead-title">Listen to Finished Rosaries</h2>
+                                    <p class="bead-description">
+                                        Experience the beauty of 73 voices united in prayer. Listen to complete rosaries and feel 
+                                        the power of global community prayer.
+                                    </p>
+                                </div>
+                                
+                                <!-- Slide 5: Create Groups -->
+                                <div class="carousel-slide">
+                                    <div class="bead-image-container">
+                                        <div class="bead-visual">
+                                            <img src="images/beads/bead_group.png" 
+                                                 alt="Create Prayer Groups Bead" 
+                                                 class="bead-image"
+                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <div class="bead-icon" style="display:none;">👥</div>
+                                        </div>
+                                    </div>
+                                    <h2 class="bead-title">Create Prayer Groups</h2>
+                                    <p class="bead-description">
+                                        Form private groups for your family, parish, or community. Share the spiritual journey with 
+                                        those who matter most in your faith life.
+                                    </p>
+                                </div>
+                                
+                                <!-- Slide 6: Gift Subscriptions -->
+                                <div class="carousel-slide">
+                                    <div class="bead-image-container">
+                                        <div class="bead-visual">
+                                            <img src="images/beads/bead_gift.png" 
+                                                 alt="Gift Subscriptions Bead" 
+                                                 class="bead-image"
+                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <div class="bead-icon" style="display:none;">🎁</div>
+                                        </div>
+                                    </div>
+                                    <h2 class="bead-title">Gift the Power of Prayer</h2>
+                                    <p class="bead-description">
+                                        Share the gift of prayer by gifting subscriptions to loved ones. Help others join this 
+                                        global community of believers.
+                                    </p>
+                                </div>
+                                
+                                <!-- Slide 7: Subscribe -->
+                                <div class="carousel-slide">
+                                    <div class="bead-image-container">
+                                        <div class="bead-visual">
+                                            <img src="images/beads/bead_subscribe.png" 
+                                                 alt="Subscribe to Service Bead" 
+                                                 class="bead-image"
+                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <div class="bead-icon" style="display:none;">👑</div>
+                                        </div>
+                                    </div>
+                                    <h2 class="bead-title">Join Our Community</h2>
+                                    <p class="bead-description">
+                                        Start with a 7-day free trial. Continue your prayer journey for less than the price of 
+                                        a cup of coffee each month.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Carousel Indicators -->
+                            <div class="carousel-indicators">
+                                <span class="indicator active" onclick="goToSlide(0)"></span>
+                                <span class="indicator" onclick="goToSlide(1)"></span>
+                                <span class="indicator" onclick="goToSlide(2)"></span>
+                                <span class="indicator" onclick="goToSlide(3)"></span>
+                                <span class="indicator" onclick="goToSlide(4)"></span>
+                                <span class="indicator" onclick="goToSlide(5)"></span>
+                                <span class="indicator" onclick="goToSlide(6)"></span>
+                            </div>
                         </div>
-                        <div class="floating-bead bead-2" data-tooltip="Join Active Rosaries">
-                            <img src="images/beads/bead_participate.png" alt="Participate" class="bead-img">
-                        </div>
-                        <div class="floating-bead bead-3" data-tooltip="Record Prayers">
-                            <img src="images/beads/bead_record.png" alt="Record" class="bead-img">
-                        </div>
-                        <div class="floating-bead bead-4" data-tooltip="Listen to Finished">
-                            <img src="images/beads/bead_finished.png" alt="Finished" class="bead-img">
-                        </div>
-                        <div class="floating-bead bead-5" data-tooltip="Create Groups">
-                            <img src="images/beads/bead_group.png" alt="Groups" class="bead-img">
-                        </div>
-                        <div class="floating-bead bead-6" data-tooltip="Gift Subscriptions">
-                            <img src="images/beads/bead_gift.png" alt="Gift" class="bead-img">
-                        </div>
-                        <div class="floating-bead bead-center" data-tooltip="Join Community">
-                            <img src="images/beads/bead_subscribe.png" alt="Subscribe" class="bead-img">
-                        </div>
-                    </div>
-                    
-                    <div class="hero-blessing">
-                        👑 <em>"Hail Mary, full of grace"</em>
                     </div>
                 </div>
             </div>
@@ -410,6 +598,7 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/carousel.js"></script>
     <script src="js/enhanced.js"></script>
 </body>
 </html>
