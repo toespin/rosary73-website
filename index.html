@@ -147,6 +147,7 @@
         
         /* ============================================
            HOW IT WORKS - BEAD IMAGES WITH NUMBERS
+           FIXED: Consistent sizing, no pulsating circles
         ============================================ */
         
         .step-number-circle {
@@ -159,14 +160,20 @@
             background: none !important;
             border: none !important;
             box-shadow: none !important;
+            position: relative;
+        }
+        
+        /* REMOVE pulsating circle animation */
+        .step-number-circle::after {
+            display: none !important;
         }
         
         .step-bead-image {
-            width: 100%;
-            height: 100%;
+            width: 200px !important;
+            height: 200px !important;
             object-fit: contain;
             filter: drop-shadow(0 10px 30px rgba(93, 173, 226, 0.3));
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, filter 0.3s ease;
         }
         
         .timeline-step:hover .step-bead-image {
@@ -201,6 +208,10 @@
             position: relative;
         }
         
+        /* ============================================
+           MOBILE RESPONSIVENESS FIXES
+        ============================================ */
+        
         @media (max-width: 1024px) {
             .hero-split {
                 grid-template-columns: 1fr !important;
@@ -216,9 +227,28 @@
                 height: 280px;
             }
             
+            /* Center hero text on tablet/mobile */
+            .hero-text {
+                text-align: center;
+            }
+            
+            .hero-badge {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .hero-buttons-new {
+                justify-content: center;
+            }
+            
             .step-number-circle {
-                width: 160px !important;
-                height: 160px !important;
+                width: 180px !important;
+                height: 180px !important;
+            }
+            
+            .step-bead-image {
+                width: 180px !important;
+                height: 180px !important;
             }
         }
         
@@ -234,7 +264,49 @@
                 font-size: 22px !important;
             }
             
+            /* Center ALL hero content on mobile */
+            .hero-text {
+                text-align: center !important;
+            }
+            
+            .hero-title-new {
+                text-align: center;
+            }
+            
+            .hero-description-new {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
             .step-number-circle {
+                width: 160px !important;
+                height: 160px !important;
+            }
+            
+            .step-bead-image {
+                width: 160px !important;
+                height: 160px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title-new {
+                font-size: 2rem !important;
+                text-align: center;
+            }
+            
+            .hero-description-new {
+                font-size: 1rem;
+                text-align: center;
+            }
+            
+            .step-number-circle {
+                width: 140px !important;
+                height: 140px !important;
+            }
+            
+            .step-bead-image {
                 width: 140px !important;
                 height: 140px !important;
             }
@@ -432,7 +504,7 @@
                                             <img src="images/beads/bead_subscribe.png" 
                                                  alt="Subscribe to Service Bead" 
                                                  class="bead-image"
-                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                                 onerror="this.style.display='none'; this.parentElement.classList.add='fallback'); this.nextElementSibling.style.display='block';">
                                             <div class="bead-icon" style="display:none;">👑</div>
                                         </div>
                                     </div>
