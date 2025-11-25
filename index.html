@@ -145,24 +145,38 @@
             margin: 0 auto;
         }
         
-        /* Remove concentric circles from How It Works */
+        /* ============================================
+           HOW IT WORKS - BEAD IMAGES WITH NUMBERS
+        ============================================ */
+        
         .step-number-circle {
-            width: auto !important;
-            height: auto !important;
+            width: 200px !important;
+            height: 200px !important;
+            margin: 0 auto 30px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             background: none !important;
             border: none !important;
             box-shadow: none !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
-        /* Make numbers 2.5x bigger with clean shadow */
+        .step-bead-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 30px rgba(93, 173, 226, 0.3));
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-step:hover .step-bead-image {
+            transform: scale(1.05);
+            filter: drop-shadow(0 15px 40px rgba(93, 173, 226, 0.4));
+        }
+        
+        /* Hide the old number text */
         .step-number-circle .number {
-            font-size: 6rem !important;
-            color: #FFD700;
-            font-weight: 600 !important;
-            text-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+            display: none !important;
         }
         
         /* Remove horizontal/vertical lines */
@@ -202,8 +216,9 @@
                 height: 280px;
             }
             
-            .step-number-circle .number {
-                font-size: 4.5rem !important;
+            .step-number-circle {
+                width: 160px !important;
+                height: 160px !important;
             }
         }
         
@@ -219,8 +234,9 @@
                 font-size: 22px !important;
             }
             
-            .step-number-circle .number {
-                font-size: 3.5rem !important;
+            .step-number-circle {
+                width: 140px !important;
+                height: 140px !important;
             }
         }
     </style>
@@ -445,9 +461,6 @@
         </div>
     </section>
 
-    <!-- Rosary Divider -->
-    <div class="rosary-divider">• • • ✚ • • •</div>
-
     <!-- ENHANCED FEATURES with Proper Icons -->
     <section id="features" class="features-enhanced">
         <div class="container">
@@ -497,7 +510,7 @@
         </div>
     </section>
 
-    <!-- ENHANCED HOW IT WORKS with Numbered Circles -->
+    <!-- ENHANCED HOW IT WORKS with Numbered Bead Images -->
     <section id="how-it-works" class="how-it-works-enhanced">
         <div class="container">
             <div class="section-header">
@@ -510,6 +523,7 @@
                 <!-- Step 1 -->
                 <div class="timeline-step">
                     <div class="step-number-circle">
+                        <img src="images/beads/bead_step1.png" alt="Step 1" class="step-bead-image">
                         <span class="number">①</span>
                     </div>
                     <div class="step-content-enhanced">
@@ -522,6 +536,7 @@
                 <!-- Step 2 -->
                 <div class="timeline-step">
                     <div class="step-number-circle">
+                        <img src="images/beads/bead_step2.png" alt="Step 2" class="step-bead-image">
                         <span class="number">②</span>
                     </div>
                     <div class="step-content-enhanced">
@@ -534,6 +549,7 @@
                 <!-- Step 3 -->
                 <div class="timeline-step">
                     <div class="step-number-circle">
+                        <img src="images/beads/bead_step3.png" alt="Step 3" class="step-bead-image">
                         <span class="number">③</span>
                     </div>
                     <div class="step-content-enhanced">
@@ -556,10 +572,7 @@
         </div>
     </section>
 
-    <!-- Rosary Divider -->
-    <div class="rosary-divider">• • • ✚ • • •</div>
-
-    <!-- Privacy Notice (Keep existing) -->
+    <!-- Privacy Notice -->
     <section style="padding: 80px 0; background: linear-gradient(180deg, #FFF8DC 0%, #FFFAEB 100%);">
         <div class="container">
             <div class="section-header">
@@ -585,7 +598,7 @@
         </div>
     </section>
 
-    <!-- Pricing (Enhanced but keep simple) -->
+    <!-- Pricing -->
     <section id="pricing" class="pricing-enhanced">
         <div class="container">
             <div class="section-header">
@@ -621,7 +634,7 @@
         </div>
     </section>
 
-    <!-- CTA Section (Enhanced) -->
+    <!-- CTA Section -->
     <section id="download" class="cta-enhanced">
         <div class="container">
             <div class="cta-content-enhanced">
@@ -654,7 +667,7 @@
         </div>
     </section>
 
-    <!-- Footer (Keep existing) -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
