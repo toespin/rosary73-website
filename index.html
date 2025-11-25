@@ -16,35 +16,32 @@
     <link rel="stylesheet" href="css/enhanced-style.css">
     <link rel="stylesheet" href="css/carousel.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Stencil/Outline font effect for all titles and subtitles */
+        /* ============================================
+           CLEAN APPLE-STYLE TYPOGRAPHY
+           No outlines, lighter weights, subtle shadows
+        ============================================ */
+        
+        /* Main titles - Clean and professional */
         .hero-title-new,
         .section-title,
         .bead-title,
         .feature-title-enhanced,
         .cta-title-enhanced,
         h1, h2, h3.feature-title-enhanced {
-            text-shadow: 
-                -1px -1px 0 #2C3E50,
-                1px -1px 0 #2C3E50,
-                -1px 1px 0 #2C3E50,
-                1px 1px 0 #2C3E50,
-                2px 2px 4px rgba(0,0,0,0.1);
-            font-weight: 800 !important;
-            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-weight: 600 !important;
+            letter-spacing: -0.01em;
         }
         
+        /* Subtitles and descriptions - Even lighter */
         .section-subtitle,
         .hero-description-new,
         .section-tag {
-            text-shadow: 
-                -0.5px -0.5px 0 rgba(44, 62, 80, 0.3),
-                0.5px -0.5px 0 rgba(44, 62, 80, 0.3),
-                -0.5px 0.5px 0 rgba(44, 62, 80, 0.3),
-                0.5px 0.5px 0 rgba(44, 62, 80, 0.3);
-            font-weight: 600 !important;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            font-weight: 500 !important;
         }
         
         /* Carousel adjustments */
@@ -134,9 +131,10 @@
         
         .bead-title {
             font-size: 1.75rem;
-            font-weight: 800;
+            font-weight: 600;
             color: #2C3E50;
             margin-bottom: 15px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         
         .bead-description {
@@ -159,17 +157,12 @@
             justify-content: center;
         }
         
-        /* Make numbers 2.5x bigger */
+        /* Make numbers 2.5x bigger with clean shadow */
         .step-number-circle .number {
             font-size: 6rem !important;
             color: #FFD700;
-            font-weight: 800;
-            text-shadow: 
-                -2px -2px 0 #3498DB,
-                2px -2px 0 #3498DB,
-                -2px 2px 0 #3498DB,
-                2px 2px 0 #3498DB,
-                3px 3px 8px rgba(0,0,0,0.2);
+            font-weight: 600 !important;
+            text-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
         }
         
         /* Remove horizontal/vertical lines */
