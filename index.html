@@ -22,6 +22,179 @@
     
     <style>
         /* ============================================
+           SPLASH SCREEN STYLES
+        ============================================ */
+        
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        
+        .splash-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .splash-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/splash-rosary.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .splash-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0.5) 50%,
+                rgba(0, 0, 0, 0.7) 100%
+            );
+        }
+        
+        .splash-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            max-width: 500px;
+        }
+        
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.95; }
+        }
+        
+        .splash-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 12px 0;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.02em;
+        }
+        
+        .splash-tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0 0 50px 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            font-style: italic;
+        }
+        
+        .splash-enter {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            animation: fadeInUp 1s ease 0.5s both, pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.85; }
+            50% { opacity: 1; }
+        }
+        
+        .splash-enter svg {
+            width: 20px;
+            height: 20px;
+            animation: bounceRight 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes bounceRight {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+        
+        /* Mobile responsive splash */
+        @media (max-width: 768px) {
+            .splash-logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .splash-title {
+                font-size: 2.5rem;
+            }
+            
+            .splash-tagline {
+                font-size: 1.1rem;
+                margin-bottom: 40px;
+            }
+            
+            .splash-enter {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .splash-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .splash-title {
+                font-size: 2rem;
+            }
+            
+            .splash-tagline {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Hide body scroll when splash is visible */
+        body.splash-active {
+            overflow: hidden;
+        }
+        
+        /* ============================================
            CLEAN APPLE-STYLE TYPOGRAPHY
            No outlines, lighter weights, subtle shadows
         ============================================ */
@@ -359,7 +532,27 @@
         }
     </style>
 </head>
-<body>
+<body class="splash-active">
+    <!-- ============================================
+         SPLASH SCREEN
+         Dismisses on click/tap/swipe
+    ============================================ -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-background"></div>
+        <div class="splash-overlay"></div>
+        <div class="splash-content">
+            <img src="images/R73logo.png" alt="Rosary73" class="splash-logo">
+            <h1 class="splash-title">Rosary73</h1>
+            <p class="splash-tagline">73 souls, one prayer</p>
+            <div class="splash-enter">
+                <span>Tap to Enter</span>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
     <!-- Modern Sticky Navigation with Blur -->
     <nav class="navbar">
         <div class="container">
@@ -841,5 +1034,49 @@
     <script src="js/main.js"></script>
     <script src="js/carousel.js"></script>
     <script src="js/enhanced.js"></script>
+    
+    <!-- Splash Screen Script -->
+    <script>
+        (function() {
+            const splash = document.getElementById('splashScreen');
+            const body = document.body;
+            
+            function dismissSplash() {
+                splash.classList.add('fade-out');
+                body.classList.remove('splash-active');
+                
+                // Remove from DOM after animation
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 800);
+            }
+            
+            // Dismiss on click/tap
+            splash.addEventListener('click', dismissSplash);
+            
+            // Dismiss on any key press
+            document.addEventListener('keydown', function(e) {
+                if (!splash.classList.contains('fade-out')) {
+                    dismissSplash();
+                }
+            });
+            
+            // Dismiss on swipe (touch devices)
+            let touchStartY = 0;
+            splash.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            splash.addEventListener('touchend', function(e) {
+                const touchEndY = e.changedTouches[0].clientY;
+                const swipeDistance = touchStartY - touchEndY;
+                
+                // If swiped up more than 50px, dismiss
+                if (swipeDistance > 50) {
+                    dismissSplash();
+                }
+            }, { passive: true });
+        })();
+    </script>
 </body>
 </html>
