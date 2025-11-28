@@ -15,7 +15,9 @@
     
     <link rel="stylesheet" href="css/enhanced-style.css">
     <link rel="stylesheet" href="css/carousel.css">
-    <link rel="icon" type="image/png" href="images/favicon.png">
+    <!-- Favicon - Using R73 bead logo -->
+    <link rel="icon" type="image/png" href="images/R73logo.png">
+    <link rel="apple-touch-icon" href="images/R73logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -42,6 +44,24 @@
         .section-tag {
             text-shadow: 0 1px 3px rgba(0,0,0,0.05);
             font-weight: 500 !important;
+        }
+        
+        /* Hero description styling */
+        .hero-description-new {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+            max-width: 540px;
+        }
+        
+        .hero-description-new .highlight-quote {
+            font-style: italic;
+            font-weight: 600 !important;
+            color: #2C3E50;
+            display: block;
+            margin-bottom: 16px;
+            font-size: 1.15rem;
         }
         
         /* Carousel adjustments */
@@ -232,6 +252,11 @@
                 text-align: center;
             }
             
+            .hero-description-new {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
             .hero-badge {
                 margin-left: auto;
                 margin-right: auto;
@@ -360,9 +385,10 @@
                     </h1>
                     
                     <p class="hero-description-new">
-                        Experience the power of community prayer like never before. Each rosary brings together 
-                        73 believers from around the world, creating a symphony of faith through the intercession 
-                        of the Blessed Virgin Mary.
+                        <span class="highlight-quote">My prayer lifts others; their prayers lift me to the heart of Mary.</span>
+                        Join a living chain of prayer that circles the globe.
+                        Every Rosary is completed by 73 souls praying together — each offering one prayer so the full Rosary may rise to Heaven as one voice.
+                        Alone we are a single whisper; together we are a mighty chorus of faith, hope, and love.
                     </p>
                     
                     <div class="hero-buttons-new">
@@ -504,7 +530,7 @@
                                             <img src="images/beads/bead_subscribe.png" 
                                                  alt="Subscribe to Service Bead" 
                                                  class="bead-image"
-                                                 onerror="this.style.display='none'; this.parentElement.classList.add='fallback'); this.nextElementSibling.style.display='block';">
+                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
                                             <div class="bead-icon" style="display:none;">👑</div>
                                         </div>
                                     </div>
@@ -550,7 +576,7 @@
                     </div>
                     <h3 class="feature-title-enhanced">73 Unique Voices</h3>
                     <p class="feature-description-enhanced">
-                        Each prayer in your rosary is recorded by a different person, creating a truly 
+                        Each of the 73 prayers in every rosary is recorded by a different person, creating a truly 
                         communal prayer experience that spans the globe.
                     </p>
                 </div>
@@ -562,8 +588,9 @@
                     </div>
                     <h3 class="feature-title-enhanced">Privacy Protected</h3>
                     <p class="feature-description-enhanced">
-                        Choose to remain anonymous, use voice synthesis, or participate silently. 
-                        Your privacy and comfort are our priority.
+                        Feel completely at ease—your privacy and comfort always come first. You're welcome to stay fully anonymous, 
+                        use a voice changer, or simply join in silent contemplation by listening to the rosaries. 
+                        However you choose to participate, your prayer is treasured.
                     </p>
                 </div>
                 
@@ -574,8 +601,8 @@
                     </div>
                     <h3 class="feature-title-enhanced">Multi-Language</h3>
                     <p class="feature-description-enhanced">
-                        Pray in English, Spanish, Filipino, Latin, and more languages coming soon. 
-                        Honor Mary in the language of your heart.
+                        Pray in English, Spanish, Filipino, Cebuano or Latin, and more languages coming soon. 
+                        Honor Jesus and Mary in the language of your heart.
                     </p>
                 </div>
             </div>
