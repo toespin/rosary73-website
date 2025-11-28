@@ -4,33 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="About Rosary73 - Learn about our mission to unite believers in prayer through technology.">
+    <meta name="color-scheme" content="light dark">
     <title>About Us - Rosary73</title>
     
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/enhanced-style.css">
+    <link rel="icon" type="image/png" href="images/R73logo.png">
+    <link rel="apple-touch-icon" href="images/R73logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Theme initialization - prevents flash of wrong theme -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     
     <style>
-        /* Custom styles for R73 logo - matching homepage */
-        .logo-r73 {
-            height: 45px;
-            width: auto;
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+            padding-top: 120px;
+            padding-bottom: 60px;
+            transition: background var(--transition-base);
         }
         
-        @media (max-width: 768px) {
-            .logo-r73 { height: 35px; }
+        .page-header h1 {
+            color: white;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .page-header p {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            max-width: 600px;
+            margin: 20px auto;
+            font-size: 1.125rem;
+        }
+        
+        /* About Content Section */
+        .about-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+            transition: background-color var(--transition-base);
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-content h2 {
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+        
+        .about-content p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        
+        /* Rosary Breakdown Card */
+        .rosary-breakdown {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            margin: 40px 0;
+            box-shadow: var(--shadow-md);
+            transition: background-color var(--transition-base), box-shadow var(--transition-base);
+        }
+        
+        .rosary-breakdown h3 {
+            color: var(--primary-600);
+            margin-bottom: 20px;
+        }
+        
+        .rosary-breakdown ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .rosary-breakdown li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        .rosary-breakdown li:last-child {
+            border-bottom: none;
+        }
+        
+        .rosary-total {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--primary-100);
+            border-radius: var(--radius-md);
+            color: var(--primary-600);
+            font-weight: 600;
+            transition: background-color var(--transition-base);
+        }
+        
+        /* CTA Box */
+        .about-cta {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .about-cta h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .about-cta p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.125rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Commitment List */
+        .commitment-list {
+            font-size: 1.125rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            padding-left: 30px;
+        }
+        
+        .commitment-list li {
+            margin-bottom: 10px;
+        }
+        
+        /* Footer by Toespin */
+        .by-toespin {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.75rem;
+            font-weight: 400;
+            margin-left: 6px;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation with NEW R73 LOGO and ROSARY73 TEXT -->
+    <!-- Navigation with Theme Toggle -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
                 <img src="images/R73logo.png" alt="Rosary73" class="logo-r73">
                 <span class="brand-text">Rosary73</span>
             </div>
-            <button class="nav-toggle" id="navToggle">
+            
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -47,62 +194,62 @@
     </nav>
 
     <!-- Page Header -->
-    <section class="page-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding-top: 120px; padding-bottom: 60px;">
+    <section class="page-header">
         <div class="container">
-            <h1 style="color: white; text-align: center;">About Rosary73</h1>
-            <p style="color: rgba(255,255,255,0.9); text-align: center; max-width: 600px; margin: 20px auto; font-size: 1.125rem;">Our mission to unite believers worldwide through the power of communal prayer</p>
+            <h1>About Rosary73</h1>
+            <p>Our mission to unite believers worldwide through the power of communal prayer</p>
         </div>
     </section>
 
     <!-- About Content -->
-    <section style="padding: 80px 0; background: #f5f5f5;">
+    <section class="about-section">
         <div class="container">
-            <div style="max-width: 800px; margin: 0 auto;">
-                <h2 style="margin-bottom: 30px; color: #333;">Our Mission</h2>
-                <p style="font-size: 1.125rem; line-height: 1.8; color: #666; margin-bottom: 30px;">
+            <div class="about-content">
+                <h2>Our Mission</h2>
+                <p>
                     Rosary73 was born from a simple yet profound vision: to harness the power of technology to bring believers together in prayer, transcending geographical boundaries and time zones. We believe that prayer is more powerful when we come together as a community, each voice contributing to a beautiful tapestry of faith.
                 </p>
                 
-                <h2 style="margin-bottom: 30px; color: #333;">Why 73 Prayers?</h2>
-                <p style="font-size: 1.125rem; line-height: 1.8; color: #666; margin-bottom: 30px;">
+                <h2>Why 73 Prayers?</h2>
+                <p>
                     The traditional rosary consists of 73 individual prayers when prayed in its complete form. Each prayer in Rosary73 is recorded by a different person, symbolizing the unity of the global Catholic community. When you listen to a complete rosary, you're hearing 73 unique voices united in one purpose - prayer.
                 </p>
                 
-                <div style="background: white; padding: 40px; border-radius: 12px; margin: 40px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <h3 style="color: #4169E1; margin-bottom: 20px;">The Complete Rosary Breakdown</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="padding: 10px 0; border-bottom: 1px solid #f0f0f0;">📿 <strong>Opening Prayers:</strong> The Apostles' Creed, Our Father, 3 Hail Marys, Glory Be</li>
-                        <li style="padding: 10px 0; border-bottom: 1px solid #f0f0f0;">📿 <strong>Five Decades:</strong> Each with 1 Our Father, 10 Hail Marys, 1 Glory Be, 1 Fatima Prayer</li>
-                        <li style="padding: 10px 0;">📿 <strong>Closing Prayers:</strong> Hail Holy Queen and Final Prayer</li>
+                <div class="rosary-breakdown">
+                    <h3>The Complete Rosary Breakdown</h3>
+                    <ul>
+                        <li>📿 <strong>Opening Prayers:</strong> The Apostles' Creed, Our Father, 3 Hail Marys, Glory Be</li>
+                        <li>📿 <strong>Five Decades:</strong> Each with 1 Our Father, 10 Hail Marys, 1 Glory Be, 1 Fatima Prayer</li>
+                        <li>📿 <strong>Closing Prayers:</strong> Hail Holy Queen and Final Prayer</li>
                     </ul>
-                    <p style="margin-top: 20px; padding: 15px; background: #f0f4ff; border-radius: 8px; color: #4169E1;">
+                    <p class="rosary-total">
                         <strong>Total: 73 prayers = 73 unique voices = 1 powerful community prayer</strong>
                     </p>
                 </div>
                 
-                <h2 style="margin-bottom: 30px; color: #333;">Our Vision</h2>
-                <p style="font-size: 1.125rem; line-height: 1.8; color: #666; margin-bottom: 30px;">
+                <h2>Our Vision</h2>
+                <p>
                     We envision a world where distance doesn't limit our ability to pray together. Through Rosary73, a grandmother in the Philippines can pray alongside her granddaughter in America. A parish community can maintain their prayer connection even when members move away. Religious communities can extend their prayer reach globally.
                 </p>
                 
-                <h2 style="margin-bottom: 30px; color: #333;">Technology Meets Tradition</h2>
-                <p style="font-size: 1.125rem; line-height: 1.8; color: #666; margin-bottom: 30px;">
+                <h2>Technology Meets Tradition</h2>
+                <p>
                     While the rosary has been prayed for centuries, Rosary73 brings this ancient practice into the digital age without losing its sacred essence. We use cloud technology to store and share prayers, ensuring that your voice can be part of countless rosaries, touching lives around the world.
                 </p>
                 
-                <div style="background: linear-gradient(135deg, #4169E1, #2952C7); padding: 40px; border-radius: 12px; margin: 40px 0; text-align: center;">
-                    <h3 style="color: white; margin-bottom: 20px;">Join Our Growing Community</h3>
-                    <p style="color: rgba(255,255,255,0.9); font-size: 1.125rem; margin-bottom: 30px;">
+                <div class="about-cta">
+                    <h3>Join Our Growing Community</h3>
+                    <p>
                         Be part of a revolutionary prayer experience that unites believers across the globe.
                     </p>
-                    <a href="index.html#download" class="btn btn-large btn-white">Download Rosary73</a>
+                    <a href="index.html#download" class="btn-modern btn-white-modern btn-large">Download Rosary73</a>
                 </div>
                 
-                <h2 style="margin-bottom: 30px; color: #333;">Our Commitment</h2>
-                <p style="font-size: 1.125rem; line-height: 1.8; color: #666; margin-bottom: 30px;">
+                <h2>Our Commitment</h2>
+                <p>
                     We are committed to:
                 </p>
-                <ul style="font-size: 1.125rem; line-height: 2; color: #666; padding-left: 30px;">
+                <ul class="commitment-list">
                     <li>Maintaining the sanctity and tradition of the rosary prayer</li>
                     <li>Protecting your privacy and prayer intentions</li>
                     <li>Building inclusive features for all believers</li>
@@ -113,20 +260,21 @@
         </div>
     </section>
 
-    <!-- Footer with NEW R73 LOGO -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-brand">
                         <img src="images/R73logo.png" alt="Rosary73" class="footer-logo" style="height: 40px; width: auto;">
-                        <span class="brand-text">Rosary73</span>
+                        <span class="brand-text" style="color: #5DADE2;">Rosary73</span>
+                        <span class="by-toespin">by Toespin</span>
                     </div>
                     <p class="footer-tagline">Unite in Prayer with 73 Unique Voices</p>
                 </div>
                 
                 <div class="footer-section">
-                    <h4 class="footer-title">Quick Links</h4>
+                    <h4 class="footer-title" style="color: #5DADE2;">Quick Links</h4>
                     <ul class="footer-links">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
@@ -136,7 +284,7 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h4 class="footer-title">Legal</h4>
+                    <h4 class="footer-title" style="color: #5DADE2;">Legal</h4>
                     <ul class="footer-links">
                         <li><a href="terms.html">Terms of Service</a></li>
                         <li><a href="privacy.html">Privacy Policy</a></li>
@@ -145,11 +293,12 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Rosary73. All rights reserved.</p>
+                <p>&copy; 2025 Rosary73 <span class="by-toespin">by Toespin</span>. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>
