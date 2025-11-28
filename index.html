@@ -10,6 +10,7 @@
     <meta property="og:image" content="images/og-image.png">
     <meta property="og:url" content="https://rosary73.com">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="color-scheme" content="light dark">
     
     <title>Rosary73 - Unite in Prayer with 73 Unique Voices | Honoring the Blessed Virgin Mary</title>
     
@@ -19,6 +20,16 @@
     <link rel="icon" type="image/png" href="images/R73logo.png">
     <link rel="apple-touch-icon" href="images/R73logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Theme initialization - prevents flash of wrong theme -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     
     <style>
         /* ============================================
@@ -231,10 +242,14 @@
         .hero-description-new .highlight-quote {
             font-style: italic;
             font-weight: 600 !important;
-            color: #2C3E50;
+            color: var(--primary-700);
             display: block;
             margin-bottom: 16px;
             font-size: 1.15rem;
+        }
+        
+        [data-theme="dark"] .hero-description-new .highlight-quote {
+            color: var(--primary-400);
         }
         
         /* Carousel adjustments */
@@ -329,14 +344,14 @@
         .bead-title {
             font-size: 1.75rem;
             font-weight: 600;
-            color: #2C3E50;
+            color: var(--text-primary);
             margin-bottom: 15px;
             text-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         
         .bead-description {
             font-size: 1rem;
-            color: #5D6D7E;
+            color: var(--text-secondary);
             line-height: 1.8;
             max-width: 450px;
             margin: 0 auto;
@@ -425,6 +440,54 @@
             font-size: 0.75rem;
             font-weight: 400;
             margin-left: 6px;
+        }
+        
+        /* ============================================
+           PRIVACY SECTION - DARK MODE SUPPORT
+        ============================================ */
+        .privacy-section {
+            padding: 80px 0;
+            background: linear-gradient(180deg, var(--gold-100) 0%, #FFFAEB 100%);
+            transition: background var(--transition-base);
+        }
+        
+        [data-theme="dark"] .privacy-section {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+        }
+        
+        .privacy-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            transition: background-color var(--transition-base), box-shadow var(--transition-base);
+        }
+        
+        .privacy-card h3 {
+            color: var(--primary-600);
+            margin-bottom: 20px;
+        }
+        
+        .privacy-card p,
+        .privacy-card li {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .privacy-card ul {
+            padding-left: 30px;
+            line-height: 2;
+        }
+        
+        .privacy-note {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--primary-100);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-500);
+            transition: background-color var(--transition-base);
         }
         
         /* ============================================
@@ -679,6 +742,27 @@
                 <img src="images/R73logo.png" alt="Rosary73" class="logo-r73">
                 <span class="brand-text">Rosary73</span>
             </div>
+            
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+                <!-- Sun icon (shown in dark mode) -->
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <!-- Moon icon (shown in light mode) -->
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
@@ -1005,27 +1089,27 @@
     </section>
 
     <!-- Privacy Notice -->
-    <section style="padding: 80px 0; background: linear-gradient(180deg, #FFF8DC 0%, #FFFAEB 100%);">
+    <section class="privacy-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title" style="color: #DAA520;">Your Privacy is Sacred</h2>
+                <h2 class="section-title" style="color: var(--gold-600);">Your Privacy is Sacred</h2>
                 <p class="section-subtitle">We understand that prayer is personal</p>
             </div>
-            <div style="max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(93, 173, 226, 0.12);">
-                <h3 style="color: #3498DB; margin-bottom: 20px;">🔒 For Those Who Value Privacy</h3>
-                <p style="margin-bottom: 20px; color: #5D6D7E; line-height: 1.8;">
+            <div class="privacy-card">
+                <h3>🔒 For Those Who Value Privacy</h3>
+                <p style="margin-bottom: 20px;">
                     We respect that not everyone wants their voice or identity public. Rosary73 offers multiple ways to participate while maintaining your privacy:
                 </p>
-                <ul style="color: #5D6D7E; line-height: 2; padding-left: 30px;">
+                <ul>
                     <li><strong>Anonymous Participation:</strong> Use a username that doesn't reveal your identity</li>
                     <li><strong>Private Email:</strong> Sign up without using your personal email address</li>
                     <li><strong>Silent Prayer:</strong> Participate by listening to finished rosaries</li>
                     <li><strong>Voice Synthesis:</strong> Use voice synthesizers to record prayers privately</li>
                 </ul>
-                <p style="margin-top: 30px; padding: 20px; background: #E8F4FD; border-radius: 12px; border-left: 4px solid #5DADE2;">
+                <div class="privacy-note">
                     <strong>Remember:</strong> Prayer is between you and God. Whether you lend your voice or pray silently, 
                     your participation brings grace through Our Lady's intercession.
-                </p>
+                </div>
             </div>
         </div>
     </section>
@@ -1153,6 +1237,51 @@
     <script src="js/main.js"></script>
     <script src="js/carousel.js"></script>
     <script src="js/enhanced.js"></script>
+    
+    <!-- Theme Toggle Script -->
+    <script>
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+            
+            // Get current theme
+            function getCurrentTheme() {
+                return html.getAttribute('data-theme') || 'light';
+            }
+            
+            // Set theme
+            function setTheme(theme) {
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                // Update meta theme-color for mobile browsers
+                const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+                if (metaThemeColor) {
+                    metaThemeColor.setAttribute('content', theme === 'dark' ? '#0D1117' : '#FFFFFF');
+                }
+            }
+            
+            // Toggle theme
+            function toggleTheme() {
+                const currentTheme = getCurrentTheme();
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(newTheme);
+            }
+            
+            // Add click event
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+            
+            // Listen for system preference changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                // Only auto-switch if user hasn't manually set a preference
+                if (!localStorage.getItem('theme')) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+        })();
+    </script>
     
     <!-- Splash Screen Script -->
     <script>
