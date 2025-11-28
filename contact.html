@@ -4,33 +4,258 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Contact Rosary73 - Get support, ask questions, or share feedback about our interactive rosary app.">
+    <meta name="color-scheme" content="light dark">
     <title>Contact Us - Rosary73</title>
     
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/enhanced-style.css">
+    <link rel="icon" type="image/png" href="images/R73logo.png">
+    <link rel="apple-touch-icon" href="images/R73logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Theme initialization -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     
     <style>
-        /* Custom styles for R73 logo - matching homepage */
-        .logo-r73 {
-            height: 45px;
-            width: auto;
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+            padding-top: 120px;
+            padding-bottom: 60px;
         }
         
-        @media (max-width: 768px) {
-            .logo-r73 { height: 35px; }
+        .page-header h1 {
+            color: white;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .page-header p {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            max-width: 600px;
+            margin: 20px auto;
+            font-size: 1.125rem;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+            transition: background-color var(--transition-base);
+        }
+        
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Contact Cards */
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .contact-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: background-color var(--transition-base), box-shadow var(--transition-base);
+        }
+        
+        .contact-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .contact-card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        .contact-card h3 {
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .contact-card p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .contact-card a {
+            color: var(--primary-600);
+            font-weight: 600;
+        }
+        
+        /* Contact Form */
+        .contact-form-container {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: background-color var(--transition-base);
+        }
+        
+        .contact-form-container h2 {
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(93, 173, 226, 0.2);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+            margin-top: 4px;
+        }
+        
+        .checkbox-group span {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* Response Notice */
+        .response-notice {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            transition: background-color var(--transition-base);
+        }
+        
+        .response-notice h3 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+        
+        .response-notice p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        /* Community Section */
+        .community-section {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .community-section h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .community-section p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.125rem;
+            margin-bottom: 30px;
+        }
+        
+        .community-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        /* Footer by Toespin */
+        .by-toespin {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.75rem;
+            font-weight: 400;
+            margin-left: 6px;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation with NEW R73 LOGO and ROSARY73 TEXT -->
+    <!-- Navigation with Theme Toggle -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
                 <img src="images/R73logo.png" alt="Rosary73" class="logo-r73">
                 <span class="brand-text">Rosary73</span>
             </div>
-            <button class="nav-toggle" id="navToggle">
+            
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -47,72 +272,72 @@
     </nav>
 
     <!-- Page Header -->
-    <section class="page-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding-top: 120px; padding-bottom: 60px;">
+    <section class="page-header">
         <div class="container">
-            <h1 style="color: white; text-align: center;">Contact Us</h1>
-            <p style="color: rgba(255,255,255,0.9); text-align: center; max-width: 600px; margin: 20px auto; font-size: 1.125rem;">We'd love to hear from you</p>
+            <h1>Contact Us</h1>
+            <p>We'd love to hear from you</p>
         </div>
     </section>
 
     <!-- Contact Content -->
-    <section style="padding: 80px 0; background: #f5f5f5;">
+    <section class="contact-section">
         <div class="container">
-            <div style="max-width: 800px; margin: 0 auto;">
+            <div class="contact-container">
                 
                 <!-- Contact Options -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 60px;">
-                    <div style="background: white; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #4169E1, #2952C7); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <div class="contact-options">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
                                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                             </svg>
                         </div>
-                        <h3 style="margin-bottom: 10px; color: #333;">Email Support</h3>
-                        <p style="color: #666; margin-bottom: 15px;">Get help via email</p>
-                        <a href="mailto:support@rosary73.com" style="color: #4169E1; font-weight: 600;">support@rosary73.com</a>
+                        <h3>Email Support</h3>
+                        <p>Get help via email</p>
+                        <a href="mailto:support@rosary73.com">support@rosary73.com</a>
                     </div>
                     
-                    <div style="background: white; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #4169E1, #2952C7); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
                             </svg>
                         </div>
-                        <h3 style="margin-bottom: 10px; color: #333;">FAQ Center</h3>
-                        <p style="color: #666; margin-bottom: 15px;">Find quick answers</p>
-                        <a href="faq.html" style="color: #4169E1; font-weight: 600;">Browse FAQ</a>
+                        <h3>FAQ Center</h3>
+                        <p>Find quick answers</p>
+                        <a href="faq.html">Browse FAQ</a>
                     </div>
                     
-                    <div style="background: white; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #4169E1, #2952C7); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                             </svg>
                         </div>
-                        <h3 style="margin-bottom: 10px; color: #333;">Beta Testing</h3>
-                        <p style="color: #666; margin-bottom: 15px;">Join TestFlight beta</p>
-                        <a href="#" style="color: #4169E1; font-weight: 600;">Join Beta</a>
+                        <h3>Beta Testing</h3>
+                        <p>Join TestFlight beta</p>
+                        <a href="#">Join Beta</a>
                     </div>
                 </div>
                 
                 <!-- Contact Form -->
-                <div style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <h2 style="margin-bottom: 30px; text-align: center; color: #333;">Send Us a Message</h2>
+                <div class="contact-form-container">
+                    <h2>Send Us a Message</h2>
                     
                     <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-                        <div style="margin-bottom: 25px;">
-                            <label for="name" style="display: block; margin-bottom: 8px; color: #333; font-weight: 600;">Your Name *</label>
-                            <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; font-family: 'Inter', sans-serif;">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" required>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <label for="email" style="display: block; margin-bottom: 8px; color: #333; font-weight: 600;">Email Address *</label>
-                            <input type="email" id="email" name="email" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; font-family: 'Inter', sans-serif;">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <label for="subject" style="display: block; margin-bottom: 8px; color: #333; font-weight: 600;">Subject *</label>
-                            <select id="subject" name="subject" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; font-family: 'Inter', sans-serif; background: white;">
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
                                 <option value="">Select a topic</option>
                                 <option value="support">Technical Support</option>
                                 <option value="bug">Report a Bug</option>
@@ -124,40 +349,40 @@
                             </select>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <label for="message" style="display: block; margin-bottom: 8px; color: #333; font-weight: 600;">Message *</label>
-                            <textarea id="message" name="message" rows="6" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="6" required></textarea>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <label style="display: flex; align-items: flex-start; cursor: pointer;">
-                                <input type="checkbox" name="newsletter" style="margin-right: 10px; margin-top: 4px;">
-                                <span style="color: #666; font-size: 14px;">I'd like to receive updates about new features and improvements to Rosary73</span>
+                        <div class="form-group">
+                            <label class="checkbox-group">
+                                <input type="checkbox" name="newsletter">
+                                <span>I'd like to receive updates about new features and improvements to Rosary73</span>
                             </label>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Send Message</button>
+                        <button type="submit" class="btn-modern btn-primary-modern btn-wide">Send Message</button>
                     </form>
                 </div>
                 
                 <!-- Response Time Notice -->
-                <div style="text-align: center; margin-top: 40px; padding: 30px; background: white; border-radius: 12px;">
-                    <h3 style="color: #333; margin-bottom: 15px;">We're Here to Help</h3>
-                    <p style="color: #666; line-height: 1.8;">
+                <div class="response-notice">
+                    <h3>We're Here to Help</h3>
+                    <p>
                         Our support team typically responds within 24-48 hours. For urgent technical issues, 
                         please include your device type and app version in your message.
                     </p>
                 </div>
                 
                 <!-- Community Section -->
-                <div style="background: linear-gradient(135deg, #4169E1, #2952C7); padding: 40px; border-radius: 12px; margin-top: 40px; text-align: center;">
-                    <h3 style="color: white; margin-bottom: 20px;">Join Our Community</h3>
-                    <p style="color: rgba(255,255,255,0.9); font-size: 1.125rem; margin-bottom: 30px;">
+                <div class="community-section">
+                    <h3>Join Our Community</h3>
+                    <p>
                         Connect with other Rosary73 users, share prayer intentions, and stay updated on new features.
                     </p>
-                    <div style="display: flex; gap: 20px; justify-content: center;">
-                        <a href="#" class="btn btn-white">Facebook Group</a>
-                        <a href="#" class="btn btn-white-outline">Follow on Twitter</a>
+                    <div class="community-buttons">
+                        <a href="#" class="btn-modern btn-white-modern">Facebook Group</a>
+                        <a href="#" class="btn-modern btn-secondary-modern" style="border-color: white; color: white;">Follow on Twitter</a>
                     </div>
                 </div>
                 
@@ -165,20 +390,21 @@
         </div>
     </section>
 
-    <!-- Footer with NEW R73 LOGO -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-brand">
                         <img src="images/R73logo.png" alt="Rosary73" class="footer-logo" style="height: 40px; width: auto;">
-                        <span class="brand-text">Rosary73</span>
+                        <span class="brand-text" style="color: #5DADE2;">Rosary73</span>
+                        <span class="by-toespin">by Toespin</span>
                     </div>
                     <p class="footer-tagline">Unite in Prayer with 73 Unique Voices</p>
                 </div>
                 
                 <div class="footer-section">
-                    <h4 class="footer-title">Quick Links</h4>
+                    <h4 class="footer-title" style="color: #5DADE2;">Quick Links</h4>
                     <ul class="footer-links">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
@@ -188,7 +414,7 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h4 class="footer-title">Legal</h4>
+                    <h4 class="footer-title" style="color: #5DADE2;">Legal</h4>
                     <ul class="footer-links">
                         <li><a href="terms.html">Terms of Service</a></li>
                         <li><a href="privacy.html">Privacy Policy</a></li>
@@ -197,11 +423,12 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Rosary73. All rights reserved.</p>
+                <p>&copy; 2025 Rosary73 <span class="by-toespin">by Toespin</span>. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>
