@@ -4,34 +4,225 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Frequently Asked Questions about Rosary73 - Get answers to common questions about our interactive rosary app.">
+    <meta name="color-scheme" content="light dark">
     <title>FAQ - Rosary73</title>
     
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/faq.css">
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/enhanced-style.css">
+    <link rel="icon" type="image/png" href="images/R73logo.png">
+    <link rel="apple-touch-icon" href="images/R73logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Theme initialization - prevents flash of wrong theme -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     
     <style>
-        /* Custom styles for R73 logo - matching homepage */
-        .logo-r73 {
-            height: 45px;
-            width: auto;
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+            padding-top: 120px;
+            padding-bottom: 60px;
+            position: relative;
+            overflow: hidden;
         }
         
-        @media (max-width: 768px) {
-            .logo-r73 { height: 35px; }
+        .page-header h1 {
+            color: white;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .page-header p {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            max-width: 600px;
+            margin: 20px auto;
+            font-size: 1.125rem;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+            position: relative;
+            transition: background-color var(--transition-base);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .faq-section-header h2 {
+            margin: 0;
+            color: var(--primary-600);
+        }
+        
+        .faq-category-header {
+            margin: 60px 0 40px;
+            text-align: center;
+            color: var(--primary-600);
+        }
+        
+        /* FAQ Items */
+        .faq-item {
+            background: var(--bg-card);
+            margin-bottom: 20px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border-top: 3px solid var(--gold-500);
+            transition: background-color var(--transition-base), box-shadow var(--transition-base);
+        }
+        
+        .faq-item.highlighted {
+            background: var(--gold-100);
+            border: 2px solid var(--gold-500);
+        }
+        
+        .faq-item.blue-highlight {
+            background: var(--primary-100);
+            border-top: 3px solid var(--primary-500);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: color var(--transition-base);
+        }
+        
+        .faq-arrow {
+            transition: transform 0.3s;
+            color: var(--gold-500);
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .faq-answer p {
+            padding-bottom: 20px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .faq-answer ul {
+            margin-left: 20px;
+            line-height: 2;
+            color: var(--text-secondary);
+        }
+        
+        /* Info boxes */
+        .info-box {
+            padding: 15px;
+            border-radius: var(--radius-md);
+            margin-top: 15px;
+        }
+        
+        .info-box.blue {
+            background: var(--primary-100);
+            border-left: 4px solid var(--primary-500);
+        }
+        
+        .info-box.gold {
+            background: var(--gold-100);
+            border-left: 4px solid var(--gold-500);
+        }
+        
+        /* Pricing boxes */
+        .pricing-box {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 15px;
+            transition: background-color var(--transition-base);
+        }
+        
+        .pricing-box h4 {
+            color: var(--primary-600);
+            margin-bottom: 10px;
+        }
+        
+        .pricing-box ul {
+            margin-left: 20px;
+        }
+        
+        /* FAQ CTA */
+        .faq-cta {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            margin: 60px 0;
+            text-align: center;
+        }
+        
+        .faq-cta h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .faq-cta p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.125rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Footer by Toespin */
+        .by-toespin {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.75rem;
+            font-weight: 400;
+            margin-left: 6px;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation with R73 LOGO and ROSARY73 TEXT -->
+    <!-- Navigation with Theme Toggle -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
                 <img src="images/R73logo.png" alt="Rosary73" class="logo-r73">
                 <span class="brand-text">Rosary73</span>
             </div>
-            <button class="nav-toggle" id="navToggle">
+            
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -48,241 +239,241 @@
     </nav>
 
     <!-- Page Header -->
-    <section class="page-header" style="background: linear-gradient(135deg, #5DADE2 0%, #3498DB 100%); padding-top: 120px; padding-bottom: 60px; position: relative; overflow: hidden;">
+    <section class="page-header">
         <div class="container">
-            <h1 style="color: white; text-align: center;">Frequently Asked Questions</h1>
-            <p style="color: rgba(255,255,255,0.9); text-align: center; max-width: 600px; margin: 20px auto; font-size: 1.125rem;">Everything you need to know about Rosary73</p>
+            <h1>Frequently Asked Questions</h1>
+            <p>Everything you need to know about Rosary73</p>
         </div>
     </section>
 
     <!-- FAQ Content -->
-    <section style="padding: 80px 0; background: #f5f5f5; position: relative;">
+    <section class="faq-section">
         <div class="container">
-            <div style="max-width: 800px; margin: 0 auto;">
+            <div class="faq-container">
                 
                 <!-- Section Header -->
-                <div style="text-align: center; margin-bottom: 40px;">
-                    <h2 style="margin: 0; color: #3498DB;">✚ General Questions</h2>
+                <div class="faq-section-header">
+                    <h2>✚ General Questions</h2>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         What is Rosary73?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             Rosary73 is an interactive audio rosary app where 73 different people each contribute one prayer to create a complete rosary. It brings together believers from around the world in a unique communal prayer experience honoring the Blessed Virgin Mary.
                         </p>
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         How does the app work?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             First, you can choose to record 7 essential prayers in your own voice or participate silently. Then you can either start a new rosary with your prayer intention or join an existing one. Each rosary needs 73 participants. Once complete, you can listen to the entire rosary with all 73 unique voices.
                         </p>
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         Why 73 prayers?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             A complete traditional rosary consists of exactly 73 prayers: Opening prayers (6), Five decades (65), and Closing prayers (2). Each prayer in Rosary73 is recorded by a different person, creating a truly communal prayer experience that honors Our Lady.
                         </p>
                     </div>
                 </div>
                 
-                <h2 style="margin: 60px 0 40px; text-align: center; color: #3498DB;">🔒 Privacy & Security Questions</h2>
+                <h2 class="faq-category-header">🔒 Privacy & Security Questions</h2>
                 
-                <div class="faq-item" style="background: #FFF8DC; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700; border: 2px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item highlighted">
+                    <div class="faq-question">
                         What if I don't want my voice or identity revealed?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <div style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <div style="padding-bottom: 20px;">
                             <p style="margin-bottom: 15px;"><strong>We completely understand and respect your privacy concerns.</strong> For users who do not want their voices heard or identified for security or personal reasons, we offer several options:</p>
-                            <ul style="margin-left: 20px; line-height: 2;">
+                            <ul>
                                 <li><strong>Anonymous Username:</strong> Do not use a username that could identify your actual name</li>
                                 <li><strong>Private Email:</strong> Do not use your personal email address when signing up</li>
                                 <li><strong>Silent Participation:</strong> Do not record your prayers. You may participate in praying by just listening to finished rosaries. Your silent personal prayers are just as important and powerful.</li>
                                 <li><strong>Voice Synthesis:</strong> If you want to participate by lending your voice in rosaries or even start new rosaries, you may record your voice using voice synthesizers to maintain complete anonymity.</li>
                             </ul>
-                            <p style="margin-top: 15px; padding: 15px; background: #E8F4FD; border-radius: 8px; border-left: 4px solid #5DADE2;">
+                            <div class="info-box blue">
                                 <strong>Remember:</strong> Whether you share your voice or pray silently, your participation brings grace through Our Lady's intercession.
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         Is my data secure?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             Yes! All your recordings and personal information are encrypted and stored securely in the cloud. We use industry-standard security measures to protect your data. Your prayer intentions and recordings are treated with the utmost respect and confidentiality.
                         </p>
                     </div>
                 </div>
                 
-                <h2 style="margin: 60px 0 40px; text-align: center; color: #3498DB;">🎵 Recording & Participation</h2>
+                <h2 class="faq-category-header">🎵 Recording & Participation</h2>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         Which prayers do I need to record?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             You need to record 7 prayers: The Apostles' Creed, Our Father, Hail Mary, Glory Be, Fatima Prayer, Hail Holy Queen, and the Final Prayer. These recordings are saved in the cloud and can be used in multiple rosaries. However, recording is optional - you can participate silently as well.
                         </p>
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         Can I re-record my prayers?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             Yes! You can re-record any of your prayers at any time. The new recording will replace the old one for future rosaries, but existing completed rosaries will keep the original recording.
                         </p>
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         How many rosaries can I participate in?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             You can participate in unlimited rosaries, but only once per rosary. Each rosary needs unique participants for all 73 prayer positions.
                         </p>
                     </div>
                 </div>
                 
-                <h2 style="margin: 60px 0 40px; text-align: center; color: #3498DB;">👥 Groups & Subscription</h2>
+                <h2 class="faq-category-header">👥 Groups & Subscription</h2>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         What are private groups?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             Private groups allow families, parishes, or communities to pray together exclusively. Only invited members can participate in the group's rosaries. Groups need at least 75 active members to remain active.
                         </p>
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: #E8F4FD; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #5DADE2;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item blue-highlight">
+                    <div class="faq-question">
                         How much does the subscription cost?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #5DADE2;">▼</span>
+                        <span class="faq-arrow" style="color: var(--primary-500);">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <div style="padding: 20px 0; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <div style="padding: 20px 0;">
                             <p style="margin-bottom: 20px;"><strong>After a 7-day free trial, our subscription rates are incredibly affordable:</strong></p>
                             
-                            <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
-                                <h4 style="color: #3498DB; margin-bottom: 10px;">🇵🇭 Philippines:</h4>
-                                <ul style="margin-left: 20px;">
+                            <div class="pricing-box">
+                                <h4>🇵🇭 Philippines:</h4>
+                                <ul>
                                     <li><strong>₱25.00</strong> per month</li>
                                     <li><strong>₱250.00</strong> per year (save 17%!)</li>
                                 </ul>
                             </div>
                             
-                            <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                                <h4 style="color: #3498DB; margin-bottom: 10px;">🌍 All Other Countries:</h4>
-                                <ul style="margin-left: 20px;">
+                            <div class="pricing-box">
+                                <h4>🌍 All Other Countries:</h4>
+                                <ul>
                                     <li><strong>$1.00 USD</strong> per month</li>
                                     <li><strong>$9.99 USD</strong> per year (save 17%!)</li>
                                 </ul>
                             </div>
                             
-                            <p style="padding: 15px; background: #FFF8DC; border-radius: 8px; border-left: 4px solid #FFD700;">
+                            <div class="info-box gold">
                                 <strong>✝️ Special Provisions:</strong> Free subscriptions are available for clergy, religious sisters and brothers, and those experiencing financial hardship. No one should be excluded from prayer due to financial constraints.
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         Can I gift a subscription to someone?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             Yes! You can purchase gift subscriptions for friends and family members. This is a great way to help others join the prayer community. Gift subscriptions are available in 1, 3, 6, and 12-month options.
                         </p>
                     </div>
                 </div>
                 
-                <h2 style="margin: 60px 0 40px; text-align: center; color: #3498DB;">📱 Technical Questions</h2>
+                <h2 class="faq-category-header">📱 Technical Questions</h2>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         Which devices are supported?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             Rosary73 is available for iOS (iPhone and iPad) and Android devices. We're also working on a web version for desktop browsers. The app requires iOS 13+ or Android 7+.
                         </p>
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         Are my recordings backed up?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             Yes! All your recordings are automatically backed up to our secure cloud storage. You can switch devices or reinstall the app without losing your prayers. Your recordings are encrypted and private.
                         </p>
                     </div>
                 </div>
                 
-                <div class="faq-item" style="background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 3px solid #FFD700;">
-                    <div class="faq-question" style="padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #333;">
+                <div class="faq-item">
+                    <div class="faq-question">
                         What languages are supported?
-                        <span class="faq-arrow" style="transition: transform 0.3s; color: #FFD700;">▼</span>
+                        <span class="faq-arrow">▼</span>
                     </div>
-                    <div class="faq-answer" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
-                        <p style="padding-bottom: 20px; color: #666; line-height: 1.8;">
+                    <div class="faq-answer">
+                        <p>
                             Currently, we support prayers in English, Spanish, Filipino (Tagalog), and Latin. We're actively working on adding more languages including French, Portuguese, Italian, and German.
                         </p>
                     </div>
                 </div>
                 
                 <!-- CTA Section -->
-                <div style="background: linear-gradient(135deg, #5DADE2, #3498DB); padding: 40px; border-radius: 12px; margin: 60px 0; text-align: center;">
-                    <h3 style="color: white; margin-bottom: 20px;">Still have questions?</h3>
-                    <p style="color: rgba(255,255,255,0.9); font-size: 1.125rem; margin-bottom: 30px;">
+                <div class="faq-cta">
+                    <h3>Still have questions?</h3>
+                    <p>
                         Our support team is here to help you get the most out of Rosary73.
                     </p>
-                    <a href="contact.html" class="btn btn-large btn-white">Contact Support</a>
+                    <a href="contact.html" class="btn-modern btn-white-modern btn-large">Contact Support</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer with R73 LOGO -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -290,6 +481,7 @@
                     <div class="footer-brand">
                         <img src="images/R73logo.png" alt="Rosary73" class="footer-logo" style="height: 40px; width: auto;">
                         <span class="brand-text" style="color: #5DADE2;">Rosary73</span>
+                        <span class="by-toespin">by Toespin</span>
                     </div>
                     <p class="footer-tagline">Unite in Prayer with 73 Unique Voices</p>
                     <p style="color: #FFD700; margin-top: 15px;">✚ Honoring the Blessed Virgin Mary ✚</p>
@@ -298,28 +490,57 @@
                 <div class="footer-section">
                     <h4 class="footer-title" style="color: #5DADE2;">Quick Links</h4>
                     <ul class="footer-links" style="list-style: none;">
-                        <li><a href="index.html" style="color: rgba(255,255,255,0.8);">Home</a></li>
-                        <li><a href="about.html" style="color: rgba(255,255,255,0.8);">About</a></li>
-                        <li><a href="faq.html" style="color: rgba(255,255,255,0.8);">FAQ</a></li>
-                        <li><a href="contact.html" style="color: rgba(255,255,255,0.8);">Contact</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
                     <h4 class="footer-title" style="color: #5DADE2;">Legal</h4>
                     <ul class="footer-links" style="list-style: none;">
-                        <li><a href="terms.html" style="color: rgba(255,255,255,0.8);">Terms of Service</a></li>
-                        <li><a href="privacy.html" style="color: rgba(255,255,255,0.8);">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Rosary73. All rights reserved.</p>
+                <p>&copy; 2025 Rosary73 <span class="by-toespin">by Toespin</span>. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    
+    <!-- FAQ Accordion Script -->
+    <script>
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = question.nextElementSibling;
+                const arrow = question.querySelector('.faq-arrow');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.querySelector('.faq-answer').style.maxHeight = '0';
+                        otherItem.querySelector('.faq-arrow').style.transform = 'rotate(0deg)';
+                    }
+                });
+                
+                // Toggle current FAQ
+                if (answer.style.maxHeight && answer.style.maxHeight !== '0px') {
+                    answer.style.maxHeight = '0';
+                    arrow.style.transform = 'rotate(0deg)';
+                } else {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    arrow.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
