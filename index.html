@@ -196,7 +196,20 @@
             transition: transform 0.3s ease, filter 0.3s ease;
         }
         
-        .timeline-step:hover .step-bead-image {
+        /* Scale beads #1 and #3 to match bead #2 size */
+        .timeline-step:nth-child(1) .step-bead-image,
+        .timeline-step:nth-child(3) .step-bead-image {
+            transform: scale(1.2);
+        }
+        
+        /* Hover effects - account for base scale */
+        .timeline-step:nth-child(1):hover .step-bead-image,
+        .timeline-step:nth-child(3):hover .step-bead-image {
+            transform: scale(1.26);
+            filter: drop-shadow(0 15px 40px rgba(93, 173, 226, 0.4));
+        }
+        
+        .timeline-step:nth-child(2):hover .step-bead-image {
             transform: scale(1.05);
             filter: drop-shadow(0 15px 40px rgba(93, 173, 226, 0.4));
         }
