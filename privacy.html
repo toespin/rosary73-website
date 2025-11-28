@@ -4,21 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Privacy Policy for Rosary73 - Learn how we protect your data and prayer intentions.">
+    <meta name="color-scheme" content="light dark">
     <title>Privacy Policy - Rosary73</title>
     
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/enhanced-style.css">
+    <link rel="icon" type="image/png" href="images/R73logo.png">
+    <link rel="apple-touch-icon" href="images/R73logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Theme initialization -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    
+    <style>
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+            padding-top: 120px;
+            padding-bottom: 60px;
+        }
+        
+        .page-header h1 {
+            color: white;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .page-header p {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            max-width: 600px;
+            margin: 20px auto;
+            font-size: 1.125rem;
+        }
+        
+        /* Legal Content Section */
+        .legal-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+            transition: background-color var(--transition-base);
+        }
+        
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: background-color var(--transition-base);
+        }
+        
+        .legal-content h2 {
+            color: var(--text-primary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-500);
+        }
+        
+        .legal-content h2:first-child {
+            margin-top: 0;
+        }
+        
+        .legal-content h3 {
+            color: var(--text-primary);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .legal-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .legal-content ul {
+            color: var(--text-secondary);
+            line-height: 2;
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .legal-content li {
+            margin-bottom: 8px;
+        }
+        
+        /* Info Box */
+        .privacy-info-box {
+            margin-top: 40px;
+            padding: 20px;
+            background: var(--primary-100);
+            border-radius: var(--radius-md);
+            transition: background-color var(--transition-base);
+        }
+        
+        .privacy-info-box h3 {
+            color: var(--primary-600);
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .privacy-info-box p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+        
+        /* Footer by Toespin */
+        .by-toespin {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.75rem;
+            font-weight: 400;
+            margin-left: 6px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navigation with Theme Toggle -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <img src="images/logo.svg" alt="Rosary73" class="logo">
+                <img src="images/R73logo.png" alt="Rosary73" class="logo-r73">
                 <span class="brand-text">Rosary73</span>
             </div>
-            <button class="nav-toggle" id="navToggle">
+            
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -34,17 +168,17 @@
     </nav>
 
     <!-- Page Header -->
-    <section class="page-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding-top: 120px; padding-bottom: 60px;">
+    <section class="page-header">
         <div class="container">
-            <h1 style="color: white; text-align: center;">Privacy Policy</h1>
-            <p style="color: rgba(255,255,255,0.9); text-align: center; max-width: 600px; margin: 20px auto; font-size: 1.125rem;">Last updated: September 22, 2025</p>
+            <h1>Privacy Policy</h1>
+            <p>Last updated: September 22, 2025</p>
         </div>
     </section>
 
     <!-- Privacy Content -->
-    <section style="padding: 80px 0; background: #f5f5f5;">
+    <section class="legal-section">
         <div class="container">
-            <div style="max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px;">
+            <div class="legal-content">
                 
                 <h2>1. Introduction</h2>
                 <p>Rosary73 ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application.</p>
@@ -154,16 +288,15 @@
                 <p>For questions about this Privacy Policy or your data, contact us at:</p>
                 <p>
                     Email: privacy@rosary73.com<br>
-                    Website: https://rosary73.com/contact<br>
-                    Address: [Your Business Address]
+                    Website: https://rosary73.com/contact
                 </p>
                 
                 <h2>14. Consent</h2>
                 <p>By using Rosary73, you consent to this Privacy Policy and the processing of your information as described herein.</p>
                 
-                <div style="margin-top: 40px; padding: 20px; background: #f0f4ff; border-radius: 8px;">
-                    <h3 style="color: #4169E1; margin-bottom: 10px;">Your Privacy Matters</h3>
-                    <p style="color: #666;">We take your privacy seriously and are committed to protecting your personal information and prayer intentions. If you have any concerns, please don't hesitate to contact us.</p>
+                <div class="privacy-info-box">
+                    <h3>Your Privacy Matters</h3>
+                    <p>We take your privacy seriously and are committed to protecting your personal information and prayer intentions. If you have any concerns, please don't hesitate to contact us.</p>
                 </div>
                 
             </div>
@@ -176,14 +309,15 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-brand">
-                        <img src="images/logo.svg" alt="Rosary73" class="footer-logo">
-                        <span class="brand-text">Rosary73</span>
+                        <img src="images/R73logo.png" alt="Rosary73" class="footer-logo" style="height: 40px; width: auto;">
+                        <span class="brand-text" style="color: #5DADE2;">Rosary73</span>
+                        <span class="by-toespin">by Toespin</span>
                     </div>
                     <p class="footer-tagline">Unite in Prayer with 73 Unique Voices</p>
                 </div>
                 
                 <div class="footer-section">
-                    <h4 class="footer-title">Quick Links</h4>
+                    <h4 class="footer-title" style="color: #5DADE2;">Quick Links</h4>
                     <ul class="footer-links">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
@@ -193,7 +327,7 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h4 class="footer-title">Legal</h4>
+                    <h4 class="footer-title" style="color: #5DADE2;">Legal</h4>
                     <ul class="footer-links">
                         <li><a href="terms.html">Terms of Service</a></li>
                         <li><a href="privacy.html">Privacy Policy</a></li>
@@ -202,11 +336,12 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Rosary73. All rights reserved.</p>
+                <p>&copy; 2025 Rosary73 <span class="by-toespin">by Toespin</span>. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>
