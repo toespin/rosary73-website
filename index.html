@@ -213,7 +213,6 @@
         /* Main titles - Clean and professional */
         .hero-title-new,
         .section-title,
-        .bead-title,
         .feature-title-enhanced,
         .cta-title-enhanced,
         h1, h2, h3.feature-title-enhanced {
@@ -341,21 +340,40 @@
             right: 0;
         }
         
+        /* ============================================
+           CAROUSEL TEXT - DARK MODE COMPATIBLE
+        ============================================ */
         .bead-title {
             font-size: 1.75rem;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text-primary, #2C3E50);
             margin-bottom: 15px;
             text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: color 0.3s ease;
         }
         
         .bead-description {
             font-size: 1rem;
-            color: var(--text-secondary);
+            color: var(--text-secondary, #5D6D7E);
             line-height: 1.8;
             max-width: 450px;
             margin: 0 auto;
             padding: 0 10px;
+            transition: color 0.3s ease;
+        }
+        
+        /* Dark mode explicit overrides for carousel text */
+        [data-theme="dark"] .bead-title {
+            color: #F0F6FC !important;
+        }
+        
+        [data-theme="dark"] .bead-description {
+            color: #C9D1D9 !important;
+        }
+        
+        /* Dark mode carousel container */
+        [data-theme="dark"] .bead-carousel-container {
+            background: var(--bg-card) !important;
         }
         
         /* ============================================
@@ -743,6 +761,16 @@
                 <span class="brand-text">Rosary73</span>
             </div>
             
+            <!-- Desktop Navigation Menu -->
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                <li><a href="#download" class="nav-link btn-primary">Download</a></li>
+            </ul>
+            
             <!-- Theme Toggle Button -->
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
                 <!-- Sun icon (shown in dark mode) -->
@@ -763,19 +791,12 @@
                 </svg>
             </button>
             
+            <!-- Mobile Hamburger Menu -->
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#features" class="nav-link">Features</a></li>
-                <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
-                <li><a href="faq.html" class="nav-link">FAQ</a></li>
-                <li><a href="#download" class="nav-link btn-primary">Download</a></li>
-            </ul>
         </div>
     </nav>
 
@@ -1126,7 +1147,7 @@
             <div class="pricing-simple">
                 <div class="price-card-simple">
                     <div class="price-badge">☕ Coffee Price</div>
-                    <h3>Simple & Affordable</h3>
+                    <h3>Simple &amp; Affordable</h3>
                     <p class="price-description">
                         For less than the price of your daily coffee, unite with believers worldwide 
                         in the most powerful prayer experience available today.
