@@ -57,17 +57,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Navbar Background on Scroll
+    // Navbar Background on Scroll - DARK MODE AWARE
     const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+    
+    // Function to get theme-appropriate colors
+    function getNavbarColors() {
+        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+        
+        if (isDarkMode) {
+            return {
+                scrolled: 'rgba(13, 17, 23, 0.98)',
+                normal: 'rgba(13, 17, 23, 0.95)',
+                shadowScrolled: '0 2px 20px rgba(0, 0, 0, 0.3)',
+                shadowNormal: '0 2px 10px rgba(0, 0, 0, 0.2)'
+            };
         } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+            return {
+                scrolled: 'rgba(255, 255, 255, 0.98)',
+                normal: 'rgba(255, 255, 255, 0.95)',
+                shadowScrolled: '0 2px 20px rgba(0, 0, 0, 0.1)',
+                shadowNormal: '0 2px 10px rgba(0, 0, 0, 0.05)'
+            };
         }
+    }
+    
+    // Update navbar on scroll
+    function updateNavbar() {
+        const colors = getNavbarColors();
+        if (window.scrollY > 50) {
+            navbar.style.background = colors.scrolled;
+            navbar.style.boxShadow = colors.shadowScrolled;
+        } else {
+            navbar.style.background = colors.normal;
+            navbar.style.boxShadow = colors.shadowNormal;
+        }
+    }
+    
+    window.addEventListener('scroll', updateNavbar);
+    
+    // Also update navbar when theme changes
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.attributeName === 'data-theme') {
+                updateNavbar();
+            }
+        });
     });
+    
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+    });
+    
+    // Initial navbar update
+    updateNavbar();
     
     // Intersection Observer for Scroll Animations
     const animateOnScroll = function() {
@@ -312,6 +355,62 @@ document.addEventListener('DOMContentLoaded', function() {
             window.tracked75 = true;
         }
     }, 100));
+    
+    // ============================================
+    // SPLASH SCREEN - Only show on initial visit
+    // ============================================
+    const splash = document.getElementById('splashScreen');
+    const body = document.body;
+    
+    if (splash) {
+        // Check if user has already seen splash this session
+        const hasSeenSplash = sessionStorage.getItem('rosary73_splash_shown');
+        
+        if (hasSeenSplash) {
+            // Skip splash - hide immediately
+            splash.style.display = 'none';
+            body.classList.remove('splash-active');
+        } else {
+            // Show splash and mark as seen
+            sessionStorage.setItem('rosary73_splash_shown', 'true');
+            
+            function dismissSplash() {
+                splash.classList.add('fade-out');
+                body.classList.remove('splash-active');
+                
+                // Remove from DOM after animation
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 800);
+            }
+            
+            // Dismiss on click/tap
+            splash.addEventListener('click', dismissSplash);
+            
+            // Dismiss on any key press
+            document.addEventListener('keydown', function(e) {
+                if (!splash.classList.contains('fade-out')) {
+                    dismissSplash();
+                }
+            });
+            
+            // Dismiss on swipe (touch devices)
+            let touchStartY = 0;
+            splash.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            splash.addEventListener('touchend', function(e) {
+                const touchEndY = e.changedTouches[0].clientY;
+                const swipeDistance = touchStartY - touchEndY;
+                
+                // If swiped up more than 50px, dismiss
+                if (swipeDistance > 50) {
+                    dismissSplash();
+                }
+            }, { passive: true });
+        }
+    }
 });
 
 // Add CSS for ripple effect
