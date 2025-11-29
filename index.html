@@ -32,9 +32,9 @@
     </script>
     
     <style>
-        /* ============================================
+        /* =========================================
            SPLASH SCREEN STYLES
-        ============================================ */
+        ========================================= */
         
         .splash-screen {
             position: fixed;
@@ -205,10 +205,10 @@
             overflow: hidden;
         }
         
-        /* ============================================
+        /* =========================================
            CLEAN APPLE-STYLE TYPOGRAPHY
            No outlines, lighter weights, subtle shadows
-        ============================================ */
+        ========================================= */
         
         /* Main titles - Clean and professional */
         .hero-title-new,
@@ -340,9 +340,9 @@
             right: 0;
         }
         
-        /* ============================================
+        /* =========================================
            CAROUSEL TEXT - DARK MODE COMPATIBLE
-        ============================================ */
+        ========================================= */
         .bead-title {
             font-size: 1.75rem;
             font-weight: 600;
@@ -376,10 +376,10 @@
             background: var(--bg-card) !important;
         }
         
-        /* ============================================
+        /* =========================================
            HOW IT WORKS - BEAD IMAGES WITH NUMBERS
            FIXED: Consistent sizing, no pulsating circles
-        ============================================ */
+        ========================================= */
         
         .step-number-circle {
             width: 200px !important;
@@ -460,9 +460,9 @@
             margin-left: 6px;
         }
         
-        /* ============================================
+        /* =========================================
            PRIVACY SECTION - DARK MODE SUPPORT
-        ============================================ */
+        ========================================= */
         .privacy-section {
             padding: 80px 0;
             background: linear-gradient(180deg, var(--gold-100) 0%, #FFFAEB 100%);
@@ -508,9 +508,9 @@
             transition: background-color var(--transition-base);
         }
         
-        /* ============================================
+        /* =========================================
            MOBILE RESPONSIVENESS FIXES
-        ============================================ */
+        ========================================= */
         
         /* Prevent horizontal overflow on all screens */
         html, body {
@@ -733,10 +733,10 @@
     </style>
 </head>
 <body class="splash-active">
-    <!-- ============================================
+    <!-- =========================================
          SPLASH SCREEN
          Dismisses on click/tap/swipe
-    ============================================ -->
+    ========================================= -->
     <div class="splash-screen" id="splashScreen">
         <div class="splash-background"></div>
         <div class="splash-overlay"></div>
@@ -763,7 +763,7 @@
             
             <!-- Desktop Navigation Menu -->
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="#features" class="nav-link">Features</a></li>
                 <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
                 <li><a href="about.html" class="nav-link">About</a></li>
@@ -1147,7 +1147,7 @@
             <div class="pricing-simple">
                 <div class="price-card-simple">
                     <div class="price-badge">☕ Coffee Price</div>
-                    <h3>Simple &amp; Affordable</h3>
+                    <h3>Simple & Affordable</h3>
                     <p class="price-description">
                         For less than the price of your daily coffee, unite with believers worldwide 
                         in the most powerful prayer experience available today.
@@ -1304,48 +1304,6 @@
         })();
     </script>
     
-    <!-- Splash Screen Script -->
-    <script>
-        (function() {
-            const splash = document.getElementById('splashScreen');
-            const body = document.body;
-            
-            function dismissSplash() {
-                splash.classList.add('fade-out');
-                body.classList.remove('splash-active');
-                
-                // Remove from DOM after animation
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                }, 800);
-            }
-            
-            // Dismiss on click/tap
-            splash.addEventListener('click', dismissSplash);
-            
-            // Dismiss on any key press
-            document.addEventListener('keydown', function(e) {
-                if (!splash.classList.contains('fade-out')) {
-                    dismissSplash();
-                }
-            });
-            
-            // Dismiss on swipe (touch devices)
-            let touchStartY = 0;
-            splash.addEventListener('touchstart', function(e) {
-                touchStartY = e.touches[0].clientY;
-            }, { passive: true });
-            
-            splash.addEventListener('touchend', function(e) {
-                const touchEndY = e.changedTouches[0].clientY;
-                const swipeDistance = touchStartY - touchEndY;
-                
-                // If swiped up more than 50px, dismiss
-                if (swipeDistance > 50) {
-                    dismissSplash();
-                }
-            }, { passive: true });
-        })();
-    </script>
+    <!-- Splash Screen now handled by main.js with sessionStorage -->
 </body>
 </html>
