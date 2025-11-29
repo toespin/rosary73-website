@@ -50,13 +50,14 @@
     max-width: 900px;
     margin: 0 auto 50px;
     position: relative;
-    background: white;
+    background: var(--bg-card, white);
     border-radius: 24px;
     box-shadow: 0 10px 40px rgba(93, 173, 226, 0.15);
     padding: 60px;
     border: 2px solid rgba(255, 215, 0, 0.3);
     animation: fadeInUp 1.2s ease;
     overflow: hidden;  /* Prevent overflow */
+    transition: background-color var(--transition-base, 0.3s);
 }
 
 .bead-carousel {
@@ -200,19 +201,24 @@
     opacity: 0.3;
 }
 
+/* ========================================
+   CAROUSEL TEXT - DARK MODE COMPATIBLE
+======================================== */
 .bead-title {
-    font-size: 1.75rem;  /* Reduced from 2rem */
-    color: #2C3E50;
+    font-size: 1.75rem;
+    color: var(--text-primary, #2C3E50);
     margin-bottom: 20px;
     font-weight: 700;
+    transition: color var(--transition-base, 0.3s);
 }
 
 .bead-description {
-    font-size: 1rem;  /* Reduced from 1.125rem */
-    color: #5D6D7E;
+    font-size: 1rem;
+    color: var(--text-secondary, #5D6D7E);
     line-height: 1.8;
     max-width: 600px;
     margin: 0 auto;
+    transition: color var(--transition-base, 0.3s);
 }
 
 /* Carousel Navigation */
