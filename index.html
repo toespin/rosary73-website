@@ -509,6 +509,28 @@
         }
         
         /* =========================================
+           FEATURE IMAGES - CONSISTENT SIZING
+        ========================================= */
+        .feature-icon-enhanced {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            overflow: hidden;
+            padding: 0;
+        }
+        
+        .feature-icon-enhanced img.feature-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 24px;
+        }
+        
+        /* =========================================
            MOBILE RESPONSIVENESS FIXES
         ========================================= */
         
@@ -633,6 +655,12 @@
                 width: 160px !important;
                 height: 160px !important;
             }
+            
+            /* Smaller feature images on mobile */
+            .feature-icon-enhanced {
+                width: 100px;
+                height: 100px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -706,6 +734,12 @@
                 max-width: 280px;
                 justify-content: center;
             }
+            
+            /* Even smaller feature images on small mobile */
+            .feature-icon-enhanced {
+                width: 90px;
+                height: 90px;
+            }
         }
         
         /* Extra small screens */
@@ -727,6 +761,11 @@
             
             .hero-title-new {
                 font-size: 1.4rem !important;
+            }
+            
+            .feature-icon-enhanced {
+                width: 80px;
+                height: 80px;
             }
         }
     </style>
@@ -996,7 +1035,7 @@
         </div>
     </section>
 
-    <!-- ENHANCED FEATURES with Proper Icons -->
+    <!-- ENHANCED FEATURES with Custom Images -->
     <section id="features" class="features-enhanced">
         <div class="container">
             <div class="section-header">
@@ -1008,8 +1047,8 @@
             <div class="features-grid-enhanced">
                 <!-- Feature 1: 73 Voices -->
                 <div class="feature-card-enhanced">
-                    <div class="feature-icon-enhanced" style="background: linear-gradient(135deg, #5DADE2 0%, #3498DB 100%);">
-                        <span class="icon-emoji">🤝</span>
+                    <div class="feature-icon-enhanced">
+                        <img src="images/feature-voices.png" alt="73 Unique Voices" class="feature-image">
                     </div>
                     <h3 class="feature-title-enhanced">73 Unique Voices</h3>
                     <p class="feature-description-enhanced">
@@ -1020,8 +1059,8 @@
                 
                 <!-- Feature 2: Privacy -->
                 <div class="feature-card-enhanced">
-                    <div class="feature-icon-enhanced" style="background: linear-gradient(135deg, #27AE60 0%, #229954 100%);">
-                        <span class="icon-emoji">🔒</span>
+                    <div class="feature-icon-enhanced">
+                        <img src="images/feature-secure.png" alt="Privacy Protected" class="feature-image">
                     </div>
                     <h3 class="feature-title-enhanced">Privacy Protected</h3>
                     <p class="feature-description-enhanced">
@@ -1033,8 +1072,8 @@
                 
                 <!-- Feature 3: Multi-Language -->
                 <div class="feature-card-enhanced">
-                    <div class="feature-icon-enhanced" style="background: linear-gradient(135deg, #F39C12 0%, #E67E22 100%);">
-                        <span class="icon-emoji">🌍</span>
+                    <div class="feature-icon-enhanced">
+                        <img src="images/feature-global.png" alt="Multi-Language Support" class="feature-image">
                     </div>
                     <h3 class="feature-title-enhanced">Multi-Language</h3>
                     <p class="feature-description-enhanced">
