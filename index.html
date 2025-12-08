@@ -552,6 +552,305 @@
         }
         
         /* =========================================
+           SCROLLING MOBILE MOCKUP SECTION
+        ========================================= */
+        .app-preview-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            overflow: hidden;
+            transition: background var(--transition-base);
+        }
+        
+        [data-theme="dark"] .app-preview-section {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+        }
+        
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .mockup-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        /* iPhone Frame */
+        .iphone-frame {
+            position: relative;
+            width: 280px;
+            height: 580px;
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Inner bezel */
+        .iphone-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border-radius: 42px;
+            background: #000;
+            z-index: 0;
+        }
+        
+        /* Dynamic Island / Notch */
+        .iphone-notch {
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 28px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 20;
+            box-shadow: 0 0 0 3px #1a1a1a;
+        }
+        
+        /* Camera dot */
+        .iphone-notch::before {
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #1a3a5c 0%, #0a1a2c 100%);
+            border-radius: 50%;
+            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Screen container with rounded corners */
+        .iphone-screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        /* Scrolling content container */
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* The actual scrolling image */
+        .screen-scroll-image {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scrollScreen 12s linear infinite;
+            animation-delay: 2s;
+        }
+        
+        /* Different scroll speeds for variety */
+        .mockup-item:nth-child(1) .screen-scroll-image {
+            animation-duration: 14s;
+            animation-delay: 0s;
+        }
+        
+        .mockup-item:nth-child(2) .screen-scroll-image {
+            animation-duration: 16s;
+            animation-delay: 1s;
+        }
+        
+        .mockup-item:nth-child(3) .screen-scroll-image {
+            animation-duration: 12s;
+            animation-delay: 2s;
+        }
+        
+        @keyframes scrollScreen {
+            0% {
+                transform: translateY(0);
+            }
+            45% {
+                transform: translateY(calc(-100% + 556px));
+            }
+            50% {
+                transform: translateY(calc(-100% + 556px));
+            }
+            95% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        /* Pause animation on hover */
+        .mockup-item:hover .screen-scroll-image {
+            animation-play-state: paused;
+        }
+        
+        /* Screen label */
+        .mockup-label {
+            margin-top: 24px;
+        }
+        
+        .mockup-label h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            transition: color var(--transition-base);
+        }
+        
+        .mockup-label p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 260px;
+            transition: color var(--transition-base);
+        }
+        
+        /* Hover effect on mockup */
+        .mockup-item:hover .iphone-frame {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 35px 60px rgba(0, 0, 0, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.15),
+                inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+        }
+        
+        .iphone-frame {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        /* Placeholder for missing screenshots */
+        .screen-placeholder {
+            width: 100%;
+            height: 1200px; /* Tall enough to scroll */
+            background: linear-gradient(180deg, 
+                #5DADE2 0%, 
+                #3498DB 20%,
+                #2E86AB 40%,
+                #A9CCE3 60%,
+                #D5DBDB 80%,
+                #F8F9F9 100%
+            );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 60px 20px;
+            color: white;
+        }
+        
+        .screen-placeholder .placeholder-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .screen-placeholder .placeholder-text {
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .screen-placeholder .placeholder-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            padding: 0 15px;
+        }
+        
+        .screen-placeholder .placeholder-item {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .screen-placeholder .placeholder-item-tall {
+            height: 300px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .mockup-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .mockup-item:nth-child(3) {
+                grid-column: span 2;
+                justify-self: center;
+            }
+            
+            .iphone-frame {
+                width: 250px;
+                height: 520px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .app-preview-section {
+                padding: 60px 0;
+            }
+            
+            .mockup-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .mockup-item:nth-child(3) {
+                grid-column: auto;
+            }
+            
+            .iphone-frame {
+                width: 260px;
+                height: 540px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .iphone-frame {
+                width: 240px;
+                height: 500px;
+                border-radius: 40px;
+            }
+            
+            .iphone-frame::before {
+                border-radius: 34px;
+            }
+            
+            .iphone-screen {
+                border-radius: 32px;
+            }
+            
+            .iphone-notch {
+                width: 80px;
+                height: 24px;
+            }
+        }
+        
+        /* =========================================
            MOBILE RESPONSIVENESS FIXES
         ========================================= */
         
@@ -1168,6 +1467,117 @@
         </div>
     </section>
 
+    <!-- =========================================
+         SCROLLING MOBILE APP PREVIEW SECTION
+    ========================================= -->
+    <section id="app-preview" class="app-preview-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Experience the App</span>
+                <h2 class="section-title">See Rosary73 in Action</h2>
+                <p class="section-subtitle">Explore the beautiful interface designed for your prayer journey</p>
+            </div>
+            
+            <div class="mockup-grid">
+                <!-- Mockup 1: HomeScreen -->
+                <div class="mockup-item">
+                    <div class="iphone-frame">
+                        <div class="iphone-notch"></div>
+                        <div class="iphone-screen">
+                            <div class="screen-content">
+                                <!-- Replace with actual screenshot: images/screenshots/homescreen.png -->
+                                <img src="images/screenshots/homescreen.png" 
+                                     alt="Rosary73 Home Screen" 
+                                     class="screen-scroll-image"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <!-- Placeholder if image not found -->
+                                <div class="screen-placeholder" style="display: none;">
+                                    <div class="placeholder-icon">🏠</div>
+                                    <div class="placeholder-text">HomeScreen<br>Screenshot</div>
+                                    <div class="placeholder-items">
+                                        <div class="placeholder-item">Welcome Message</div>
+                                        <div class="placeholder-item">7 Prayer Beads</div>
+                                        <div class="placeholder-item placeholder-item-tall">Quick Actions</div>
+                                        <div class="placeholder-item">Daily Quote</div>
+                                        <div class="placeholder-item">Navigation</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mockup-label">
+                        <h3>Home Screen</h3>
+                        <p>Your prayer dashboard with 7 beautiful beads to guide your journey</p>
+                    </div>
+                </div>
+                
+                <!-- Mockup 2: Visual Rosary -->
+                <div class="mockup-item">
+                    <div class="iphone-frame">
+                        <div class="iphone-notch"></div>
+                        <div class="iphone-screen">
+                            <div class="screen-content">
+                                <!-- Replace with actual screenshot: images/screenshots/visual-rosary.png -->
+                                <img src="images/screenshots/visual-rosary.png" 
+                                     alt="Visual Rosary Screen" 
+                                     class="screen-scroll-image"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <!-- Placeholder if image not found -->
+                                <div class="screen-placeholder" style="display: none;">
+                                    <div class="placeholder-icon">📿</div>
+                                    <div class="placeholder-text">Visual Rosary<br>Screenshot</div>
+                                    <div class="placeholder-items">
+                                        <div class="placeholder-item">Mystery Title</div>
+                                        <div class="placeholder-item placeholder-item-tall">73 Beads Circle</div>
+                                        <div class="placeholder-item">Progress Indicator</div>
+                                        <div class="placeholder-item">Current Prayer</div>
+                                        <div class="placeholder-item">Participant Names</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mockup-label">
+                        <h3>Visual Rosary</h3>
+                        <p>See all 73 participants in a beautiful interactive rosary bead display</p>
+                    </div>
+                </div>
+                
+                <!-- Mockup 3: Record Prayers -->
+                <div class="mockup-item">
+                    <div class="iphone-frame">
+                        <div class="iphone-notch"></div>
+                        <div class="iphone-screen">
+                            <div class="screen-content">
+                                <!-- Replace with actual screenshot: images/screenshots/record-prayers.png -->
+                                <img src="images/screenshots/record-prayers.png" 
+                                     alt="Record Prayers Screen" 
+                                     class="screen-scroll-image"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <!-- Placeholder if image not found -->
+                                <div class="screen-placeholder" style="display: none;">
+                                    <div class="placeholder-icon">🎤</div>
+                                    <div class="placeholder-text">Record Prayers<br>Screenshot</div>
+                                    <div class="placeholder-items">
+                                        <div class="placeholder-item">7 Prayers List</div>
+                                        <div class="placeholder-item placeholder-item-tall">Recording Interface</div>
+                                        <div class="placeholder-item">Playback Controls</div>
+                                        <div class="placeholder-item">Save / Re-record</div>
+                                        <div class="placeholder-item">Progress Status</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mockup-label">
+                        <h3>Record Prayers</h3>
+                        <p>Record your 7 essential prayers with simple one-tap recording</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Privacy Notice -->
     <section class="privacy-section">
         <div class="container">
@@ -1206,7 +1616,7 @@
             <div class="pricing-simple">
                 <div class="price-card-simple">
                     <div class="price-badge">☕ Coffee Price</div>
-                    <h3>Simple & Affordable</h3>
+                    <h3>Simple &amp; Affordable</h3>
                     <p class="price-description">
                         For less than the price of your daily coffee, unite with believers worldwide 
                         in the most powerful prayer experience available today.
