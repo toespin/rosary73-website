@@ -1,166 +1,135 @@
-# Rosary73 Website Development - Prompt Script
-## Quick Continuity Guide for Next Session
+# WEBSITE_DEV_PROMPT_SCRIPT.md - Updated December 8, 2025
 
-**Repository:** toespin/rosary73-website  
-**Last Updated:** November 23, 2025  
-**Current Focus:** Marketing website for Rosary73 iOS app
+## 🎯 PREVIOUS SESSION SUMMARY
+**Previous Chat:** Rosary73 website professional redesign proposal
+**Chat URL:** https://claude.ai/chat/9eef4196-53a7-46a0-bf56-88d7cf971f55
 
----
-
-## 🎯 IMMEDIATE CONTEXT
-
-You are developing the marketing website for Rosary73, a Catholic prayer app where 73 people contribute recordings to create community rosaries. The website needs to drive iOS app downloads and explain the unique collaborative prayer concept.
-
-**Key Achievement from Last Session:**
-- Successfully integrated actual bead images from the iOS app
-- All 7 bead images (start, participate, record, finished, group, gift, subscribe) now display correctly
-- Fixed image loading issues by using correct GitHub raw content URLs
-
----
-
-## 📁 CURRENT FILES
-
-### Main Files:
-- `index.html` - Single-page marketing site with all content
-- `styles.css` - All styling including responsive design
-- `script.js` - Smooth scrolling, mobile menu, animations
-- `bead-images/` - Folder containing all 7 bead PNG images from iOS app
-
-### Bead Images Available:
-- `bead_start.png` - Start a new rosary
-- `bead_participate.png` - Join active rosaries  
-- `bead_record.png` - Record prayers
-- `bead_finished.png` - Listen to completed rosaries
-- `bead_group.png` - Create/join groups
-- `bead_gift.png` - Gift subscriptions
-- `bead_subscribe.png` - Subscribe
+### Session Achievements:
+1. ✅ Removed floating images from FAQ page (cleaner design)
+2. ✅ Hybrid hero section - Combined modern left panel ("Unite in Prayer...") with classic carousel on right
+3. ✅ Complete refinement package:
+   - Carousel: 70% bigger beads, removed concentric circles, highly visible arrows (blue bg, white border)
+   - Left panel: Removed fake stats, trust bar, scroll indicator
+   - Features: Removed "Learn more" links
+   - How It Works: Removed circles/lines, 2.5x bigger numbers
+   - Fixed all button links (#how-it-works, #download)
+4. ✅ Applied clean Apple-style typography (font-weight: 600, subtle shadows)
+5. ✅ Professional design audit comparing to Apple.com/mac
 
 ---
 
-## ✅ WHAT'S WORKING
+## 🆕 CURRENT SESSION (December 8, 2025)
 
-1. **Hero Section** - Eye-catching with app logo and download button
-2. **Features Section** - 7 beads displaying with actual iOS images
-3. **How It Works** - Clear 4-step process
-4. **Pricing** - Regional pricing display (PHP/USD)
-5. **Testimonials** - User reviews section
-6. **Footer** - Contact and legal links
-7. **Mobile Responsive** - Fully responsive design
-8. **Animations** - Smooth scroll and fade-in effects
+### New Features Added:
+1. ✅ **Scrolling Mobile Mockup Section** - Added "Experience the App" section with 3 iPhone frames showing auto-scrolling app screenshots
+   - HomeScreen mockup
+   - Visual Rosary mockup
+   - Record Prayers mockup
 
----
+### Implementation Details:
 
-## 🔧 NEXT PRIORITIES
+#### Scrolling iPhone Mockup Section Features:
+- **Realistic iPhone frame** with Dynamic Island/notch
+- **Auto-scrolling content** - Screenshots scroll vertically inside the phone frame
+- **Hover to pause** - Animation pauses when users hover over mockup
+- **Different scroll speeds** - Each phone scrolls at slightly different rate for visual interest
+- **Responsive design** - Works on desktop (3 phones), tablet (2+1), mobile (1 column)
+- **Placeholder fallback** - If screenshots not found, displays attractive placeholder content
 
-### 1. Add App Store Elements
-- Real App Store download button/badge
-- QR code for easy mobile scanning
-- App Store preview images gallery
+#### Screenshot Requirements:
+Screenshots should be placed in: `images/screenshots/`
+- `homescreen.png` - HomeScreen with 7 prayer beads
+- `visual-rosary.png` - Visual rosary with 73 beads display  
+- `record-prayers.png` - Recording interface for 7 prayers
 
-### 2. Enhanced Visuals
-- Add screenshots from actual iOS app
-- Include demo video or GIF of app in action
-- Consider adding prayer completion statistics
-
-### 3. SEO Optimization
-- Add meta tags for social sharing
-- Implement structured data for better search results
-- Add sitemap.xml
-
-### 4. Analytics & Tracking
-- Add Google Analytics
-- Implement event tracking for download clicks
-- Add Facebook Pixel for retargeting
-
-### 5. Content Improvements
-- Add FAQ section
-- Include more detailed group features explanation
-- Add blog/updates section for announcements
+**Recommended size:** 1170 x 2532 pixels (iPhone 14 Pro resolution)
 
 ---
 
-## 🎨 DESIGN NOTES
+## 📁 FILES MODIFIED THIS SESSION
 
-**Color Scheme:**
-- Primary: #4169E1 (Royal Blue - matches iOS app)
-- Secondary: #FFD700 (Gold)
-- Background: #F5F5F5 (Light Gray)
-- Text: #333333 (Dark Gray)
-
-**Typography:**
-- Headers: Playfair Display (serif)
-- Body: Inter (sans-serif)
-
-**Style Guide:**
-- Clean, modern, spiritual aesthetic
-- Professional but approachable
-- Focus on community and collaboration
-- Emphasize the unique 73-person concept
+| File | Change |
+|------|--------|
+| `index.html` | Added scrolling mobile mockup section with CSS animations |
+| `images/screenshots/README.md` | Created - Instructions for adding screenshots |
 
 ---
 
-## 💻 LOCAL TESTING
+## 🎨 CURRENT WEBSITE STRUCTURE
 
-```bash
-# Clone repository
-git clone https://github.com/toespin/rosary73-website.git
-cd rosary73-website
-
-# Open in browser (Mac)
-open index.html
-
-# Or use any local server
-python -m SimpleHTTPServer 8000
-# or
-npx serve
+```
+index.html
+├── Splash Screen (tap to enter)
+├── Navigation (sticky, with dark mode toggle)
+├── Hero Section (hybrid: text left + carousel right)
+├── Features Section (3 cards with images)
+├── How It Works (3 steps with bead images)
+├── 📱 NEW: App Preview Section (3 scrolling iPhone mockups)
+├── Privacy Section 
+├── Pricing Section
+├── Download CTA
+└── Footer
 ```
 
 ---
 
-## 🚀 DEPLOYMENT
+## 🔧 TYPOGRAPHY STATUS
 
-Currently hosted on GitHub Pages:
-- URL: https://toespin.github.io/rosary73-website/
-- Auto-deploys from main branch
-- DNS/Custom domain can be configured later
+Typography is already clean Apple-style:
+- **Font weights:** 600 for titles, 500 for subtitles
+- **Text shadows:** Subtle `0 2px 8px rgba(0,0,0,0.08)`
+- **No heavy outlines or stencil effects**
 
 ---
 
-## 📝 QUICK START FOR NEXT SESSION
+## 📱 NEXT STEPS
+
+1. **Take app screenshots** on iPhone using the Rosary73 app:
+   - HomeScreen
+   - Visual Rosary (ParticipateScreen or RosaryScreen)
+   - Record Prayers (RecordPrayersScreen)
+
+2. **Upload screenshots** to `images/screenshots/` folder with exact names:
+   - `homescreen.png`
+   - `visual-rosary.png`
+   - `record-prayers.png`
+
+3. **Optional enhancements:**
+   - Add more mockup screens (Groups, Finished Rosaries, etc.)
+   - Create animated GIF screenshots for more dynamic display
+   - Add captions below each mockup
+
+---
+
+## 🚀 PROMPT FOR NEXT SESSION
 
 ```
-Hi Claude! I'm continuing work on the Rosary73 marketing website.
+Hi Claude! Continuing Rosary73 website development.
 
-Last session we successfully integrated the actual iOS app bead images. 
-All 7 beads are now displaying correctly with the real app graphics.
+**Context:** Catholic prayer app website at https://rosary73.com
+**Repository:** toespin/rosary73-website (you have full MCP access)
 
-Today I want to work on [specific feature/improvement].
+**Current State:**
+- Hybrid hero section complete ✅
+- Clean Apple-style typography ✅
+- Scrolling mobile mockup section added ✅
+- Screenshots folder ready (images/screenshots/)
 
-Repository: toespin/rosary73-website
-Current focus: [your specific goal]
+**Next Task:** [Describe what you want to work on]
+
+Possible tasks:
+1. Add actual app screenshots to the mockup section
+2. Improve animations/interactions
+3. Add more pages or sections
+4. Performance optimization
+5. SEO improvements
 ```
 
 ---
 
-## 🔗 RELATED RESOURCES
+## 📞 QUICK REFERENCE
 
-- **Main App Repo:** toespin/rosary73
-- **iOS App Features:** 73-person collaborative rosaries
-- **Target Audience:** Catholic communities worldwide
-- **Pricing:** PHP 25/mo (Philippines), $1/mo (Others)
-
----
-
-## ✨ KEY SELLING POINTS TO EMPHASIZE
-
-1. **World's First:** 73-person collaborative rosary app
-2. **Community Prayer:** Unite with believers globally
-3. **Professional Audio:** Automatic stitching of all recordings
-4. **Group Features:** Create private prayer groups (75+ members)
-5. **Gift Subscriptions:** Share the gift of prayer
-6. **Multi-language:** Pray in any language
-7. **Affordable:** Just $1/month or PHP 25/month
-
----
-
-*This website serves as the primary marketing tool to drive iOS app downloads and explain the unique collaborative prayer concept that makes Rosary73 special.*
+**Repository:** toespin/rosary73-website
+**Live URL:** https://rosary73.com
+**Screenshots folder:** images/screenshots/
+**Main files:** index.html, about.html, faq.html, contact.html
