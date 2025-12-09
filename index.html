@@ -553,7 +553,7 @@
         
         /* =========================================
            SCROLLING MOBILE MOCKUP SECTION
-           With Fixed Header &amp; Bottom Nav
+           With Fixed Header &amp; Bottom Nav (FLEXBOX - NO GAPS)
         ========================================= */
         .app-preview-section {
             padding: 100px 0;
@@ -637,7 +637,7 @@
             box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.2);
         }
         
-        /* Screen container with rounded corners */
+        /* Screen container - FLEXBOX for seamless layout */
         .iphone-screen {
             position: relative;
             width: 100%;
@@ -650,14 +650,10 @@
             flex-direction: column;
         }
         
-        /* Fixed Header */
+        /* Fixed Header - flexbox (seamless with content) */
         .screen-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            flex-shrink: 0;
             z-index: 10;
-            height: auto;
         }
         
         .screen-header img {
@@ -666,14 +662,10 @@
             display: block;
         }
         
-        /* Fixed Bottom Nav */
+        /* Fixed Bottom Nav - flexbox (seamless with content) */
         .screen-bottom-nav {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            flex-shrink: 0;
             z-index: 10;
-            height: auto;
         }
         
         .screen-bottom-nav img {
@@ -682,14 +674,11 @@
             display: block;
         }
         
-        /* Scrolling content container - between header and bottom nav */
+        /* Scrolling content container - fills remaining space */
         .screen-content {
-            position: absolute;
-            top: 88px;
-            left: 0;
-            right: 0;
-            bottom: 83px;
+            flex: 1;
             overflow: hidden;
+            position: relative;
         }
         
         /* The actual scrolling image */
@@ -848,11 +837,6 @@
                 width: 250px;
                 height: 520px;
             }
-            
-            .screen-content {
-                top: 78px;
-                bottom: 74px;
-            }
         }
         
         @media (max-width: 768px) {
@@ -872,11 +856,6 @@
             .iphone-frame {
                 width: 260px;
                 height: 540px;
-            }
-            
-            .screen-content {
-                top: 82px;
-                bottom: 77px;
             }
         }
         
@@ -898,11 +877,6 @@
             .iphone-notch {
                 width: 80px;
                 height: 24px;
-            }
-            
-            .screen-content {
-                top: 75px;
-                bottom: 71px;
             }
         }
         
