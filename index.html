@@ -19,7 +19,7 @@
     <!-- Favicon - Using R73 bead logo -->
     <link rel="icon" type="image/png" href="images/R73logo.png">
     <link rel="apple-touch-icon" href="images/R73logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet">
     
     <!-- Theme initialization - prevents flash of wrong theme -->
     <script>
@@ -553,6 +553,7 @@
         
         /* =========================================
            SCROLLING MOBILE MOCKUP SECTION
+           With Fixed Header &amp; Bottom Nav
         ========================================= */
         .app-preview-section {
             padding: 100px 0;
@@ -641,18 +642,54 @@
             position: relative;
             width: 100%;
             height: 100%;
-            background: #fff;
+            background: #000;
             border-radius: 40px;
             overflow: hidden;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
         }
         
-        /* Scrolling content container */
-        .screen-content {
+        /* Fixed Header */
+        .screen-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            height: auto;
+        }
+        
+        .screen-header img {
             width: 100%;
-            height: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Fixed Bottom Nav */
+        .screen-bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            height: auto;
+        }
+        
+        .screen-bottom-nav img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Scrolling content container - between header and bottom nav */
+        .screen-content {
+            position: absolute;
+            top: 88px;
+            left: 0;
+            right: 0;
+            bottom: 83px;
             overflow: hidden;
-            position: relative;
         }
         
         /* The actual scrolling image */
@@ -661,11 +698,10 @@
             position: absolute;
             top: 0;
             left: 0;
-            animation: scrollScreen 12s linear infinite;
-            animation-delay: 2s;
+            animation: scrollScreenContent 12s ease-in-out infinite;
         }
         
-        /* Different scroll speeds for variety - SLOWED DOWN */
+        /* Different scroll speeds for variety */
         .mockup-item:nth-child(1) .screen-scroll-image {
             animation-duration: 19s;
             animation-delay: 0s;
@@ -681,15 +717,19 @@
             animation-delay: 2s;
         }
         
-        @keyframes scrollScreen {
+        /* Content scrolls within the visible area */
+        @keyframes scrollScreenContent {
             0% {
                 transform: translateY(0);
             }
-            45% {
-                transform: translateY(calc(-100% + 556px));
+            5% {
+                transform: translateY(0);
             }
-            50% {
-                transform: translateY(calc(-100% + 556px));
+            45% {
+                transform: translateY(calc(-100% + 385px));
+            }
+            55% {
+                transform: translateY(calc(-100% + 385px));
             }
             95% {
                 transform: translateY(0);
@@ -699,8 +739,9 @@
             }
         }
         
-        /* Pause animation on hover */
-        .mockup-item:hover .screen-scroll-image {
+        /* Pause animation on hover/tap */
+        .mockup-item:hover .screen-scroll-image,
+        .mockup-item:active .screen-scroll-image {
             animation-play-state: paused;
         }
         
@@ -741,7 +782,7 @@
         /* Placeholder for missing screenshots */
         .screen-placeholder {
             width: 100%;
-            height: 1200px; /* Tall enough to scroll */
+            height: 1200px;
             background: linear-gradient(180deg, 
                 #5DADE2 0%, 
                 #3498DB 20%,
@@ -807,6 +848,11 @@
                 width: 250px;
                 height: 520px;
             }
+            
+            .screen-content {
+                top: 78px;
+                bottom: 74px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -826,6 +872,11 @@
             .iphone-frame {
                 width: 260px;
                 height: 540px;
+            }
+            
+            .screen-content {
+                top: 82px;
+                bottom: 77px;
             }
         }
         
@@ -847,6 +898,11 @@
             .iphone-notch {
                 width: 80px;
                 height: 24px;
+            }
+            
+            .screen-content {
+                top: 75px;
+                bottom: 71px;
             }
         }
         
@@ -1484,6 +1540,11 @@
                     <div class="iphone-frame">
                         <div class="iphone-notch"></div>
                         <div class="iphone-screen">
+                            <!-- Fixed Header -->
+                            <div class="screen-header">
+                                <img src="images/screenshots/header.png" alt="App Header">
+                            </div>
+                            <!-- Scrolling Content Area -->
                             <div class="screen-content">
                                 <img src="images/screenshots/homescreen.png" 
                                      alt="Rosary73 Home Screen" 
@@ -1492,14 +1553,11 @@
                                 <div class="screen-placeholder" style="display: none;">
                                     <div class="placeholder-icon">🏠</div>
                                     <div class="placeholder-text">HomeScreen<br>Screenshot</div>
-                                    <div class="placeholder-items">
-                                        <div class="placeholder-item">Welcome Message</div>
-                                        <div class="placeholder-item">7 Prayer Beads</div>
-                                        <div class="placeholder-item placeholder-item-tall">Quick Actions</div>
-                                        <div class="placeholder-item">Daily Quote</div>
-                                        <div class="placeholder-item">Navigation</div>
-                                    </div>
                                 </div>
+                            </div>
+                            <!-- Fixed Bottom Nav -->
+                            <div class="screen-bottom-nav">
+                                <img src="images/screenshots/bottom.png" alt="Bottom Navigation">
                             </div>
                         </div>
                     </div>
@@ -1514,6 +1572,11 @@
                     <div class="iphone-frame">
                         <div class="iphone-notch"></div>
                         <div class="iphone-screen">
+                            <!-- Fixed Header -->
+                            <div class="screen-header">
+                                <img src="images/screenshots/header.png" alt="App Header">
+                            </div>
+                            <!-- Scrolling Content Area -->
                             <div class="screen-content">
                                 <img src="images/screenshots/visual-rosary.png" 
                                      alt="Visual Rosary Screen" 
@@ -1522,14 +1585,11 @@
                                 <div class="screen-placeholder" style="display: none;">
                                     <div class="placeholder-icon">📿</div>
                                     <div class="placeholder-text">Visual Rosary<br>Screenshot</div>
-                                    <div class="placeholder-items">
-                                        <div class="placeholder-item">Mystery Title</div>
-                                        <div class="placeholder-item placeholder-item-tall">73 Beads Circle</div>
-                                        <div class="placeholder-item">Progress Indicator</div>
-                                        <div class="placeholder-item">Current Prayer</div>
-                                        <div class="placeholder-item">Participant Names</div>
-                                    </div>
                                 </div>
+                            </div>
+                            <!-- Fixed Bottom Nav -->
+                            <div class="screen-bottom-nav">
+                                <img src="images/screenshots/bottom.png" alt="Bottom Navigation">
                             </div>
                         </div>
                     </div>
@@ -1544,6 +1604,11 @@
                     <div class="iphone-frame">
                         <div class="iphone-notch"></div>
                         <div class="iphone-screen">
+                            <!-- Fixed Header -->
+                            <div class="screen-header">
+                                <img src="images/screenshots/header.png" alt="App Header">
+                            </div>
+                            <!-- Scrolling Content Area -->
                             <div class="screen-content">
                                 <img src="images/screenshots/record-prayers.png" 
                                      alt="Record Prayers Screen" 
@@ -1552,14 +1617,11 @@
                                 <div class="screen-placeholder" style="display: none;">
                                     <div class="placeholder-icon">🎤</div>
                                     <div class="placeholder-text">Record Prayers<br>Screenshot</div>
-                                    <div class="placeholder-items">
-                                        <div class="placeholder-item">7 Prayers List</div>
-                                        <div class="placeholder-item placeholder-item-tall">Recording Interface</div>
-                                        <div class="placeholder-item">Playback Controls</div>
-                                        <div class="placeholder-item">Save / Re-record</div>
-                                        <div class="placeholder-item">Progress Status</div>
-                                    </div>
                                 </div>
+                            </div>
+                            <!-- Fixed Bottom Nav -->
+                            <div class="screen-bottom-nav">
+                                <img src="images/screenshots/bottom.png" alt="Bottom Navigation">
                             </div>
                         </div>
                     </div>
