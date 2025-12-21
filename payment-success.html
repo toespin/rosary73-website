@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful - Rosary73</title>
+  <link rel="icon" type="image/png" href="images/R73logo.png">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+    .header { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .logo-link { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo { width: 50px; height: 50px; }
+    .logo-text { color: #d4af37; font-size: 1.5rem; font-weight: 600; }
+    .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+    .success-container { width: 100%; max-width: 500px; text-align: center; }
+    .icon-large { font-size: 5rem; margin-bottom: 20px; animation: bounce 0.6s ease; }
+    @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+    h1 { color: #86efac; font-size: 2.2rem; margin-bottom: 15px; }
+    p { color: rgba(255,255,255,0.8); margin-bottom: 10px; line-height: 1.6; }
+    .card { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 16px; padding: 30px; margin-top: 30px; }
+    .next-steps { text-align: left; }
+    .next-steps h3 { color: #d4af37; margin-bottom: 20px; font-size: 1.1rem; }
+    .step { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 18px; }
+    .step-num { background: #d4af37; color: #1a1a2e; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+    .step-text { color: rgba(255,255,255,0.9); }
+    .step-text strong { color: #ffffff; }
+    .buttons { display: flex; gap: 15px; margin-top: 30px; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: 14px 28px; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; }
+    .btn-primary { background: linear-gradient(135deg, #d4af37, #b8860b); color: #1a1a2e; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
+    .btn-secondary { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+    
+    /* Confetti */
+    .confetti { position: fixed; width: 10px; height: 10px; top: -10px; animation: fall linear forwards; }
+    @keyframes fall { to { transform: translateY(100vh) rotate(720deg); } }
+    
+    .footer { padding: 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+    .footer p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+    .footer a { color: #d4af37; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo-link">
+      <img src="images/R73logo.png" alt="Rosary73" class="logo">
+      <span class="logo-text">Rosary73</span>
+    </a>
+  </header>
+
+  <main class="main">
+    <div class="success-container">
+      <div class="icon-large">🎉</div>
+      <h1>Payment Successful!</h1>
+      <p>Thank you for subscribing to Rosary73.</p>
+      <p>Your subscription is now active.</p>
+      
+      <div class="card">
+        <div class="next-steps">
+          <h3>What's Next?</h3>
+          <div class="step">
+            <span class="step-num">1</span>
+            <span class="step-text"><strong>Download the app</strong> from the App Store or Google Play</span>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <span class="step-text"><strong>Login</strong> with your username and password</span>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <span class="step-text"><strong>Record your 7 prayers</strong> to start participating in rosaries</span>
+          </div>
+          <div class="step">
+            <span class="step-num">4</span>
+            <span class="step-text"><strong>Start praying!</strong> Join rosaries with 73 people worldwide</span>
+          </div>
+        </div>
+        
+        <div class="buttons">
+          <a href="index.html#download" class="btn btn-primary">Download the App</a>
+          <a href="index.html" class="btn btn-secondary">Return to Home</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Questions? <a href="contact.html">Contact Support</a></p>
+  </footer>
+
+  <script>
+    // Clear session storage
+    sessionStorage.removeItem('rosary73User');
+    sessionStorage.removeItem('pendingVerification');
+    
+    // Confetti animation
+    function createConfetti() {
+      const colors = ['#d4af37', '#86efac', '#f472b6', '#60a5fa', '#fbbf24', '#a78bfa'];
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + 'vw';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+          confetti.style.opacity = Math.random() * 0.8 + 0.2;
+          document.body.appendChild(confetti);
+          
+          setTimeout(() => confetti.remove(), 4000);
+        }, i * 50);
+      }
+    }
+    
+    createConfetti();
+  </script>
+</body>
+</html>
