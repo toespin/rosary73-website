@@ -6,10 +6,9 @@
   <title>Subscribe - Rosary73</title>
   <meta name="description" content="Subscribe to Rosary73 and unlock all premium features">
   <link rel="icon" type="image/png" href="images/R73logo.png">
-  
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%); min-height: 100vh; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%); min-height: 100vh; color: #fff; }
     .header { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .logo-link { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
     .logo { width: 50px; height: 50px; }
@@ -17,8 +16,6 @@
     .main { padding: 40px 20px; max-width: 900px; margin: 0 auto; }
     h1 { color: #ffffff; font-size: 2rem; text-align: center; margin-bottom: 10px; }
     .subtitle { color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 30px; }
-    
-    /* Login Section */
     .login-section { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; margin-bottom: 30px; }
     .login-section h2 { color: #d4af37; font-size: 1.2rem; margin-bottom: 15px; }
     .login-row { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -34,14 +31,10 @@
     .status-msg { margin-top: 10px; padding: 10px; border-radius: 8px; font-size: 0.9rem; }
     .status-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; }
     .status-success { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #86efac; }
-    .hidden { display: none; }
-    
-    /* Region Toggle */
+    .hidden { display: none !important; }
     .region-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
     .region-btn { padding: 10px 20px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 25px; color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.3s; }
     .region-btn.active { background: rgba(212, 175, 55, 0.2); border-color: #d4af37; color: #d4af37; }
-    
-    /* Pricing Cards */
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
     .price-card { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; }
     .price-card:hover { border-color: rgba(212, 175, 55, 0.5); transform: translateY(-3px); }
@@ -51,8 +44,6 @@
     .price-card .price { color: #ffffff; font-size: 2.5rem; font-weight: 700; }
     .price-card .price small { font-size: 1rem; color: rgba(255,255,255,0.6); }
     .price-card .savings { color: #4ade80; font-size: 0.85rem; margin-top: 8px; }
-    
-    /* Payment Methods */
     .payment-section { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; }
     .payment-section h2 { color: #ffffff; font-size: 1.2rem; margin-bottom: 20px; text-align: center; }
     .payment-group { margin-bottom: 20px; }
@@ -65,18 +56,13 @@
     .payment-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .payment-btn .icon { font-size: 1.5rem; }
     .payment-btn .name { font-size: 0.85rem; }
-    
-    /* Subscribe Button */
     .subscribe-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37, #b8860b); border: none; border-radius: 12px; color: #1a1a2e; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 25px; transition: all 0.3s; }
     .subscribe-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
     .subscribe-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-    
-    /* Processing Overlay */
     .processing-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1000; }
     .processing-content { text-align: center; color: #fff; }
     .processing-spinner { width: 50px; height: 50px; border: 4px solid rgba(212, 175, 55, 0.3); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    
     .footer { padding: 30px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
     .footer p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
     .footer a { color: #d4af37; text-decoration: none; }
@@ -94,7 +80,6 @@
     <h1>Choose Your Plan</h1>
     <p class="subtitle">Unlock all features and pray with the global community</p>
 
-    <!-- Login Section -->
     <div class="login-section">
       <div id="login-form">
         <h2>Step 1: Enter Your Username</h2>
@@ -107,46 +92,41 @@
           Don't have an account? <a href="signup.html" style="color: #d4af37;">Sign up first</a>
         </p>
       </div>
-      
       <div id="user-logged-in" class="hidden">
         <div class="user-info">
-          <span class="user-badge">👤 <span id="logged-username"></span></span>
+          <span class="user-badge">&#128100; <span id="logged-username"></span></span>
           <span style="color: rgba(255,255,255,0.6);" id="subscription-status"></span>
           <button class="logout-btn" onclick="logout()">Change User</button>
         </div>
       </div>
     </div>
 
-    <!-- Region Toggle -->
     <div class="region-toggle">
-      <button class="region-btn active" data-region="PH" onclick="setRegion('PH')">🇵🇭 Philippines</button>
-      <button class="region-btn" data-region="OTHER" onclick="setRegion('OTHER')">🌍 Other Countries</button>
+      <button class="region-btn active" data-region="PH" onclick="setRegion('PH')">&#127477;&#127469; Philippines</button>
+      <button class="region-btn" data-region="OTHER" onclick="setRegion('OTHER')">&#127758; Other Countries</button>
     </div>
 
-    <!-- Pricing Cards -->
     <div class="pricing-grid">
       <div class="price-card" data-plan="threeMonth" onclick="selectPlan('threeMonth')">
         <div class="duration">3 Months</div>
-        <div class="price" id="price-3">₱99</div>
+        <div class="price" id="price-3">&#8369;99</div>
       </div>
       <div class="price-card selected" data-plan="sixMonth" onclick="selectPlan('sixMonth')">
         <div class="badge">MOST POPULAR</div>
         <div class="duration">6 Months</div>
-        <div class="price" id="price-6">₱179</div>
+        <div class="price" id="price-6">&#8369;179</div>
         <div class="savings">Save 10%</div>
       </div>
       <div class="price-card" data-plan="twelveMonth" onclick="selectPlan('twelveMonth')">
         <div class="badge">BEST VALUE</div>
         <div class="duration">12 Months</div>
-        <div class="price" id="price-12">₱329</div>
+        <div class="price" id="price-12">&#8369;329</div>
         <div class="savings">Save 17%</div>
       </div>
     </div>
 
-    <!-- Payment Methods -->
     <div class="payment-section" id="payment-section">
       <h2>Step 2: Choose Payment Method</h2>
-      
       <div class="payment-group" id="ewallet-group">
         <div class="payment-group-title">
           <span>eWallets</span>
@@ -154,24 +134,23 @@
         </div>
         <div class="payment-methods">
           <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash')">
-            <span class="icon">💙</span>
+            <span class="icon">&#128153;</span>
             <span class="name">GCash</span>
           </button>
           <button class="payment-btn" data-method="maya" onclick="selectPayment('maya')">
-            <span class="icon">💚</span>
+            <span class="icon">&#128154;</span>
             <span class="name">Maya</span>
           </button>
           <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay')">
-            <span class="icon">💚</span>
+            <span class="icon">&#128154;</span>
             <span class="name">GrabPay</span>
           </button>
           <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay')">
-            <span class="icon">🧡</span>
+            <span class="icon">&#129505;</span>
             <span class="name">ShopeePay</span>
           </button>
         </div>
       </div>
-      
       <div class="payment-group" id="qrph-group">
         <div class="payment-group-title">
           <span>QR PH (InstaPay/PESONet)</span>
@@ -179,29 +158,26 @@
         </div>
         <div class="payment-methods">
           <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph')">
-            <span class="icon">📱</span>
+            <span class="icon">&#128241;</span>
             <span class="name">QR PH</span>
           </button>
         </div>
       </div>
-      
       <div class="payment-group">
         <div class="payment-group-title">Credit/Debit Card</div>
         <div class="payment-methods">
           <button class="payment-btn" data-method="card" onclick="selectPayment('card')">
-            <span class="icon">💳</span>
+            <span class="icon">&#128179;</span>
             <span class="name">Card</span>
           </button>
         </div>
       </div>
-
       <button class="subscribe-btn" id="subscribe-btn" onclick="subscribe()" disabled>
         Select a payment method
       </button>
     </div>
   </main>
 
-  <!-- Processing Overlay -->
   <div class="processing-overlay hidden" id="processing-overlay">
     <div class="processing-content">
       <div class="processing-spinner"></div>
@@ -211,69 +187,53 @@
 
   <footer class="footer">
     <p>Secure payments powered by Xendit</p>
-    <p style="margin-top: 10px;"><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Support</a></p>
+    <p style="margin-top: 10px;"><a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a> | <a href="contact.html">Support</a></p>
   </footer>
 
   <script>
     const FUNCTIONS_URL = 'https://us-central1-rosary73-6e8a4.cloudfunctions.net';
-    
     let currentUser = null;
     let selectedPlan = 'sixMonth';
     let selectedPayment = null;
     let currentRegion = 'PH';
-    
     const PRICING = {
-      PH: { threeMonth: 99, sixMonth: 179, twelveMonth: 329, currency: 'PHP', symbol: '₱' },
+      PH: { threeMonth: 99, sixMonth: 179, twelveMonth: 329, currency: 'PHP', symbol: '\u20B1' },
       OTHER: { threeMonth: 2.99, sixMonth: 5.49, twelveMonth: 9.90, currency: 'USD', symbol: '$' }
     };
 
     function init() {
       const saved = sessionStorage.getItem('rosary73User');
-      if (saved) {
-        currentUser = JSON.parse(saved);
-        showLoggedIn();
-      }
+      if (saved) { currentUser = JSON.parse(saved); showLoggedIn(); }
       updatePricing();
     }
 
     async function verifyUser() {
       const username = document.getElementById('username-input').value.trim();
       if (!username) return;
-      
       const btn = document.getElementById('verify-btn');
       const status = document.getElementById('login-status');
       btn.disabled = true;
       btn.textContent = 'Checking...';
-      
       try {
-        const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
+        const response = await fetch(FUNCTIONS_URL + '/verifyWebUser', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username })
+          body: JSON.stringify({ username: username })
         });
-        
         const result = await response.json();
-        
         if (!response.ok) {
           status.className = 'status-msg status-error';
           status.textContent = result.error;
           status.classList.remove('hidden');
-          
           if (result.requiresVerification) {
             status.innerHTML = result.error + ' <a href="verify-email.html" style="color:#d4af37;">Verify now</a>';
           }
           return;
         }
-        
         currentUser = result;
         sessionStorage.setItem('rosary73User', JSON.stringify(result));
-        
-        if (result.regionCode) {
-          setRegion(result.regionCode);
-        }
-        
+        if (result.regionCode) { setRegion(result.regionCode); }
         showLoggedIn();
-        
       } catch (error) {
         status.className = 'status-msg status-error';
         status.textContent = 'Connection error. Please try again.';
@@ -288,9 +248,7 @@
       document.getElementById('login-form').classList.add('hidden');
       document.getElementById('user-logged-in').classList.remove('hidden');
       document.getElementById('logged-username').textContent = currentUser.username;
-      
-      const statusText = currentUser.subscriptionStatus === 'active' ? '✅ Active Subscriber' : 
-                         currentUser.subscriptionStatus === 'trial' ? '⏳ Free Trial' : '⚠️ Expired';
+      var statusText = currentUser.subscriptionStatus === 'active' ? 'Active Subscriber' : currentUser.subscriptionStatus === 'trial' ? 'Free Trial' : 'Expired';
       document.getElementById('subscription-status').textContent = statusText;
     }
 
@@ -305,33 +263,30 @@
 
     function setRegion(region) {
       currentRegion = region;
-      document.querySelectorAll('.region-btn').forEach(btn => {
+      document.querySelectorAll('.region-btn').forEach(function(btn) {
         btn.classList.toggle('active', btn.dataset.region === region);
       });
-      
-      const isPH = region === 'PH';
+      var isPH = region === 'PH';
       document.getElementById('ewallet-group').style.display = isPH ? 'block' : 'none';
       document.getElementById('qrph-group').style.display = isPH ? 'block' : 'none';
-      
-      if (!isPH && ['gcash', 'maya', 'grabpay', 'shopeepay', 'qrph'].includes(selectedPayment)) {
+      if (!isPH && ['gcash', 'maya', 'grabpay', 'shopeepay', 'qrph'].indexOf(selectedPayment) !== -1) {
         selectedPayment = null;
-        document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
+        document.querySelectorAll('.payment-btn').forEach(function(btn) { btn.classList.remove('selected'); });
         updateSubscribeButton();
       }
-      
       updatePricing();
     }
 
     function updatePricing() {
-      const p = PRICING[currentRegion];
-      document.getElementById('price-3').innerHTML = `${p.symbol}${p.threeMonth}`;
-      document.getElementById('price-6').innerHTML = `${p.symbol}${p.sixMonth}`;
-      document.getElementById('price-12').innerHTML = `${p.symbol}${p.twelveMonth}`;
+      var p = PRICING[currentRegion];
+      document.getElementById('price-3').innerHTML = p.symbol + p.threeMonth;
+      document.getElementById('price-6').innerHTML = p.symbol + p.sixMonth;
+      document.getElementById('price-12').innerHTML = p.symbol + p.twelveMonth;
     }
 
     function selectPlan(plan) {
       selectedPlan = plan;
-      document.querySelectorAll('.price-card').forEach(card => {
+      document.querySelectorAll('.price-card').forEach(function(card) {
         card.classList.toggle('selected', card.dataset.plan === plan);
       });
       updateSubscribeButton();
@@ -339,14 +294,14 @@
 
     function selectPayment(method) {
       selectedPayment = method;
-      document.querySelectorAll('.payment-btn').forEach(btn => {
+      document.querySelectorAll('.payment-btn').forEach(function(btn) {
         btn.classList.toggle('selected', btn.dataset.method === method);
       });
       updateSubscribeButton();
     }
 
     function updateSubscribeButton() {
-      const btn = document.getElementById('subscribe-btn');
+      var btn = document.getElementById('subscribe-btn');
       if (!currentUser) {
         btn.textContent = 'Enter username first';
         btn.disabled = true;
@@ -354,24 +309,21 @@
         btn.textContent = 'Select a payment method';
         btn.disabled = true;
       } else {
-        const p = PRICING[currentRegion];
-        const amount = p[selectedPlan];
-        btn.textContent = `Subscribe for ${p.symbol}${amount}`;
+        var p = PRICING[currentRegion];
+        var amount = p[selectedPlan];
+        btn.textContent = 'Subscribe for ' + p.symbol + amount;
         btn.disabled = false;
       }
     }
 
     async function subscribe() {
       if (!currentUser || !selectedPayment) return;
-      
-      const overlay = document.getElementById('processing-overlay');
+      var overlay = document.getElementById('processing-overlay');
       overlay.classList.remove('hidden');
-      
       try {
-        const p = PRICING[currentRegion];
-        const amount = p[selectedPlan];
-        
-        const response = await fetch(`${FUNCTIONS_URL}/createXenditPayment`, {
+        var p = PRICING[currentRegion];
+        var amount = p[selectedPlan];
+        var response = await fetch(FUNCTIONS_URL + '/createXenditPayment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -386,11 +338,8 @@
             failureUrl: 'https://rosary73.com/payment-failed.html'
           })
         });
-        
-        const result = await response.json();
-        
+        var result = await response.json();
         if (!response.ok) throw new Error(result.error);
-        
         if (result.paymentUrl) {
           window.location.href = result.paymentUrl;
         } else if (result.deepLinkUrl) {
@@ -398,7 +347,6 @@
         } else {
           throw new Error('No payment URL received');
         }
-        
       } catch (error) {
         overlay.classList.add('hidden');
         alert('Payment error: ' + error.message);
@@ -406,7 +354,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', init);
-    document.getElementById('username-input').addEventListener('keypress', (e) => {
+    document.getElementById('username-input').addEventListener('keypress', function(e) {
       if (e.key === 'Enter') verifyUser();
     });
   </script>
