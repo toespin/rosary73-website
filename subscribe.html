@@ -16,6 +16,16 @@
     .main { padding: 40px 20px; max-width: 900px; margin: 0 auto; }
     h1 { color: #ffffff; font-size: 2rem; text-align: center; margin-bottom: 10px; }
     .subtitle { color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 30px; }
+    
+    /* Tabs */
+    .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .tab-btn { padding: 12px 24px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 25px; color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.3s; font-size: 0.95rem; }
+    .tab-btn:hover { border-color: rgba(212, 175, 55, 0.5); }
+    .tab-btn.active { background: rgba(212, 175, 55, 0.2); border-color: #d4af37; color: #d4af37; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Login Section */
     .login-section { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; margin-bottom: 30px; }
     .login-section h2 { color: #d4af37; font-size: 1.2rem; margin-bottom: 15px; }
     .login-row { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -32,9 +42,8 @@
     .status-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; }
     .status-success { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #86efac; }
     .hidden { display: none !important; }
-    .region-toggle { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
-    .region-btn { padding: 10px 20px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 25px; color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.3s; }
-    .region-btn.active { background: rgba(212, 175, 55, 0.2); border-color: #d4af37; color: #d4af37; }
+    
+    /* Pricing Cards */
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
     .price-card { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; }
     .price-card:hover { border-color: rgba(212, 175, 55, 0.5); transform: translateY(-3px); }
@@ -42,8 +51,20 @@
     .price-card .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #d4af37; color: #1a1a2e; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
     .price-card .duration { color: #d4af37; font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
     .price-card .price { color: #ffffff; font-size: 2.5rem; font-weight: 700; }
-    .price-card .price small { font-size: 1rem; color: rgba(255,255,255,0.6); }
     .price-card .savings { color: #4ade80; font-size: 0.85rem; margin-top: 8px; }
+    
+    /* Donation Grid */
+    .donation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-bottom: 30px; }
+    .donation-card { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px 15px; text-align: center; cursor: pointer; transition: all 0.3s; }
+    .donation-card:hover { border-color: rgba(212, 175, 55, 0.5); }
+    .donation-card.selected { border-color: #d4af37; background: rgba(212, 175, 55, 0.1); }
+    .donation-card .amount { color: #d4af37; font-size: 1.5rem; font-weight: 700; }
+    .donation-card .label { color: rgba(255,255,255,0.6); font-size: 0.8rem; margin-top: 5px; }
+    .custom-amount { margin-bottom: 30px; }
+    .custom-amount input { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 1.1rem; text-align: center; }
+    .custom-amount input:focus { outline: none; border-color: #d4af37; }
+    
+    /* Payment Methods */
     .payment-section { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; }
     .payment-section h2 { color: #ffffff; font-size: 1.2rem; margin-bottom: 20px; text-align: center; }
     .payment-group { margin-bottom: 20px; }
@@ -56,16 +77,40 @@
     .payment-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .payment-btn .icon { font-size: 1.5rem; }
     .payment-btn .name { font-size: 0.85rem; }
-    .subscribe-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37, #b8860b); border: none; border-radius: 12px; color: #1a1a2e; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 25px; transition: all 0.3s; }
-    .subscribe-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
-    .subscribe-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    
+    /* Action Button */
+    .action-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37, #b8860b); border: none; border-radius: 12px; color: #1a1a2e; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 25px; transition: all 0.3s; }
+    .action-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
+    .action-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    
+    /* Free Subscription Section */
+    .free-section { background: linear-gradient(135deg, #1e3a5f 0%, #1a2e4a 100%); border: 1px solid #3b82f6; border-radius: 16px; padding: 30px; margin-bottom: 30px; text-align: center; }
+    .free-section h3 { color: #60a5fa; font-size: 1.3rem; margin-bottom: 15px; }
+    .free-section p { color: rgba(255,255,255,0.8); margin-bottom: 20px; line-height: 1.6; }
+    .free-section .icon { font-size: 3rem; margin-bottom: 15px; }
+    .free-btn { padding: 14px 30px; background: #3b82f6; border: none; border-radius: 10px; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+    .free-btn:hover { background: #2563eb; transform: translateY(-2px); }
+    
+    /* Upgrade Section */
+    .upgrade-info { background: rgba(34, 197, 94, 0.1); border: 1px solid #4ade80; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .upgrade-info h3 { color: #4ade80; margin-bottom: 10px; }
+    .upgrade-info p { color: rgba(255,255,255,0.8); font-size: 0.9rem; }
+    
+    /* Processing Overlay */
     .processing-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 1000; }
     .processing-content { text-align: center; color: #fff; }
     .processing-spinner { width: 50px; height: 50px; border: 4px solid rgba(212, 175, 55, 0.3); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
     @keyframes spin { to { transform: rotate(360deg); } }
+    
     .footer { padding: 30px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
     .footer p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
     .footer a { color: #d4af37; text-decoration: none; }
+    
+    @media (max-width: 480px) {
+      .tabs { gap: 8px; }
+      .tab-btn { padding: 10px 16px; font-size: 0.85rem; }
+      .price-card .price { font-size: 2rem; }
+    }
   </style>
 </head>
 <body>
@@ -77,9 +122,18 @@
   </header>
 
   <main class="main">
-    <h1>Choose Your Plan</h1>
-    <p class="subtitle">Unlock all features and pray with the global community</p>
+    <h1>Support Rosary73</h1>
+    <p class="subtitle">Choose how you'd like to support our prayer community</p>
 
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('subscribe')">&#11088; Subscribe</button>
+      <button class="tab-btn" onclick="switchTab('upgrade')">&#8593; Upgrade</button>
+      <button class="tab-btn" onclick="switchTab('donate')">&#10084; Donate</button>
+      <button class="tab-btn" onclick="switchTab('free')">&#10013; Free for Clergy</button>
+    </div>
+
+    <!-- Login Section (shared) -->
     <div class="login-section">
       <div id="login-form">
         <h2>Step 1: Enter Your Username</h2>
@@ -101,80 +155,175 @@
       </div>
     </div>
 
-    <div class="region-toggle">
-      <button class="region-btn active" data-region="PH" onclick="setRegion('PH')">&#127477;&#127469; Philippines</button>
-      <button class="region-btn" data-region="OTHER" onclick="setRegion('OTHER')">&#127758; Other Countries</button>
+    <!-- Tab: Subscribe -->
+    <div id="tab-subscribe" class="tab-content active">
+      <h2 style="color: #d4af37; margin-bottom: 20px; text-align: center;">Choose Your Plan</h2>
+      
+      <div class="pricing-grid">
+        <div class="price-card" data-plan="threeMonth" onclick="selectPlan('threeMonth')">
+          <div class="duration">3 Months</div>
+          <div class="price" id="price-3"></div>
+        </div>
+        <div class="price-card selected" data-plan="sixMonth" onclick="selectPlan('sixMonth')">
+          <div class="badge">MOST POPULAR</div>
+          <div class="duration">6 Months</div>
+          <div class="price" id="price-6"></div>
+          <div class="savings">Save 10%</div>
+        </div>
+        <div class="price-card" data-plan="twelveMonth" onclick="selectPlan('twelveMonth')">
+          <div class="badge">BEST VALUE</div>
+          <div class="duration">12 Months</div>
+          <div class="price" id="price-12"></div>
+          <div class="savings">Save 17%</div>
+        </div>
+      </div>
+
+      <div class="payment-section" id="payment-section-sub">
+        <h2>Step 2: Choose Payment Method</h2>
+        <div class="payment-group" id="ewallet-group-sub">
+          <div class="payment-group-title">
+            <span>eWallets</span>
+            <span class="web-only-tag">WEB ONLY</span>
+          </div>
+          <div class="payment-methods">
+            <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'sub')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
+            <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'sub')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
+            <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'sub')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
+            <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'sub')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
+          </div>
+        </div>
+        <div class="payment-group" id="qrph-group-sub">
+          <div class="payment-group-title">
+            <span>QR PH (InstaPay/PESONet)</span>
+            <span class="web-only-tag">WEB ONLY</span>
+          </div>
+          <div class="payment-methods">
+            <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph', 'sub')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+          </div>
+        </div>
+        <div class="payment-group">
+          <div class="payment-group-title">Credit/Debit Card</div>
+          <div class="payment-methods">
+            <button class="payment-btn" data-method="card" onclick="selectPayment('card', 'sub')"><span class="icon">&#128179;</span><span class="name">Card</span></button>
+          </div>
+        </div>
+        <button class="action-btn" id="subscribe-btn" onclick="processPayment('subscription')" disabled>Select a payment method</button>
+      </div>
     </div>
 
-    <div class="pricing-grid">
-      <div class="price-card" data-plan="threeMonth" onclick="selectPlan('threeMonth')">
-        <div class="duration">3 Months</div>
-        <div class="price" id="price-3">&#8369;99</div>
+    <!-- Tab: Upgrade -->
+    <div id="tab-upgrade" class="tab-content">
+      <div class="upgrade-info">
+        <h3>&#8593; Extend Your Subscription</h3>
+        <p>Already a subscriber? Add more time to your current plan. Your new subscription period will be added to your existing end date.</p>
       </div>
-      <div class="price-card selected" data-plan="sixMonth" onclick="selectPlan('sixMonth')">
-        <div class="badge">MOST POPULAR</div>
-        <div class="duration">6 Months</div>
-        <div class="price" id="price-6">&#8369;179</div>
-        <div class="savings">Save 10%</div>
+      
+      <h2 style="color: #d4af37; margin-bottom: 20px; text-align: center;">Add Time to Your Subscription</h2>
+      
+      <div class="pricing-grid">
+        <div class="price-card" data-plan="threeMonth" onclick="selectUpgradePlan('threeMonth')">
+          <div class="duration">+3 Months</div>
+          <div class="price" id="upgrade-price-3"></div>
+        </div>
+        <div class="price-card selected" data-plan="sixMonth" onclick="selectUpgradePlan('sixMonth')">
+          <div class="badge">MOST POPULAR</div>
+          <div class="duration">+6 Months</div>
+          <div class="price" id="upgrade-price-6"></div>
+          <div class="savings">Save 10%</div>
+        </div>
+        <div class="price-card" data-plan="twelveMonth" onclick="selectUpgradePlan('twelveMonth')">
+          <div class="badge">BEST VALUE</div>
+          <div class="duration">+12 Months</div>
+          <div class="price" id="upgrade-price-12"></div>
+          <div class="savings">Save 17%</div>
+        </div>
       </div>
-      <div class="price-card" data-plan="twelveMonth" onclick="selectPlan('twelveMonth')">
-        <div class="badge">BEST VALUE</div>
-        <div class="duration">12 Months</div>
-        <div class="price" id="price-12">&#8369;329</div>
-        <div class="savings">Save 17%</div>
+
+      <div class="payment-section">
+        <h2>Payment Method</h2>
+        <div class="payment-group" id="ewallet-group-upgrade">
+          <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">WEB ONLY</span></div>
+          <div class="payment-methods">
+            <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'upgrade')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
+            <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'upgrade')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
+            <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'upgrade')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
+            <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'upgrade')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
+          </div>
+        </div>
+        <div class="payment-group" id="qrph-group-upgrade">
+          <div class="payment-group-title"><span>QR PH</span><span class="web-only-tag">WEB ONLY</span></div>
+          <div class="payment-methods">
+            <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph', 'upgrade')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+          </div>
+        </div>
+        <div class="payment-group">
+          <div class="payment-group-title">Credit/Debit Card</div>
+          <div class="payment-methods">
+            <button class="payment-btn" data-method="card" onclick="selectPayment('card', 'upgrade')"><span class="icon">&#128179;</span><span class="name">Card</span></button>
+          </div>
+        </div>
+        <button class="action-btn" id="upgrade-btn" onclick="processPayment('upgrade')" disabled>Select a payment method</button>
       </div>
     </div>
 
-    <div class="payment-section" id="payment-section">
-      <h2>Step 2: Choose Payment Method</h2>
-      <div class="payment-group" id="ewallet-group">
-        <div class="payment-group-title">
-          <span>eWallets</span>
-          <span class="web-only-tag">WEB ONLY</span>
-        </div>
-        <div class="payment-methods">
-          <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash')">
-            <span class="icon">&#128153;</span>
-            <span class="name">GCash</span>
-          </button>
-          <button class="payment-btn" data-method="maya" onclick="selectPayment('maya')">
-            <span class="icon">&#128154;</span>
-            <span class="name">Maya</span>
-          </button>
-          <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay')">
-            <span class="icon">&#128154;</span>
-            <span class="name">GrabPay</span>
-          </button>
-          <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay')">
-            <span class="icon">&#129505;</span>
-            <span class="name">ShopeePay</span>
-          </button>
-        </div>
+    <!-- Tab: Donate -->
+    <div id="tab-donate" class="tab-content">
+      <h2 style="color: #d4af37; margin-bottom: 10px; text-align: center;">Make a Donation</h2>
+      <p style="color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 25px;">Your donation helps keep Rosary73 running and accessible to all.</p>
+      
+      <div class="donation-grid" id="donation-grid"></div>
+      
+      <div class="custom-amount">
+        <input type="number" id="custom-donation" placeholder="Or enter custom amount" min="1" onchange="selectCustomDonation()">
       </div>
-      <div class="payment-group" id="qrph-group">
-        <div class="payment-group-title">
-          <span>QR PH (InstaPay/PESONet)</span>
-          <span class="web-only-tag">WEB ONLY</span>
+
+      <div class="payment-section">
+        <h2>Payment Method</h2>
+        <div class="payment-group" id="ewallet-group-donate">
+          <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">WEB ONLY</span></div>
+          <div class="payment-methods">
+            <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'donate')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
+            <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'donate')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
+            <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'donate')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
+            <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'donate')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
+          </div>
         </div>
-        <div class="payment-methods">
-          <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph')">
-            <span class="icon">&#128241;</span>
-            <span class="name">QR PH</span>
-          </button>
+        <div class="payment-group" id="qrph-group-donate">
+          <div class="payment-group-title"><span>QR PH</span><span class="web-only-tag">WEB ONLY</span></div>
+          <div class="payment-methods">
+            <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph', 'donate')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+          </div>
         </div>
+        <div class="payment-group">
+          <div class="payment-group-title">Credit/Debit Card</div>
+          <div class="payment-methods">
+            <button class="payment-btn" data-method="card" onclick="selectPayment('card', 'donate')"><span class="icon">&#128179;</span><span class="name">Card</span></button>
+          </div>
+        </div>
+        <button class="action-btn" id="donate-btn" onclick="processPayment('donation')" disabled>Select amount and payment method</button>
       </div>
-      <div class="payment-group">
-        <div class="payment-group-title">Credit/Debit Card</div>
-        <div class="payment-methods">
-          <button class="payment-btn" data-method="card" onclick="selectPayment('card')">
-            <span class="icon">&#128179;</span>
-            <span class="name">Card</span>
-          </button>
-        </div>
+    </div>
+
+    <!-- Tab: Free for Clergy -->
+    <div id="tab-free" class="tab-content">
+      <div class="free-section">
+        <div class="icon">&#10013;</div>
+        <h3>Free Subscription for Clergy, Religious &amp; Those in Need</h3>
+        <p>
+          Rosary73 is committed to making prayer accessible to all. If you are a priest, religious sister/brother, 
+          seminarian, or someone who cannot afford a subscription, please contact us for a free account.
+        </p>
+        <p style="margin-top: 15px; font-size: 0.9rem;">
+          We believe that financial constraints should never be a barrier to prayer. Simply send us an email 
+          explaining your situation, and we will gladly provide you with complimentary access.
+        </p>
+        <a href="mailto:support@rosary73.com?subject=Free%20Subscription%20Request" class="free-btn" style="display: inline-block; margin-top: 20px; text-decoration: none;">
+          &#9993; Request Free Access
+        </a>
       </div>
-      <button class="subscribe-btn" id="subscribe-btn" onclick="subscribe()" disabled>
-        Select a payment method
-      </button>
+      <p style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.85rem;">
+        All requests are handled with discretion and respect for your privacy.
+      </p>
     </div>
   </main>
 
@@ -191,36 +340,71 @@
   </footer>
 
   <script>
-    const FUNCTIONS_URL = 'https://us-central1-rosary73-6e8a4.cloudfunctions.net';
-    let currentUser = null;
-    let selectedPlan = 'sixMonth';
-    let selectedPayment = null;
-    let currentRegion = 'PH';
-    const PRICING = {
+    var FUNCTIONS_URL = 'https://us-central1-rosary73-6e8a4.cloudfunctions.net';
+    var currentUser = null;
+    var selectedPlan = 'sixMonth';
+    var selectedUpgradePlan = 'sixMonth';
+    var selectedDonation = null;
+    var selectedPaymentSub = null;
+    var selectedPaymentUpgrade = null;
+    var selectedPaymentDonate = null;
+    var currentRegion = 'OTHER';
+
+    var PRICING = {
       PH: { threeMonth: 99, sixMonth: 179, twelveMonth: 329, currency: 'PHP', symbol: '\u20B1' },
       OTHER: { threeMonth: 2.99, sixMonth: 5.49, twelveMonth: 9.90, currency: 'USD', symbol: '$' }
     };
+    
+    var DONATIONS = {
+      PH: [
+        { amount: 50, label: 'Small gift' },
+        { amount: 100, label: 'Cup of coffee' },
+        { amount: 200, label: 'Supporter' },
+        { amount: 500, label: 'Generous' },
+        { amount: 1000, label: 'Patron' }
+      ],
+      OTHER: [
+        { amount: 2, label: 'Small gift' },
+        { amount: 5, label: 'Cup of coffee' },
+        { amount: 10, label: 'Supporter' },
+        { amount: 25, label: 'Generous' },
+        { amount: 50, label: 'Patron' }
+      ]
+    };
 
     function init() {
-      const saved = sessionStorage.getItem('rosary73User');
-      if (saved) { currentUser = JSON.parse(saved); showLoggedIn(); }
+      var saved = sessionStorage.getItem('rosary73User');
+      if (saved) {
+        currentUser = JSON.parse(saved);
+        currentRegion = currentUser.regionCode || 'OTHER';
+        showLoggedIn();
+      }
       updatePricing();
+      updateDonationGrid();
+      updatePaymentVisibility();
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
+      document.querySelectorAll('.tab-content').forEach(function(content) { content.classList.remove('active'); });
+      document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
     }
 
     async function verifyUser() {
-      const username = document.getElementById('username-input').value.trim();
+      var username = document.getElementById('username-input').value.trim();
       if (!username) return;
-      const btn = document.getElementById('verify-btn');
-      const status = document.getElementById('login-status');
+      var btn = document.getElementById('verify-btn');
+      var status = document.getElementById('login-status');
       btn.disabled = true;
       btn.textContent = 'Checking...';
       try {
-        const response = await fetch(FUNCTIONS_URL + '/verifyWebUser', {
+        var response = await fetch(FUNCTIONS_URL + '/verifyWebUser', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: username })
         });
-        const result = await response.json();
+        var result = await response.json();
         if (!response.ok) {
           status.className = 'status-msg status-error';
           status.textContent = result.error;
@@ -231,9 +415,12 @@
           return;
         }
         currentUser = result;
+        currentRegion = result.regionCode || 'OTHER';
         sessionStorage.setItem('rosary73User', JSON.stringify(result));
-        if (result.regionCode) { setRegion(result.regionCode); }
         showLoggedIn();
+        updatePricing();
+        updateDonationGrid();
+        updatePaymentVisibility();
       } catch (error) {
         status.className = 'status-msg status-error';
         status.textContent = 'Connection error. Please try again.';
@@ -248,33 +435,32 @@
       document.getElementById('login-form').classList.add('hidden');
       document.getElementById('user-logged-in').classList.remove('hidden');
       document.getElementById('logged-username').textContent = currentUser.username;
-      var statusText = currentUser.subscriptionStatus === 'active' ? 'Active Subscriber' : currentUser.subscriptionStatus === 'trial' ? 'Free Trial' : 'Expired';
+      var statusText = currentUser.subscriptionStatus === 'active' ? '\u2705 Active Subscriber' : 
+                       currentUser.subscriptionStatus === 'trial' ? '\u23F3 Free Trial' : '\u26A0 Expired';
       document.getElementById('subscription-status').textContent = statusText;
     }
 
     function logout() {
       currentUser = null;
+      currentRegion = 'OTHER';
       sessionStorage.removeItem('rosary73User');
       document.getElementById('login-form').classList.remove('hidden');
       document.getElementById('user-logged-in').classList.add('hidden');
       document.getElementById('login-status').classList.add('hidden');
       document.getElementById('username-input').value = '';
+      updatePricing();
+      updateDonationGrid();
+      updatePaymentVisibility();
     }
 
-    function setRegion(region) {
-      currentRegion = region;
-      document.querySelectorAll('.region-btn').forEach(function(btn) {
-        btn.classList.toggle('active', btn.dataset.region === region);
+    function updatePaymentVisibility() {
+      var isPH = currentRegion === 'PH';
+      ['sub', 'upgrade', 'donate'].forEach(function(type) {
+        var ewallet = document.getElementById('ewallet-group-' + type);
+        var qrph = document.getElementById('qrph-group-' + type);
+        if (ewallet) ewallet.style.display = isPH ? 'block' : 'none';
+        if (qrph) qrph.style.display = isPH ? 'block' : 'none';
       });
-      var isPH = region === 'PH';
-      document.getElementById('ewallet-group').style.display = isPH ? 'block' : 'none';
-      document.getElementById('qrph-group').style.display = isPH ? 'block' : 'none';
-      if (!isPH && ['gcash', 'maya', 'grabpay', 'shopeepay', 'qrph'].indexOf(selectedPayment) !== -1) {
-        selectedPayment = null;
-        document.querySelectorAll('.payment-btn').forEach(function(btn) { btn.classList.remove('selected'); });
-        updateSubscribeButton();
-      }
-      updatePricing();
     }
 
     function updatePricing() {
@@ -282,71 +468,151 @@
       document.getElementById('price-3').innerHTML = p.symbol + p.threeMonth;
       document.getElementById('price-6').innerHTML = p.symbol + p.sixMonth;
       document.getElementById('price-12').innerHTML = p.symbol + p.twelveMonth;
+      document.getElementById('upgrade-price-3').innerHTML = p.symbol + p.threeMonth;
+      document.getElementById('upgrade-price-6').innerHTML = p.symbol + p.sixMonth;
+      document.getElementById('upgrade-price-12').innerHTML = p.symbol + p.twelveMonth;
+    }
+
+    function updateDonationGrid() {
+      var donations = DONATIONS[currentRegion];
+      var p = PRICING[currentRegion];
+      var grid = document.getElementById('donation-grid');
+      grid.innerHTML = '';
+      donations.forEach(function(d) {
+        var card = document.createElement('div');
+        card.className = 'donation-card';
+        card.setAttribute('data-amount', d.amount);
+        card.onclick = function() { selectDonation(d.amount); };
+        card.innerHTML = '<div class="amount">' + p.symbol + d.amount + '</div><div class="label">' + d.label + '</div>';
+        grid.appendChild(card);
+      });
     }
 
     function selectPlan(plan) {
       selectedPlan = plan;
-      document.querySelectorAll('.price-card').forEach(function(card) {
+      document.querySelectorAll('#tab-subscribe .price-card').forEach(function(card) {
         card.classList.toggle('selected', card.dataset.plan === plan);
       });
       updateSubscribeButton();
     }
 
-    function selectPayment(method) {
-      selectedPayment = method;
-      document.querySelectorAll('.payment-btn').forEach(function(btn) {
-        btn.classList.toggle('selected', btn.dataset.method === method);
+    function selectUpgradePlan(plan) {
+      selectedUpgradePlan = plan;
+      document.querySelectorAll('#tab-upgrade .price-card').forEach(function(card) {
+        card.classList.toggle('selected', card.dataset.plan === plan);
       });
-      updateSubscribeButton();
+      updateUpgradeButton();
+    }
+
+    function selectDonation(amount) {
+      selectedDonation = amount;
+      document.getElementById('custom-donation').value = '';
+      document.querySelectorAll('.donation-card').forEach(function(card) {
+        card.classList.toggle('selected', parseInt(card.dataset.amount) === amount);
+      });
+      updateDonateButton();
+    }
+
+    function selectCustomDonation() {
+      var val = parseFloat(document.getElementById('custom-donation').value);
+      if (val > 0) {
+        selectedDonation = val;
+        document.querySelectorAll('.donation-card').forEach(function(card) { card.classList.remove('selected'); });
+        updateDonateButton();
+      }
+    }
+
+    function selectPayment(method, type) {
+      if (type === 'sub') {
+        selectedPaymentSub = method;
+        document.querySelectorAll('#tab-subscribe .payment-btn').forEach(function(btn) {
+          btn.classList.toggle('selected', btn.dataset.method === method);
+        });
+        updateSubscribeButton();
+      } else if (type === 'upgrade') {
+        selectedPaymentUpgrade = method;
+        document.querySelectorAll('#tab-upgrade .payment-btn').forEach(function(btn) {
+          btn.classList.toggle('selected', btn.dataset.method === method);
+        });
+        updateUpgradeButton();
+      } else if (type === 'donate') {
+        selectedPaymentDonate = method;
+        document.querySelectorAll('#tab-donate .payment-btn').forEach(function(btn) {
+          btn.classList.toggle('selected', btn.dataset.method === method);
+        });
+        updateDonateButton();
+      }
     }
 
     function updateSubscribeButton() {
       var btn = document.getElementById('subscribe-btn');
-      if (!currentUser) {
-        btn.textContent = 'Enter username first';
-        btn.disabled = true;
-      } else if (!selectedPayment) {
-        btn.textContent = 'Select a payment method';
-        btn.disabled = true;
-      } else {
+      if (!currentUser) { btn.textContent = 'Enter username first'; btn.disabled = true; }
+      else if (!selectedPaymentSub) { btn.textContent = 'Select a payment method'; btn.disabled = true; }
+      else {
         var p = PRICING[currentRegion];
-        var amount = p[selectedPlan];
-        btn.textContent = 'Subscribe for ' + p.symbol + amount;
+        btn.textContent = 'Subscribe for ' + p.symbol + p[selectedPlan];
         btn.disabled = false;
       }
     }
 
-    async function subscribe() {
-      if (!currentUser || !selectedPayment) return;
+    function updateUpgradeButton() {
+      var btn = document.getElementById('upgrade-btn');
+      if (!currentUser) { btn.textContent = 'Enter username first'; btn.disabled = true; }
+      else if (!selectedPaymentUpgrade) { btn.textContent = 'Select a payment method'; btn.disabled = true; }
+      else {
+        var p = PRICING[currentRegion];
+        btn.textContent = 'Extend for ' + p.symbol + p[selectedUpgradePlan];
+        btn.disabled = false;
+      }
+    }
+
+    function updateDonateButton() {
+      var btn = document.getElementById('donate-btn');
+      if (!currentUser) { btn.textContent = 'Enter username first'; btn.disabled = true; }
+      else if (!selectedDonation) { btn.textContent = 'Select an amount'; btn.disabled = true; }
+      else if (!selectedPaymentDonate) { btn.textContent = 'Select a payment method'; btn.disabled = true; }
+      else {
+        var p = PRICING[currentRegion];
+        btn.textContent = 'Donate ' + p.symbol + selectedDonation;
+        btn.disabled = false;
+      }
+    }
+
+    async function processPayment(type) {
+      if (!currentUser) return;
       var overlay = document.getElementById('processing-overlay');
       overlay.classList.remove('hidden');
       try {
         var p = PRICING[currentRegion];
-        var amount = p[selectedPlan];
+        var payload = {
+          userId: currentUser.userId,
+          currency: p.currency,
+          source: 'website',
+          successUrl: 'https://rosary73.com/payment-success.html',
+          failureUrl: 'https://rosary73.com/payment-failed.html'
+        };
+        if (type === 'subscription' || type === 'upgrade') {
+          var plan = type === 'subscription' ? selectedPlan : selectedUpgradePlan;
+          var payment = type === 'subscription' ? selectedPaymentSub : selectedPaymentUpgrade;
+          payload.type = type === 'upgrade' ? 'subscription_extension' : 'subscription';
+          payload.plan = plan;
+          payload.amount = p[plan];
+          payload.paymentMethod = payment;
+        } else if (type === 'donation') {
+          payload.type = 'donation';
+          payload.amount = selectedDonation;
+          payload.paymentMethod = selectedPaymentDonate;
+        }
         var response = await fetch(FUNCTIONS_URL + '/createXenditPayment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: 'subscription',
-            userId: currentUser.userId,
-            plan: selectedPlan,
-            amount: amount,
-            currency: p.currency,
-            paymentMethod: selectedPayment,
-            source: 'website',
-            successUrl: 'https://rosary73.com/payment-success.html',
-            failureUrl: 'https://rosary73.com/payment-failed.html'
-          })
+          body: JSON.stringify(payload)
         });
         var result = await response.json();
         if (!response.ok) throw new Error(result.error);
-        if (result.paymentUrl) {
-          window.location.href = result.paymentUrl;
-        } else if (result.deepLinkUrl) {
-          window.location.href = result.deepLinkUrl;
-        } else {
-          throw new Error('No payment URL received');
-        }
+        if (result.paymentUrl) { window.location.href = result.paymentUrl; }
+        else if (result.deepLinkUrl) { window.location.href = result.deepLinkUrl; }
+        else { throw new Error('No payment URL received'); }
       } catch (error) {
         overlay.classList.add('hidden');
         alert('Payment error: ' + error.message);
