@@ -17,6 +17,19 @@
     h1 { color: #ffffff; font-size: 2rem; text-align: center; margin-bottom: 10px; }
     .subtitle { color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 30px; }
     
+    /* Login Gate Overlay */
+    .login-gate { text-align: center; padding: 60px 20px; }
+    .login-gate-card { background: rgba(255,255,255,0.05); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 20px; padding: 50px 30px; max-width: 500px; margin: 0 auto; }
+    .login-gate-icon { font-size: 4rem; margin-bottom: 20px; }
+    .login-gate h2 { color: #d4af37; font-size: 1.5rem; margin-bottom: 15px; }
+    .login-gate p { color: rgba(255,255,255,0.7); margin-bottom: 25px; line-height: 1.6; }
+    .login-gate-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+    .gate-btn { padding: 14px 30px; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: all 0.3s; }
+    .gate-btn-primary { background: linear-gradient(135deg, #d4af37, #b8860b); color: #1a1a2e; border: none; }
+    .gate-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
+    .gate-btn-secondary { background: transparent; color: #d4af37; border: 2px solid #d4af37; }
+    .gate-btn-secondary:hover { background: rgba(212, 175, 55, 0.1); }
+    
     /* Tabs */
     .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
     .tab-btn { padding: 12px 24px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 25px; color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.3s; font-size: 0.95rem; }
@@ -78,6 +91,14 @@
     .payment-btn .icon { font-size: 1.5rem; }
     .payment-btn .name { font-size: 0.85rem; }
     
+    /* Card Logos */
+    .card-logos { display: flex; gap: 8px; align-items: center; justify-content: center; margin-bottom: 5px; }
+    .card-logo { height: 24px; width: auto; }
+    .card-logo-visa { background: #1a1f71; padding: 4px 8px; border-radius: 4px; }
+    .card-logo-mc { background: linear-gradient(90deg, #eb001b 0%, #f79e1b 100%); padding: 4px 8px; border-radius: 4px; }
+    .card-logo-jcb { background: linear-gradient(135deg, #0066cc 0%, #cc0000 50%, #00aa00 100%); padding: 4px 8px; border-radius: 4px; }
+    .card-logo-text { color: white; font-size: 0.7rem; font-weight: 700; font-style: italic; }
+    
     /* Action Button */
     .action-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37, #b8860b); border: none; border-radius: 12px; color: #1a1a2e; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 25px; transition: all 0.3s; }
     .action-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
@@ -110,6 +131,8 @@
       .tabs { gap: 8px; }
       .tab-btn { padding: 10px 16px; font-size: 0.85rem; }
       .price-card .price { font-size: 2rem; }
+      .login-gate-buttons { flex-direction: column; }
+      .gate-btn { width: 100%; text-align: center; }
     }
   </style>
 </head>
@@ -122,208 +145,246 @@
   </header>
 
   <main class="main">
-    <h1>Support Rosary73</h1>
-    <p class="subtitle">Choose how you'd like to support our prayer community</p>
-
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('subscribe')">&#11088; Subscribe</button>
-      <button class="tab-btn" onclick="switchTab('upgrade')">&#8593; Upgrade</button>
-      <button class="tab-btn" onclick="switchTab('donate')">&#10084; Donate</button>
-      <button class="tab-btn" onclick="switchTab('free')">&#10013; Free for Clergy</button>
-    </div>
-
-    <!-- Login Section (shared) -->
-    <div class="login-section">
-      <div id="login-form">
-        <h2>Step 1: Enter Your Username</h2>
-        <div class="login-row">
-          <input type="text" id="username-input" placeholder="Your username" autocomplete="username">
-          <button onclick="verifyUser()" id="verify-btn">Continue</button>
-        </div>
-        <div id="login-status" class="status-msg hidden"></div>
-        <p style="margin-top: 15px; color: rgba(255,255,255,0.5); font-size: 0.85rem;">
-          Don't have an account? <a href="signup.html" style="color: #d4af37;">Sign up first</a>
-        </p>
-      </div>
-      <div id="user-logged-in" class="hidden">
-        <div class="user-info">
-          <span class="user-badge">&#128100; <span id="logged-username"></span></span>
-          <span style="color: rgba(255,255,255,0.6);" id="subscription-status"></span>
-          <button class="logout-btn" onclick="logout()">Change User</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab: Subscribe -->
-    <div id="tab-subscribe" class="tab-content active">
-      <h2 style="color: #d4af37; margin-bottom: 20px; text-align: center;">Choose Your Plan</h2>
-      
-      <div class="pricing-grid">
-        <div class="price-card" data-plan="threeMonth" onclick="selectPlan('threeMonth')">
-          <div class="duration">3 Months</div>
-          <div class="price" id="price-3"></div>
-        </div>
-        <div class="price-card selected" data-plan="sixMonth" onclick="selectPlan('sixMonth')">
-          <div class="badge">MOST POPULAR</div>
-          <div class="duration">6 Months</div>
-          <div class="price" id="price-6"></div>
-          <div class="savings">Save 10%</div>
-        </div>
-        <div class="price-card" data-plan="twelveMonth" onclick="selectPlan('twelveMonth')">
-          <div class="badge">BEST VALUE</div>
-          <div class="duration">12 Months</div>
-          <div class="price" id="price-12"></div>
-          <div class="savings">Save 17%</div>
-        </div>
-      </div>
-
-      <div class="payment-section" id="payment-section-sub">
-        <h2>Step 2: Choose Payment Method</h2>
-        <div class="payment-group" id="ewallet-group-sub">
-          <div class="payment-group-title">
-            <span>eWallets</span>
-            <span class="web-only-tag">WEB ONLY</span>
-          </div>
-          <div class="payment-methods">
-            <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'sub')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
-            <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'sub')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
-            <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'sub')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
-            <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'sub')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
-          </div>
-        </div>
-        <div class="payment-group" id="qrph-group-sub">
-          <div class="payment-group-title">
-            <span>QR PH (InstaPay/PESONet)</span>
-            <span class="web-only-tag">WEB ONLY</span>
-          </div>
-          <div class="payment-methods">
-            <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph', 'sub')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
-          </div>
-        </div>
-        <div class="payment-group">
-          <div class="payment-group-title">Credit/Debit Card</div>
-          <div class="payment-methods">
-            <button class="payment-btn" data-method="card" onclick="selectPayment('card', 'sub')"><span class="icon">&#128179;</span><span class="name">Card</span></button>
-          </div>
-        </div>
-        <button class="action-btn" id="subscribe-btn" onclick="processPayment('subscription')" disabled>Select a payment method</button>
-      </div>
-    </div>
-
-    <!-- Tab: Upgrade -->
-    <div id="tab-upgrade" class="tab-content">
-      <div class="upgrade-info">
-        <h3>&#8593; Extend Your Subscription</h3>
-        <p>Already a subscriber? Add more time to your current plan. Your new subscription period will be added to your existing end date.</p>
-      </div>
-      
-      <h2 style="color: #d4af37; margin-bottom: 20px; text-align: center;">Add Time to Your Subscription</h2>
-      
-      <div class="pricing-grid">
-        <div class="price-card" data-plan="threeMonth" onclick="selectUpgradePlan('threeMonth')">
-          <div class="duration">+3 Months</div>
-          <div class="price" id="upgrade-price-3"></div>
-        </div>
-        <div class="price-card selected" data-plan="sixMonth" onclick="selectUpgradePlan('sixMonth')">
-          <div class="badge">MOST POPULAR</div>
-          <div class="duration">+6 Months</div>
-          <div class="price" id="upgrade-price-6"></div>
-          <div class="savings">Save 10%</div>
-        </div>
-        <div class="price-card" data-plan="twelveMonth" onclick="selectUpgradePlan('twelveMonth')">
-          <div class="badge">BEST VALUE</div>
-          <div class="duration">+12 Months</div>
-          <div class="price" id="upgrade-price-12"></div>
-          <div class="savings">Save 17%</div>
-        </div>
-      </div>
-
-      <div class="payment-section">
-        <h2>Payment Method</h2>
-        <div class="payment-group" id="ewallet-group-upgrade">
-          <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">WEB ONLY</span></div>
-          <div class="payment-methods">
-            <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'upgrade')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
-            <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'upgrade')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
-            <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'upgrade')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
-            <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'upgrade')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
-          </div>
-        </div>
-        <div class="payment-group" id="qrph-group-upgrade">
-          <div class="payment-group-title"><span>QR PH</span><span class="web-only-tag">WEB ONLY</span></div>
-          <div class="payment-methods">
-            <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph', 'upgrade')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
-          </div>
-        </div>
-        <div class="payment-group">
-          <div class="payment-group-title">Credit/Debit Card</div>
-          <div class="payment-methods">
-            <button class="payment-btn" data-method="card" onclick="selectPayment('card', 'upgrade')"><span class="icon">&#128179;</span><span class="name">Card</span></button>
-          </div>
-        </div>
-        <button class="action-btn" id="upgrade-btn" onclick="processPayment('upgrade')" disabled>Select a payment method</button>
-      </div>
-    </div>
-
-    <!-- Tab: Donate -->
-    <div id="tab-donate" class="tab-content">
-      <h2 style="color: #d4af37; margin-bottom: 10px; text-align: center;">Make a Donation</h2>
-      <p style="color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 25px;">Your donation helps keep Rosary73 running and accessible to all.</p>
-      
-      <div class="donation-grid" id="donation-grid"></div>
-      
-      <div class="custom-amount">
-        <input type="number" id="custom-donation" placeholder="Or enter custom amount" min="1" onchange="selectCustomDonation()">
-      </div>
-
-      <div class="payment-section">
-        <h2>Payment Method</h2>
-        <div class="payment-group" id="ewallet-group-donate">
-          <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">WEB ONLY</span></div>
-          <div class="payment-methods">
-            <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'donate')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
-            <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'donate')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
-            <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'donate')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
-            <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'donate')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
-          </div>
-        </div>
-        <div class="payment-group" id="qrph-group-donate">
-          <div class="payment-group-title"><span>QR PH</span><span class="web-only-tag">WEB ONLY</span></div>
-          <div class="payment-methods">
-            <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph', 'donate')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
-          </div>
-        </div>
-        <div class="payment-group">
-          <div class="payment-group-title">Credit/Debit Card</div>
-          <div class="payment-methods">
-            <button class="payment-btn" data-method="card" onclick="selectPayment('card', 'donate')"><span class="icon">&#128179;</span><span class="name">Card</span></button>
-          </div>
-        </div>
-        <button class="action-btn" id="donate-btn" onclick="processPayment('donation')" disabled>Select amount and payment method</button>
-      </div>
-    </div>
-
-    <!-- Tab: Free for Clergy -->
-    <div id="tab-free" class="tab-content">
-      <div class="free-section">
-        <div class="icon">&#10013;</div>
-        <h3>Free Subscription for Clergy, Religious &amp; Those in Need</h3>
+    <!-- Login Gate (shown when not logged in) -->
+    <div id="login-gate" class="login-gate">
+      <div class="login-gate-card">
+        <div class="login-gate-icon">🔐</div>
+        <h2>Sign Up First to See Your Rates</h2>
         <p>
-          Rosary73 is committed to making prayer accessible to all. If you are a priest, religious sister/brother, 
-          seminarian, or someone who cannot afford a subscription, please contact us for a free account.
+          To show you the correct regional pricing and payment methods for your country, 
+          please create an account or log in first.
         </p>
-        <p style="margin-top: 15px; font-size: 0.9rem;">
-          We believe that financial constraints should never be a barrier to prayer. Simply send us an email 
-          explaining your situation, and we will gladly provide you with complimentary access.
-        </p>
-        <a href="mailto:support@rosary73.com?subject=Free%20Subscription%20Request" class="free-btn" style="display: inline-block; margin-top: 20px; text-decoration: none;">
-          &#9993; Request Free Access
-        </a>
+        <div class="login-gate-buttons">
+          <a href="signup.html" class="gate-btn gate-btn-primary">Create Free Account</a>
+          <button class="gate-btn gate-btn-secondary" onclick="showLoginForm()">I Have an Account</button>
+        </div>
+        
+        <!-- Hidden Login Form -->
+        <div id="gate-login-form" class="hidden" style="margin-top: 30px; text-align: left;">
+          <div class="login-row">
+            <input type="text" id="gate-username-input" placeholder="Enter your username" autocomplete="username">
+            <button onclick="verifyUserFromGate()" id="gate-verify-btn">Continue</button>
+          </div>
+          <div id="gate-login-status" class="status-msg hidden" style="margin-top: 10px;"></div>
+        </div>
       </div>
-      <p style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.85rem;">
-        All requests are handled with discretion and respect for your privacy.
-      </p>
+    </div>
+
+    <!-- Main Content (shown when logged in) -->
+    <div id="main-content" class="hidden">
+      <h1>Support Rosary73</h1>
+      <p class="subtitle">Choose how you'd like to support our prayer community</p>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('subscribe')">&#11088; Subscribe</button>
+        <button class="tab-btn" onclick="switchTab('upgrade')">&#8593; Upgrade</button>
+        <button class="tab-btn" onclick="switchTab('donate')">&#10084; Donate</button>
+        <button class="tab-btn" onclick="switchTab('free')">&#10013; Free for Clergy/Religious</button>
+      </div>
+
+      <!-- User Info Section -->
+      <div class="login-section">
+        <div id="user-logged-in">
+          <div class="user-info">
+            <span class="user-badge">&#128100; <span id="logged-username"></span></span>
+            <span style="color: rgba(255,255,255,0.6);" id="subscription-status"></span>
+            <button class="logout-btn" onclick="logout()">Change User</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Subscribe -->
+      <div id="tab-subscribe" class="tab-content active">
+        <h2 style="color: #d4af37; margin-bottom: 20px; text-align: center;">Choose Your Plan</h2>
+        
+        <div class="pricing-grid">
+          <div class="price-card" data-plan="threeMonth" onclick="selectPlan('threeMonth')">
+            <div class="duration">3 Months</div>
+            <div class="price" id="price-3"></div>
+          </div>
+          <div class="price-card selected" data-plan="sixMonth" onclick="selectPlan('sixMonth')">
+            <div class="badge">MOST POPULAR</div>
+            <div class="duration">6 Months</div>
+            <div class="price" id="price-6"></div>
+            <div class="savings">Save 10%</div>
+          </div>
+          <div class="price-card" data-plan="twelveMonth" onclick="selectPlan('twelveMonth')">
+            <div class="badge">BEST VALUE</div>
+            <div class="duration">12 Months</div>
+            <div class="price" id="price-12"></div>
+            <div class="savings">Save 17%</div>
+          </div>
+        </div>
+
+        <div class="payment-section" id="payment-section-sub">
+          <h2>Select Payment Method</h2>
+          <div class="payment-group" id="ewallet-group-sub">
+            <div class="payment-group-title">
+              <span>eWallets</span>
+              <span class="web-only-tag">PHILIPPINES ONLY</span>
+            </div>
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'sub')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'sub')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'sub')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'sub')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
+            </div>
+          </div>
+          <div class="payment-group" id="qrph-group-sub">
+            <div class="payment-group-title">
+              <span>QR PH (InstaPay/PESONet)</span>
+              <span class="web-only-tag">PHILIPPINES ONLY</span>
+            </div>
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph', 'sub')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+            </div>
+          </div>
+          <div class="payment-group">
+            <div class="payment-group-title">Credit/Debit Card</div>
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="card" onclick="selectPayment('card', 'sub')">
+                <div class="card-logos">
+                  <span class="card-logo card-logo-visa"><span class="card-logo-text">VISA</span></span>
+                  <span class="card-logo card-logo-mc"><span class="card-logo-text">MC</span></span>
+                  <span class="card-logo card-logo-jcb"><span class="card-logo-text">JCB</span></span>
+                </div>
+                <span class="name">Credit/Debit Card</span>
+              </button>
+            </div>
+          </div>
+          <button class="action-btn" id="subscribe-btn" onclick="processPayment('subscription')" disabled>Select a payment method</button>
+        </div>
+      </div>
+
+      <!-- Tab: Upgrade -->
+      <div id="tab-upgrade" class="tab-content">
+        <div class="upgrade-info">
+          <h3>&#8593; Extend Your Subscription</h3>
+          <p>Already a subscriber? Add more time to your current plan. Your new subscription period will be added to your existing end date.</p>
+        </div>
+        
+        <h2 style="color: #d4af37; margin-bottom: 20px; text-align: center;">Add Time to Your Subscription</h2>
+        
+        <div class="pricing-grid">
+          <div class="price-card" data-plan="threeMonth" onclick="selectUpgradePlan('threeMonth')">
+            <div class="duration">+3 Months</div>
+            <div class="price" id="upgrade-price-3"></div>
+          </div>
+          <div class="price-card selected" data-plan="sixMonth" onclick="selectUpgradePlan('sixMonth')">
+            <div class="badge">MOST POPULAR</div>
+            <div class="duration">+6 Months</div>
+            <div class="price" id="upgrade-price-6"></div>
+            <div class="savings">Save 10%</div>
+          </div>
+          <div class="price-card" data-plan="twelveMonth" onclick="selectUpgradePlan('twelveMonth')">
+            <div class="badge">BEST VALUE</div>
+            <div class="duration">+12 Months</div>
+            <div class="price" id="upgrade-price-12"></div>
+            <div class="savings">Save 17%</div>
+          </div>
+        </div>
+
+        <div class="payment-section">
+          <h2>Payment Method</h2>
+          <div class="payment-group" id="ewallet-group-upgrade">
+            <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'upgrade')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'upgrade')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'upgrade')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'upgrade')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
+            </div>
+          </div>
+          <div class="payment-group" id="qrph-group-upgrade">
+            <div class="payment-group-title"><span>QR PH</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph', 'upgrade')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+            </div>
+          </div>
+          <div class="payment-group">
+            <div class="payment-group-title">Credit/Debit Card</div>
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="card" onclick="selectPayment('card', 'upgrade')">
+                <div class="card-logos">
+                  <span class="card-logo card-logo-visa"><span class="card-logo-text">VISA</span></span>
+                  <span class="card-logo card-logo-mc"><span class="card-logo-text">MC</span></span>
+                  <span class="card-logo card-logo-jcb"><span class="card-logo-text">JCB</span></span>
+                </div>
+                <span class="name">Credit/Debit Card</span>
+              </button>
+            </div>
+          </div>
+          <button class="action-btn" id="upgrade-btn" onclick="processPayment('upgrade')" disabled>Select a payment method</button>
+        </div>
+      </div>
+
+      <!-- Tab: Donate -->
+      <div id="tab-donate" class="tab-content">
+        <h2 style="color: #d4af37; margin-bottom: 10px; text-align: center;">Make a Donation</h2>
+        <p style="color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 25px;">Your donation helps keep Rosary73 running and accessible to all.</p>
+        
+        <div class="donation-grid" id="donation-grid"></div>
+        
+        <div class="custom-amount">
+          <input type="number" id="custom-donation" placeholder="Or enter custom amount" min="1" onchange="selectCustomDonation()">
+        </div>
+
+        <div class="payment-section">
+          <h2>Payment Method</h2>
+          <div class="payment-group" id="ewallet-group-donate">
+            <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'donate')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'donate')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'donate')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'donate')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
+            </div>
+          </div>
+          <div class="payment-group" id="qrph-group-donate">
+            <div class="payment-group-title"><span>QR PH</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph', 'donate')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+            </div>
+          </div>
+          <div class="payment-group">
+            <div class="payment-group-title">Credit/Debit Card</div>
+            <div class="payment-methods">
+              <button class="payment-btn" data-method="card" onclick="selectPayment('card', 'donate')">
+                <div class="card-logos">
+                  <span class="card-logo card-logo-visa"><span class="card-logo-text">VISA</span></span>
+                  <span class="card-logo card-logo-mc"><span class="card-logo-text">MC</span></span>
+                  <span class="card-logo card-logo-jcb"><span class="card-logo-text">JCB</span></span>
+                </div>
+                <span class="name">Credit/Debit Card</span>
+              </button>
+            </div>
+          </div>
+          <button class="action-btn" id="donate-btn" onclick="processPayment('donation')" disabled>Select amount and payment method</button>
+        </div>
+      </div>
+
+      <!-- Tab: Free for Clergy/Religious -->
+      <div id="tab-free" class="tab-content">
+        <div class="free-section">
+          <div class="icon">&#10013;</div>
+          <h3>Free Subscription for Clergy, Religious &amp; Those in Need</h3>
+          <p>
+            Rosary73 is committed to making prayer accessible to all. If you are a priest, religious sister/brother, 
+            seminarian, or someone who cannot afford a subscription, please contact us for a free account.
+          </p>
+          <p style="margin-top: 15px; font-size: 0.9rem;">
+            We believe that financial constraints should never be a barrier to prayer. Simply send us an email 
+            explaining your situation, and we will gladly provide you with complimentary access.
+          </p>
+          <a href="mailto:support@rosary73.com?subject=Free%20Subscription%20Request" class="free-btn" style="display: inline-block; margin-top: 20px; text-decoration: none;">
+            &#9993; Request Free Access
+          </a>
+        </div>
+        <p style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.85rem;">
+          All requests are handled with discretion and respect for your privacy.
+        </p>
+      </div>
     </div>
   </main>
 
@@ -377,25 +438,36 @@
       if (saved) {
         currentUser = JSON.parse(saved);
         currentRegion = currentUser.regionCode || 'OTHER';
-        showLoggedIn();
+        showMainContent();
+      } else {
+        showLoginGate();
       }
+    }
+
+    function showLoginGate() {
+      document.getElementById('login-gate').classList.remove('hidden');
+      document.getElementById('main-content').classList.add('hidden');
+    }
+
+    function showMainContent() {
+      document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('main-content').classList.remove('hidden');
+      showLoggedIn();
       updatePricing();
       updateDonationGrid();
       updatePaymentVisibility();
     }
 
-    function switchTab(tab) {
-      document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
-      document.querySelectorAll('.tab-content').forEach(function(content) { content.classList.remove('active'); });
-      document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
-      document.getElementById('tab-' + tab).classList.add('active');
+    function showLoginForm() {
+      document.getElementById('gate-login-form').classList.remove('hidden');
+      document.getElementById('gate-username-input').focus();
     }
 
-    async function verifyUser() {
-      var username = document.getElementById('username-input').value.trim();
+    async function verifyUserFromGate() {
+      var username = document.getElementById('gate-username-input').value.trim();
       if (!username) return;
-      var btn = document.getElementById('verify-btn');
-      var status = document.getElementById('login-status');
+      var btn = document.getElementById('gate-verify-btn');
+      var status = document.getElementById('gate-login-status');
       btn.disabled = true;
       btn.textContent = 'Checking...';
       try {
@@ -417,10 +489,7 @@
         currentUser = result;
         currentRegion = result.regionCode || 'OTHER';
         sessionStorage.setItem('rosary73User', JSON.stringify(result));
-        showLoggedIn();
-        updatePricing();
-        updateDonationGrid();
-        updatePaymentVisibility();
+        showMainContent();
       } catch (error) {
         status.className = 'status-msg status-error';
         status.textContent = 'Connection error. Please try again.';
@@ -431,9 +500,14 @@
       }
     }
 
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
+      document.querySelectorAll('.tab-content').forEach(function(content) { content.classList.remove('active'); });
+      document.querySelector('.tab-btn[onclick*="' + tab + '"]').classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+    }
+
     function showLoggedIn() {
-      document.getElementById('login-form').classList.add('hidden');
-      document.getElementById('user-logged-in').classList.remove('hidden');
       document.getElementById('logged-username').textContent = currentUser.username;
       var statusText = currentUser.subscriptionStatus === 'active' ? '\u2705 Active Subscriber' : 
                        currentUser.subscriptionStatus === 'trial' ? '\u23F3 Free Trial' : '\u26A0 Expired';
@@ -444,13 +518,11 @@
       currentUser = null;
       currentRegion = 'OTHER';
       sessionStorage.removeItem('rosary73User');
-      document.getElementById('login-form').classList.remove('hidden');
-      document.getElementById('user-logged-in').classList.add('hidden');
-      document.getElementById('login-status').classList.add('hidden');
-      document.getElementById('username-input').value = '';
-      updatePricing();
-      updateDonationGrid();
-      updatePaymentVisibility();
+      showLoginGate();
+      // Reset gate login form
+      document.getElementById('gate-login-form').classList.add('hidden');
+      document.getElementById('gate-login-status').classList.add('hidden');
+      document.getElementById('gate-username-input').value = '';
     }
 
     function updatePaymentVisibility() {
@@ -463,14 +535,22 @@
       });
     }
 
+    function formatPrice(amount, symbol) {
+      // Format with 2 decimal places for USD
+      if (symbol === '$') {
+        return symbol + amount.toFixed(2);
+      }
+      return symbol + amount;
+    }
+
     function updatePricing() {
       var p = PRICING[currentRegion];
-      document.getElementById('price-3').innerHTML = p.symbol + p.threeMonth;
-      document.getElementById('price-6').innerHTML = p.symbol + p.sixMonth;
-      document.getElementById('price-12').innerHTML = p.symbol + p.twelveMonth;
-      document.getElementById('upgrade-price-3').innerHTML = p.symbol + p.threeMonth;
-      document.getElementById('upgrade-price-6').innerHTML = p.symbol + p.sixMonth;
-      document.getElementById('upgrade-price-12').innerHTML = p.symbol + p.twelveMonth;
+      document.getElementById('price-3').innerHTML = formatPrice(p.threeMonth, p.symbol);
+      document.getElementById('price-6').innerHTML = formatPrice(p.sixMonth, p.symbol);
+      document.getElementById('price-12').innerHTML = formatPrice(p.twelveMonth, p.symbol);
+      document.getElementById('upgrade-price-3').innerHTML = formatPrice(p.threeMonth, p.symbol);
+      document.getElementById('upgrade-price-6').innerHTML = formatPrice(p.sixMonth, p.symbol);
+      document.getElementById('upgrade-price-12').innerHTML = formatPrice(p.twelveMonth, p.symbol);
     }
 
     function updateDonationGrid() {
@@ -546,30 +626,27 @@
 
     function updateSubscribeButton() {
       var btn = document.getElementById('subscribe-btn');
-      if (!currentUser) { btn.textContent = 'Enter username first'; btn.disabled = true; }
-      else if (!selectedPaymentSub) { btn.textContent = 'Select a payment method'; btn.disabled = true; }
+      if (!selectedPaymentSub) { btn.textContent = 'Select a payment method'; btn.disabled = true; }
       else {
         var p = PRICING[currentRegion];
-        btn.textContent = 'Subscribe for ' + p.symbol + p[selectedPlan];
+        btn.textContent = 'Subscribe for ' + formatPrice(p[selectedPlan], p.symbol);
         btn.disabled = false;
       }
     }
 
     function updateUpgradeButton() {
       var btn = document.getElementById('upgrade-btn');
-      if (!currentUser) { btn.textContent = 'Enter username first'; btn.disabled = true; }
-      else if (!selectedPaymentUpgrade) { btn.textContent = 'Select a payment method'; btn.disabled = true; }
+      if (!selectedPaymentUpgrade) { btn.textContent = 'Select a payment method'; btn.disabled = true; }
       else {
         var p = PRICING[currentRegion];
-        btn.textContent = 'Extend for ' + p.symbol + p[selectedUpgradePlan];
+        btn.textContent = 'Extend for ' + formatPrice(p[selectedUpgradePlan], p.symbol);
         btn.disabled = false;
       }
     }
 
     function updateDonateButton() {
       var btn = document.getElementById('donate-btn');
-      if (!currentUser) { btn.textContent = 'Enter username first'; btn.disabled = true; }
-      else if (!selectedDonation) { btn.textContent = 'Select an amount'; btn.disabled = true; }
+      if (!selectedDonation) { btn.textContent = 'Select an amount'; btn.disabled = true; }
       else if (!selectedPaymentDonate) { btn.textContent = 'Select a payment method'; btn.disabled = true; }
       else {
         var p = PRICING[currentRegion];
@@ -620,8 +697,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', init);
-    document.getElementById('username-input').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') verifyUser();
+    document.getElementById('gate-username-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') verifyUserFromGate();
     });
   </script>
 </body>
