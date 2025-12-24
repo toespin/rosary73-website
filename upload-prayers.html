@@ -17,9 +17,12 @@
       color: #ffffff;
     }
     
+    /* Header */
     .header {
-      padding: 20px;
-      text-align: center;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border-bottom: 1px solid rgba(255,255,255,0.1);
       position: sticky;
       top: 0;
@@ -37,6 +40,106 @@
     
     .logo { width: 40px; height: 40px; }
     .logo-text { color: #d4af37; font-size: 1.3rem; font-weight: 600; }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+    }
+    
+    .header-user-name {
+      color: #d4af37;
+      font-weight: 600;
+    }
+    
+    .logout-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    
+    /* Members Navigation */
+    .members-nav {
+      background: rgba(212, 175, 55, 0.1);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 0;
+      display: none;
+    }
+    
+    .members-nav.visible {
+      display: block;
+    }
+    
+    .members-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 10px 20px;
+    }
+    
+    .members-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .members-nav-item:hover {
+      background: rgba(212, 175, 55, 0.2);
+      color: #fff;
+    }
+    
+    .members-nav-item.active {
+      background: rgba(212, 175, 55, 0.3);
+      color: #d4af37;
+    }
+    
+    .members-nav-item .nav-icon {
+      font-size: 1.1rem;
+    }
+    
+    @media (max-width: 768px) {
+      .header-user span:not(.header-user-name) { display: none; }
+      .members-nav-inner {
+        flex-direction: column;
+        gap: 0;
+      }
+      .members-nav-item {
+        justify-content: center;
+        padding: 14px 20px;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .members-nav-item:last-child {
+        border-bottom: none;
+      }
+    }
     
     .main {
       max-width: 800px;
@@ -630,12 +733,43 @@
   </style>
 </head>
 <body>
+  <!-- Main Header -->
   <header class="header">
     <a href="index.html" class="logo-link">
       <img src="images/R73logo.png" alt="Rosary73" class="logo">
       <span class="logo-text">Rosary73</span>
     </a>
+    
+    <div class="header-right">
+      <div class="header-user hidden" id="header-user">
+        <span>Welcome,</span>
+        <span class="header-user-name" id="header-username">User</span>
+        <button class="logout-btn" id="logout-btn">Logout</button>
+      </div>
+    </div>
   </header>
+
+  <!-- Members Navigation (visible after login) -->
+  <nav class="members-nav" id="members-nav">
+    <div class="members-nav-inner">
+      <a href="upload-prayers.html" class="members-nav-item active">
+        <span class="nav-icon">📿</span>
+        <span>Upload Prayers</span>
+      </a>
+      <a href="members.html#subscribe" class="members-nav-item">
+        <span class="nav-icon">⭐</span>
+        <span>Subscribe/Upgrade</span>
+      </a>
+      <a href="members.html#gift" class="members-nav-item">
+        <span class="nav-icon">🎁</span>
+        <span>Gift Subscription</span>
+      </a>
+      <a href="members.html#donate" class="members-nav-item">
+        <span class="nav-icon">💝</span>
+        <span>Support Rosary73</span>
+      </a>
+    </div>
+  </nav>
 
   <main class="main">
     <h1 class="page-title">📿 Upload Prayer Recordings</h1>
@@ -663,13 +797,6 @@
 
     <!-- Main Content (hidden until logged in) -->
     <div id="main-content" class="hidden">
-      <!-- User Info -->
-      <div style="text-align: right; margin-bottom: 20px;">
-        <span style="color: rgba(255,255,255,0.6);">Logged in as </span>
-        <span id="user-display" style="color: #d4af37; font-weight: 600;"></span>
-        <button id="logout-btn" class="btn btn-secondary btn-small" style="margin-left: 10px;">Logout</button>
-      </div>
-
       <!-- Instructions -->
       <div class="instructions-card">
         <h3>📋 How to Record Your Prayers</h3>
@@ -791,7 +918,7 @@
         const userDoc = await db.collection('users').doc(currentUser.uid).get();
         if (userDoc.exists) {
           userData = userDoc.data();
-          document.getElementById('user-display').textContent = userData.username || userData.email;
+          document.getElementById('header-username').textContent = userData.username || userData.email;
         }
       } catch (error) {
         console.error('Error loading user data:', error);
@@ -859,11 +986,15 @@
     function showLoginGate() {
       document.getElementById('login-gate').classList.remove('hidden');
       document.getElementById('main-content').classList.add('hidden');
+      document.getElementById('members-nav').classList.remove('visible');
+      document.getElementById('header-user').classList.add('hidden');
     }
 
     function showMainContent() {
       document.getElementById('login-gate').classList.add('hidden');
       document.getElementById('main-content').classList.remove('hidden');
+      document.getElementById('members-nav').classList.add('visible');
+      document.getElementById('header-user').classList.remove('hidden');
       renderPrayerCards();
       updateProgress();
     }

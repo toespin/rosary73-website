@@ -41,15 +41,91 @@
     .logo { width: 40px; height: 40px; }
     .logo-text { color: #d4af37; font-size: 1.3rem; font-weight: 600; }
     
-    .nav { display: flex; gap: 25px; align-items: center; }
-    .nav a {
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+    }
+    
+    .header-user-name {
+      color: #d4af37;
+      font-weight: 600;
+    }
+    
+    .logout-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    
+    /* Members Navigation */
+    .members-nav {
+      background: rgba(212, 175, 55, 0.1);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 0;
+      display: none;
+    }
+    
+    .members-nav.visible {
+      display: block;
+    }
+    
+    .members-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 10px 20px;
+    }
+    
+    .members-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
       color: rgba(255,255,255,0.8);
       text-decoration: none;
+      border-radius: 10px;
       font-size: 0.95rem;
-      transition: color 0.3s;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      background: transparent;
     }
-    .nav a:hover { color: #d4af37; }
-    .nav a.active { color: #d4af37; font-weight: 600; }
+    
+    .members-nav-item:hover {
+      background: rgba(212, 175, 55, 0.2);
+      color: #fff;
+    }
+    
+    .members-nav-item.active {
+      background: rgba(212, 175, 55, 0.3);
+      color: #d4af37;
+    }
+    
+    .members-nav-item .nav-icon {
+      font-size: 1.1rem;
+    }
     
     /* Mobile Menu */
     .mobile-menu-btn {
@@ -62,18 +138,19 @@
     }
     
     @media (max-width: 768px) {
-      .nav { display: none; }
-      .mobile-menu-btn { display: block; }
-      .nav.open {
-        display: flex;
+      .header-user span:not(.header-user-name) { display: none; }
+      .members-nav-inner {
         flex-direction: column;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        right: 0;
-        background: rgba(26, 26, 46, 0.98);
-        padding: 20px;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+        gap: 0;
+      }
+      .members-nav-item {
+        justify-content: center;
+        padding: 14px 20px;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .members-nav-item:last-child {
+        border-bottom: none;
       }
     }
     
@@ -168,41 +245,49 @@
     .dashboard { display: none; }
     .dashboard.visible { display: block; }
     
-    /* User Header */
-    .user-header {
+    /* Page Title */
+    .page-title-bar {
+      margin-bottom: 30px;
+    }
+    
+    .page-title-bar h1 {
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+    }
+    
+    .page-title-bar h1 span {
+      color: #d4af37;
+    }
+    
+    .page-title-bar p {
+      color: rgba(255,255,255,0.6);
+    }
+    
+    /* User Status Bar */
+    .user-status-bar {
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
       border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 20px;
-      padding: 30px;
+      border-radius: 12px;
+      padding: 15px 20px;
       margin-bottom: 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 15px;
     }
     
-    .user-info h1 {
-      font-size: 1.8rem;
-      margin-bottom: 5px;
-    }
-    
-    .user-info h1 span {
-      color: #d4af37;
-    }
-    
-    .user-meta {
+    .status-items {
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
-      margin-top: 10px;
     }
     
-    .user-meta-item {
+    .status-item {
       display: flex;
       align-items: center;
       gap: 8px;
-      color: rgba(255,255,255,0.7);
+      color: rgba(255,255,255,0.8);
       font-size: 0.9rem;
     }
     
@@ -226,11 +311,6 @@
     .status-expired {
       background: rgba(239, 68, 68, 0.2);
       color: #f87171;
-    }
-    
-    .user-actions {
-      display: flex;
-      gap: 10px;
     }
     
     /* Dashboard Cards */
@@ -723,17 +803,12 @@
     
     /* Responsive */
     @media (max-width: 600px) {
-      .user-header {
+      .user-status-bar {
         flex-direction: column;
         text-align: center;
       }
       
-      .user-meta {
-        justify-content: center;
-      }
-      
-      .user-actions {
-        width: 100%;
+      .status-items {
         justify-content: center;
       }
       
@@ -745,21 +820,43 @@
   </style>
 </head>
 <body>
+  <!-- Main Header -->
   <header class="header">
     <a href="index.html" class="logo-link">
       <img src="images/R73logo.png" alt="Rosary73" class="logo">
       <span class="logo-text">Rosary73</span>
     </a>
     
-    <nav class="nav" id="nav">
-      <a href="index.html">Home</a>
-      <a href="index.html#features">Features</a>
-      <a href="index.html#download">Download</a>
-      <a href="members.html" class="active">Members</a>
-    </nav>
-    
-    <button class="mobile-menu-btn" onclick="document.getElementById('nav').classList.toggle('open')">☰</button>
+    <div class="header-right">
+      <div class="header-user hidden" id="header-user">
+        <span>Welcome,</span>
+        <span class="header-user-name" id="header-username">User</span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
   </header>
+
+  <!-- Members Navigation (visible after login) -->
+  <nav class="members-nav" id="members-nav">
+    <div class="members-nav-inner">
+      <button class="members-nav-item active" onclick="openSection('upload')" data-section="upload">
+        <span class="nav-icon">📿</span>
+        <span>Upload Prayers</span>
+      </button>
+      <button class="members-nav-item" onclick="openSection('subscribe')" data-section="subscribe">
+        <span class="nav-icon">⭐</span>
+        <span>Subscribe/Upgrade</span>
+      </button>
+      <button class="members-nav-item" onclick="openSection('gift')" data-section="gift">
+        <span class="nav-icon">🎁</span>
+        <span>Gift Subscription</span>
+      </button>
+      <button class="members-nav-item" onclick="openSection('donate')" data-section="donate">
+        <span class="nav-icon">💝</span>
+        <span>Support Rosary73</span>
+      </button>
+    </div>
+  </nav>
 
   <main class="main">
     <!-- Login Gate -->
@@ -793,75 +890,31 @@
 
     <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
-      <!-- User Header -->
-      <div class="user-header">
-        <div class="user-info">
-          <h1>Welcome back, <span id="user-display-name">User</span>! 👋</h1>
-          <div class="user-meta">
-            <div class="user-meta-item">
-              <span class="status-badge" id="user-status-badge">Trial</span>
-              <span id="user-status-text">5 days left</span>
-            </div>
-            <div class="user-meta-item">
-              <span>🌍</span>
-              <span id="user-region">Philippines</span>
-            </div>
-            <div class="user-meta-item">
-              <span>📧</span>
-              <span id="user-email">user@email.com</span>
-            </div>
+      <!-- User Status Bar -->
+      <div class="user-status-bar">
+        <div class="status-items">
+          <div class="status-item">
+            <span class="status-badge" id="user-status-badge">Trial</span>
+            <span id="user-status-text">5 days left</span>
+          </div>
+          <div class="status-item">
+            <span>🌍</span>
+            <span id="user-region">Philippines</span>
+          </div>
+          <div class="status-item">
+            <span>📧</span>
+            <span id="user-email">user@email.com</span>
           </div>
         </div>
-        <div class="user-actions">
-          <button class="btn btn-secondary btn-small" onclick="logout()">Logout</button>
-        </div>
-      </div>
-
-      <!-- Dashboard Cards -->
-      <div class="dashboard-grid">
-        <!-- Upload Prayers -->
-        <div class="dashboard-card" onclick="openSection('upload')">
-          <div class="card-icon">📿</div>
-          <div class="card-title">Upload Prayers</div>
-          <div class="card-description">Record your prayers offline and upload them to participate in community rosaries</div>
-          <div class="card-stat">
+        <div class="status-item">
+          <span class="card-stat">
             <span id="prayers-progress">0/7</span> prayers uploaded
-          </div>
-        </div>
-
-        <!-- Subscribe/Upgrade -->
-        <div class="dashboard-card" onclick="openSection('subscribe')">
-          <div class="card-icon">⭐</div>
-          <div class="card-title">Subscribe / Upgrade</div>
-          <div class="card-description">Get full access to all features including groups and gifting subscriptions</div>
-          <div class="card-action">
-            View Plans →
-          </div>
-        </div>
-
-        <!-- Gift Subscription -->
-        <div class="dashboard-card" onclick="openSection('gift')">
-          <div class="card-icon">🎁</div>
-          <div class="card-title">Gift Subscription</div>
-          <div class="card-description">Share the gift of prayer by giving a subscription to a friend or family member</div>
-          <div class="card-action">
-            Send a Gift →
-          </div>
-        </div>
-
-        <!-- Donate -->
-        <div class="dashboard-card" onclick="openSection('donate')">
-          <div class="card-icon">💝</div>
-          <div class="card-title">Support Rosary73</div>
-          <div class="card-description">Help us keep the app free for those who can't afford it and continue development</div>
-          <div class="card-action">
-            Make a Donation →
-          </div>
+          </span>
         </div>
       </div>
 
       <!-- Upload Section -->
-      <div class="section-panel" id="section-upload">
+      <div class="section-panel visible" id="section-upload">
         <div class="section-header">
           <h2>📿 Upload Your Prayer Recordings</h2>
           <button class="close-section" onclick="closeSection('upload')">×</button>
@@ -1261,18 +1314,22 @@
     function showLoginGate() {
       document.getElementById('login-gate').classList.remove('hidden');
       document.getElementById('dashboard').classList.remove('visible');
+      document.getElementById('members-nav').classList.remove('visible');
+      document.getElementById('header-user').classList.add('hidden');
     }
 
     function showDashboard() {
       document.getElementById('login-gate').classList.add('hidden');
       document.getElementById('dashboard').classList.add('visible');
+      document.getElementById('members-nav').classList.add('visible');
+      document.getElementById('header-user').classList.remove('hidden');
     }
 
     function updateUI() {
       if (!userData) return;
       
-      // User info
-      document.getElementById('user-display-name').textContent = userData.username || 'User';
+      // Header user info
+      document.getElementById('header-username').textContent = userData.username || 'User';
       document.getElementById('user-email').textContent = userData.email || '';
       document.getElementById('user-region').textContent = userData.country || 'Unknown';
       
@@ -1356,12 +1413,20 @@
       document.querySelectorAll('.section-panel').forEach(el => el.classList.remove('visible'));
       // Open requested section
       document.getElementById(`section-${section}`).classList.add('visible');
+      // Update nav active state
+      document.querySelectorAll('.members-nav-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.section === section);
+      });
       // Scroll to section
       document.getElementById(`section-${section}`).scrollIntoView({ behavior: 'smooth' });
     }
 
     function closeSection(section) {
       document.getElementById(`section-${section}`).classList.remove('visible');
+      // Remove active state from nav
+      document.querySelectorAll('.members-nav-item').forEach(el => {
+        if (el.dataset.section === section) el.classList.remove('active');
+      });
     }
 
     // Plan Selection
