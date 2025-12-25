@@ -95,6 +95,7 @@
       flex-wrap: wrap;
       gap: 5px;
       padding: 10px 20px;
+      align-items: center;
     }
     
     .members-nav-item {
@@ -108,6 +109,9 @@
       font-size: 0.95rem;
       font-weight: 500;
       transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      background: transparent;
     }
     
     .members-nav-item:hover {
@@ -124,6 +128,13 @@
       font-size: 1.1rem;
     }
     
+    .nav-divider {
+      width: 1px;
+      height: 30px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 10px;
+    }
+    
     @media (max-width: 768px) {
       .header-user span:not(.header-user-name) { display: none; }
       .members-nav-inner {
@@ -135,9 +146,15 @@
         padding: 14px 20px;
         border-radius: 0;
         border-bottom: 1px solid rgba(255,255,255,0.05);
+        width: 100%;
       }
       .members-nav-item:last-child {
         border-bottom: none;
+      }
+      .nav-divider {
+        width: 80%;
+        height: 1px;
+        margin: 5px auto;
       }
     }
     
@@ -752,21 +769,39 @@
   <!-- Members Navigation (visible after login) -->
   <nav class="members-nav" id="members-nav">
     <div class="members-nav-inner">
+      <!-- Rosary Actions -->
+      <a href="start-rosary.html" class="members-nav-item">
+        <span class="nav-icon">✝️</span>
+        <span>Start Rosary</span>
+      </a>
+      <a href="participate.html" class="members-nav-item">
+        <span class="nav-icon">🙏</span>
+        <span>Join Rosary</span>
+      </a>
+      <a href="finished.html" class="members-nav-item">
+        <span class="nav-icon">🎧</span>
+        <span>Finished Rosaries</span>
+      </a>
+      
+      <!-- Divider -->
+      <span class="nav-divider"></span>
+      
+      <!-- Account Actions -->
       <a href="upload-prayers.html" class="members-nav-item active">
         <span class="nav-icon">📿</span>
         <span>Upload Prayers</span>
       </a>
-      <a href="members.html#subscribe" class="members-nav-item">
+      <a href="members.html" class="members-nav-item">
         <span class="nav-icon">⭐</span>
-        <span>Subscribe/Upgrade</span>
+        <span>Subscribe</span>
       </a>
-      <a href="members.html#gift" class="members-nav-item">
+      <a href="members.html" class="members-nav-item">
         <span class="nav-icon">🎁</span>
-        <span>Gift Subscription</span>
+        <span>Gift</span>
       </a>
-      <a href="members.html#donate" class="members-nav-item">
+      <a href="members.html" class="members-nav-item">
         <span class="nav-icon">💝</span>
-        <span>Support Rosary73</span>
+        <span>Donate</span>
       </a>
     </div>
   </nav>
