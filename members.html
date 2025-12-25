@@ -95,6 +95,7 @@
       flex-wrap: wrap;
       gap: 5px;
       padding: 10px 20px;
+      align-items: center;
     }
     
     .members-nav-item {
@@ -127,6 +128,13 @@
       font-size: 1.1rem;
     }
     
+    .nav-divider {
+      width: 1px;
+      height: 30px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 10px;
+    }
+    
     /* Mobile Menu */
     .mobile-menu-btn {
       display: none;
@@ -148,9 +156,15 @@
         padding: 14px 20px;
         border-radius: 0;
         border-bottom: 1px solid rgba(255,255,255,0.05);
+        width: 100%;
       }
       .members-nav-item:last-child {
         border-bottom: none;
+      }
+      .nav-divider {
+        width: 80%;
+        height: 1px;
+        margin: 5px auto;
       }
     }
     
@@ -839,21 +853,39 @@
   <!-- Members Navigation (visible after login) -->
   <nav class="members-nav" id="members-nav">
     <div class="members-nav-inner">
-      <button class="members-nav-item active" onclick="openSection('upload')" data-section="upload">
+      <!-- Rosary Actions -->
+      <a href="start-rosary.html" class="members-nav-item">
+        <span class="nav-icon">✝️</span>
+        <span>Start Rosary</span>
+      </a>
+      <a href="participate.html" class="members-nav-item">
+        <span class="nav-icon">🙏</span>
+        <span>Join Rosary</span>
+      </a>
+      <a href="finished.html" class="members-nav-item">
+        <span class="nav-icon">🎧</span>
+        <span>Finished Rosaries</span>
+      </a>
+      
+      <!-- Divider -->
+      <span class="nav-divider"></span>
+      
+      <!-- Account Actions -->
+      <button class="members-nav-item" onclick="openSection('upload')" data-section="upload">
         <span class="nav-icon">📿</span>
         <span>Upload Prayers</span>
       </button>
       <button class="members-nav-item" onclick="openSection('subscribe')" data-section="subscribe">
         <span class="nav-icon">⭐</span>
-        <span>Subscribe/Upgrade</span>
+        <span>Subscribe</span>
       </button>
       <button class="members-nav-item" onclick="openSection('gift')" data-section="gift">
         <span class="nav-icon">🎁</span>
-        <span>Gift Subscription</span>
+        <span>Gift</span>
       </button>
       <button class="members-nav-item" onclick="openSection('donate')" data-section="donate">
         <span class="nav-icon">💝</span>
-        <span>Support Rosary73</span>
+        <span>Donate</span>
       </button>
     </div>
   </nav>
