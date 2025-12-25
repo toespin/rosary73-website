@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start a Rosary - Rosary73</title>
+  <meta name="description" content="Start a new community rosary and invite 73 people to pray together">
+  <link rel="icon" type="image/png" href="images/R73logo.png">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+      min-height: 100vh;
+      color: #ffffff;
+    }
+    
+    /* Header */
+    .header {
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      position: sticky;
+      top: 0;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    
+    .logo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    
+    .logo { width: 40px; height: 40px; }
+    .logo-text { color: #d4af37; font-size: 1.3rem; font-weight: 600; }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+    }
+    
+    .header-user-name {
+      color: #d4af37;
+      font-weight: 600;
+    }
+    
+    .logout-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    
+    /* Members Navigation */
+    .members-nav {
+      background: rgba(212, 175, 55, 0.1);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 0;
+      display: none;
+    }
+    
+    .members-nav.visible {
+      display: block;
+    }
+    
+    .members-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 10px 20px;
+    }
+    
+    .members-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .members-nav-item:hover {
+      background: rgba(212, 175, 55, 0.2);
+      color: #fff;
+    }
+    
+    .members-nav-item.active {
+      background: rgba(212, 175, 55, 0.3);
+      color: #d4af37;
+    }
+    
+    @media (max-width: 768px) {
+      .header-user span:not(.header-user-name) { display: none; }
+      .members-nav-inner {
+        flex-direction: column;
+        gap: 0;
+      }
+      .members-nav-item {
+        justify-content: center;
+        padding: 14px 20px;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+    
+    .main {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+    
+    .page-title {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+      color: #d4af37;
+    }
+    
+    .page-subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 30px;
+    }
+    
+    /* Login Gate */
+    .login-gate {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      max-width: 400px;
+      margin: 50px auto;
+    }
+    
+    .login-gate h2 {
+      color: #d4af37;
+      margin-bottom: 15px;
+    }
+    
+    .login-gate p {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+    }
+    
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .login-form input {
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 1rem;
+    }
+    
+    .login-form input::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+    
+    /* Main Content */
+    .content-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      color: #d4af37;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    /* Mystery Selection */
+    .mystery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .mystery-card {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .mystery-card:hover {
+      border-color: rgba(212, 175, 55, 0.5);
+      transform: translateY(-2px);
+    }
+    
+    .mystery-card.selected {
+      border-color: #d4af37;
+      background: rgba(212, 175, 55, 0.15);
+    }
+    
+    .mystery-card.recommended {
+      position: relative;
+    }
+    
+    .mystery-card.recommended::before {
+      content: 'TODAY';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      color: #1a1a2e;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+    
+    .mystery-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    
+    .mystery-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    
+    .mystery-day {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+    }
+    
+    /* Intention Input */
+    .intention-input {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 1rem;
+      resize: vertical;
+      min-height: 120px;
+      font-family: inherit;
+    }
+    
+    .intention-input:focus {
+      outline: none;
+      border-color: #d4af37;
+    }
+    
+    .intention-input::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+    
+    .char-count {
+      text-align: right;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 8px;
+    }
+    
+    /* Requirement Check */
+    .requirement-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .requirement-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+    }
+    
+    .requirement-icon {
+      font-size: 1.3rem;
+    }
+    
+    .requirement-text {
+      flex: 1;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .requirement-status {
+      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    
+    .status-ready {
+      background: rgba(74, 222, 128, 0.2);
+      color: #4ade80;
+    }
+    
+    .status-missing {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      text-decoration: none;
+      width: 100%;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      color: #1a1a2e;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+    }
+    
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    /* Alert */
+    .alert {
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .alert-error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+    
+    .alert-success {
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      color: #4ade80;
+    }
+    
+    .alert-warning {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      color: #fbbf24;
+    }
+    
+    /* Success Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    
+    .modal-content {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 400px;
+      animation: modalSlide 0.3s ease;
+    }
+    
+    @keyframes modalSlide {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .modal-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    
+    .modal-title {
+      color: #d4af37;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .modal-text {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    /* Spinner */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #1a1a2e;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 50px;
+    }
+    
+    .footer p {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.85rem;
+    }
+    
+    .footer a {
+      color: #d4af37;
+      text-decoration: none;
+    }
+    
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <a href="index.html" class="logo-link">
+      <img src="images/R73logo.png" alt="Rosary73" class="logo">
+      <span class="logo-text">Rosary73</span>
+    </a>
+    
+    <div class="header-right">
+      <div class="header-user hidden" id="header-user">
+        <span>Welcome,</span>
+        <span class="header-user-name" id="header-username">User</span>
+        <button class="logout-btn" id="logout-btn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Members Navigation -->
+  <nav class="members-nav" id="members-nav">
+    <div class="members-nav-inner">
+      <a href="start-rosary.html" class="members-nav-item active">
+        <span>✝️</span>
+        <span>Start Rosary</span>
+      </a>
+      <a href="participate.html" class="members-nav-item">
+        <span>🙏</span>
+        <span>Join Rosary</span>
+      </a>
+      <a href="finished.html" class="members-nav-item">
+        <span>🎧</span>
+        <span>Finished Rosaries</span>
+      </a>
+      <a href="members.html" class="members-nav-item">
+        <span>👤</span>
+        <span>My Account</span>
+      </a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <h1 class="page-title">✝️ Start a New Rosary</h1>
+    <p class="page-subtitle">Begin a rosary and invite 72 others to pray with you</p>
+
+    <!-- Login Gate -->
+    <div id="login-gate" class="login-gate">
+      <h2>🔐 Sign In Required</h2>
+      <p>Please sign in to start a rosary</p>
+      
+      <form class="login-form" id="login-form">
+        <input type="text" id="login-username" placeholder="Username" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+      </form>
+      
+      <div id="login-error" class="alert alert-error hidden" style="margin-top: 15px;">
+        <span>❌</span>
+        <span id="login-error-text"></span>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="hidden">
+      <!-- Requirements Check -->
+      <div class="requirement-box" id="requirements-box">
+        <div class="requirement-item">
+          <span class="requirement-icon">📿</span>
+          <span class="requirement-text">The Creed recording</span>
+          <span class="requirement-status" id="creed-status">Checking...</span>
+        </div>
+        <div class="requirement-item">
+          <span class="requirement-icon">⭐</span>
+          <span class="requirement-text">Active subscription or trial</span>
+          <span class="requirement-status" id="subscription-status">Checking...</span>
+        </div>
+      </div>
+
+      <!-- Blocked Message -->
+      <div id="blocked-message" class="alert alert-warning hidden">
+        <span>⚠️</span>
+        <div>
+          <strong>Cannot start rosary</strong><br>
+          <span id="blocked-reason"></span>
+        </div>
+      </div>
+
+      <!-- Rosary Form -->
+      <div id="rosary-form">
+        <!-- Mystery Selection -->
+        <div class="content-card">
+          <h3 class="section-title">💿 Select Mystery</h3>
+          
+          <div class="mystery-grid" id="mystery-grid">
+            <div class="mystery-card" data-mystery="joyful">
+              <div class="mystery-icon">👶</div>
+              <div class="mystery-name">Joyful</div>
+              <div class="mystery-day">Mon & Sat</div>
+            </div>
+            <div class="mystery-card" data-mystery="sorrowful">
+              <div class="mystery-icon">✝️</div>
+              <div class="mystery-name">Sorrowful</div>
+              <div class="mystery-day">Tue & Fri</div>
+            </div>
+            <div class="mystery-card" data-mystery="glorious">
+              <div class="mystery-icon">👑</div>
+              <div class="mystery-name">Glorious</div>
+              <div class="mystery-day">Wed & Sun</div>
+            </div>
+            <div class="mystery-card" data-mystery="luminous">
+              <div class="mystery-icon">✨</div>
+              <div class="mystery-name">Luminous</div>
+              <div class="mystery-day">Thursday</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Intention -->
+        <div class="content-card">
+          <h3 class="section-title">🙏 Prayer Intention</h3>
+          
+          <textarea 
+            class="intention-input" 
+            id="intention-input" 
+            placeholder="Enter your prayer intention...&#10;&#10;Example: For the health of my family and all those who are suffering."
+            maxlength="500"
+          ></textarea>
+          <div class="char-count"><span id="char-count">0</span>/500</div>
+        </div>
+
+        <!-- Start Button -->
+        <button class="btn btn-primary" id="start-btn" disabled>
+          📿 Start This Rosary
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay hidden" id="success-modal">
+    <div class="modal-content">
+      <div class="modal-icon">✅</div>
+      <h2 class="modal-title">Rosary Started!</h2>
+      <p class="modal-text">
+        Your rosary has been created. You are participant #1.<br>
+        <strong>72 more people</strong> can now join and pray with you.
+      </p>
+      <div class="modal-buttons">
+        <a href="participate.html" class="btn btn-primary">View Active Rosaries</a>
+        <a href="start-rosary.html" class="btn btn-secondary" onclick="location.reload()">Start Another</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p><a href="index.html">Home</a> | <a href="members.html">My Account</a> | <a href="contact.html">Contact</a></p>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBBzm-LuWZwyOCMqYzxodpqLNn4Eg3wNDk",
+      authDomain: "rosary--interact-app.firebaseapp.com",
+      projectId: "rosary--interact-app",
+      storageBucket: "rosary--interact-app.firebasestorage.app",
+      messagingSenderId: "174985016192",
+      appId: "1:174985016192:web:134b684d6f0ba731510765"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // State
+    let currentUser = null;
+    let userData = null;
+    let selectedMystery = null;
+    let canStart = false;
+
+    // Mystery by day (same as app)
+    function getMysteryForDay() {
+      const day = new Date().getDay();
+      switch (day) {
+        case 0: return 'glorious';  // Sunday
+        case 1: return 'joyful';    // Monday
+        case 2: return 'sorrowful'; // Tuesday
+        case 3: return 'glorious';  // Wednesday
+        case 4: return 'luminous';  // Thursday
+        case 5: return 'sorrowful'; // Friday
+        case 6: return 'joyful';    // Saturday
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeAuth();
+      setupLoginForm();
+      setupMysterySelection();
+      setupIntentionInput();
+      setupStartButton();
+    });
+
+    function initializeAuth() {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          currentUser = user;
+          await loadUserData();
+          showMainContent();
+          checkRequirements();
+          highlightTodaysMystery();
+        } else {
+          currentUser = null;
+          userData = null;
+          showLoginGate();
+        }
+      });
+    }
+
+    async function loadUserData() {
+      try {
+        const userDoc = await db.collection('users').doc(currentUser.uid).get();
+        if (userDoc.exists) {
+          userData = userDoc.data();
+          document.getElementById('header-username').textContent = userData.username || 'User';
+        }
+      } catch (error) {
+        console.error('Error loading user:', error);
+      }
+    }
+
+    function setupLoginForm() {
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('login-username').value.trim();
+        const password = document.getElementById('login-password').value;
+        const btn = e.target.querySelector('button');
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Signing in...';
+        
+        try {
+          const response = await fetch('https://us-central1-rosary--interact-app.cloudfunctions.net/verifyWebUser', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username })
+          });
+          const result = await response.json();
+          if (!result.valid) throw new Error(result.error || 'Username not found');
+          
+          const userDoc = await db.collection('users').doc(result.userId).get();
+          if (!userDoc.exists) throw new Error('User not found');
+          
+          await auth.signInWithEmailAndPassword(userDoc.data().email, password);
+        } catch (error) {
+          document.getElementById('login-error').classList.remove('hidden');
+          document.getElementById('login-error-text').textContent = error.message || 'Login failed';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Sign In';
+        }
+      });
+      
+      document.getElementById('logout-btn').addEventListener('click', () => auth.signOut());
+    }
+
+    function showLoginGate() {
+      document.getElementById('login-gate').classList.remove('hidden');
+      document.getElementById('main-content').classList.add('hidden');
+      document.getElementById('members-nav').classList.remove('visible');
+      document.getElementById('header-user').classList.add('hidden');
+    }
+
+    function showMainContent() {
+      document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('main-content').classList.remove('hidden');
+      document.getElementById('members-nav').classList.add('visible');
+      document.getElementById('header-user').classList.remove('hidden');
+    }
+
+    function checkRequirements() {
+      const creedStatus = document.getElementById('creed-status');
+      const subStatus = document.getElementById('subscription-status');
+      const blockedMsg = document.getElementById('blocked-message');
+      const blockedReason = document.getElementById('blocked-reason');
+      const rosaryForm = document.getElementById('rosary-form');
+      
+      // Check Creed recording
+      const hasCreed = userData?.recordings?.creed;
+      if (hasCreed) {
+        creedStatus.textContent = '✓ Ready';
+        creedStatus.className = 'requirement-status status-ready';
+      } else {
+        creedStatus.textContent = '✗ Missing';
+        creedStatus.className = 'requirement-status status-missing';
+      }
+      
+      // Check subscription
+      const status = userData?.subscriptionStatus;
+      let hasActiveSubscription = false;
+      
+      if (status === 'active') {
+        const endDate = userData.subscriptionEndDate?.toDate();
+        hasActiveSubscription = endDate && endDate > new Date();
+      } else if (status === 'trial') {
+        const endDate = userData.trialEndDate?.toDate();
+        hasActiveSubscription = endDate && endDate > new Date();
+      }
+      
+      if (hasActiveSubscription) {
+        subStatus.textContent = '✓ Active';
+        subStatus.className = 'requirement-status status-ready';
+      } else {
+        subStatus.textContent = '✗ Expired';
+        subStatus.className = 'requirement-status status-missing';
+      }
+      
+      // Determine if can start
+      canStart = hasCreed && hasActiveSubscription;
+      
+      if (!canStart) {
+        blockedMsg.classList.remove('hidden');
+        rosaryForm.style.opacity = '0.5';
+        rosaryForm.style.pointerEvents = 'none';
+        
+        if (!hasCreed && !hasActiveSubscription) {
+          blockedReason.innerHTML = 'Please <a href="upload-prayers.html" style="color:#d4af37">record The Creed</a> and <a href="members.html" style="color:#d4af37">subscribe</a> first.';
+        } else if (!hasCreed) {
+          blockedReason.innerHTML = 'Please <a href="upload-prayers.html" style="color:#d4af37">record The Creed prayer</a> first.';
+        } else {
+          blockedReason.innerHTML = 'Please <a href="members.html" style="color:#d4af37">subscribe or renew</a> to start rosaries.';
+        }
+      } else {
+        blockedMsg.classList.add('hidden');
+        rosaryForm.style.opacity = '1';
+        rosaryForm.style.pointerEvents = 'auto';
+      }
+      
+      updateStartButton();
+    }
+
+    function highlightTodaysMystery() {
+      const todayMystery = getMysteryForDay();
+      const cards = document.querySelectorAll('.mystery-card');
+      
+      cards.forEach(card => {
+        if (card.dataset.mystery === todayMystery) {
+          card.classList.add('recommended', 'selected');
+          selectedMystery = todayMystery;
+        }
+      });
+      
+      updateStartButton();
+    }
+
+    function setupMysterySelection() {
+      document.getElementById('mystery-grid').addEventListener('click', (e) => {
+        const card = e.target.closest('.mystery-card');
+        if (!card) return;
+        
+        document.querySelectorAll('.mystery-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedMystery = card.dataset.mystery;
+        updateStartButton();
+      });
+    }
+
+    function setupIntentionInput() {
+      const input = document.getElementById('intention-input');
+      const count = document.getElementById('char-count');
+      
+      input.addEventListener('input', () => {
+        count.textContent = input.value.length;
+        updateStartButton();
+      });
+    }
+
+    function updateStartButton() {
+      const btn = document.getElementById('start-btn');
+      const intention = document.getElementById('intention-input').value.trim();
+      
+      btn.disabled = !canStart || !selectedMystery || intention.length < 10;
+    }
+
+    function setupStartButton() {
+      document.getElementById('start-btn').addEventListener('click', startRosary);
+    }
+
+    async function startRosary() {
+      const btn = document.getElementById('start-btn');
+      const intention = document.getElementById('intention-input').value.trim();
+      
+      if (!canStart || !selectedMystery || intention.length < 10) return;
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Creating Rosary...';
+      
+      try {
+        // Generate rosary ID (same format as app)
+        const rosaryId = `rosary_${Date.now()}`;
+        
+        // Create rosary document (EXACT same structure as app)
+        const rosaryData = {
+          rosaryId: rosaryId,
+          
+          // Creator info
+          creatorId: currentUser.uid,
+          creatorUsername: userData.username || 'Anonymous',
+          creatorCreedUrl: userData.recordings.creed,
+          
+          // Content
+          intention: intention,
+          mysteryType: selectedMystery,
+          
+          // Status
+          status: 'active',
+          participantCount: 1,
+          
+          // Participants (empty - creator is position 1 via creatorCreedUrl)
+          participants: {},
+          
+          // Audio processing
+          audioProcessing: false,
+          stitchedAudioUrl: null,
+          
+          // Group (not a group rosary)
+          isGroupRosary: false,
+          groupId: null,
+          groupName: null,
+          
+          // Timestamps
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          completedAt: null
+        };
+        
+        // Save to Firestore
+        await db.collection('rosaries').doc(rosaryId).set(rosaryData);
+        
+        // Update user's rosary count (if field exists)
+        await db.collection('users').doc(currentUser.uid).update({
+          rosariesStarted: firebase.firestore.FieldValue.increment(1)
+        }).catch(() => {
+          // Field might not exist, that's OK
+        });
+        
+        // Show success modal
+        document.getElementById('success-modal').classList.remove('hidden');
+        
+      } catch (error) {
+        console.error('Error creating rosary:', error);
+        alert('Failed to create rosary: ' + error.message);
+        btn.disabled = false;
+        btn.innerHTML = '📿 Start This Rosary';
+      }
+    }
+  </script>
+</body>
+</html>
