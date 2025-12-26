@@ -401,7 +401,7 @@
   </footer>
 
   <script>
-    // CORRECT Cloud Functions URL
+    // Cloud Functions URL - using WEB endpoint for website payments
     var FUNCTIONS_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net';
     var currentUser = null;
     var selectedPlan = 'sixMonth';
@@ -681,13 +681,14 @@
           payload.amount = selectedDonation;
           payload.paymentMethod = selectedPaymentDonate;
         }
-        var response = await fetch(FUNCTIONS_URL + '/createXenditPayment', {
+        // Use the WEB endpoint for website payments (handles CORS, no Firebase auth needed)
+        var response = await fetch(FUNCTIONS_URL + '/createXenditPaymentWeb', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
         var result = await response.json();
-        if (!response.ok) throw new Error(result.error);
+        if (!response.ok) throw new Error(result.error || 'Payment failed. Please try again.');
         if (result.paymentUrl) { window.location.href = result.paymentUrl; }
         else if (result.deepLinkUrl) { window.location.href = result.deepLinkUrl; }
         else { throw new Error('No payment URL received'); }
