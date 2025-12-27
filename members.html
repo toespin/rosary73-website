@@ -1229,50 +1229,19 @@
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
-      initializeAuth();
+      // Check for stored session
+      const storedUser = sessionStorage.getItem('rosary73UserData');
+      if (storedUser) {
+        userData = JSON.parse(storedUser);
+        userPricing = userData.regionCode === 'PH' ? PRICING.PH : PRICING.OTHER;
+        showDashboard();
+        updateUI();
+        updatePaymentVisibility();
+      } else {
+        showLoginGate();
+      }
       setupLoginForm();
     });
-
-    // Auth
-    function initializeAuth() {
-      auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          currentUser = user;
-          await loadUserData();
-          showDashboard();
-        } else {
-          currentUser = null;
-          userData = null;
-          showLoginGate();
-        }
-      });
-    }
-
-    async function loadUserData() {
-      try {
-        const userDoc = await db.collection('users').doc(currentUser.uid).get();
-        if (userDoc.exists) {
-          userData = userDoc.data();
-          
-          // Set pricing based on region
-          const regionCode = userData.regionCode || (userData.country === 'Philippines' ? 'PH' : 'OTHER');
-          userPricing = regionCode === 'PH' ? PRICING.PH : PRICING.OTHER;
-          
-          updateUI();
-          updatePaymentVisibility();
-        } else {
-          console.warn('User document not found in Firestore');
-          // Still show dashboard but with default/empty values
-          userData = { username: currentUser.email?.split('@')[0] || 'User' };
-          updateUI();
-        }
-      } catch (error) {
-        console.error('Error loading user data:', error);
-        // Don't show error toast, just proceed with defaults
-        userData = { username: currentUser.email?.split('@')[0] || 'User' };
-        updateUI();
-      }
-    }
 
     function setupLoginForm() {
       document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -1286,7 +1255,7 @@
         btn.innerHTML = '<span class="spinner"></span> Signing in...';
         
         try {
-          // Get user info from username
+          // Get full user data from verifyWebUser (now returns complete profile)
           const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1299,22 +1268,27 @@
             throw new Error(result.error || 'Username not found');
           }
           
-          // Get email from Firestore
-          const userDoc = await db.collection('users').doc(result.userId).get();
-          if (!userDoc.exists) throw new Error('User not found');
+          // Verify password by signing in with Firebase Auth
+          await auth.signInWithEmailAndPassword(result.email, password);
           
-          const email = userDoc.data().email;
+          // Store the full user data from verifyWebUser (includes recordings, stats, etc.)
+          userData = result;
+          sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
           
-          // Sign in
-          await auth.signInWithEmailAndPassword(email, password);
+          // Set pricing based on region
+          userPricing = result.regionCode === 'PH' ? PRICING.PH : PRICING.OTHER;
           
-          showToast('Welcome back!', 'success');
+          showDashboard();
+          updateUI();
+          updatePaymentVisibility();
+          showToast('Welcome back, ' + result.username + '!', 'success');
           
         } catch (error) {
           console.error('Login error:', error);
           document.getElementById('login-error').classList.remove('hidden');
           document.getElementById('login-error-text').textContent = 
             error.code === 'auth/wrong-password' ? 'Incorrect password' :
+            error.code === 'auth/invalid-credential' ? 'Incorrect password' :
             error.code === 'auth/too-many-requests' ? 'Too many attempts. Try again later.' :
             error.message || 'Login failed';
         } finally {
@@ -1326,6 +1300,9 @@
 
     function logout() {
       auth.signOut();
+      userData = null;
+      sessionStorage.removeItem('rosary73UserData');
+      showLoginGate();
       showToast('Logged out', 'success');
     }
 
@@ -1345,7 +1322,7 @@
     }
 
     function updatePaymentVisibility() {
-      const regionCode = userData?.regionCode || (userData?.country === 'Philippines' ? 'PH' : 'OTHER');
+      const regionCode = userData?.regionCode || 'OTHER';
       const isPH = regionCode === 'PH';
       
       // Show/hide Philippine-only payment methods
@@ -1360,7 +1337,7 @@
     function updateUI() {
       if (!userData) return;
       
-      // Header user info
+      // Header user info - use username from verifyWebUser response
       document.getElementById('header-username').textContent = userData.username || 'User';
       document.getElementById('user-email').textContent = userData.email || '';
       document.getElementById('user-region').textContent = userData.country || 'Unknown';
@@ -1373,16 +1350,16 @@
       if (status === 'trial') {
         statusBadge.textContent = 'Trial';
         statusBadge.className = 'status-badge status-trial';
-        const endDate = userData.trialEndDate?.toDate();
-        if (endDate) {
+        if (userData.trialEndDate) {
+          const endDate = new Date(userData.trialEndDate);
           const daysLeft = Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24));
           statusText.textContent = daysLeft > 0 ? `${daysLeft} days left` : 'Expired';
         }
       } else if (status === 'active') {
         statusBadge.textContent = 'Active';
         statusBadge.className = 'status-badge status-active';
-        const endDate = userData.subscriptionEndDate?.toDate();
-        if (endDate) {
+        if (userData.subscriptionEndDate) {
+          const endDate = new Date(userData.subscriptionEndDate);
           const daysLeft = Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24));
           statusText.textContent = `${daysLeft} days remaining`;
         }
@@ -1392,18 +1369,18 @@
         statusText.textContent = 'Please subscribe';
       }
       
-      // Prayers progress
-      const recordings = userData.recordings || {};
-      const prayerCount = Object.keys(recordings).filter(k => recordings[k]).length;
+      // Prayers progress - use prayerCount from verifyWebUser
+      const prayerCount = userData.prayerCount || 0;
       document.getElementById('prayers-progress').textContent = `${prayerCount}/7`;
       document.getElementById('stat-prayers').textContent = prayerCount;
       
-      // Stats
+      // Stats - use values from verifyWebUser
       document.getElementById('stat-rosaries').textContent = userData.rosariesJoined || 0;
       document.getElementById('stat-started').textContent = userData.rosariesStarted || 0;
       
-      const createdAt = userData.createdAt?.toDate();
-      if (createdAt) {
+      // Member since
+      if (userData.memberSince) {
+        const createdAt = new Date(userData.memberSince);
         document.getElementById('stat-member-since').textContent = 
           createdAt.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
       }
@@ -1543,7 +1520,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            userId: currentUser.uid,
+            userId: userData.userId,
             type: 'subscription',
             plan: selectedPlan,
             amount: amount,
@@ -1600,7 +1577,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            userId: currentUser.uid,
+            userId: userData.userId,
             type: 'gift',
             plan: selectedGiftPlan,
             amount: amount,
@@ -1649,7 +1626,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            userId: currentUser.uid,
+            userId: userData.userId,
             type: 'donation',
             amount: selectedDonation,
             currency: currency,
