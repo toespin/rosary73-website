@@ -592,7 +592,7 @@
     
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 20px;
     }
     
@@ -1145,7 +1145,7 @@
 
       <!-- Quick Stats -->
       <div class="quick-stats">
-        <h3>📊 Your Statistics</h3>
+        <h3>📊 YOUR STATISTICS</h3>
         <div class="stats-grid">
           <div class="stat-item">
             <div class="stat-value" id="stat-prayers">0</div>
@@ -1158,6 +1158,10 @@
           <div class="stat-item">
             <div class="stat-value" id="stat-started">0</div>
             <div class="stat-label">Rosaries Started</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="stat-groups">0</div>
+            <div class="stat-label">Groups Joined</div>
           </div>
           <div class="stat-item">
             <div class="stat-value" id="stat-member-since">-</div>
@@ -1377,6 +1381,7 @@
       // Stats - use values from verifyWebUser
       document.getElementById('stat-rosaries').textContent = userData.rosariesJoined || 0;
       document.getElementById('stat-started').textContent = userData.rosariesStarted || 0;
+      document.getElementById('stat-groups').textContent = userData.groupsJoined || 0;
       
       // Member since
       if (userData.memberSince) {
