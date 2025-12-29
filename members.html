@@ -691,6 +691,12 @@
       color: #fbbf24;
     }
     
+    .alert-info {
+      background: rgba(96, 165, 250, 0.1);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      color: #60a5fa;
+    }
+    
     .alert-icon { font-size: 1.2rem; }
     
     /* Spinner */
@@ -1254,12 +1260,17 @@
         const username = document.getElementById('login-username').value.trim();
         const password = document.getElementById('login-password').value;
         const btn = document.getElementById('login-btn');
+        const errorDiv = document.getElementById('login-error');
+        const errorText = document.getElementById('login-error-text');
+        
+        // Hide previous errors
+        errorDiv.classList.add('hidden');
         
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner"></span> Signing in...';
         
         try {
-          // Get full user data from verifyWebUser (now returns complete profile)
+          // Step 1: Get full user data from verifyWebUser
           const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1268,14 +1279,33 @@
           
           const result = await response.json();
           
+          // Check if user was found
           if (!result.valid) {
             throw new Error(result.error || 'Username not found');
           }
           
-          // Verify password by signing in with Firebase Auth
+          // Step 2: Check if this is an app-only account (no valid email)
+          if (result.appOnlyAccount) {
+            // Show friendly message for app-only users
+            errorDiv.classList.remove('hidden');
+            errorDiv.className = 'alert alert-info';
+            errorText.innerHTML = `
+              <strong>📱 App Account Detected</strong><br><br>
+              Your account "${result.username}" was created in the Rosary73 app without an email address.<br><br>
+              <strong>To use this website, please:</strong><br>
+              • Use the Rosary73 mobile app to login, OR<br>
+              • Contact support to add an email to your account<br><br>
+              <a href="contact.html" style="color: #d4af37;">Contact Support →</a>
+            `;
+            btn.disabled = false;
+            btn.textContent = 'Sign In';
+            return;
+          }
+          
+          // Step 3: Verify password by signing in with Firebase Auth
           await auth.signInWithEmailAndPassword(result.email, password);
           
-          // Store the full user data from verifyWebUser (includes recordings, stats, etc.)
+          // Step 4: Store the full user data from verifyWebUser (includes recordings, stats, etc.)
           userData = result;
           sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
           
@@ -1289,12 +1319,22 @@
           
         } catch (error) {
           console.error('Login error:', error);
-          document.getElementById('login-error').classList.remove('hidden');
-          document.getElementById('login-error-text').textContent = 
-            error.code === 'auth/wrong-password' ? 'Incorrect password' :
-            error.code === 'auth/invalid-credential' ? 'Incorrect password' :
-            error.code === 'auth/too-many-requests' ? 'Too many attempts. Try again later.' :
-            error.message || 'Login failed';
+          errorDiv.classList.remove('hidden');
+          errorDiv.className = 'alert alert-error';
+          
+          // Friendly error messages
+          let errorMessage = error.message || 'Login failed';
+          if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+            errorMessage = 'Incorrect password. Please try again.';
+          } else if (error.code === 'auth/too-many-requests') {
+            errorMessage = 'Too many failed attempts. Please try again later.';
+          } else if (error.code === 'auth/user-not-found') {
+            errorMessage = 'Account not found. Please check your username.';
+          } else if (error.code === 'auth/invalid-email' || error.code === 'auth/missing-email') {
+            errorMessage = 'This account cannot be accessed via website. Please use the Rosary73 app.';
+          }
+          
+          errorText.textContent = errorMessage;
         } finally {
           btn.disabled = false;
           btn.textContent = 'Sign In';
@@ -1316,6 +1356,8 @@
       document.getElementById('dashboard').classList.remove('visible');
       document.getElementById('members-nav').classList.remove('visible');
       document.getElementById('header-user').classList.add('hidden');
+      // Reset error state
+      document.getElementById('login-error').classList.add('hidden');
     }
 
     function showDashboard() {
