@@ -275,6 +275,16 @@
       background: rgba(255,255,255,0.1);
     }
     
+    .audio-error {
+      padding: 15px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 12px;
+      text-align: center;
+      color: #f87171;
+      font-size: 0.9rem;
+    }
+    
     /* Loading */
     .loading {
       text-align: center;
@@ -467,6 +477,9 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // Cloud Functions URL
+    const FUNCTIONS_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net';
+
     let currentUser = null;
     let userData = null;
     let allRosaries = [];
@@ -497,10 +510,36 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      initializeAuth();
+      // Check for stored session first
+      const storedUser = sessionStorage.getItem('rosary73UserData');
+      if (storedUser) {
+        userData = JSON.parse(storedUser);
+        initializeWithUserData();
+      } else {
+        initializeAuth();
+      }
       setupLoginForm();
       setupFilters();
     });
+
+    function initializeWithUserData() {
+      // User already logged in via members.html
+      document.getElementById('header-username').textContent = userData.username || 'User';
+      showMainContent();
+      loadRosaries();
+      
+      // Also listen for auth state changes
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          currentUser = user;
+        } else {
+          // Logged out
+          sessionStorage.removeItem('rosary73UserData');
+          userData = null;
+          showLoginGate();
+        }
+      });
+    }
 
     function initializeAuth() {
       auth.onAuthStateChanged(async (user) => {
@@ -519,9 +558,19 @@
 
     async function loadUserData() {
       try {
+        // Try to get from sessionStorage for complete data
+        const storedUser = sessionStorage.getItem('rosary73UserData');
+        if (storedUser) {
+          userData = JSON.parse(storedUser);
+          document.getElementById('header-username').textContent = userData.username || 'User';
+          return;
+        }
+
+        // Fallback: Load from Firestore
         const userDoc = await db.collection('users').doc(currentUser.uid).get();
         if (userDoc.exists) {
           userData = userDoc.data();
+          userData.userId = currentUser.uid;
           document.getElementById('header-username').textContent = userData.username || 'User';
         }
       } catch (error) {
@@ -540,7 +589,8 @@
         btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;"></span>';
         
         try {
-          const response = await fetch('https://us-central1-rosary--interact-app.cloudfunctions.net/verifyWebUser', {
+          // Use verifyWebUser to get complete user data
+          const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username })
@@ -548,20 +598,35 @@
           const result = await response.json();
           if (!result.valid) throw new Error(result.error || 'Username not found');
           
-          const userDoc = await db.collection('users').doc(result.userId).get();
-          if (!userDoc.exists) throw new Error('User not found');
+          // Sign in with Firebase Auth
+          const emailToUse = result.email || `${username.toLowerCase()}@rosary73.app`;
+          await auth.signInWithEmailAndPassword(emailToUse, password);
           
-          await auth.signInWithEmailAndPassword(userDoc.data().email, password);
+          // Store user data in session
+          userData = result;
+          sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
+          
+          document.getElementById('header-username').textContent = result.username || 'User';
+          showMainContent();
+          loadRosaries();
+          
         } catch (error) {
           document.getElementById('login-error').classList.remove('hidden');
-          document.getElementById('login-error-text').textContent = error.message || 'Login failed';
+          let errorMsg = error.message || 'Login failed';
+          if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+            errorMsg = 'Incorrect password. Please try again.';
+          }
+          document.getElementById('login-error-text').textContent = errorMsg;
         } finally {
           btn.disabled = false;
           btn.textContent = 'Sign In';
         }
       });
       
-      document.getElementById('logout-btn').addEventListener('click', () => auth.signOut());
+      document.getElementById('logout-btn').addEventListener('click', () => {
+        auth.signOut();
+        sessionStorage.removeItem('rosary73UserData');
+      });
     }
 
     function showLoginGate() {
@@ -592,11 +657,13 @@
         
         allRosaries = [];
         
+        const userId = currentUser?.uid || userData?.userId;
+        
         snapshot.forEach(doc => {
           const data = doc.data();
           // Check if user participated
-          const isCreator = data.creatorId === currentUser.uid;
-          const isParticipant = Object.values(data.participants || {}).some(p => p.userId === currentUser.uid);
+          const isCreator = data.creatorId === userId;
+          const isParticipant = Object.values(data.participants || {}).some(p => p.userId === userId);
           
           allRosaries.push({ 
             id: doc.id, 
@@ -634,9 +701,10 @@
       }
       
       emptyState.classList.add('hidden');
-      list.innerHTML = filtered.map(rosary => {
+      list.innerHTML = filtered.map((rosary, index) => {
         const icon = mysteryIcons[rosary.mysteryType] || '📿';
         const hasAudio = !!rosary.stitchedAudioUrl;
+        const audioId = `audio-${index}`;
         
         return `
           <div class="rosary-card">
@@ -645,7 +713,7 @@
               <span class="rosary-date">📅 ${formatDate(rosary.completedAt || rosary.createdAt)}</span>
             </div>
             
-            <div class="rosary-intention">“${rosary.intention || 'No intention specified'}”</div>
+            <div class="rosary-intention">"${rosary.intention || 'No intention specified'}"</div>
             
             <div class="rosary-meta">
               <div class="rosary-creator">Started by <strong>${rosary.creatorUsername || 'Anonymous'}</strong></div>
@@ -654,8 +722,14 @@
             </div>
             
             ${hasAudio ? `
-              <div class="audio-player-wrapper">
-                <audio controls class="audio-player" preload="metadata">
+              <div class="audio-player-wrapper" id="player-wrapper-${index}">
+                <audio 
+                  id="${audioId}" 
+                  controls 
+                  class="audio-player" 
+                  preload="metadata"
+                  crossorigin="anonymous"
+                >
                   <source src="${rosary.stitchedAudioUrl}" type="audio/mpeg">
                   Your browser does not support the audio element.
                 </audio>
@@ -668,6 +742,25 @@
           </div>
         `;
       }).join('');
+      
+      // Add error handling for audio elements
+      document.querySelectorAll('.audio-player').forEach((audio, index) => {
+        audio.addEventListener('error', (e) => {
+          console.error('Audio error:', e);
+          const wrapper = document.getElementById(`player-wrapper-${index}`);
+          if (wrapper) {
+            wrapper.innerHTML = `
+              <div class="audio-error">
+                ⚠️ Audio temporarily unavailable. The URL may have expired.<br>
+                <small>Try refreshing the page or accessing via the mobile app.</small>
+              </div>
+            `;
+          }
+        });
+        
+        // Try to load the audio
+        audio.load();
+      });
     }
 
     function setupFilters() {
