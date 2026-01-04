@@ -275,6 +275,17 @@
       background: rgba(255,255,255,0.1);
     }
     
+    .audio-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+    
     .audio-error {
       padding: 15px;
       background: rgba(239, 68, 68, 0.1);
@@ -300,6 +311,13 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin: 0 auto 20px;
+    }
+    
+    .spinner-small {
+      width: 20px;
+      height: 20px;
+      border-width: 2px;
+      margin: 0;
     }
     
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -354,6 +372,11 @@
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+    }
+    
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 0.85rem;
     }
     
     .footer {
@@ -484,6 +507,9 @@
     let userData = null;
     let allRosaries = [];
     let currentFilter = 'participated';
+    
+    // Track which rosaries we've tried to refresh
+    const refreshedRosaries = new Set();
 
     const mysteryIcons = {
       joyful: '👶',
@@ -586,7 +612,7 @@
         const btn = e.target.querySelector('button');
         
         btn.disabled = true;
-        btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;"></span>';
+        btn.innerHTML = '<span class="spinner spinner-small"></span>';
         
         try {
           // Use verifyWebUser to get complete user data
@@ -701,13 +727,12 @@
       }
       
       emptyState.classList.add('hidden');
-      list.innerHTML = filtered.map((rosary, index) => {
+      list.innerHTML = filtered.map((rosary) => {
         const icon = mysteryIcons[rosary.mysteryType] || '📿';
         const hasAudio = !!rosary.stitchedAudioUrl;
-        const audioId = `audio-${index}`;
         
         return `
-          <div class="rosary-card">
+          <div class="rosary-card" data-rosary-id="${rosary.id}">
             <div class="rosary-header">
               <span class="rosary-mystery">${icon} ${rosary.mysteryType?.charAt(0).toUpperCase() + rosary.mysteryType?.slice(1)} Mysteries</span>
               <span class="rosary-date">📅 ${formatDate(rosary.completedAt || rosary.createdAt)}</span>
@@ -722,13 +747,14 @@
             </div>
             
             ${hasAudio ? `
-              <div class="audio-player-wrapper" id="player-wrapper-${index}">
+              <div class="audio-player-wrapper" id="player-wrapper-${rosary.id}">
                 <audio 
-                  id="${audioId}" 
+                  id="audio-${rosary.id}" 
                   controls 
                   class="audio-player" 
                   preload="metadata"
-                  crossorigin="anonymous"
+                  data-rosary-id="${rosary.id}"
+                  data-original-url="${rosary.stitchedAudioUrl}"
                 >
                   <source src="${rosary.stitchedAudioUrl}" type="audio/mpeg">
                   Your browser does not support the audio element.
@@ -743,24 +769,100 @@
         `;
       }).join('');
       
-      // Add error handling for audio elements
-      document.querySelectorAll('.audio-player').forEach((audio, index) => {
-        audio.addEventListener('error', (e) => {
-          console.error('Audio error:', e);
-          const wrapper = document.getElementById(`player-wrapper-${index}`);
-          if (wrapper) {
-            wrapper.innerHTML = `
-              <div class="audio-error">
-                ⚠️ Audio temporarily unavailable. The URL may have expired.<br>
-                <small>Try refreshing the page or accessing via the mobile app.</small>
-              </div>
-            `;
+      // Add error handling for audio elements with auto-refresh
+      document.querySelectorAll('.audio-player').forEach((audio) => {
+        const rosaryId = audio.dataset.rosaryId;
+        
+        audio.addEventListener('error', async (e) => {
+          console.error(`Audio error for ${rosaryId}:`, e);
+          
+          // Only try to refresh once per rosary
+          if (refreshedRosaries.has(rosaryId)) {
+            showAudioError(rosaryId, 'Audio unavailable. Please try the mobile app.');
+            return;
           }
+          
+          // Try to get fresh URL
+          await refreshAudioUrl(rosaryId);
         });
         
-        // Try to load the audio
-        audio.load();
+        // Also handle when source fails to load
+        audio.addEventListener('stalled', () => {
+          console.log(`Audio stalled for ${rosaryId}`);
+        });
       });
+    }
+
+    async function refreshAudioUrl(rosaryId) {
+      const wrapper = document.getElementById(`player-wrapper-${rosaryId}`);
+      if (!wrapper) return;
+      
+      // Show loading state
+      wrapper.innerHTML = `
+        <div class="audio-loading">
+          <div class="spinner spinner-small"></div>
+          <span>Refreshing audio...</span>
+        </div>
+      `;
+      
+      // Mark as tried
+      refreshedRosaries.add(rosaryId);
+      
+      try {
+        const response = await fetch(`${FUNCTIONS_URL}/getAudioUrl?rosaryId=${rosaryId}`);
+        const result = await response.json();
+        
+        if (!response.ok || !result.audioUrl) {
+          throw new Error(result.error || 'Failed to get audio URL');
+        }
+        
+        console.log(`✅ Got fresh audio URL for ${rosaryId}`);
+        
+        // Update the rosary data
+        const rosary = allRosaries.find(r => r.id === rosaryId);
+        if (rosary) {
+          rosary.stitchedAudioUrl = result.audioUrl;
+          if (result.duration) rosary.audioDuration = result.duration;
+        }
+        
+        // Create new audio player with fresh URL
+        wrapper.innerHTML = `
+          <audio 
+            id="audio-${rosaryId}" 
+            controls 
+            class="audio-player" 
+            preload="metadata"
+            data-rosary-id="${rosaryId}"
+          >
+            <source src="${result.audioUrl}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        `;
+        
+        // Add error handler for the new audio element
+        const newAudio = document.getElementById(`audio-${rosaryId}`);
+        newAudio.addEventListener('error', () => {
+          showAudioError(rosaryId, 'Audio still unavailable. Please try the mobile app.');
+        });
+        
+        // Try to load
+        newAudio.load();
+        
+      } catch (error) {
+        console.error(`Failed to refresh audio for ${rosaryId}:`, error);
+        showAudioError(rosaryId, 'Could not load audio. Please try the mobile app.');
+      }
+    }
+
+    function showAudioError(rosaryId, message) {
+      const wrapper = document.getElementById(`player-wrapper-${rosaryId}`);
+      if (wrapper) {
+        wrapper.innerHTML = `
+          <div class="audio-error">
+            ⚠️ ${message}
+          </div>
+        `;
+      }
     }
 
     function setupFilters() {
