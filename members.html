@@ -1284,28 +1284,15 @@
             throw new Error(result.error || 'Username not found');
           }
           
-          // Step 2: Check if this is an app-only account (no valid email)
-          if (result.appOnlyAccount) {
-            // Show friendly message for app-only users
-            errorDiv.classList.remove('hidden');
-            errorDiv.className = 'alert alert-info';
-            errorText.innerHTML = `
-              <strong>📱 App Account Detected</strong><br><br>
-              Your account "${result.username}" was created in the Rosary73 app without an email address.<br><br>
-              <strong>To use this website, please:</strong><br>
-              • Use the Rosary73 mobile app to login, OR<br>
-              • Contact support to add an email to your account<br><br>
-              <a href="contact.html" style="color: #d4af37;">Contact Support →</a>
-            `;
-            btn.disabled = false;
-            btn.textContent = 'Sign In';
-            return;
-          }
+          // App-only accounts now have full access - no blocking
+          // Password verification happens through Firebase Auth below
           
-          // Step 3: Verify password by signing in with Firebase Auth
-          await auth.signInWithEmailAndPassword(result.email, password);
+          // Step 2: Verify password by signing in with Firebase Auth
+          // For app-only accounts, use the generated email format
+          const emailToUse = result.email || `${username.toLowerCase()}@rosary73.app`;
+          await auth.signInWithEmailAndPassword(emailToUse, password);
           
-          // Step 4: Store the full user data from verifyWebUser (includes recordings, stats, etc.)
+          // Step 3: Store the full user data from verifyWebUser (includes recordings, stats, etc.)
           userData = result;
           sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
           
@@ -1331,7 +1318,7 @@
           } else if (error.code === 'auth/user-not-found') {
             errorMessage = 'Account not found. Please check your username.';
           } else if (error.code === 'auth/invalid-email' || error.code === 'auth/missing-email') {
-            errorMessage = 'This account cannot be accessed via website. Please use the Rosary73 app.';
+            errorMessage = 'Unable to sign in. Please try again or contact support.';
           }
           
           errorText.textContent = errorMessage;
@@ -1385,7 +1372,7 @@
       
       // Header user info - use username from verifyWebUser response
       document.getElementById('header-username').textContent = userData.username || 'User';
-      document.getElementById('user-email').textContent = userData.email || '';
+      document.getElementById('user-email').textContent = userData.email || (userData.appOnlyAccount ? '📱 App Account' : '');
       document.getElementById('user-region').textContent = userData.country || 'Unknown';
       
       // Subscription status
