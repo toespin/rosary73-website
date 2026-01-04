@@ -547,6 +547,9 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // Cloud Functions URL
+    const FUNCTIONS_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net';
+
     let currentUser = null;
     let userData = null;
     let allRosaries = [];
@@ -595,10 +598,37 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      initializeAuth();
+      // Check for stored session first
+      const storedUser = sessionStorage.getItem('rosary73UserData');
+      if (storedUser) {
+        userData = JSON.parse(storedUser);
+        initializeWithUserData();
+      } else {
+        initializeAuth();
+      }
       setupLoginForm();
       setupFilters();
     });
+
+    function initializeWithUserData() {
+      // User already logged in via members.html
+      document.getElementById('header-username').textContent = userData.username || 'User';
+      showMainContent();
+      checkRequirements();
+      loadRosaries();
+      
+      // Also listen for auth state changes
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          currentUser = user;
+        } else {
+          // Logged out
+          sessionStorage.removeItem('rosary73UserData');
+          userData = null;
+          showLoginGate();
+        }
+      });
+    }
 
     function initializeAuth() {
       auth.onAuthStateChanged(async (user) => {
@@ -618,9 +648,19 @@
 
     async function loadUserData() {
       try {
+        // Try to get from sessionStorage for complete data
+        const storedUser = sessionStorage.getItem('rosary73UserData');
+        if (storedUser) {
+          userData = JSON.parse(storedUser);
+          document.getElementById('header-username').textContent = userData.username || 'User';
+          return;
+        }
+
+        // Fallback: Load from Firestore
         const userDoc = await db.collection('users').doc(currentUser.uid).get();
         if (userDoc.exists) {
           userData = userDoc.data();
+          userData.userId = currentUser.uid;
           document.getElementById('header-username').textContent = userData.username || 'User';
         }
       } catch (error) {
@@ -639,7 +679,8 @@
         btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;"></span>';
         
         try {
-          const response = await fetch('https://us-central1-rosary--interact-app.cloudfunctions.net/verifyWebUser', {
+          // Use verifyWebUser to get complete user data
+          const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username })
@@ -647,20 +688,36 @@
           const result = await response.json();
           if (!result.valid) throw new Error(result.error || 'Username not found');
           
-          const userDoc = await db.collection('users').doc(result.userId).get();
-          if (!userDoc.exists) throw new Error('User not found');
+          // Sign in with Firebase Auth
+          const emailToUse = result.email || `${username.toLowerCase()}@rosary73.app`;
+          await auth.signInWithEmailAndPassword(emailToUse, password);
           
-          await auth.signInWithEmailAndPassword(userDoc.data().email, password);
+          // Store user data in session
+          userData = result;
+          sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
+          
+          document.getElementById('header-username').textContent = result.username || 'User';
+          showMainContent();
+          checkRequirements();
+          loadRosaries();
+          
         } catch (error) {
           document.getElementById('login-error').classList.remove('hidden');
-          document.getElementById('login-error-text').textContent = error.message || 'Login failed';
+          let errorMsg = error.message || 'Login failed';
+          if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+            errorMsg = 'Incorrect password. Please try again.';
+          }
+          document.getElementById('login-error-text').textContent = errorMsg;
         } finally {
           btn.disabled = false;
           btn.textContent = 'Sign In';
         }
       });
       
-      document.getElementById('logout-btn').addEventListener('click', () => auth.signOut());
+      document.getElementById('logout-btn').addEventListener('click', () => {
+        auth.signOut();
+        sessionStorage.removeItem('rosary73UserData');
+      });
     }
 
     function showLoginGate() {
@@ -678,19 +735,29 @@
     }
 
     function checkRequirements() {
-      const recordings = userData?.recordings || {};
-      const hasAllPrayers = ['creed', 'ourFather', 'hailMary', 'gloryBe', 'fatimaPrayer', 'hailHolyQueen', 'finalPrayer']
-        .every(p => !!recordings[p]);
+      // Check if user has all 7 prayers recorded
+      let hasAllPrayers = false;
+      
+      // Check prayerCount from verifyWebUser
+      if (userData?.prayerCount && userData.prayerCount >= 7) {
+        hasAllPrayers = true;
+      } else if (userData?.recordings) {
+        // Fallback: Check recordings object
+        const requiredPrayers = ['creed', 'ourFather', 'hailMary', 'gloryBe', 'fatimaPrayer', 'hailHolyQueen', 'finalPrayer'];
+        hasAllPrayers = requiredPrayers.every(p => !!userData.recordings[p]);
+      }
       
       canJoin = hasAllPrayers;
       
       if (!canJoin) {
-        const missing = ['creed', 'ourFather', 'hailMary', 'gloryBe', 'fatimaPrayer', 'hailHolyQueen', 'finalPrayer']
-          .filter(p => !recordings[p]);
+        const prayerCount = userData?.prayerCount || 0;
+        const missing = 7 - prayerCount;
         
         document.getElementById('requirements-warning').classList.remove('hidden');
         document.getElementById('requirements-text').innerHTML = 
-          `You need to <a href="upload-prayers.html" style="color:#d4af37">upload all 7 prayers</a> to join rosaries. Missing: ${missing.length} prayers.`;
+          `You need to <a href="upload-prayers.html" style="color:#d4af37">upload all 7 prayers</a> to join rosaries. Missing: ${missing} prayers.`;
+      } else {
+        document.getElementById('requirements-warning').classList.add('hidden');
       }
     }
 
@@ -710,13 +777,15 @@
         let joinedCount = 0;
         let availableSpots = 0;
         
+        const userId = currentUser?.uid || userData?.userId;
+        
         snapshot.forEach(doc => {
           const data = doc.data();
           allRosaries.push({ id: doc.id, ...data });
           
           // Check if user already joined
-          const isCreator = data.creatorId === currentUser.uid;
-          const isParticipant = Object.values(data.participants || {}).some(p => p.userId === currentUser.uid);
+          const isCreator = data.creatorId === userId;
+          const isParticipant = Object.values(data.participants || {}).some(p => p.userId === userId);
           if (isCreator || isParticipant) joinedCount++;
           
           availableSpots += (73 - (data.participantCount || 1));
@@ -750,10 +819,12 @@
         return;
       }
       
+      const userId = currentUser?.uid || userData?.userId;
+      
       emptyState.classList.add('hidden');
       list.innerHTML = filtered.map(rosary => {
-        const isCreator = rosary.creatorId === currentUser.uid;
-        const isParticipant = Object.values(rosary.participants || {}).some(p => p.userId === currentUser.uid);
+        const isCreator = rosary.creatorId === userId;
+        const isParticipant = Object.values(rosary.participants || {}).some(p => p.userId === userId);
         const hasJoined = isCreator || isParticipant;
         const progress = ((rosary.participantCount || 1) / 73 * 100).toFixed(0);
         const icon = mysteryIcons[rosary.mysteryType] || '📿';
@@ -768,7 +839,7 @@
               </div>
             </div>
             
-            <div class="rosary-intention">“${rosary.intention || 'No intention specified'}”</div>
+            <div class="rosary-intention">"${rosary.intention || 'No intention specified'}"</div>
             
             <div class="rosary-meta">
               <div class="rosary-creator">Started by <strong>${rosary.creatorUsername || 'Anonymous'}</strong></div>
@@ -812,6 +883,9 @@
       btn.innerHTML = '<span class="spinner" style="width:16px;height:16px;border-width:2px;"></span>';
       
       try {
+        const userId = currentUser?.uid || userData?.userId;
+        if (!userId) throw new Error('User not authenticated');
+        
         // Get current rosary data
         const rosaryRef = db.collection('rosaries').doc(rosaryId);
         const rosaryDoc = await rosaryRef.get();
@@ -821,8 +895,8 @@
         const rosary = rosaryDoc.data();
         
         // Check if already joined
-        const isCreator = rosary.creatorId === currentUser.uid;
-        const isParticipant = Object.values(rosary.participants || {}).some(p => p.userId === currentUser.uid);
+        const isCreator = rosary.creatorId === userId;
+        const isParticipant = Object.values(rosary.participants || {}).some(p => p.userId === userId);
         
         if (isCreator || isParticipant) {
           throw new Error('You have already joined this rosary');
@@ -838,16 +912,14 @@
         // Get required prayer type for this position
         const prayerType = getPrayerTypeForPosition(position);
         
-        // Check if user has the required recording
-        if (!userData.recordings?.[prayerType]) {
-          throw new Error(`Missing recording for ${prayerType}`);
-        }
+        // Build recordings object from userData
+        let recordings = userData?.recordings || {};
         
         // Add participant (EXACT same structure as app)
         const participantData = {
-          userId: currentUser.uid,
-          userName: userData.username || 'Anonymous',
-          recordings: userData.recordings,
+          userId: userId,
+          userName: userData?.username || 'Anonymous',
+          recordings: recordings,
           joinedAt: new Date().toISOString()
         };
         
@@ -858,7 +930,7 @@
         });
         
         // Update user's joined count
-        await db.collection('users').doc(currentUser.uid).update({
+        await db.collection('users').doc(userId).update({
           rosariesJoined: firebase.firestore.FieldValue.increment(1)
         }).catch(() => {});
         
