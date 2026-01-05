@@ -507,9 +507,6 @@
     let userData = null;
     let allRosaries = [];
     let currentFilter = 'participated';
-    
-    // Track which rosaries we've tried to refresh
-    const refreshedRosaries = new Set();
 
     const mysteryIcons = {
       joyful: '👶',
@@ -731,6 +728,9 @@
         const icon = mysteryIcons[rosary.mysteryType] || '📿';
         const hasAudio = !!rosary.stitchedAudioUrl;
         
+        // Use streaming endpoint instead of direct signed URL (solves CORS)
+        const audioUrl = hasAudio ? `${FUNCTIONS_URL}/streamAudio?rosaryId=${rosary.id}` : '';
+        
         return `
           <div class="rosary-card" data-rosary-id="${rosary.id}">
             <div class="rosary-header">
@@ -752,11 +752,10 @@
                   id="audio-${rosary.id}" 
                   controls 
                   class="audio-player" 
-                  preload="metadata"
+                  preload="none"
                   data-rosary-id="${rosary.id}"
-                  data-original-url="${rosary.stitchedAudioUrl}"
                 >
-                  <source src="${rosary.stitchedAudioUrl}" type="audio/mpeg">
+                  <source src="${audioUrl}" type="audio/mpeg">
                   Your browser does not support the audio element.
                 </audio>
               </div>
@@ -769,89 +768,15 @@
         `;
       }).join('');
       
-      // Add error handling for audio elements with auto-refresh
+      // Add error handling for audio elements
       document.querySelectorAll('.audio-player').forEach((audio) => {
         const rosaryId = audio.dataset.rosaryId;
         
-        audio.addEventListener('error', async (e) => {
+        audio.addEventListener('error', (e) => {
           console.error(`Audio error for ${rosaryId}:`, e);
-          
-          // Only try to refresh once per rosary
-          if (refreshedRosaries.has(rosaryId)) {
-            showAudioError(rosaryId, 'Audio unavailable. Please try the mobile app.');
-            return;
-          }
-          
-          // Try to get fresh URL
-          await refreshAudioUrl(rosaryId);
-        });
-        
-        // Also handle when source fails to load
-        audio.addEventListener('stalled', () => {
-          console.log(`Audio stalled for ${rosaryId}`);
+          showAudioError(rosaryId, 'Could not load audio. Please try again later.');
         });
       });
-    }
-
-    async function refreshAudioUrl(rosaryId) {
-      const wrapper = document.getElementById(`player-wrapper-${rosaryId}`);
-      if (!wrapper) return;
-      
-      // Show loading state
-      wrapper.innerHTML = `
-        <div class="audio-loading">
-          <div class="spinner spinner-small"></div>
-          <span>Refreshing audio...</span>
-        </div>
-      `;
-      
-      // Mark as tried
-      refreshedRosaries.add(rosaryId);
-      
-      try {
-        const response = await fetch(`${FUNCTIONS_URL}/getAudioUrl?rosaryId=${rosaryId}`);
-        const result = await response.json();
-        
-        if (!response.ok || !result.audioUrl) {
-          throw new Error(result.error || 'Failed to get audio URL');
-        }
-        
-        console.log(`✅ Got fresh audio URL for ${rosaryId}`);
-        
-        // Update the rosary data
-        const rosary = allRosaries.find(r => r.id === rosaryId);
-        if (rosary) {
-          rosary.stitchedAudioUrl = result.audioUrl;
-          if (result.duration) rosary.audioDuration = result.duration;
-        }
-        
-        // Create new audio player with fresh URL
-        wrapper.innerHTML = `
-          <audio 
-            id="audio-${rosaryId}" 
-            controls 
-            class="audio-player" 
-            preload="metadata"
-            data-rosary-id="${rosaryId}"
-          >
-            <source src="${result.audioUrl}" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
-        `;
-        
-        // Add error handler for the new audio element
-        const newAudio = document.getElementById(`audio-${rosaryId}`);
-        newAudio.addEventListener('error', () => {
-          showAudioError(rosaryId, 'Audio still unavailable. Please try the mobile app.');
-        });
-        
-        // Try to load
-        newAudio.load();
-        
-      } catch (error) {
-        console.error(`Failed to refresh audio for ${rosaryId}:`, error);
-        showAudioError(rosaryId, 'Could not load audio. Please try the mobile app.');
-      }
     }
 
     function showAudioError(rosaryId, message) {
