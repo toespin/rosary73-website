@@ -502,6 +502,14 @@
       auth.signOut();
       userData = null;
       sessionStorage.removeItem('rosary73UserData');
+      // Reset UI elements to prevent stale data
+      document.getElementById('user-status-badge').textContent = 'Trial';
+      document.getElementById('user-status-badge').className = 'status-badge status-trial';
+      document.getElementById('user-status-text').textContent = 'Loading...';
+      document.getElementById('header-username').textContent = 'User';
+      document.getElementById('user-email').textContent = '-';
+      document.getElementById('user-region').textContent = '-';
+      document.getElementById('prayers-progress').textContent = '0/7';
       showLoginGate();
       showToast('Logged out', 'success');
     }
@@ -535,7 +543,7 @@
       if (!userData) return;
       
       document.getElementById('header-username').textContent = userData.username || 'User';
-      document.getElementById('user-email').textContent = userData.email || (userData.appOnlyAccount ? '📱 App Account' : '');
+      document.getElementById('user-email').textContent = userData.email || (userData.appOnlyAccount ? '📱 App Account' : '-');
       document.getElementById('user-region').textContent = userData.country || 'Unknown';
       
       const statusBadge = document.getElementById('user-status-badge');
@@ -552,20 +560,27 @@
       } else if (status === 'trial') {
         statusBadge.textContent = 'Trial';
         statusBadge.className = 'status-badge status-trial';
+        // ALWAYS set statusText - check if trialEndDate exists
         if (userData.trialEndDate) {
           const endDate = new Date(userData.trialEndDate);
           const daysLeft = Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24));
-          statusText.textContent = daysLeft > 0 ? `${daysLeft} days left` : 'Expired';
+          statusText.textContent = daysLeft > 0 ? `${daysLeft} days left` : 'Trial expired';
+        } else {
+          statusText.textContent = 'Free trial';
         }
       } else if (status === 'active') {
         statusBadge.textContent = 'Active';
         statusBadge.className = 'status-badge status-active';
+        // ALWAYS set statusText - check if subscriptionEndDate exists
         if (userData.subscriptionEndDate) {
           const endDate = new Date(userData.subscriptionEndDate);
           const daysLeft = Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24));
-          statusText.textContent = `${daysLeft} days remaining`;
+          statusText.textContent = daysLeft > 0 ? `${daysLeft} days remaining` : 'Subscription ended';
+        } else {
+          statusText.textContent = 'Active subscription';
         }
       } else {
+        // Expired or no subscription
         statusBadge.textContent = 'Expired';
         statusBadge.className = 'status-badge status-expired';
         statusText.textContent = 'Please subscribe';
@@ -581,6 +596,8 @@
       if (userData.memberSince) {
         const d = new Date(userData.memberSince);
         document.getElementById('stat-member-since').textContent = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      } else {
+        document.getElementById('stat-member-since').textContent = '-';
       }
       
       updatePricing();
