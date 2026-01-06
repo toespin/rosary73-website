@@ -17,7 +17,6 @@
       color: #ffffff;
     }
     
-    /* Header */
     .header {
       padding: 15px 30px;
       display: flex;
@@ -31,820 +30,167 @@
       z-index: 100;
     }
     
-    .logo-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-    
+    .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .logo { width: 40px; height: 40px; }
     .logo-text { color: #d4af37; font-size: 1.3rem; font-weight: 600; }
+    .header-right { display: flex; align-items: center; gap: 20px; }
+    .header-user { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.8); font-size: 0.9rem; }
+    .header-user-name { color: #d4af37; font-weight: 600; }
+    .logout-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
     
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    
-    .header-user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: rgba(255,255,255,0.8);
-      font-size: 0.9rem;
-    }
-    
-    .header-user-name {
-      color: #d4af37;
-      font-weight: 600;
-    }
-    
-    .logout-btn {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: all 0.3s;
-    }
-    
-    .logout-btn:hover {
-      background: rgba(255,255,255,0.15);
-    }
-    
-    /* Members Navigation */
-    .members-nav {
-      background: rgba(212, 175, 55, 0.1);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-      padding: 0;
-      display: none;
-    }
-    
-    .members-nav.visible {
-      display: block;
-    }
-    
-    .members-nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 5px;
-      padding: 10px 20px;
-      align-items: center;
-    }
-    
-    .members-nav-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 20px;
-      color: rgba(255,255,255,0.8);
-      text-decoration: none;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-    }
-    
-    .members-nav-item:hover {
-      background: rgba(212, 175, 55, 0.2);
-      color: #fff;
-    }
-    
-    .members-nav-item.active {
-      background: rgba(212, 175, 55, 0.3);
-      color: #d4af37;
-    }
-    
-    .members-nav-item .nav-icon {
-      font-size: 1.1rem;
-    }
-    
-    .nav-divider {
-      width: 1px;
-      height: 30px;
-      background: rgba(255,255,255,0.2);
-      margin: 0 10px;
-    }
-    
-    /* Mobile Menu */
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
+    .members-nav { background: rgba(212, 175, 55, 0.1); border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: none; }
+    .members-nav.visible { display: block; }
+    .members-nav-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; padding: 10px 20px; }
+    .members-nav-item { display: flex; align-items: center; gap: 8px; padding: 12px 20px; color: rgba(255,255,255,0.8); text-decoration: none; border-radius: 10px; font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease; cursor: pointer; border: none; background: transparent; }
+    .members-nav-item:hover { background: rgba(212, 175, 55, 0.2); color: #fff; }
+    .members-nav-item.active { background: rgba(212, 175, 55, 0.3); color: #d4af37; }
+    .nav-divider { width: 1px; height: 30px; background: rgba(255,255,255,0.2); margin: 0 10px; }
     
     @media (max-width: 768px) {
       .header-user span:not(.header-user-name) { display: none; }
-      .members-nav-inner {
-        flex-direction: column;
-        gap: 0;
-      }
-      .members-nav-item {
-        justify-content: center;
-        padding: 14px 20px;
-        border-radius: 0;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-        width: 100%;
-      }
-      .members-nav-item:last-child {
-        border-bottom: none;
-      }
-      .nav-divider {
-        width: 80%;
-        height: 1px;
-        margin: 5px auto;
-      }
+      .members-nav-inner { flex-direction: column; gap: 0; }
+      .members-nav-item { justify-content: center; padding: 14px 20px; border-radius: 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; }
+      .nav-divider { width: 80%; height: 1px; margin: 5px auto; }
     }
     
-    /* Main Content */
-    .main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 30px 20px;
-    }
+    .main { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
     
-    /* Login Gate */
-    .login-gate {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 50px 40px;
-      text-align: center;
-      max-width: 450px;
-      margin: 80px auto;
-    }
+    .login-gate { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 50px 40px; text-align: center; max-width: 450px; margin: 80px auto; }
+    .login-gate-icon { font-size: 4rem; margin-bottom: 20px; }
+    .login-gate h1 { color: #d4af37; margin-bottom: 10px; font-size: 1.8rem; }
+    .login-gate p { color: rgba(255,255,255,0.7); margin-bottom: 30px; }
+    .login-form { display: flex; flex-direction: column; gap: 15px; }
+    .form-group { text-align: left; }
+    .form-group label { display: block; color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-bottom: 5px; }
+    .form-input { width: 100%; padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; font-size: 1rem; }
+    .form-input:focus { outline: none; border-color: #d4af37; }
+    .form-input::placeholder { color: rgba(255,255,255,0.4); }
+    .login-links { display: flex; justify-content: space-between; margin-top: 15px; font-size: 0.9rem; }
+    .login-links a { color: #d4af37; text-decoration: none; }
     
-    .login-gate-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-    }
-    
-    .login-gate h1 {
-      color: #d4af37;
-      margin-bottom: 10px;
-      font-size: 1.8rem;
-    }
-    
-    .login-gate p {
-      color: rgba(255,255,255,0.7);
-      margin-bottom: 30px;
-    }
-    
-    .login-form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    
-    .form-group {
-      text-align: left;
-    }
-    
-    .form-group label {
-      display: block;
-      color: rgba(255,255,255,0.7);
-      font-size: 0.85rem;
-      margin-bottom: 5px;
-    }
-    
-    .form-input {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-    }
-    
-    .form-input:focus {
-      outline: none;
-      border-color: #d4af37;
-    }
-    
-    .form-input::placeholder {
-      color: rgba(255,255,255,0.4);
-    }
-    
-    .login-links {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-      font-size: 0.9rem;
-    }
-    
-    .login-links a {
-      color: #d4af37;
-      text-decoration: none;
-    }
-    
-    .login-links a:hover {
-      text-decoration: underline;
-    }
-    
-    /* Dashboard */
     .dashboard { display: none; }
     .dashboard.visible { display: block; }
     
-    /* Page Title */
-    .page-title-bar {
-      margin-bottom: 30px;
-    }
-    
-    .page-title-bar h1 {
-      font-size: 1.8rem;
-      margin-bottom: 5px;
-    }
-    
-    .page-title-bar h1 span {
-      color: #d4af37;
-    }
-    
-    .page-title-bar p {
-      color: rgba(255,255,255,0.6);
-    }
-    
-    /* User Status Bar */
-    .user-status-bar {
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 12px;
-      padding: 15px 20px;
-      margin-bottom: 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    
-    .status-items {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .status-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.8);
-      font-size: 0.9rem;
-    }
-    
-    .status-badge {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    
-    .status-trial {
-      background: rgba(251, 191, 36, 0.2);
-      color: #fbbf24;
-    }
-    
-    .status-active {
-      background: rgba(74, 222, 128, 0.2);
-      color: #4ade80;
-    }
-    
-    .status-expired {
-      background: rgba(239, 68, 68, 0.2);
-      color: #f87171;
-    }
-    
-    /* Section Panels */
-    .section-panel {
-      display: none;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 30px;
-      margin-bottom: 30px;
-      animation: slideDown 0.3s ease;
-    }
-    
-    .section-panel.visible {
-      display: block;
-    }
-    
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .section-header h2 {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #d4af37;
-    }
-    
-    .close-section {
-      background: rgba(255,255,255,0.1);
-      border: none;
-      color: #fff;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.2rem;
-      transition: background 0.3s;
-    }
-    
-    .close-section:hover {
-      background: rgba(255,255,255,0.2);
-    }
-    
-    /* Subscription Plans */
-    .plans-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-    
-    .plan-card {
-      background: rgba(255,255,255,0.05);
-      border: 2px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 25px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    
-    .plan-card:hover {
-      border-color: rgba(212, 175, 55, 0.5);
-    }
-    
-    .plan-card.selected {
-      border-color: #d4af37;
-      background: rgba(212, 175, 55, 0.1);
-    }
-    
-    .plan-card.popular::before {
-      content: 'POPULAR';
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #d4af37, #b8860b);
-      color: #1a1a2e;
-      padding: 4px 12px;
-      border-radius: 10px;
-      font-size: 0.7rem;
-      font-weight: 700;
-    }
-    
-    .plan-duration {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-    
-    .plan-price {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #d4af37;
-    }
-    
-    .plan-price small {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.5);
-    }
-    
-    .plan-savings {
-      color: #4ade80;
-      font-size: 0.85rem;
-      margin-top: 5px;
-    }
-    
-    /* Payment Methods */
-    .payment-methods-section {
-      margin-bottom: 20px;
-    }
-    
-    .payment-group-title {
-      color: rgba(255,255,255,0.6);
-      font-size: 0.85rem;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .ph-only-tag {
-      background: #4ade80;
-      color: #1a1a2e;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 600;
-    }
-    
-    .payment-methods {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    
-    .payment-method {
-      background: rgba(255,255,255,0.05);
-      border: 2px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .payment-method:hover {
-      border-color: rgba(212, 175, 55, 0.5);
-    }
-    
-    .payment-method.selected {
-      border-color: #d4af37;
-      background: rgba(212, 175, 55, 0.1);
-    }
-    
-    .payment-method-icon {
-      font-size: 1.5rem;
-      margin-bottom: 5px;
-    }
-    
-    .payment-method-name {
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-    
-    /* Donation Amounts */
-    .donation-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .donation-amount {
-      background: rgba(255,255,255,0.05);
-      border: 2px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 20px 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .donation-amount:hover {
-      border-color: rgba(212, 175, 55, 0.5);
-    }
-    
-    .donation-amount.selected {
-      border-color: #d4af37;
-      background: rgba(212, 175, 55, 0.1);
-    }
-    
-    .donation-value {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: #d4af37;
-    }
-    
-    .custom-amount-input {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .custom-amount-input input {
-      flex: 1;
-      padding: 14px 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      font-size: 1rem;
-    }
-    
-    /* Gift Form */
-    .gift-form {
-      max-width: 500px;
-    }
-    
-    .gift-form .form-group {
-      margin-bottom: 20px;
-    }
-    
-    .gift-form textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      font-size: 1rem;
-      resize: vertical;
-      min-height: 100px;
-    }
-    
-    /* Quick Stats */
-    .quick-stats {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 25px;
-    }
-    
-    .quick-stats h3 {
-      color: rgba(255,255,255,0.6);
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 20px;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 20px;
-    }
-    
-    .stat-item {
-      text-align: center;
-    }
-    
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #d4af37;
-    }
-    
-    .stat-label {
-      color: rgba(255,255,255,0.6);
-      font-size: 0.85rem;
-      margin-top: 5px;
-    }
-    
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: none;
-      text-decoration: none;
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, #d4af37, #b8860b);
-      color: #1a1a2e;
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-    }
-    
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    .btn-secondary {
-      background: rgba(255,255,255,0.1);
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-    
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.15);
-    }
-    
-    .btn-small {
-      padding: 10px 18px;
-      font-size: 0.9rem;
-    }
-    
-    .btn-block {
-      width: 100%;
-    }
-    
-    /* Alert */
-    .alert {
-      padding: 15px 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-    
-    .alert-error {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #f87171;
-    }
-    
-    .alert-success {
-      background: rgba(74, 222, 128, 0.1);
-      border: 1px solid rgba(74, 222, 128, 0.3);
-      color: #4ade80;
-    }
-    
-    .alert-warning {
-      background: rgba(251, 191, 36, 0.1);
-      border: 1px solid rgba(251, 191, 36, 0.3);
-      color: #fbbf24;
-    }
-    
-    .alert-info {
-      background: rgba(96, 165, 250, 0.1);
-      border: 1px solid rgba(96, 165, 250, 0.3);
-      color: #60a5fa;
-    }
-    
-    .alert-icon { font-size: 1.2rem; }
-    
-    /* Spinner */
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #d4af37;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    /* Toast */
-    .toast-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-    
-    .toast {
-      background: rgba(30, 30, 50, 0.95);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 15px 20px;
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      animation: slideIn 0.3s ease;
-      max-width: 350px;
-    }
-    
+    .user-status-bar { background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05)); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; padding: 15px 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+    .status-items { display: flex; gap: 20px; flex-wrap: wrap; }
+    .status-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.8); font-size: 0.9rem; }
+    .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+    .status-trial { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+    .status-active { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+    .status-expired { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .status-admin { background: rgba(147, 51, 234, 0.2); color: #a855f7; }
+    
+    .section-panel { display: none; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; margin-bottom: 30px; }
+    .section-panel.visible { display: block; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .section-header h2 { display: flex; align-items: center; gap: 10px; color: #d4af37; }
+    .close-section { background: rgba(255,255,255,0.1); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
+    
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .plan-card { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; text-align: center; cursor: pointer; position: relative; }
+    .plan-card:hover { border-color: rgba(212, 175, 55, 0.5); }
+    .plan-card.selected { border-color: #d4af37; background: rgba(212, 175, 55, 0.1); }
+    .plan-card.popular::before { content: 'POPULAR'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #d4af37, #b8860b); color: #1a1a2e; padding: 4px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 700; }
+    .plan-duration { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
+    .plan-price { font-size: 2rem; font-weight: 700; color: #d4af37; }
+    .plan-savings { color: #4ade80; font-size: 0.85rem; margin-top: 5px; }
+    
+    .payment-methods-section { margin-bottom: 20px; }
+    .payment-group-title { color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .ph-only-tag { background: #4ade80; color: #1a1a2e; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+    .payment-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 15px; }
+    .payment-method { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; }
+    .payment-method:hover { border-color: rgba(212, 175, 55, 0.5); }
+    .payment-method.selected { border-color: #d4af37; background: rgba(212, 175, 55, 0.1); }
+    .payment-method-icon { font-size: 1.5rem; margin-bottom: 5px; }
+    .payment-method-name { font-size: 0.85rem; font-weight: 500; }
+    
+    .donation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .donation-amount { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px 15px; text-align: center; cursor: pointer; }
+    .donation-amount:hover { border-color: rgba(212, 175, 55, 0.5); }
+    .donation-amount.selected { border-color: #d4af37; background: rgba(212, 175, 55, 0.1); }
+    .donation-value { font-size: 1.3rem; font-weight: 700; color: #d4af37; }
+    .custom-amount-input { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+    .custom-amount-input input { flex: 1; padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; font-size: 1rem; }
+    
+    .gift-form { max-width: 500px; }
+    .gift-form .form-group { margin-bottom: 20px; }
+    .gift-form textarea { width: 100%; padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; font-size: 1rem; resize: vertical; min-height: 100px; }
+    
+    .quick-stats { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 25px; }
+    .quick-stats h3 { color: rgba(255,255,255,0.6); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 20px; }
+    .stat-item { text-align: center; }
+    .stat-value { font-size: 2rem; font-weight: 700; color: #d4af37; }
+    .stat-label { color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 5px; }
+    
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 28px; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; text-decoration: none; }
+    .btn-primary { background: linear-gradient(135deg, #d4af37, #b8860b); color: #1a1a2e; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+    .btn-small { padding: 10px 18px; font-size: 0.9rem; }
+    .btn-block { width: 100%; }
+    
+    .alert { padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 12px; }
+    .alert-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; }
+    .alert-success { background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); color: #4ade80; }
+    .alert-warning { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); color: #fbbf24; }
+    
+    .spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+    .toast { background: rgba(30, 30, 50, 0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px 20px; margin-top: 10px; display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s ease; max-width: 350px; }
     .toast.success { border-color: rgba(74, 222, 128, 0.3); }
     .toast.error { border-color: rgba(239, 68, 68, 0.3); }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
+    .footer { text-align: center; padding: 30px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; }
+    .footer p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+    .footer a { color: #d4af37; text-decoration: none; }
     
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 30px 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin-top: 50px;
-    }
-    
-    .footer p {
-      color: rgba(255,255,255,0.4);
-      font-size: 0.85rem;
-    }
-    
-    .footer a {
-      color: #d4af37;
-      text-decoration: none;
-    }
-    
-    /* Hidden */
     .hidden { display: none !important; }
     
-    /* Responsive */
     @media (max-width: 600px) {
-      .user-status-bar {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .status-items {
-        justify-content: center;
-      }
-      
-      .login-gate {
-        padding: 30px 20px;
-        margin: 40px 20px;
-      }
+      .user-status-bar { flex-direction: column; text-align: center; }
+      .status-items { justify-content: center; }
+      .login-gate { padding: 30px 20px; margin: 40px 20px; }
     }
   </style>
 </head>
 <body>
-  <!-- Main Header -->
   <header class="header">
     <a href="index.html" class="logo-link">
       <img src="images/R73logo.png" alt="Rosary73" class="logo">
       <span class="logo-text">Rosary73</span>
     </a>
-    
     <div class="header-right">
       <div class="header-user hidden" id="header-user">
-        <span>Welcome,</span>
         <span class="header-user-name" id="header-username">User</span>
         <button class="logout-btn" onclick="logout()">Logout</button>
       </div>
     </div>
   </header>
 
-  <!-- Members Navigation (visible after login) -->
   <nav class="members-nav" id="members-nav">
     <div class="members-nav-inner">
-      <!-- Rosary Actions -->
-      <a href="start-rosary.html" class="members-nav-item">
-        <span class="nav-icon">✝️</span>
-        <span>Start Rosary</span>
-      </a>
-      <a href="participate.html" class="members-nav-item">
-        <span class="nav-icon">🙏</span>
-        <span>Join Rosary</span>
-      </a>
-      <a href="finished.html" class="members-nav-item">
-        <span class="nav-icon">🎧</span>
-        <span>Finished Rosaries</span>
-      </a>
-      
-      <!-- Divider -->
+      <a href="start-rosary.html" class="members-nav-item"><span>✝️</span><span>Start Rosary</span></a>
+      <a href="participate.html" class="members-nav-item"><span>🙏</span><span>Join Rosary</span></a>
+      <a href="finished.html" class="members-nav-item"><span>🎧</span><span>Finished Rosaries</span></a>
       <span class="nav-divider"></span>
-      
-      <!-- Account Actions -->
-      <button class="members-nav-item" onclick="openSection('upload')" data-section="upload">
-        <span class="nav-icon">📿</span>
-        <span>Upload Prayers</span>
-      </button>
-      <button class="members-nav-item" onclick="openSection('subscribe')" data-section="subscribe">
-        <span class="nav-icon">⭐</span>
-        <span>Subscribe</span>
-      </button>
-      <button class="members-nav-item" onclick="openSection('gift')" data-section="gift">
-        <span class="nav-icon">🎁</span>
-        <span>Gift</span>
-      </button>
-      <button class="members-nav-item" onclick="openSection('donate')" data-section="donate">
-        <span class="nav-icon">💝</span>
-        <span>Donate</span>
-      </button>
+      <button class="members-nav-item" onclick="openSection('upload')" data-section="upload"><span>📿</span><span>Upload Prayers</span></button>
+      <button class="members-nav-item" onclick="openSection('subscribe')" data-section="subscribe"><span>⭐</span><span>Subscribe</span></button>
+      <button class="members-nav-item" onclick="openSection('gift')" data-section="gift"><span>🎁</span><span>Gift</span></button>
+      <button class="members-nav-item" onclick="openSection('donate')" data-section="donate"><span>💝</span><span>Donate</span></button>
     </div>
   </nav>
 
   <main class="main">
-    <!-- Login Gate -->
     <div class="login-gate" id="login-gate">
       <div class="login-gate-icon">🔐</div>
       <h1>Member Login</h1>
-      <p>Sign in to access your dashboard, upload prayers, manage subscription, and more</p>
-      
+      <p>Sign in to access your dashboard</p>
       <form class="login-form" id="login-form">
         <div class="form-group">
           <label for="login-username">Username</label>
@@ -855,95 +201,56 @@
           <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
         </div>
         <button type="submit" class="btn btn-primary btn-block" id="login-btn">Sign In</button>
-        
         <div class="login-links">
           <a href="signup.html">Create Account</a>
           <a href="forgot-password.html">Forgot Password?</a>
         </div>
       </form>
-      
       <div id="login-error" class="alert alert-error hidden" style="margin-top: 20px;">
-        <span class="alert-icon">❌</span>
+        <span>❌</span>
         <span id="login-error-text"></span>
       </div>
     </div>
 
-    <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
-      <!-- User Status Bar -->
       <div class="user-status-bar">
         <div class="status-items">
           <div class="status-item">
             <span class="status-badge" id="user-status-badge">Trial</span>
-            <span id="user-status-text">5 days left</span>
+            <span id="user-status-text">Loading...</span>
           </div>
-          <div class="status-item">
-            <span>🌍</span>
-            <span id="user-region">Philippines</span>
-          </div>
-          <div class="status-item">
-            <span>📧</span>
-            <span id="user-email">user@email.com</span>
-          </div>
+          <div class="status-item"><span>🌍</span><span id="user-region">-</span></div>
+          <div class="status-item"><span>📧</span><span id="user-email">-</span></div>
         </div>
         <div class="status-item">
-          <span class="card-stat" style="background: rgba(212, 175, 55, 0.1); padding: 8px 15px; border-radius: 20px; color: #d4af37;">
+          <span style="background: rgba(212, 175, 55, 0.1); padding: 8px 15px; border-radius: 20px; color: #d4af37;">
             <span id="prayers-progress">0/7</span> prayers uploaded
           </span>
         </div>
       </div>
 
-      <!-- Upload Section -->
       <div class="section-panel visible" id="section-upload">
         <div class="section-header">
           <h2>📿 Upload Your Prayer Recordings</h2>
           <button class="close-section" onclick="closeSection('upload')">×</button>
         </div>
-        
         <div class="alert alert-warning">
-          <span class="alert-icon">🌍</span>
-          <div>
-            <strong>Record in your own language!</strong><br>
-            Rosary73 welcomes prayers in all languages. Whether you pray in English, Filipino, Spanish, Latin, or any other language, your recording will contribute to our global rosary community.
-          </div>
+          <span>🌍</span>
+          <div><strong>Record in your own language!</strong><br>Rosary73 welcomes prayers in all languages.</div>
         </div>
-        
-        <p style="margin-bottom: 20px; color: rgba(255,255,255,0.7);">
-          For the full upload experience with audio analysis, waveform preview, and trimming tools:
-        </p>
-        
-        <a href="upload-prayers.html" class="btn btn-primary">
-          📁 Open Full Upload Page
-        </a>
-        
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-          <h3 style="margin-bottom: 15px; font-size: 1rem; color: rgba(255,255,255,0.8);">Recording Tips:</h3>
-          <ul style="color: rgba(255,255,255,0.6); font-size: 0.9rem; list-style: none;">
-            <li style="padding: 5px 0;">📱 <strong>iPhone:</strong> Voice Memos → Record → Share → Save to Files</li>
-            <li style="padding: 5px 0;">📱 <strong>Android:</strong> Voice Recorder → Record → Save</li>
-            <li style="padding: 5px 0;">💻 <strong>Mac:</strong> QuickTime → File → New Audio Recording</li>
-            <li style="padding: 5px 0;">💻 <strong>Windows:</strong> Voice Recorder app or Audacity</li>
-            <li style="padding: 5px 0;">🎤 Find a quiet place, hold device 6-12 inches away</li>
-            <li style="padding: 5px 0;">📊 Accepted: M4A, MP3, WAV, WebM (max 10MB each)</li>
-          </ul>
-        </div>
+        <p style="margin-bottom: 20px; color: rgba(255,255,255,0.7);">For the full upload experience:</p>
+        <a href="upload-prayers.html" class="btn btn-primary">📁 Open Full Upload Page</a>
       </div>
 
-      <!-- Subscribe Section -->
       <div class="section-panel" id="section-subscribe">
         <div class="section-header">
           <h2>⭐ Choose Your Plan</h2>
           <button class="close-section" onclick="closeSection('subscribe')">×</button>
         </div>
-        
         <div id="current-plan-info" class="alert alert-success hidden">
-          <span class="alert-icon">✅</span>
-          <div>
-            <strong>You're subscribed!</strong><br>
-            <span id="current-plan-details">Your plan details here</span>
-          </div>
+          <span>✅</span>
+          <div><strong>You're subscribed!</strong><br><span id="current-plan-details"></span></div>
         </div>
-        
         <div class="plans-grid" id="plans-grid">
           <div class="plan-card" data-plan="threeMonth" onclick="selectPlan('threeMonth')">
             <div class="plan-duration">3 Months</div>
@@ -960,104 +267,53 @@
             <div class="plan-savings">Save 17%</div>
           </div>
         </div>
-        
         <h3 style="margin: 25px 0 15px; font-size: 1rem; color: rgba(255,255,255,0.8);">Select Payment Method</h3>
-        
         <div class="payment-methods-section" id="payment-methods-subscribe">
-          <!-- eWallets (PH only) -->
           <div id="ewallet-group-subscribe">
-            <div class="payment-group-title">
-              <span>eWallets</span>
-              <span class="ph-only-tag">PHILIPPINES ONLY</span>
-            </div>
+            <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
             <div class="payment-methods">
-              <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('subscribe', 'gcash')">
-                <div class="payment-method-icon">💙</div>
-                <div class="payment-method-name">GCash</div>
-              </div>
-              <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('subscribe', 'maya')">
-                <div class="payment-method-icon">💚</div>
-                <div class="payment-method-name">Maya</div>
-              </div>
-              <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('subscribe', 'grabpay')">
-                <div class="payment-method-icon">🚗</div>
-                <div class="payment-method-name">GrabPay</div>
-              </div>
-              <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('subscribe', 'shopeepay')">
-                <div class="payment-method-icon">🧡</div>
-                <div class="payment-method-name">ShopeePay</div>
-              </div>
+              <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('subscribe', 'gcash')"><div class="payment-method-icon">💙</div><div class="payment-method-name">GCash</div></div>
+              <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('subscribe', 'maya')"><div class="payment-method-icon">💚</div><div class="payment-method-name">Maya</div></div>
+              <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('subscribe', 'grabpay')"><div class="payment-method-icon">🚗</div><div class="payment-method-name">GrabPay</div></div>
+              <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('subscribe', 'shopeepay')"><div class="payment-method-icon">🧡</div><div class="payment-method-name">ShopeePay</div></div>
             </div>
           </div>
-          <!-- QR PH (PH only) -->
           <div id="qrph-group-subscribe">
-            <div class="payment-group-title">
-              <span>QR PH (InstaPay/PESONet)</span>
-              <span class="ph-only-tag">PHILIPPINES ONLY</span>
-            </div>
+            <div class="payment-group-title"><span>QR PH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
             <div class="payment-methods">
-              <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('subscribe', 'qrph')">
-                <div class="payment-method-icon">📱</div>
-                <div class="payment-method-name">QR PH</div>
-              </div>
+              <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('subscribe', 'qrph')"><div class="payment-method-icon">📱</div><div class="payment-method-name">QR PH</div></div>
             </div>
           </div>
-          <!-- Card (all regions) -->
           <div class="payment-group-title">Credit/Debit Card</div>
           <div class="payment-methods">
-            <div class="payment-method" data-method="card" onclick="selectPaymentMethod('subscribe', 'card')">
-              <div class="payment-method-icon">💳</div>
-              <div class="payment-method-name">Credit/Debit Card</div>
-            </div>
+            <div class="payment-method" data-method="card" onclick="selectPaymentMethod('subscribe', 'card')"><div class="payment-method-icon">💳</div><div class="payment-method-name">Card</div></div>
           </div>
         </div>
-        
-        <button class="btn btn-primary btn-block" id="subscribe-btn" onclick="processSubscription()" disabled>
-          Subscribe Now
-        </button>
+        <button class="btn btn-primary btn-block" id="subscribe-btn" onclick="processSubscription()" disabled>Subscribe Now</button>
       </div>
 
-      <!-- Gift Section -->
       <div class="section-panel" id="section-gift">
         <div class="section-header">
           <h2>🎁 Gift a Subscription</h2>
           <button class="close-section" onclick="closeSection('gift')">×</button>
         </div>
-        
-        <p style="margin-bottom: 25px; color: rgba(255,255,255,0.7);">
-          Share the gift of prayer! Send a subscription to someone and help them join our global rosary community.
-        </p>
-        
+        <p style="margin-bottom: 25px; color: rgba(255,255,255,0.7);">Share the gift of prayer!</p>
         <div class="gift-form">
           <div class="form-group">
             <label>Recipient's Username or Email</label>
-            <input type="text" id="gift-recipient" class="form-input" placeholder="Enter username or email address">
+            <input type="text" id="gift-recipient" class="form-input" placeholder="Enter username or email">
           </div>
-          
           <div class="form-group">
             <label>Personal Message (Optional)</label>
-            <textarea id="gift-message" placeholder="Add a heartfelt message to your gift..."></textarea>
+            <textarea id="gift-message" placeholder="Add a heartfelt message..."></textarea>
           </div>
-          
-          <h3 style="margin: 25px 0 15px; font-size: 1rem; color: rgba(255,255,255,0.8);">Select Gift Duration</h3>
-          
+          <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Gift Duration</h3>
           <div class="plans-grid" id="gift-plans-grid">
-            <div class="plan-card" data-plan="threeMonth" onclick="selectGiftPlan('threeMonth')">
-              <div class="plan-duration">3 Months</div>
-              <div class="plan-price"><span id="gift-price-3mo">₱99</span></div>
-            </div>
-            <div class="plan-card popular" data-plan="sixMonth" onclick="selectGiftPlan('sixMonth')">
-              <div class="plan-duration">6 Months</div>
-              <div class="plan-price"><span id="gift-price-6mo">₱179</span></div>
-            </div>
-            <div class="plan-card" data-plan="twelveMonth" onclick="selectGiftPlan('twelveMonth')">
-              <div class="plan-duration">12 Months</div>
-              <div class="plan-price"><span id="gift-price-12mo">₱329</span></div>
-            </div>
+            <div class="plan-card" data-plan="threeMonth" onclick="selectGiftPlan('threeMonth')"><div class="plan-duration">3 Months</div><div class="plan-price"><span id="gift-price-3mo">₱99</span></div></div>
+            <div class="plan-card popular" data-plan="sixMonth" onclick="selectGiftPlan('sixMonth')"><div class="plan-duration">6 Months</div><div class="plan-price"><span id="gift-price-6mo">₱179</span></div></div>
+            <div class="plan-card" data-plan="twelveMonth" onclick="selectGiftPlan('twelveMonth')"><div class="plan-duration">12 Months</div><div class="plan-price"><span id="gift-price-12mo">₱329</span></div></div>
           </div>
-          
-          <h3 style="margin: 25px 0 15px; font-size: 1rem; color: rgba(255,255,255,0.8);">Select Payment Method</h3>
-          
+          <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Payment Method</h3>
           <div class="payment-methods-section" id="payment-methods-gift">
             <div id="ewallet-group-gift">
               <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
@@ -1079,49 +335,29 @@
               <div class="payment-method" data-method="card" onclick="selectPaymentMethod('gift', 'card')"><div class="payment-method-icon">💳</div><div class="payment-method-name">Card</div></div>
             </div>
           </div>
-          
-          <button class="btn btn-primary btn-block" id="gift-btn" onclick="processGift()" disabled>
-            🎁 Send Gift Subscription
-          </button>
+          <button class="btn btn-primary btn-block" id="gift-btn" onclick="processGift()" disabled>🎁 Send Gift</button>
         </div>
       </div>
 
-      <!-- Donate Section -->
       <div class="section-panel" id="section-donate">
         <div class="section-header">
           <h2>💝 Support Rosary73</h2>
           <button class="close-section" onclick="closeSection('donate')">×</button>
         </div>
-        
-        <p style="margin-bottom: 25px; color: rgba(255,255,255,0.7);">
-          Your donation helps us keep Rosary73 running, support development, and provide free access to those who can't afford a subscription. Thank you for your generosity!
-        </p>
-        
-        <h3 style="margin-bottom: 15px; font-size: 1rem; color: rgba(255,255,255,0.8);">Select Amount</h3>
-        
+        <p style="margin-bottom: 25px; color: rgba(255,255,255,0.7);">Your donation helps keep Rosary73 running. Thank you!</p>
+        <h3 style="margin-bottom: 15px; font-size: 1rem;">Select Amount</h3>
         <div class="donation-grid" id="donation-grid">
-          <div class="donation-amount" data-amount="100" onclick="selectDonation(100)">
-            <div class="donation-value" id="donate-100">₱100</div>
-          </div>
-          <div class="donation-amount" data-amount="200" onclick="selectDonation(200)">
-            <div class="donation-value" id="donate-200">₱200</div>
-          </div>
-          <div class="donation-amount" data-amount="300" onclick="selectDonation(300)">
-            <div class="donation-value" id="donate-300">₱300</div>
-          </div>
-          <div class="donation-amount" data-amount="500" onclick="selectDonation(500)">
-            <div class="donation-value" id="donate-500">₱500</div>
-          </div>
+          <div class="donation-amount" data-amount="100" onclick="selectDonation(100)"><div class="donation-value" id="donate-100">₱100</div></div>
+          <div class="donation-amount" data-amount="200" onclick="selectDonation(200)"><div class="donation-value" id="donate-200">₱200</div></div>
+          <div class="donation-amount" data-amount="300" onclick="selectDonation(300)"><div class="donation-value" id="donate-300">₱300</div></div>
+          <div class="donation-amount" data-amount="500" onclick="selectDonation(500)"><div class="donation-value" id="donate-500">₱500</div></div>
         </div>
-        
         <div class="custom-amount-input">
-          <span style="color: rgba(255,255,255,0.6);">Or enter custom amount:</span>
-          <input type="number" id="custom-donation" placeholder="Enter amount" min="50">
+          <span style="color: rgba(255,255,255,0.6);">Or enter custom:</span>
+          <input type="number" id="custom-donation" placeholder="Amount" min="50">
           <button class="btn btn-secondary btn-small" onclick="selectCustomDonation()">Set</button>
         </div>
-        
-        <h3 style="margin: 25px 0 15px; font-size: 1rem; color: rgba(255,255,255,0.8);">Select Payment Method</h3>
-        
+        <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Payment Method</h3>
         <div class="payment-methods-section" id="payment-methods-donate">
           <div id="ewallet-group-donate">
             <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
@@ -1143,56 +379,34 @@
             <div class="payment-method" data-method="card" onclick="selectPaymentMethod('donate', 'card')"><div class="payment-method-icon">💳</div><div class="payment-method-name">Card</div></div>
           </div>
         </div>
-        
-        <button class="btn btn-primary btn-block" id="donate-btn" onclick="processDonation()" disabled>
-          💝 Donate Now
-        </button>
+        <button class="btn btn-primary btn-block" id="donate-btn" onclick="processDonation()" disabled>💝 Donate Now</button>
       </div>
 
-      <!-- Quick Stats -->
       <div class="quick-stats">
         <h3>📊 YOUR STATISTICS</h3>
         <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-value" id="stat-prayers">0</div>
-            <div class="stat-label">Prayers Recorded</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" id="stat-rosaries">0</div>
-            <div class="stat-label">Rosaries Joined</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" id="stat-started">0</div>
-            <div class="stat-label">Rosaries Started</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" id="stat-groups">0</div>
-            <div class="stat-label">Groups Joined</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" id="stat-member-since">-</div>
-            <div class="stat-label">Member Since</div>
-          </div>
+          <div class="stat-item"><div class="stat-value" id="stat-prayers">0</div><div class="stat-label">Prayers Recorded</div></div>
+          <div class="stat-item"><div class="stat-value" id="stat-rosaries">0</div><div class="stat-label">Rosaries Joined</div></div>
+          <div class="stat-item"><div class="stat-value" id="stat-started">0</div><div class="stat-label">Rosaries Started</div></div>
+          <div class="stat-item"><div class="stat-value" id="stat-groups">0</div><div class="stat-label">Groups Joined</div></div>
+          <div class="stat-item"><div class="stat-value" id="stat-member-since">-</div><div class="stat-label">Member Since</div></div>
         </div>
       </div>
     </div>
   </main>
 
   <footer class="footer">
-    <p>Need help? <a href="contact.html">Contact Support</a> | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+    <p>Need help? <a href="contact.html">Contact Support</a> | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a></p>
     <p style="margin-top: 10px;">© 2025 Rosary73. All rights reserved.</p>
   </footer>
 
-  <!-- Toast Container -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
 
   <script>
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBBzm-LuWZwyOCMqYzxodpqLNn4Eg3wNDk",
       authDomain: "rosary--interact-app.firebaseapp.com",
@@ -1202,33 +416,18 @@
       appId: "1:174985016192:web:134b684d6f0ba731510765"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Cloud Functions URL
     const FUNCTIONS_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net';
+    const ADMIN_UID = '1T1zQ5seIxTBXnvCGtQDjR1E6e13';
 
-    // Pricing
     const PRICING = {
-      PH: {
-        currency: 'PHP',
-        symbol: '₱',
-        plans: { threeMonth: 99, sixMonth: 179, twelveMonth: 329 },
-        donations: [100, 200, 300, 500],
-        minDonation: 50
-      },
-      OTHER: {
-        currency: 'USD',
-        symbol: '$',
-        plans: { threeMonth: 2.99, sixMonth: 5.49, twelveMonth: 9.90 },
-        donations: [2, 5, 10, 20],
-        minDonation: 1
-      }
+      PH: { currency: 'PHP', symbol: '₱', plans: { threeMonth: 99, sixMonth: 179, twelveMonth: 329 }, donations: [100, 200, 300, 500], minDonation: 50 },
+      OTHER: { currency: 'USD', symbol: '$', plans: { threeMonth: 2.99, sixMonth: 5.49, twelveMonth: 9.90 }, donations: [2, 5, 10, 20], minDonation: 1 }
     };
 
-    // State
     let currentUser = null;
     let userData = null;
     let selectedPlan = null;
@@ -1237,9 +436,7 @@
     let selectedPaymentMethods = { subscribe: null, gift: null, donate: null };
     let userPricing = PRICING.PH;
 
-    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
-      // Check for stored session
       const storedUser = sessionStorage.getItem('rosary73UserData');
       if (storedUser) {
         userData = JSON.parse(storedUser);
@@ -1256,72 +453,44 @@
     function setupLoginForm() {
       document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const username = document.getElementById('login-username').value.trim();
         const password = document.getElementById('login-password').value;
         const btn = document.getElementById('login-btn');
         const errorDiv = document.getElementById('login-error');
         const errorText = document.getElementById('login-error-text');
         
-        // Hide previous errors
         errorDiv.classList.add('hidden');
-        
         btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span> Signing in...';
+        btn.innerHTML = '<span class="spinner"></span> Verifying...';
         
         try {
-          // Step 1: Get full user data from verifyWebUser
           const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username })
           });
-          
           const result = await response.json();
           
-          // Check if user was found
-          if (!result.valid) {
-            throw new Error(result.error || 'Username not found');
-          }
+          if (!result.valid) throw new Error(result.error || 'Username not found');
           
-          // App-only accounts now have full access - no blocking
-          // Password verification happens through Firebase Auth below
-          
-          // Step 2: Verify password by signing in with Firebase Auth
-          // For app-only accounts, use the generated email format
+          btn.innerHTML = '<span class="spinner"></span> Signing in...';
           const emailToUse = result.email || `${username.toLowerCase()}@rosary73.app`;
           await auth.signInWithEmailAndPassword(emailToUse, password);
           
-          // Step 3: Store the full user data from verifyWebUser (includes recordings, stats, etc.)
           userData = result;
           sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
-          
-          // Set pricing based on region
           userPricing = result.regionCode === 'PH' ? PRICING.PH : PRICING.OTHER;
           
           showDashboard();
           updateUI();
           updatePaymentVisibility();
           showToast('Welcome back, ' + result.username + '!', 'success');
-          
         } catch (error) {
-          console.error('Login error:', error);
           errorDiv.classList.remove('hidden');
-          errorDiv.className = 'alert alert-error';
-          
-          // Friendly error messages
-          let errorMessage = error.message || 'Login failed';
-          if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-            errorMessage = 'Incorrect password. Please try again.';
-          } else if (error.code === 'auth/too-many-requests') {
-            errorMessage = 'Too many failed attempts. Please try again later.';
-          } else if (error.code === 'auth/user-not-found') {
-            errorMessage = 'Account not found. Please check your username.';
-          } else if (error.code === 'auth/invalid-email' || error.code === 'auth/missing-email') {
-            errorMessage = 'Unable to sign in. Please try again or contact support.';
-          }
-          
-          errorText.textContent = errorMessage;
+          let msg = error.message || 'Login failed';
+          if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') msg = 'Incorrect password.';
+          else if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try later.';
+          errorText.textContent = msg;
         } finally {
           btn.disabled = false;
           btn.textContent = 'Sign In';
@@ -1337,13 +506,11 @@
       showToast('Logged out', 'success');
     }
 
-    // UI Updates
     function showLoginGate() {
       document.getElementById('login-gate').classList.remove('hidden');
       document.getElementById('dashboard').classList.remove('visible');
       document.getElementById('members-nav').classList.remove('visible');
       document.getElementById('header-user').classList.add('hidden');
-      // Reset error state
       document.getElementById('login-error').classList.add('hidden');
     }
 
@@ -1355,32 +522,34 @@
     }
 
     function updatePaymentVisibility() {
-      const regionCode = userData?.regionCode || 'OTHER';
-      const isPH = regionCode === 'PH';
-      
-      // Show/hide Philippine-only payment methods
-      ['subscribe', 'gift', 'donate'].forEach(section => {
-        const ewalletGroup = document.getElementById(`ewallet-group-${section}`);
-        const qrphGroup = document.getElementById(`qrph-group-${section}`);
-        if (ewalletGroup) ewalletGroup.style.display = isPH ? 'block' : 'none';
-        if (qrphGroup) qrphGroup.style.display = isPH ? 'block' : 'none';
+      const isPH = (userData?.regionCode || 'OTHER') === 'PH';
+      ['subscribe', 'gift', 'donate'].forEach(s => {
+        const ew = document.getElementById(`ewallet-group-${s}`);
+        const qr = document.getElementById(`qrph-group-${s}`);
+        if (ew) ew.style.display = isPH ? 'block' : 'none';
+        if (qr) qr.style.display = isPH ? 'block' : 'none';
       });
     }
 
     function updateUI() {
       if (!userData) return;
       
-      // Header user info - use username from verifyWebUser response
       document.getElementById('header-username').textContent = userData.username || 'User';
       document.getElementById('user-email').textContent = userData.email || (userData.appOnlyAccount ? '📱 App Account' : '');
       document.getElementById('user-region').textContent = userData.country || 'Unknown';
       
-      // Subscription status
       const statusBadge = document.getElementById('user-status-badge');
       const statusText = document.getElementById('user-status-text');
       const status = userData.subscriptionStatus || 'none';
       
-      if (status === 'trial') {
+      // CHECK ADMIN FIRST - perpetual subscription
+      const isAdmin = userData.userId === ADMIN_UID || userData.username?.toLowerCase() === 'drekki';
+      
+      if (isAdmin) {
+        statusBadge.textContent = 'Admin';
+        statusBadge.className = 'status-badge status-admin';
+        statusText.textContent = 'Perpetual access';
+      } else if (status === 'trial') {
         statusBadge.textContent = 'Trial';
         statusBadge.className = 'status-badge status-trial';
         if (userData.trialEndDate) {
@@ -1402,186 +571,110 @@
         statusText.textContent = 'Please subscribe';
       }
       
-      // Prayers progress - use prayerCount from verifyWebUser
       const prayerCount = userData.prayerCount || 0;
       document.getElementById('prayers-progress').textContent = `${prayerCount}/7`;
       document.getElementById('stat-prayers').textContent = prayerCount;
-      
-      // Stats - use values from verifyWebUser
       document.getElementById('stat-rosaries').textContent = userData.rosariesJoined || 0;
       document.getElementById('stat-started').textContent = userData.rosariesStarted || 0;
       document.getElementById('stat-groups').textContent = userData.groupsJoined || 0;
       
-      // Member since
       if (userData.memberSince) {
-        const createdAt = new Date(userData.memberSince);
-        document.getElementById('stat-member-since').textContent = 
-          createdAt.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        const d = new Date(userData.memberSince);
+        document.getElementById('stat-member-since').textContent = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
       }
       
-      // Update pricing displays
       updatePricing();
     }
 
     function updatePricing() {
-      const s = userPricing.symbol;
-      const p = userPricing.plans;
-      const d = userPricing.donations;
-      
-      // Subscription prices
+      const s = userPricing.symbol, p = userPricing.plans, d = userPricing.donations;
       document.getElementById('price-3mo').textContent = s + p.threeMonth;
       document.getElementById('price-6mo').textContent = s + p.sixMonth;
       document.getElementById('price-12mo').textContent = s + p.twelveMonth;
-      
-      // Gift prices
       document.getElementById('gift-price-3mo').textContent = s + p.threeMonth;
       document.getElementById('gift-price-6mo').textContent = s + p.sixMonth;
       document.getElementById('gift-price-12mo').textContent = s + p.twelveMonth;
-      
-      // Donation amounts
       document.getElementById('donate-100').textContent = s + d[0];
       document.getElementById('donate-200').textContent = s + d[1];
       document.getElementById('donate-300').textContent = s + d[2];
       document.getElementById('donate-500').textContent = s + d[3];
-      
-      // Update data attributes
-      document.querySelectorAll('#donation-grid .donation-amount').forEach((el, i) => {
-        el.dataset.amount = d[i];
-      });
+      document.querySelectorAll('#donation-grid .donation-amount').forEach((el, i) => { el.dataset.amount = d[i]; });
     }
 
-    // Section Management
     function openSection(section) {
       document.querySelectorAll('.section-panel').forEach(el => el.classList.remove('visible'));
       document.getElementById(`section-${section}`).classList.add('visible');
-      document.querySelectorAll('.members-nav-item').forEach(el => {
-        el.classList.toggle('active', el.dataset.section === section);
-      });
+      document.querySelectorAll('.members-nav-item').forEach(el => el.classList.toggle('active', el.dataset.section === section));
       document.getElementById(`section-${section}`).scrollIntoView({ behavior: 'smooth' });
     }
 
     function closeSection(section) {
       document.getElementById(`section-${section}`).classList.remove('visible');
-      document.querySelectorAll('.members-nav-item').forEach(el => {
-        if (el.dataset.section === section) el.classList.remove('active');
-      });
+      document.querySelectorAll('.members-nav-item').forEach(el => { if (el.dataset.section === section) el.classList.remove('active'); });
     }
 
-    // Plan Selection
     function selectPlan(plan) {
       selectedPlan = plan;
-      document.querySelectorAll('#plans-grid .plan-card').forEach(el => {
-        el.classList.toggle('selected', el.dataset.plan === plan);
-      });
+      document.querySelectorAll('#plans-grid .plan-card').forEach(el => el.classList.toggle('selected', el.dataset.plan === plan));
       updateSubscribeButton();
     }
 
     function selectGiftPlan(plan) {
       selectedGiftPlan = plan;
-      document.querySelectorAll('#gift-plans-grid .plan-card').forEach(el => {
-        el.classList.toggle('selected', el.dataset.plan === plan);
-      });
+      document.querySelectorAll('#gift-plans-grid .plan-card').forEach(el => el.classList.toggle('selected', el.dataset.plan === plan));
       updateGiftButton();
     }
 
-    // Donation Selection
     function selectDonation(amount) {
       selectedDonation = amount;
-      document.querySelectorAll('#donation-grid .donation-amount').forEach(el => {
-        el.classList.toggle('selected', parseInt(el.dataset.amount) === amount);
-      });
+      document.querySelectorAll('#donation-grid .donation-amount').forEach(el => el.classList.toggle('selected', parseInt(el.dataset.amount) === amount));
       document.getElementById('custom-donation').value = '';
       updateDonateButton();
     }
 
     function selectCustomDonation() {
-      const input = document.getElementById('custom-donation');
-      const amount = parseFloat(input.value);
-      
-      if (amount < userPricing.minDonation) {
-        showToast(`Minimum donation is ${userPricing.symbol}${userPricing.minDonation}`, 'error');
-        return;
-      }
-      
+      const amount = parseFloat(document.getElementById('custom-donation').value);
+      if (amount < userPricing.minDonation) { showToast(`Minimum is ${userPricing.symbol}${userPricing.minDonation}`, 'error'); return; }
       selectedDonation = amount;
-      document.querySelectorAll('#donation-grid .donation-amount').forEach(el => {
-        el.classList.remove('selected');
-      });
+      document.querySelectorAll('#donation-grid .donation-amount').forEach(el => el.classList.remove('selected'));
       updateDonateButton();
-      showToast(`Custom amount set: ${userPricing.symbol}${amount}`, 'success');
+      showToast(`Amount set: ${userPricing.symbol}${amount}`, 'success');
     }
 
-    // Payment Method Selection
     function selectPaymentMethod(section, method) {
       selectedPaymentMethods[section] = method;
-      document.querySelectorAll(`#payment-methods-${section} .payment-method`).forEach(el => {
-        el.classList.toggle('selected', el.dataset.method === method);
-      });
-      
+      document.querySelectorAll(`#payment-methods-${section} .payment-method`).forEach(el => el.classList.toggle('selected', el.dataset.method === method));
       if (section === 'subscribe') updateSubscribeButton();
       else if (section === 'gift') updateGiftButton();
       else if (section === 'donate') updateDonateButton();
     }
 
-    // Button State Updates
-    function updateSubscribeButton() {
-      const btn = document.getElementById('subscribe-btn');
-      btn.disabled = !selectedPlan || !selectedPaymentMethods.subscribe;
-    }
+    function updateSubscribeButton() { document.getElementById('subscribe-btn').disabled = !selectedPlan || !selectedPaymentMethods.subscribe; }
+    function updateGiftButton() { document.getElementById('gift-btn').disabled = !selectedGiftPlan || !selectedPaymentMethods.gift || !document.getElementById('gift-recipient').value.trim(); }
+    function updateDonateButton() { document.getElementById('donate-btn').disabled = !selectedDonation || !selectedPaymentMethods.donate; }
 
-    function updateGiftButton() {
-      const btn = document.getElementById('gift-btn');
-      const recipient = document.getElementById('gift-recipient').value.trim();
-      btn.disabled = !selectedGiftPlan || !selectedPaymentMethods.gift || !recipient;
-    }
-
-    function updateDonateButton() {
-      const btn = document.getElementById('donate-btn');
-      btn.disabled = !selectedDonation || !selectedPaymentMethods.donate;
-    }
-
-    // Process Payments - Using createXenditPaymentWeb for website
     async function processSubscription() {
       const btn = document.getElementById('subscribe-btn');
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span> Processing...';
-      
       try {
-        const amount = userPricing.plans[selectedPlan];
-        const currency = userPricing.currency;
-        
         const response = await fetch(`${FUNCTIONS_URL}/createXenditPaymentWeb`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            userId: userData.userId,
-            type: 'subscription',
-            plan: selectedPlan,
-            amount: amount,
-            currency: currency,
-            paymentMethod: selectedPaymentMethods.subscribe,
-            source: 'website',
+            userId: userData.userId, type: 'subscription', plan: selectedPlan,
+            amount: userPricing.plans[selectedPlan], currency: userPricing.currency,
+            paymentMethod: selectedPaymentMethods.subscribe, source: 'website',
             successUrl: 'https://rosary73.com/payment-success.html',
             failureUrl: 'https://rosary73.com/payment-failed.html'
           })
         });
-        
         const result = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(result.error || 'Payment failed');
-        }
-        
-        if (result.paymentUrl) {
-          window.location.href = result.paymentUrl;
-        } else if (result.deepLinkUrl) {
-          window.location.href = result.deepLinkUrl;
-        } else {
-          throw new Error('No payment URL received');
-        }
-        
+        if (!response.ok) throw new Error(result.error || 'Payment failed');
+        if (result.paymentUrl) window.location.href = result.paymentUrl;
+        else if (result.deepLinkUrl) window.location.href = result.deepLinkUrl;
+        else throw new Error('No payment URL');
       } catch (error) {
-        console.error('Subscription error:', error);
         showToast('Payment failed: ' + error.message, 'error');
       } finally {
         btn.disabled = false;
@@ -1594,56 +687,30 @@
       const recipient = document.getElementById('gift-recipient').value.trim();
       const message = document.getElementById('gift-message').value.trim();
       const btn = document.getElementById('gift-btn');
-      
-      if (!recipient) {
-        showToast('Please enter recipient username or email', 'error');
-        return;
-      }
-      
+      if (!recipient) { showToast('Enter recipient', 'error'); return; }
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span> Processing...';
-      
       try {
-        const amount = userPricing.plans[selectedGiftPlan];
-        const currency = userPricing.currency;
-        
         const response = await fetch(`${FUNCTIONS_URL}/createXenditPaymentWeb`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            userId: userData.userId,
-            type: 'gift',
-            plan: selectedGiftPlan,
-            amount: amount,
-            currency: currency,
-            paymentMethod: selectedPaymentMethods.gift,
-            giftRecipient: { name: recipient, message: message },
-            source: 'website',
-            successUrl: 'https://rosary73.com/payment-success.html',
+            userId: userData.userId, type: 'gift', plan: selectedGiftPlan,
+            amount: userPricing.plans[selectedGiftPlan], currency: userPricing.currency,
+            paymentMethod: selectedPaymentMethods.gift, giftRecipient: { name: recipient, message },
+            source: 'website', successUrl: 'https://rosary73.com/payment-success.html',
             failureUrl: 'https://rosary73.com/payment-failed.html'
           })
         });
-        
         const result = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(result.error || 'Payment failed');
-        }
-        
-        if (result.paymentUrl) {
-          window.location.href = result.paymentUrl;
-        } else if (result.deepLinkUrl) {
-          window.location.href = result.deepLinkUrl;
-        } else {
-          throw new Error('No payment URL received');
-        }
-        
+        if (!response.ok) throw new Error(result.error || 'Payment failed');
+        if (result.paymentUrl) window.location.href = result.paymentUrl;
+        else if (result.deepLinkUrl) window.location.href = result.deepLinkUrl;
       } catch (error) {
-        console.error('Gift error:', error);
         showToast('Payment failed: ' + error.message, 'error');
       } finally {
         btn.disabled = false;
-        btn.textContent = '🎁 Send Gift Subscription';
+        btn.textContent = '🎁 Send Gift';
         updateGiftButton();
       }
     }
@@ -1652,41 +719,22 @@
       const btn = document.getElementById('donate-btn');
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span> Processing...';
-      
       try {
-        const currency = userPricing.currency;
-        
         const response = await fetch(`${FUNCTIONS_URL}/createXenditPaymentWeb`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            userId: userData.userId,
-            type: 'donation',
-            amount: selectedDonation,
-            currency: currency,
-            paymentMethod: selectedPaymentMethods.donate,
-            source: 'website',
-            successUrl: 'https://rosary73.com/payment-success.html',
+            userId: userData.userId, type: 'donation', amount: selectedDonation,
+            currency: userPricing.currency, paymentMethod: selectedPaymentMethods.donate,
+            source: 'website', successUrl: 'https://rosary73.com/payment-success.html',
             failureUrl: 'https://rosary73.com/payment-failed.html'
           })
         });
-        
         const result = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(result.error || 'Payment failed');
-        }
-        
-        if (result.paymentUrl) {
-          window.location.href = result.paymentUrl;
-        } else if (result.deepLinkUrl) {
-          window.location.href = result.deepLinkUrl;
-        } else {
-          throw new Error('No payment URL received');
-        }
-        
+        if (!response.ok) throw new Error(result.error || 'Payment failed');
+        if (result.paymentUrl) window.location.href = result.paymentUrl;
+        else if (result.deepLinkUrl) window.location.href = result.deepLinkUrl;
       } catch (error) {
-        console.error('Donation error:', error);
         showToast('Payment failed: ' + error.message, 'error');
       } finally {
         btn.disabled = false;
@@ -1695,24 +743,15 @@
       }
     }
 
-    // Gift recipient input listener
     document.getElementById('gift-recipient')?.addEventListener('input', updateGiftButton);
 
-    // Toast
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      toast.innerHTML = `
-        <span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
-        <span>${message}</span>
-      `;
+      toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span><span>${message}</span>`;
       container.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.style.animation = 'slideIn 0.3s ease reverse';
-        setTimeout(() => toast.remove(), 300);
-      }, 4000);
+      setTimeout(() => { toast.style.animation = 'slideIn 0.3s ease reverse'; setTimeout(() => toast.remove(), 300); }, 4000);
     }
   </script>
 </body>
