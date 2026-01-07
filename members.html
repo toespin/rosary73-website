@@ -79,6 +79,8 @@
     .status-active { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
     .status-expired { background: rgba(239, 68, 68, 0.2); color: #f87171; }
     .status-admin { background: rgba(147, 51, 234, 0.2); color: #a855f7; }
+    .status-perpetual { background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(184, 134, 11, 0.3)); color: #d4af37; }
+    .status-special { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
     
     .section-panel { display: none; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; margin-bottom: 30px; }
     .section-panel.visible { display: block; }
@@ -550,17 +552,33 @@
       const statusText = document.getElementById('user-status-text');
       const status = userData.subscriptionStatus || 'none';
       
-      // CHECK ADMIN FIRST - perpetual subscription
-      const isAdmin = userData.userId === ADMIN_UID || userData.username?.toLowerCase() === 'drekki';
+      // Use flags from API response for reliable detection
+      const isAdmin = userData.isAdmin === true;
+      const isPerpetual = userData.isPerpetual === true;
+      const hasSpecialAccess = userData.hasSpecialAccess === true;
       
+      // PRIORITY 1: Admin (perpetual + admin badge)
       if (isAdmin) {
         statusBadge.textContent = 'Admin';
         statusBadge.className = 'status-badge status-admin';
         statusText.textContent = 'Perpetual access';
-      } else if (status === 'trial') {
+      }
+      // PRIORITY 2: Perpetual users (lifetime access)
+      else if (isPerpetual || status === 'perpetual') {
+        statusBadge.textContent = '✨ Perpetual';
+        statusBadge.className = 'status-badge status-perpetual';
+        statusText.textContent = 'Lifetime access';
+      }
+      // PRIORITY 3: Special access (priests/religious/hardship)
+      else if (hasSpecialAccess || status === 'special_access') {
+        statusBadge.textContent = '🙏 Free Access';
+        statusBadge.className = 'status-badge status-special';
+        statusText.textContent = 'Special access granted';
+      }
+      // PRIORITY 4: Trial
+      else if (status === 'trial') {
         statusBadge.textContent = 'Trial';
         statusBadge.className = 'status-badge status-trial';
-        // ALWAYS set statusText - check if trialEndDate exists
         if (userData.trialEndDate) {
           const endDate = new Date(userData.trialEndDate);
           const daysLeft = Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24));
@@ -568,10 +586,11 @@
         } else {
           statusText.textContent = 'Free trial';
         }
-      } else if (status === 'active') {
+      }
+      // PRIORITY 5: Active subscription
+      else if (status === 'active') {
         statusBadge.textContent = 'Active';
         statusBadge.className = 'status-badge status-active';
-        // ALWAYS set statusText - check if subscriptionEndDate exists
         if (userData.subscriptionEndDate) {
           const endDate = new Date(userData.subscriptionEndDate);
           const daysLeft = Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24));
@@ -579,8 +598,9 @@
         } else {
           statusText.textContent = 'Active subscription';
         }
-      } else {
-        // Expired or no subscription
+      }
+      // PRIORITY 6: Expired or no subscription
+      else {
         statusBadge.textContent = 'Expired';
         statusBadge.className = 'status-badge status-expired';
         statusText.textContent = 'Please subscribe';
