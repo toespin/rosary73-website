@@ -206,6 +206,173 @@
         }
         
         /* =========================================
+           MEMBER LOGIN CARD STYLES
+        ========================================= */
+        .member-login-section {
+            padding: 60px 0 40px;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+        
+        .member-login-card {
+            max-width: 450px;
+            margin: 0 auto;
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        [data-theme="light"] .member-login-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+        
+        .login-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        
+        [data-theme="light"] .login-subtitle {
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .login-form-group {
+            text-align: left;
+        }
+        
+        .login-form-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        [data-theme="light"] .login-form-group label {
+            color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        [data-theme="light"] .login-input {
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.03);
+            color: #333;
+        }
+        
+        .login-input:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+        
+        .login-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        [data-theme="light"] .login-input::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: #1a1a2e;
+            margin-top: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        .login-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .login-links a {
+            color: #d4af37;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .login-links a:hover {
+            opacity: 0.8;
+        }
+        
+        .login-error {
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            margin-top: 15px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .login-error.visible {
+            display: flex;
+        }
+        
+        @media (max-width: 480px) {
+            .member-login-card {
+                padding: 30px 20px;
+                margin: 0 15px;
+            }
+            
+            .login-icon {
+                font-size: 3rem;
+            }
+            
+            .login-title {
+                font-size: 1.6rem;
+            }
+        }
+        
+        /* =========================================
            CLEAN APPLE-STYLE TYPOGRAPHY
            No outlines, lighter weights, subtle shadows
         ========================================= */
@@ -1170,7 +1337,7 @@
                 <span class="brand-text">Rosary73</span>
             </div>
             
-            <!-- Desktop Navigation Menu -->
+            <!-- Desktop Navigation Menu - REMOVED "Members" -->
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="#features" class="nav-link">Features</a></li>
@@ -1179,7 +1346,6 @@
                 <li><a href="faq.html" class="nav-link">FAQ</a></li>
                 <li><a href="signup.html" class="nav-link">Sign Up</a></li>
                 <li><a href="subscribe.html" class="nav-link">Subscribe</a></li>
-                <li><a href="members.html" class="nav-link">Members</a></li>
                 <li><a href="#download" class="nav-link btn-primary">Download</a></li>
             </ul>
             
@@ -1212,6 +1378,39 @@
         </div>
     </nav>
 
+    <!-- MEMBER LOGIN SECTION - NEW -->
+    <section class="member-login-section">
+        <div class="container">
+            <div class="member-login-card">
+                <div class="login-icon">🔐</div>
+                <h2 class="login-title">Member Login</h2>
+                <p class="login-subtitle">Sign in to access your dashboard</p>
+                
+                <form class="login-form" id="index-login-form">
+                    <div class="login-form-group">
+                        <label for="index-username">Username</label>
+                        <input type="text" id="index-username" class="login-input" placeholder="Enter your username" required>
+                    </div>
+                    <div class="login-form-group">
+                        <label for="index-password">Password</label>
+                        <input type="password" id="index-password" class="login-input" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="login-btn" id="index-login-btn">Sign In</button>
+                </form>
+                
+                <div class="login-links">
+                    <a href="signup.html">Create Account</a>
+                    <a href="forgot-password.html">Forgot Password?</a>
+                </div>
+                
+                <div class="login-error" id="index-login-error">
+                    <span>❌</span>
+                    <span id="index-login-error-text"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- HYBRID HERO: Modern Left Panel + Carousel Right Panel -->
     <section id="home" class="hero-modern">
         <div class="hero-background">
@@ -1222,13 +1421,8 @@
         
         <div class="container">
             <div class="hero-split">
-                <!-- Left: Text Content (Modern Design) -->
+                <!-- Left: Text Content (Modern Design) - REMOVED badge and buttons -->
                 <div class="hero-text">
-                    <div class="hero-badge">
-                        <span class="badge-icon">✚</span>
-                        <span>Revolutionary Prayer Experience</span>
-                    </div>
-                    
                     <h1 class="hero-title-new">
                         Unite in Prayer<br>
                         with <span class="highlight">73 Unique Voices</span>
@@ -1240,21 +1434,6 @@
                         Every Rosary is completed by 73 souls praying together — each offering one prayer so the full Rosary may rise to Heaven as one voice.
                         Alone we are a single whisper; together we are a mighty chorus of faith, hope, and love.
                     </p>
-                    
-                    <div class="hero-buttons-new">
-                        <a href="signup.html" class="btn-modern btn-primary-modern">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                            </svg>
-                            <span>Create Free Account</span>
-                        </a>
-                        <a href="#how-it-works" class="btn-modern btn-secondary-modern">
-                            <span>See How It Works</span>
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                                <path d="M8 0L6.59 1.41 12.17 7H0v2h12.17l-5.58 5.59L8 16l8-8z"/>
-                            </svg>
-                        </a>
-                    </div>
                 </div>
                 
                 <!-- Right: Bead Carousel (Restored from old design) -->
@@ -1409,11 +1588,10 @@
         </div>
     </section>
 
-    <!-- ENHANCED FEATURES with Custom Images -->
+    <!-- ENHANCED FEATURES with Custom Images - REMOVED "Why Choose Rosary73" -->
     <section id="features" class="features-enhanced">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Why Choose Rosary73</span>
                 <h2 class="section-title">Experience Divine Unity</h2>
                 <p class="section-subtitle">Discover the unique features that make our app special</p>
             </div>
@@ -1465,11 +1643,10 @@
         </div>
     </section>
 
-    <!-- ENHANCED HOW IT WORKS with Numbered Bead Images -->
+    <!-- ENHANCED HOW IT WORKS - REMOVED "Simple Process", "See It In Action" -->
     <section id="how-it-works" class="how-it-works-enhanced">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Simple Process</span>
                 <h2 class="section-title">Your Journey with Mary</h2>
                 <p class="section-subtitle">Join the global prayer community in 3 simple steps</p>
             </div>
@@ -1515,16 +1692,6 @@
                 </div>
             </div>
             
-            <!-- Video CTA -->
-            <div class="video-cta">
-                <a href="#download" class="btn-modern btn-video">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span>See It In Action</span>
-                </a>
-            </div>
-            
             <!-- CTA Buttons -->
             <div class="section-cta">
                 <a href="signup.html" class="btn-modern btn-primary-modern">Get Started Free</a>
@@ -1533,13 +1700,10 @@
         </div>
     </section>
 
-    <!-- =========================================
-         SCROLLING MOBILE APP PREVIEW SECTION
-    ========================================= -->
+    <!-- SCROLLING MOBILE APP PREVIEW SECTION - REMOVED "Experience the App" -->
     <section id="app-preview" class="app-preview-section">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Experience the App</span>
                 <h2 class="section-title">See Rosary73 in Action</h2>
                 <p class="section-subtitle">Explore the beautiful interface designed for your prayer journey</p>
             </div>
@@ -1808,9 +1972,74 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK for Login -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+
     <script src="js/main.js"></script>
     <script src="js/carousel.js"></script>
     <script src="js/enhanced.js"></script>
+    
+    <!-- Login Form Script -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBBzm-LuWZwyOCMqYzxodpqLNn4Eg3wNDk",
+            authDomain: "rosary--interact-app.firebaseapp.com",
+            projectId: "rosary--interact-app",
+            storageBucket: "rosary--interact-app.firebasestorage.app",
+            messagingSenderId: "174985016192",
+            appId: "1:174985016192:web:134b684d6f0ba731510765"
+        };
+
+        // Only initialize if not already initialized
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        const FUNCTIONS_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net';
+
+        document.getElementById('index-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('index-username').value.trim();
+            const password = document.getElementById('index-password').value;
+            const btn = document.getElementById('index-login-btn');
+            const errorDiv = document.getElementById('index-login-error');
+            const errorText = document.getElementById('index-login-error-text');
+            
+            errorDiv.classList.remove('visible');
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
+            
+            try {
+                const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username })
+                });
+                const result = await response.json();
+                
+                if (!result.valid) throw new Error(result.error || 'Username not found');
+                
+                // Use correct email domain for guest users
+                const emailToUse = result.email || `${username.toLowerCase()}@guest.r73.app`;
+                await auth.signInWithEmailAndPassword(emailToUse, password);
+                
+                // Store user data and redirect
+                sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
+                window.location.href = 'members.html';
+                
+            } catch (error) {
+                errorDiv.classList.add('visible');
+                let msg = error.message || 'Login failed';
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') msg = 'Incorrect password.';
+                else if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try later.';
+                errorText.textContent = msg;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+            }
+        });
+    </script>
     
     <!-- Theme Toggle Script -->
     <script>
