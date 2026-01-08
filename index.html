@@ -206,16 +206,16 @@
         }
         
         /* =========================================
-           COMPACT MEMBER LOGIN CARD - INLINE STYLE
-           Less rounded corners, slightly wider
+           COMPACT MEMBER LOGIN CARD
+           Thinner border (1px), tighter padding
         ========================================= */
         .compact-login-card {
             background: rgba(26, 26, 46, 0.95);
-            border: 2px solid #d4af37;
-            border-radius: 6px;
-            padding: 16px 20px;
-            max-width: 420px;
-            margin-bottom: 20px;
+            border: 1px solid #d4af37;
+            border-radius: 4px;
+            padding: 14px 18px;
+            max-width: 400px;
+            margin-bottom: 18px;
         }
         
         [data-theme="light"] .compact-login-card {
@@ -225,22 +225,22 @@
         
         .compact-login-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #d4af37;
-            margin: 0 0 12px 0;
+            margin: 0 0 10px 0;
         }
         
         .compact-login-form {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
         
         .compact-login-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
         }
         
         .compact-form-group {
@@ -250,8 +250,8 @@
         
         .compact-form-group label {
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.75rem;
-            margin-bottom: 4px;
+            font-size: 0.7rem;
+            margin-bottom: 3px;
             font-weight: 500;
         }
         
@@ -260,12 +260,12 @@
         }
         
         .compact-login-input {
-            padding: 8px 10px;
-            border-radius: 6px;
+            padding: 7px 9px;
+            border-radius: 4px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: border-color 0.3s ease;
         }
         
@@ -282,7 +282,7 @@
         
         .compact-login-input::placeholder {
             color: rgba(255, 255, 255, 0.4);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         
         [data-theme="light"] .compact-login-input::placeholder {
@@ -290,9 +290,9 @@
         }
         
         .compact-login-btn {
-            padding: 9px 18px;
-            border-radius: 6px;
-            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             border: none;
@@ -309,8 +309,8 @@
         .compact-login-links {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
-            font-size: 0.75rem;
+            margin-top: 8px;
+            font-size: 0.7rem;
         }
         
         .compact-login-links a {
@@ -324,15 +324,16 @@
         }
         
         .compact-login-error {
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 6px 10px;
+            border-radius: 4px;
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: #f87171;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             display: none;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            margin-top: 8px;
         }
         
         .compact-login-error.visible {
@@ -343,7 +344,7 @@
         @media (max-width: 480px) {
             .compact-login-card {
                 max-width: 100%;
-                padding: 14px 16px;
+                padding: 12px 14px;
             }
             
             .compact-login-row {
@@ -351,7 +352,7 @@
             }
             
             .compact-login-title {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
         }
         
@@ -363,15 +364,14 @@
         }
         
         /* =========================================
-           CLEAN APPLE-STYLE TYPOGRAPHY
-           SMALLER FONTS FOR LEFT PANEL
+           LEFT PANEL - MUCH SMALLER FONTS
         ========================================= */
         
-        /* Main titles - Smaller for better alignment */
+        /* Main title - Much smaller */
         .hero-title-new {
-            font-size: 2.2rem !important;
-            line-height: 1.2 !important;
-            margin-bottom: 15px !important;
+            font-size: 1.9rem !important;
+            line-height: 1.15 !important;
+            margin-bottom: 12px !important;
         }
         
         .hero-title-new,
@@ -384,7 +384,7 @@
             letter-spacing: -0.01em;
         }
         
-        /* Subtitles and descriptions - Even lighter */
+        /* Subtitles and descriptions */
         .section-subtitle,
         .hero-description-new,
         .section-tag {
@@ -392,13 +392,13 @@
             font-weight: 500 !important;
         }
         
-        /* Hero description styling - SMALLER */
+        /* Hero description - Much smaller */
         .hero-description-new {
-            font-size: 0.95rem !important;
-            line-height: 1.7 !important;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
             color: var(--text-secondary);
-            margin-bottom: 20px !important;
-            max-width: 450px;
+            margin-bottom: 0 !important;
+            max-width: 420px;
         }
         
         .hero-description-new .highlight-quote {
@@ -406,15 +406,17 @@
             font-weight: 600 !important;
             color: var(--primary-700);
             display: block;
-            margin-bottom: 12px;
-            font-size: 1rem !important;
+            margin-bottom: 10px;
+            font-size: 0.9rem !important;
         }
         
         [data-theme="dark"] .hero-description-new .highlight-quote {
             color: var(--primary-400);
         }
         
-        /* Carousel adjustments - smaller for alignment */
+        /* =========================================
+           CAROUSEL - Adjusted to match
+        ========================================= */
         .hero-visual-carousel {
             position: relative;
             display: flex;
@@ -425,14 +427,14 @@
         }
         
         .carousel-container-hero {
-            max-width: 550px;
+            max-width: 520px;
             width: 100%;
             overflow: hidden;
         }
         
         .bead-carousel-container {
             position: relative;
-            padding: 30px 50px;
+            padding: 25px 45px;
             overflow: hidden;
         }
         
@@ -441,13 +443,13 @@
         }
         
         .bead-image-container {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
         
-        /* Smaller beads for better alignment */
+        /* Beads - slightly smaller */
         .bead-visual {
-            width: 280px;
-            height: 280px;
+            width: 260px;
+            height: 260px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -468,7 +470,7 @@
             filter: drop-shadow(0 10px 30px rgba(93, 173, 226, 0.3));
         }
         
-        /* Fix carousel arrows - make them more visible */
+        /* Carousel arrows */
         .carousel-nav {
             position: absolute;
             top: 50%;
@@ -476,10 +478,10 @@
             background: rgba(93, 173, 226, 0.95) !important;
             color: white !important;
             border: 3px solid white !important;
-            width: 44px !important;
-            height: 44px !important;
+            width: 42px !important;
+            height: 42px !important;
             border-radius: 50%;
-            font-size: 24px !important;
+            font-size: 22px !important;
             cursor: pointer;
             z-index: 10;
             display: flex;
@@ -504,23 +506,22 @@
         }
         
         /* =========================================
-           CAROUSEL TEXT - DARK MODE COMPATIBLE
-           SMALLER FONTS
+           CAROUSEL TEXT - Smaller
         ========================================= */
         .bead-title {
-            font-size: 1.4rem;
+            font-size: 1.25rem;
             font-weight: 600;
             color: var(--text-primary, #2C3E50);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             text-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: color 0.3s ease;
         }
         
         .bead-description {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-secondary, #5D6D7E);
-            line-height: 1.7;
-            max-width: 400px;
+            line-height: 1.6;
+            max-width: 380px;
             margin: 0 auto;
             padding: 0 10px;
             transition: color 0.3s ease;
@@ -542,7 +543,6 @@
         
         /* =========================================
            HOW IT WORKS - BEAD IMAGES WITH NUMBERS
-           FIXED: Consistent sizing, no pulsating circles
         ========================================= */
         
         .step-number-circle {
@@ -717,7 +717,6 @@
         
         /* =========================================
            SCROLLING MOBILE MOCKUP SECTION
-           With Fixed Header &amp; Bottom Nav (FLEXBOX - NO GAPS)
         ========================================= */
         .app-preview-section {
             padding: 100px 0;
@@ -843,7 +842,7 @@
             flex: 1;
             overflow: hidden;
             position: relative;
-            background-color: #FDF6E3; /* Cream/beige to match app background - prevents black bands */
+            background-color: #FDF6E3;
         }
         
         /* The actual scrolling image */
@@ -1061,24 +1060,19 @@
         @media (max-width: 1024px) {
             .hero-split {
                 grid-template-columns: 1fr !important;
-                gap: 30px !important;
+                gap: 25px !important;
                 align-items: center !important;
             }
             
-            /* Text appears first on mobile/tablet (follows HTML order) */
-            /* Carousel appears second - no order change needed */
-            
             .bead-visual {
-                width: 240px;
-                height: 240px;
+                width: 220px;
+                height: 220px;
             }
             
-            /* Reduce carousel padding for tablet */
             .bead-carousel-container {
-                padding: 25px 45px;
+                padding: 20px 40px;
             }
             
-            /* Center hero text on tablet/mobile */
             .hero-text {
                 text-align: center;
                 padding: 0 20px;
@@ -1108,32 +1102,30 @@
                 height: 180px !important;
             }
             
-            /* Center login card on tablet */
             .compact-login-card {
                 margin-left: auto;
                 margin-right: auto;
             }
             
             .hero-title-new {
-                font-size: 2rem !important;
+                font-size: 1.8rem !important;
             }
         }
         
         @media (max-width: 768px) {
             .bead-visual {
-                width: 200px;
-                height: 200px;
+                width: 180px;
+                height: 180px;
             }
             
-            /* Reduce carousel padding significantly for mobile */
             .bead-carousel-container {
-                padding: 20px 45px;
+                padding: 18px 40px;
             }
             
             .carousel-nav {
-                width: 36px !important;
-                height: 36px !important;
-                font-size: 20px !important;
+                width: 34px !important;
+                height: 34px !important;
+                font-size: 18px !important;
             }
             
             .carousel-prev {
@@ -1144,7 +1136,6 @@
                 right: 5px;
             }
             
-            /* Center ALL hero content on mobile */
             .hero-text {
                 text-align: center !important;
                 padding: 0 15px;
@@ -1152,23 +1143,23 @@
             
             .hero-title-new {
                 text-align: center;
-                font-size: 1.8rem !important;
+                font-size: 1.6rem !important;
             }
             
             .hero-description-new {
                 text-align: center;
                 margin-left: auto;
                 margin-right: auto;
-                font-size: 0.9rem !important;
+                font-size: 0.8rem !important;
                 padding: 0 10px;
             }
             
             .bead-title {
-                font-size: 1.3rem;
+                font-size: 1.15rem;
             }
             
             .bead-description {
-                font-size: 0.85rem;
+                font-size: 0.8rem;
                 padding: 0 15px;
             }
             
@@ -1182,7 +1173,6 @@
                 height: 160px !important;
             }
             
-            /* Smaller feature images on mobile */
             .feature-icon-enhanced {
                 width: 100px;
                 height: 100px;
@@ -1191,34 +1181,33 @@
         
         @media (max-width: 480px) {
             .hero-title-new {
-                font-size: 1.6rem !important;
+                font-size: 1.4rem !important;
                 text-align: center;
             }
             
             .hero-description-new {
-                font-size: 0.85rem !important;
+                font-size: 0.75rem !important;
                 text-align: center;
                 padding: 0 5px;
             }
             
             .hero-description-new .highlight-quote {
-                font-size: 0.9rem !important;
+                font-size: 0.8rem !important;
             }
             
             .bead-visual {
-                width: 180px;
-                height: 180px;
+                width: 160px;
+                height: 160px;
             }
             
-            /* Minimal padding for small screens */
             .bead-carousel-container {
-                padding: 15px 40px;
+                padding: 15px 35px;
             }
             
             .carousel-nav {
-                width: 32px !important;
-                height: 32px !important;
-                font-size: 18px !important;
+                width: 30px !important;
+                height: 30px !important;
+                font-size: 16px !important;
             }
             
             .carousel-prev {
@@ -1230,12 +1219,12 @@
             }
             
             .bead-title {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .bead-description {
-                font-size: 0.8rem;
-                line-height: 1.6;
+                font-size: 0.75rem;
+                line-height: 1.5;
             }
             
             .step-number-circle {
@@ -1248,7 +1237,6 @@
                 height: 140px !important;
             }
             
-            /* Fix hero buttons on very small screens */
             .hero-buttons-new {
                 flex-direction: column;
                 gap: 12px;
@@ -1261,7 +1249,6 @@
                 justify-content: center;
             }
             
-            /* Even smaller feature images on small mobile */
             .feature-icon-enhanced {
                 width: 90px;
                 height: 90px;
@@ -1271,22 +1258,22 @@
         /* Extra small screens */
         @media (max-width: 375px) {
             .bead-visual {
-                width: 160px;
-                height: 160px;
+                width: 140px;
+                height: 140px;
             }
             
             .bead-carousel-container {
-                padding: 10px 35px;
+                padding: 10px 30px;
             }
             
             .carousel-nav {
-                width: 28px !important;
-                height: 28px !important;
-                font-size: 16px !important;
+                width: 26px !important;
+                height: 26px !important;
+                font-size: 14px !important;
             }
             
             .hero-title-new {
-                font-size: 1.4rem !important;
+                font-size: 1.3rem !important;
             }
             
             .feature-icon-enhanced {
@@ -1319,7 +1306,6 @@
 <body class="splash-active">
     <!-- =========================================
          SPLASH SCREEN
-         Dismisses on click/tap/swipe
     ========================================= -->
     <div class="splash-screen" id="splashScreen">
         <div class="splash-background"></div>
@@ -1345,7 +1331,7 @@
                 <span class="brand-text">Rosary73</span>
             </div>
             
-            <!-- Desktop Navigation Menu - REMOVED "Members" -->
+            <!-- Desktop Navigation Menu -->
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="#features" class="nav-link">Features</a></li>
@@ -1359,7 +1345,6 @@
             
             <!-- Theme Toggle Button -->
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
-                <!-- Sun icon (shown in dark mode) -->
                 <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="5"></circle>
                     <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -1371,7 +1356,6 @@
                     <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                 </svg>
-                <!-- Moon icon (shown in light mode) -->
                 <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
@@ -1431,13 +1415,11 @@
                     
                     <p class="hero-description-new">
                         <span class="highlight-quote">My prayer lifts others; their prayers lift me to the heart of Mary.</span>
-                        Join a living chain of prayer that circles the globe.
-                        Every Rosary is completed by 73 souls praying together — each offering one prayer so the full Rosary may rise to Heaven as one voice.
-                        Alone we are a single whisper; together we are a mighty chorus of faith, hope, and love.
+                        Join a living chain of prayer that circles the globe. Every Rosary is completed by 73 souls praying together — each offering one prayer so the full Rosary may rise to Heaven as one voice. Alone we are a single whisper; together we are a mighty chorus of faith, hope, and love.
                     </p>
                 </div>
                 
-                <!-- Right: Bead Carousel (Restored from old design) -->
+                <!-- Right: Bead Carousel -->
                 <div class="hero-visual-carousel">
                     <div class="carousel-container-hero">
                         <div class="bead-carousel-container">
@@ -1449,126 +1431,84 @@
                                 <div class="carousel-slide active">
                                     <div class="bead-image-container">
                                         <div class="bead-visual">
-                                            <img src="images/beads/bead_start.png" 
-                                                 alt="Start a Rosary Bead" 
-                                                 class="bead-image"
-                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <img src="images/beads/bead_start.png" alt="Start a Rosary Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
                                             <div class="bead-icon" style="display:none;">✚</div>
                                         </div>
                                     </div>
                                     <h2 class="bead-title">Start a Rosary</h2>
-                                    <p class="bead-description">
-                                        Begin a new rosary with your prayer intention. Be the first voice in a chorus of 73 believers 
-                                        united in prayer to the Blessed Virgin Mary.
-                                    </p>
+                                    <p class="bead-description">Begin a new rosary with your prayer intention. Be the first voice in a chorus of 73 believers united in prayer to the Blessed Virgin Mary.</p>
                                 </div>
                                 
                                 <!-- Slide 2: Join Active Rosaries -->
                                 <div class="carousel-slide">
                                     <div class="bead-image-container">
                                         <div class="bead-visual">
-                                            <img src="images/beads/bead_participate.png" 
-                                                 alt="Join Active Rosaries Bead" 
-                                                 class="bead-image"
-                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <img src="images/beads/bead_participate.png" alt="Join Active Rosaries Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
                                             <div class="bead-icon" style="display:none;">🤝</div>
                                         </div>
                                     </div>
                                     <h2 class="bead-title">Join Active Rosaries</h2>
-                                    <p class="bead-description">
-                                        Participate in ongoing rosaries by adding your voice. Each rosary needs 73 unique participants 
-                                        to complete this powerful communal prayer.
-                                    </p>
+                                    <p class="bead-description">Participate in ongoing rosaries by adding your voice. Each rosary needs 73 unique participants to complete this powerful communal prayer.</p>
                                 </div>
                                 
                                 <!-- Slide 3: Record Your Prayers -->
                                 <div class="carousel-slide">
                                     <div class="bead-image-container">
                                         <div class="bead-visual">
-                                            <img src="images/beads/bead_record.png" 
-                                                 alt="Record Your Prayers Bead" 
-                                                 class="bead-image"
-                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <img src="images/beads/bead_record.png" alt="Record Your Prayers Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
                                             <div class="bead-icon" style="display:none;">🎤</div>
                                         </div>
                                     </div>
                                     <h2 class="bead-title">Record Your Prayers</h2>
-                                    <p class="bead-description">
-                                        Record the 7 essential prayers in your own voice. Your recordings are saved in the cloud and 
-                                        can be part of countless rosaries.
-                                    </p>
+                                    <p class="bead-description">Record the 7 essential prayers in your own voice. Your recordings are saved in the cloud and can be part of countless rosaries.</p>
                                 </div>
                                 
                                 <!-- Slide 4: Listen to Finished Rosaries -->
                                 <div class="carousel-slide">
                                     <div class="bead-image-container">
                                         <div class="bead-visual">
-                                            <img src="images/beads/bead_finished.png" 
-                                                 alt="Listen to Finished Rosaries Bead" 
-                                                 class="bead-image"
-                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <img src="images/beads/bead_finished.png" alt="Listen to Finished Rosaries Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
                                             <div class="bead-icon" style="display:none;">🎧</div>
                                         </div>
                                     </div>
                                     <h2 class="bead-title">Listen to Finished Rosaries</h2>
-                                    <p class="bead-description">
-                                        Experience the beauty of 73 voices united in prayer. Listen to complete rosaries and feel 
-                                        the power of global community prayer.
-                                    </p>
+                                    <p class="bead-description">Experience the beauty of 73 voices united in prayer. Listen to complete rosaries and feel the power of global community prayer.</p>
                                 </div>
                                 
                                 <!-- Slide 5: Create Groups -->
                                 <div class="carousel-slide">
                                     <div class="bead-image-container">
                                         <div class="bead-visual">
-                                            <img src="images/beads/bead_group.png" 
-                                                 alt="Create Prayer Groups Bead" 
-                                                 class="bead-image"
-                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <img src="images/beads/bead_group.png" alt="Create Prayer Groups Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
                                             <div class="bead-icon" style="display:none;">👥</div>
                                         </div>
                                     </div>
                                     <h2 class="bead-title">Create Prayer Groups</h2>
-                                    <p class="bead-description">
-                                        Form private groups for your family, parish, or community. Share the spiritual journey with 
-                                        those who matter most in your faith life.
-                                    </p>
+                                    <p class="bead-description">Form private groups for your family, parish, or community. Share the spiritual journey with those who matter most in your faith life.</p>
                                 </div>
                                 
                                 <!-- Slide 6: Gift Subscriptions -->
                                 <div class="carousel-slide">
                                     <div class="bead-image-container">
                                         <div class="bead-visual">
-                                            <img src="images/beads/bead_gift.png" 
-                                                 alt="Gift Subscriptions Bead" 
-                                                 class="bead-image"
-                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <img src="images/beads/bead_gift.png" alt="Gift Subscriptions Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
                                             <div class="bead-icon" style="display:none;">🎁</div>
                                         </div>
                                     </div>
                                     <h2 class="bead-title">Gift the Power of Prayer</h2>
-                                    <p class="bead-description">
-                                        Share the gift of prayer by gifting subscriptions to loved ones. Help others join this 
-                                        global community of believers.
-                                    </p>
+                                    <p class="bead-description">Share the gift of prayer by gifting subscriptions to loved ones. Help others join this global community of believers.</p>
                                 </div>
                                 
                                 <!-- Slide 7: Subscribe -->
                                 <div class="carousel-slide">
                                     <div class="bead-image-container">
                                         <div class="bead-visual">
-                                            <img src="images/beads/bead_subscribe.png" 
-                                                 alt="Subscribe to Service Bead" 
-                                                 class="bead-image"
-                                                 onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
+                                            <img src="images/beads/bead_subscribe.png" alt="Subscribe to Service Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';">
                                             <div class="bead-icon" style="display:none;">👑</div>
                                         </div>
                                     </div>
                                     <h2 class="bead-title">Join Our Community</h2>
-                                    <p class="bead-description">
-                                        Start with a 7-day free trial. Continue your prayer journey for less than the price of 
-                                        a cup of coffee each month.
-                                    </p>
+                                    <p class="bead-description">Start with a 7-day free trial. Continue your prayer journey for less than the price of a cup of coffee each month.</p>
                                 </div>
                             </div>
                             
@@ -1589,7 +1529,7 @@
         </div>
     </section>
 
-    <!-- ENHANCED FEATURES with Custom Images - REMOVED "Why Choose Rosary73" -->
+    <!-- ENHANCED FEATURES with Custom Images -->
     <section id="features" class="features-enhanced">
         <div class="container">
             <div class="section-header">
@@ -1598,45 +1538,31 @@
             </div>
             
             <div class="features-grid-enhanced">
-                <!-- Feature 1: 73 Voices -->
                 <div class="feature-card-enhanced">
                     <div class="feature-icon-enhanced">
                         <img src="images/feature-voices.png" alt="73 Unique Voices" class="feature-image">
                     </div>
                     <h3 class="feature-title-enhanced">73 Unique Voices</h3>
-                    <p class="feature-description-enhanced">
-                        Each of the 73 prayers in every rosary is recorded by a different person, creating a truly 
-                        communal prayer experience that spans the globe.
-                    </p>
+                    <p class="feature-description-enhanced">Each of the 73 prayers in every rosary is recorded by a different person, creating a truly communal prayer experience that spans the globe.</p>
                 </div>
                 
-                <!-- Feature 2: Privacy -->
                 <div class="feature-card-enhanced">
                     <div class="feature-icon-enhanced">
                         <img src="images/feature-secure.png" alt="Privacy Protected" class="feature-image">
                     </div>
                     <h3 class="feature-title-enhanced">Privacy Protected</h3>
-                    <p class="feature-description-enhanced">
-                        Feel completely at ease—your privacy and comfort always come first. You're welcome to stay fully anonymous, 
-                        use a voice changer, or simply join in silent contemplation by listening to the rosaries. 
-                        However you choose to participate, your prayer is treasured.
-                    </p>
+                    <p class="feature-description-enhanced">Feel completely at ease—your privacy and comfort always come first. You're welcome to stay fully anonymous, use a voice changer, or simply join in silent contemplation by listening to the rosaries. However you choose to participate, your prayer is treasured.</p>
                 </div>
                 
-                <!-- Feature 3: Multi-Language -->
                 <div class="feature-card-enhanced">
                     <div class="feature-icon-enhanced">
                         <img src="images/feature-global.png" alt="Multi-Language Support" class="feature-image">
                     </div>
                     <h3 class="feature-title-enhanced">Multi-Language</h3>
-                    <p class="feature-description-enhanced">
-                        Pray in English, Spanish, Filipino, Cebuano or Latin, and more languages coming soon. 
-                        Honor Jesus and Mary in the language of your heart.
-                    </p>
+                    <p class="feature-description-enhanced">Pray in English, Spanish, Filipino, Cebuano or Latin, and more languages coming soon. Honor Jesus and Mary in the language of your heart.</p>
                 </div>
             </div>
             
-            <!-- CTA Buttons -->
             <div class="section-cta">
                 <a href="signup.html" class="btn-modern btn-primary-modern">Create Free Account</a>
                 <a href="subscribe.html" class="btn-modern btn-secondary-modern">View Subscription Plans</a>
@@ -1644,7 +1570,7 @@
         </div>
     </section>
 
-    <!-- ENHANCED HOW IT WORKS - REMOVED "Simple Process", "See It In Action" -->
+    <!-- ENHANCED HOW IT WORKS -->
     <section id="how-it-works" class="how-it-works-enhanced">
         <div class="container">
             <div class="section-header">
@@ -1653,7 +1579,6 @@
             </div>
             
             <div class="timeline-container">
-                <!-- Step 1 -->
                 <div class="timeline-step">
                     <div class="step-number-circle">
                         <img src="images/beads/bead_step1.png" alt="Step 1" class="step-bead-image">
@@ -1666,7 +1591,6 @@
                     </div>
                 </div>
                 
-                <!-- Step 2 -->
                 <div class="timeline-step">
                     <div class="step-number-circle">
                         <img src="images/beads/bead_step2.png" alt="Step 2" class="step-bead-image">
@@ -1679,7 +1603,6 @@
                     </div>
                 </div>
                 
-                <!-- Step 3 -->
                 <div class="timeline-step">
                     <div class="step-number-circle">
                         <img src="images/beads/bead_step3.png" alt="Step 3" class="step-bead-image">
@@ -1693,7 +1616,6 @@
                 </div>
             </div>
             
-            <!-- CTA Buttons -->
             <div class="section-cta">
                 <a href="signup.html" class="btn-modern btn-primary-modern">Get Started Free</a>
                 <a href="subscribe.html" class="btn-modern btn-secondary-modern">View Plans</a>
@@ -1701,7 +1623,7 @@
         </div>
     </section>
 
-    <!-- SCROLLING MOBILE APP PREVIEW SECTION - REMOVED "Experience the App" -->
+    <!-- SCROLLING MOBILE APP PREVIEW SECTION -->
     <section id="app-preview" class="app-preview-section">
         <div class="container">
             <div class="section-header">
@@ -1710,27 +1632,20 @@
             </div>
             
             <div class="mockup-grid">
-                <!-- Mockup 1: HomeScreen -->
                 <div class="mockup-item">
                     <div class="iphone-frame">
                         <div class="iphone-notch"></div>
                         <div class="iphone-screen">
-                            <!-- Fixed Header -->
                             <div class="screen-header">
                                 <img src="images/screenshots/header.png" alt="App Header">
                             </div>
-                            <!-- Scrolling Content Area -->
                             <div class="screen-content">
-                                <img src="images/screenshots/homescreen.png" 
-                                     alt="Rosary73 Home Screen" 
-                                     class="screen-scroll-image"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <img src="images/screenshots/homescreen.png" alt="Rosary73 Home Screen" class="screen-scroll-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                 <div class="screen-placeholder" style="display: none;">
                                     <div class="placeholder-icon">🏠</div>
                                     <div class="placeholder-text">HomeScreen<br>Screenshot</div>
                                 </div>
                             </div>
-                            <!-- Fixed Bottom Nav -->
                             <div class="screen-bottom-nav">
                                 <img src="images/screenshots/bottom.png" alt="Bottom Navigation">
                             </div>
@@ -1742,27 +1657,20 @@
                     </div>
                 </div>
                 
-                <!-- Mockup 2: Visual Rosary -->
                 <div class="mockup-item">
                     <div class="iphone-frame">
                         <div class="iphone-notch"></div>
                         <div class="iphone-screen">
-                            <!-- Fixed Header -->
                             <div class="screen-header">
                                 <img src="images/screenshots/header.png" alt="App Header">
                             </div>
-                            <!-- Scrolling Content Area -->
                             <div class="screen-content">
-                                <img src="images/screenshots/visual-rosary.png" 
-                                     alt="Visual Rosary Screen" 
-                                     class="screen-scroll-image"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <img src="images/screenshots/visual-rosary.png" alt="Visual Rosary Screen" class="screen-scroll-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                 <div class="screen-placeholder" style="display: none;">
                                     <div class="placeholder-icon">📿</div>
                                     <div class="placeholder-text">Visual Rosary<br>Screenshot</div>
                                 </div>
                             </div>
-                            <!-- Fixed Bottom Nav -->
                             <div class="screen-bottom-nav">
                                 <img src="images/screenshots/bottom.png" alt="Bottom Navigation">
                             </div>
@@ -1774,27 +1682,20 @@
                     </div>
                 </div>
                 
-                <!-- Mockup 3: Record Prayers -->
                 <div class="mockup-item">
                     <div class="iphone-frame">
                         <div class="iphone-notch"></div>
                         <div class="iphone-screen">
-                            <!-- Fixed Header -->
                             <div class="screen-header">
                                 <img src="images/screenshots/header.png" alt="App Header">
                             </div>
-                            <!-- Scrolling Content Area -->
                             <div class="screen-content">
-                                <img src="images/screenshots/record-prayers.png" 
-                                     alt="Record Prayers Screen" 
-                                     class="screen-scroll-image"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <img src="images/screenshots/record-prayers.png" alt="Record Prayers Screen" class="screen-scroll-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                 <div class="screen-placeholder" style="display: none;">
                                     <div class="placeholder-icon">🎤</div>
                                     <div class="placeholder-text">Record Prayers<br>Screenshot</div>
                                 </div>
                             </div>
-                            <!-- Fixed Bottom Nav -->
                             <div class="screen-bottom-nav">
                                 <img src="images/screenshots/bottom.png" alt="Bottom Navigation">
                             </div>
@@ -1807,7 +1708,6 @@
                 </div>
             </div>
             
-            <!-- CTA Buttons -->
             <div class="section-cta">
                 <a href="signup.html" class="btn-modern btn-primary-modern">Sign Up Now</a>
                 <a href="subscribe.html" class="btn-modern btn-secondary-modern">Subscribe</a>
@@ -1824,9 +1724,7 @@
             </div>
             <div class="privacy-card">
                 <h3>🔒 For Those Who Value Privacy</h3>
-                <p style="margin-bottom: 20px;">
-                    We respect that not everyone wants their voice or identity public. Rosary73 offers multiple ways to participate while maintaining your privacy:
-                </p>
+                <p style="margin-bottom: 20px;">We respect that not everyone wants their voice or identity public. Rosary73 offers multiple ways to participate while maintaining your privacy:</p>
                 <ul>
                     <li><strong>Anonymous Participation:</strong> Use a username that doesn't reveal your identity</li>
                     <li><strong>Private Email:</strong> Sign up without using your personal email address</li>
@@ -1834,11 +1732,9 @@
                     <li><strong>Voice Synthesis:</strong> Use voice synthesizers to record prayers privately</li>
                 </ul>
                 <div class="privacy-note">
-                    <strong>Remember:</strong> Prayer is between you and God. Whether you lend your voice or pray silently, 
-                    your participation brings grace through Our Lady's intercession.
+                    <strong>Remember:</strong> Prayer is between you and God. Whether you lend your voice or pray silently, your participation brings grace through Our Lady's intercession.
                 </div>
                 
-                <!-- CTA Buttons -->
                 <div style="text-align: center; margin-top: 30px;">
                     <a href="signup.html" class="btn-modern btn-primary-modern">Join Anonymously</a>
                     <a href="subscribe.html" class="btn-modern btn-secondary-modern">Subscribe</a>
@@ -1860,10 +1756,7 @@
                 <div class="price-card-simple">
                     <div class="price-badge">☕ Coffee Price</div>
                     <h3>Simple &amp; Affordable</h3>
-                    <p class="price-description">
-                        For less than the price of your daily coffee, unite with believers worldwide 
-                        in the most powerful prayer experience available today.
-                    </p>
+                    <p class="price-description">For less than the price of your daily coffee, unite with believers worldwide in the most powerful prayer experience available today.</p>
                     
                     <div class="price-details">
                         <p>✓ 7-day free trial</p>
@@ -1893,10 +1786,7 @@
             <div class="cta-content-enhanced">
                 <span class="holy-cross-large">✚</span>
                 <h2 class="cta-title-enhanced">Ready to Unite in Prayer?</h2>
-                <p class="cta-description-enhanced">
-                    Join thousands of believers worldwide. Through the intercession of the Blessed Virgin Mary, 
-                    let your voice be part of something greater.
-                </p>
+                <p class="cta-description-enhanced">Join thousands of believers worldwide. Through the intercession of the Blessed Virgin Mary, let your voice be part of something greater.</p>
                 
                 <div class="cta-buttons">
                     <a href="signup.html" class="btn-modern btn-white-modern btn-large">
@@ -1913,9 +1803,7 @@
                     </a>
                 </div>
                 
-                <p class="testflight-note">
-                    App coming soon to iOS and Android!
-                </p>
+                <p class="testflight-note">App coming soon to iOS and Android!</p>
             </div>
         </div>
     </section>
@@ -1992,7 +1880,6 @@
             appId: "1:174985016192:web:134b684d6f0ba731510765"
         };
 
-        // Only initialize if not already initialized
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -2021,11 +1908,9 @@
                 
                 if (!result.valid) throw new Error(result.error || 'Username not found');
                 
-                // Use correct email domain for guest users
                 const emailToUse = result.email || `${username.toLowerCase()}@guest.r73.app`;
                 await auth.signInWithEmailAndPassword(emailToUse, password);
                 
-                // Store user data and redirect
                 sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
                 window.location.href = 'members.html';
                 
@@ -2048,45 +1933,36 @@
             const themeToggle = document.getElementById('themeToggle');
             const html = document.documentElement;
             
-            // Get current theme
             function getCurrentTheme() {
                 return html.getAttribute('data-theme') || 'light';
             }
             
-            // Set theme
             function setTheme(theme) {
                 html.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
                 
-                // Update meta theme-color for mobile browsers
                 const metaThemeColor = document.querySelector('meta[name="theme-color"]');
                 if (metaThemeColor) {
                     metaThemeColor.setAttribute('content', theme === 'dark' ? '#0D1117' : '#FFFFFF');
                 }
             }
             
-            // Toggle theme
             function toggleTheme() {
                 const currentTheme = getCurrentTheme();
                 const newTheme = currentTheme === 'light' ? 'dark' : 'light';
                 setTheme(newTheme);
             }
             
-            // Add click event
             if (themeToggle) {
                 themeToggle.addEventListener('click', toggleTheme);
             }
             
-            // Listen for system preference changes
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                // Only auto-switch if user hasn't manually set a preference
                 if (!localStorage.getItem('theme')) {
                     setTheme(e.matches ? 'dark' : 'light');
                 }
             });
         })();
     </script>
-    
-    <!-- Splash Screen now handled by main.js with sessionStorage -->
 </body>
 </html>
