@@ -206,15 +206,31 @@
         }
         
         /* =========================================
+           HERO SPLIT - EQUAL WIDTH PANELS
+        ========================================= */
+        .hero-split {
+            align-items: flex-start !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 40px !important;
+        }
+        
+        /* Left Panel - Match right panel width */
+        .hero-text {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+        
+        /* =========================================
            COMPACT MEMBER LOGIN CARD
-           Thinner border (1px), tighter padding
+           Wider to match panel width
         ========================================= */
         .compact-login-card {
             background: rgba(26, 26, 46, 0.95);
             border: 1px solid #d4af37;
             border-radius: 4px;
             padding: 14px 18px;
-            max-width: 400px;
+            max-width: 100%;
+            width: 100%;
             margin-bottom: 18px;
         }
         
@@ -357,19 +373,12 @@
         }
         
         /* =========================================
-           HERO SPLIT ALIGNMENT FIX
-        ========================================= */
-        .hero-split {
-            align-items: flex-start !important;
-        }
-        
-        /* =========================================
-           LEFT PANEL - MUCH SMALLER FONTS
+           LEFT PANEL - Typography
         ========================================= */
         
-        /* Main title - Much smaller */
+        /* Main title */
         .hero-title-new {
-            font-size: 1.9rem !important;
+            font-size: 2rem !important;
             line-height: 1.15 !important;
             margin-bottom: 12px !important;
         }
@@ -392,13 +401,13 @@
             font-weight: 500 !important;
         }
         
-        /* Hero description - Much smaller */
+        /* Hero description */
         .hero-description-new {
-            font-size: 0.85rem !important;
-            line-height: 1.6 !important;
+            font-size: 0.9rem !important;
+            line-height: 1.65 !important;
             color: var(--text-secondary);
             margin-bottom: 0 !important;
-            max-width: 420px;
+            max-width: 100%;
         }
         
         .hero-description-new .highlight-quote {
@@ -407,7 +416,7 @@
             color: var(--primary-700);
             display: block;
             margin-bottom: 10px;
-            font-size: 0.9rem !important;
+            font-size: 0.95rem !important;
         }
         
         [data-theme="dark"] .hero-description-new .highlight-quote {
@@ -415,7 +424,8 @@
         }
         
         /* =========================================
-           CAROUSEL - Adjusted to match
+           CAROUSEL - REMOVE PULSATING CIRCLES
+           Reduced height to match left panel
         ========================================= */
         .hero-visual-carousel {
             position: relative;
@@ -427,14 +437,15 @@
         }
         
         .carousel-container-hero {
-            max-width: 520px;
+            max-width: 100%;
             width: 100%;
             overflow: hidden;
         }
         
+        /* Reduced padding for shorter carousel */
         .bead-carousel-container {
             position: relative;
-            padding: 25px 45px;
+            padding: 20px 45px 15px 45px !important;
             overflow: hidden;
         }
         
@@ -442,46 +453,60 @@
             text-align: center;
         }
         
+        /* REMOVE pulsating circles from carousel.css */
         .bead-image-container {
-            margin-bottom: 18px;
+            margin-bottom: 12px !important;
+            width: auto !important;
+            height: auto !important;
         }
         
-        /* Beads - slightly smaller */
+        .bead-image-container::after {
+            display: none !important;
+            content: none !important;
+        }
+        
+        /* Beads - no circles */
         .bead-visual {
-            width: 260px;
-            height: 260px;
+            width: 220px !important;
+            height: 220px !important;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            transform: none !important;
         }
         
-        /* Remove concentric circle */
+        .bead-visual:hover {
+            transform: scale(1.05) !important;
+        }
+        
+        /* Remove ALL concentric circles and effects */
         .bead-visual::before,
         .bead-visual::after {
             display: none !important;
+            content: none !important;
         }
         
         .bead-image {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 10px 30px rgba(93, 173, 226, 0.3));
+            filter: drop-shadow(0 8px 20px rgba(93, 173, 226, 0.3));
         }
         
         /* Carousel arrows */
         .carousel-nav {
             position: absolute;
-            top: 50%;
+            top: 45%;
             transform: translateY(-50%);
             background: rgba(93, 173, 226, 0.95) !important;
             color: white !important;
             border: 3px solid white !important;
-            width: 42px !important;
-            height: 42px !important;
+            width: 40px !important;
+            height: 40px !important;
             border-radius: 50%;
-            font-size: 22px !important;
+            font-size: 20px !important;
             cursor: pointer;
             z-index: 10;
             display: flex;
@@ -505,26 +530,36 @@
             right: 0;
         }
         
+        /* Carousel indicators - tighter */
+        .carousel-indicators {
+            margin-top: 12px !important;
+        }
+        
         /* =========================================
-           CAROUSEL TEXT - Smaller
+           CAROUSEL TEXT - Compact
         ========================================= */
         .bead-title {
-            font-size: 1.25rem;
+            font-size: 1.2rem !important;
             font-weight: 600;
             color: var(--text-primary, #2C3E50);
-            margin-bottom: 10px;
+            margin-bottom: 8px !important;
             text-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: color 0.3s ease;
         }
         
         .bead-description {
-            font-size: 0.85rem;
+            font-size: 0.82rem !important;
             color: var(--text-secondary, #5D6D7E);
-            line-height: 1.6;
-            max-width: 380px;
+            line-height: 1.55 !important;
+            max-width: 360px;
             margin: 0 auto;
             padding: 0 10px;
             transition: color 0.3s ease;
+        }
+        
+        /* Override carousel.css bead-carousel min-height */
+        .bead-carousel {
+            min-height: auto !important;
         }
         
         /* Dark mode explicit overrides for carousel text */
@@ -1065,12 +1100,12 @@
             }
             
             .bead-visual {
-                width: 220px;
-                height: 220px;
+                width: 200px !important;
+                height: 200px !important;
             }
             
             .bead-carousel-container {
-                padding: 20px 40px;
+                padding: 18px 40px 12px 40px !important;
             }
             
             .hero-text {
@@ -1105,6 +1140,7 @@
             .compact-login-card {
                 margin-left: auto;
                 margin-right: auto;
+                max-width: 400px;
             }
             
             .hero-title-new {
@@ -1114,12 +1150,12 @@
         
         @media (max-width: 768px) {
             .bead-visual {
-                width: 180px;
-                height: 180px;
+                width: 170px !important;
+                height: 170px !important;
             }
             
             .bead-carousel-container {
-                padding: 18px 40px;
+                padding: 15px 40px 10px 40px !important;
             }
             
             .carousel-nav {
@@ -1155,11 +1191,11 @@
             }
             
             .bead-title {
-                font-size: 1.15rem;
+                font-size: 1.1rem !important;
             }
             
             .bead-description {
-                font-size: 0.8rem;
+                font-size: 0.78rem !important;
                 padding: 0 15px;
             }
             
@@ -1196,12 +1232,12 @@
             }
             
             .bead-visual {
-                width: 160px;
-                height: 160px;
+                width: 150px !important;
+                height: 150px !important;
             }
             
             .bead-carousel-container {
-                padding: 15px 35px;
+                padding: 12px 35px 8px 35px !important;
             }
             
             .carousel-nav {
@@ -1219,11 +1255,11 @@
             }
             
             .bead-title {
-                font-size: 1.1rem;
+                font-size: 1rem !important;
             }
             
             .bead-description {
-                font-size: 0.75rem;
+                font-size: 0.72rem !important;
                 line-height: 1.5;
             }
             
@@ -1258,12 +1294,12 @@
         /* Extra small screens */
         @media (max-width: 375px) {
             .bead-visual {
-                width: 140px;
-                height: 140px;
+                width: 130px !important;
+                height: 130px !important;
             }
             
             .bead-carousel-container {
-                padding: 10px 30px;
+                padding: 10px 30px 6px 30px !important;
             }
             
             .carousel-nav {
