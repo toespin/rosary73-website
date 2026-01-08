@@ -207,14 +207,15 @@
         
         /* =========================================
            COMPACT MEMBER LOGIN CARD - INLINE STYLE
+           Less rounded corners, slightly wider
         ========================================= */
         .compact-login-card {
             background: rgba(26, 26, 46, 0.95);
             border: 2px solid #d4af37;
-            border-radius: 12px;
-            padding: 20px 25px;
-            max-width: 380px;
-            margin-bottom: 30px;
+            border-radius: 6px;
+            padding: 16px 20px;
+            max-width: 420px;
+            margin-bottom: 20px;
         }
         
         [data-theme="light"] .compact-login-card {
@@ -224,22 +225,22 @@
         
         .compact-login-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: #d4af37;
-            margin: 0 0 15px 0;
+            margin: 0 0 12px 0;
         }
         
         .compact-login-form {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
         
         .compact-login-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
         }
         
         .compact-form-group {
@@ -249,8 +250,8 @@
         
         .compact-form-group label {
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8rem;
-            margin-bottom: 5px;
+            font-size: 0.75rem;
+            margin-bottom: 4px;
             font-weight: 500;
         }
         
@@ -259,12 +260,12 @@
         }
         
         .compact-login-input {
-            padding: 10px 12px;
-            border-radius: 8px;
+            padding: 8px 10px;
+            border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: border-color 0.3s ease;
         }
         
@@ -281,7 +282,7 @@
         
         .compact-login-input::placeholder {
             color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         
         [data-theme="light"] .compact-login-input::placeholder {
@@ -289,9 +290,9 @@
         }
         
         .compact-login-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 0.95rem;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             border: none;
@@ -308,8 +309,8 @@
         .compact-login-links {
             display: flex;
             justify-content: space-between;
-            margin-top: 12px;
-            font-size: 0.8rem;
+            margin-top: 10px;
+            font-size: 0.75rem;
         }
         
         .compact-login-links a {
@@ -328,7 +329,7 @@
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: #f87171;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             display: none;
             align-items: center;
             gap: 8px;
@@ -342,7 +343,7 @@
         @media (max-width: 480px) {
             .compact-login-card {
                 max-width: 100%;
-                padding: 15px 18px;
+                padding: 14px 16px;
             }
             
             .compact-login-row {
@@ -350,16 +351,29 @@
             }
             
             .compact-login-title {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
         }
         
         /* =========================================
+           HERO SPLIT ALIGNMENT FIX
+        ========================================= */
+        .hero-split {
+            align-items: flex-start !important;
+        }
+        
+        /* =========================================
            CLEAN APPLE-STYLE TYPOGRAPHY
-           No outlines, lighter weights, subtle shadows
+           SMALLER FONTS FOR LEFT PANEL
         ========================================= */
         
-        /* Main titles - Clean and professional */
+        /* Main titles - Smaller for better alignment */
+        .hero-title-new {
+            font-size: 2.2rem !important;
+            line-height: 1.2 !important;
+            margin-bottom: 15px !important;
+        }
+        
         .hero-title-new,
         .section-title,
         .feature-title-enhanced,
@@ -378,13 +392,13 @@
             font-weight: 500 !important;
         }
         
-        /* Hero description styling */
+        /* Hero description styling - SMALLER */
         .hero-description-new {
-            font-size: 1.1rem;
-            line-height: 1.9;
+            font-size: 0.95rem !important;
+            line-height: 1.7 !important;
             color: var(--text-secondary);
-            margin-bottom: var(--space-xl);
-            max-width: 540px;
+            margin-bottom: 20px !important;
+            max-width: 450px;
         }
         
         .hero-description-new .highlight-quote {
@@ -392,33 +406,33 @@
             font-weight: 600 !important;
             color: var(--primary-700);
             display: block;
-            margin-bottom: 16px;
-            font-size: 1.15rem;
+            margin-bottom: 12px;
+            font-size: 1rem !important;
         }
         
         [data-theme="dark"] .hero-description-new .highlight-quote {
             color: var(--primary-400);
         }
         
-        /* Carousel adjustments */
+        /* Carousel adjustments - smaller for alignment */
         .hero-visual-carousel {
             position: relative;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             width: 100%;
             overflow: hidden;
         }
         
         .carousel-container-hero {
-            max-width: 600px;
+            max-width: 550px;
             width: 100%;
             overflow: hidden;
         }
         
         .bead-carousel-container {
             position: relative;
-            padding: 40px 60px;
+            padding: 30px 50px;
             overflow: hidden;
         }
         
@@ -427,13 +441,13 @@
         }
         
         .bead-image-container {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
-        /* Make beads 70% bigger */
+        /* Smaller beads for better alignment */
         .bead-visual {
-            width: 340px;
-            height: 340px;
+            width: 280px;
+            height: 280px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -462,10 +476,10 @@
             background: rgba(93, 173, 226, 0.95) !important;
             color: white !important;
             border: 3px solid white !important;
-            width: 50px !important;
-            height: 50px !important;
+            width: 44px !important;
+            height: 44px !important;
             border-radius: 50%;
-            font-size: 28px !important;
+            font-size: 24px !important;
             cursor: pointer;
             z-index: 10;
             display: flex;
@@ -491,21 +505,22 @@
         
         /* =========================================
            CAROUSEL TEXT - DARK MODE COMPATIBLE
+           SMALLER FONTS
         ========================================= */
         .bead-title {
-            font-size: 1.75rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: var(--text-primary, #2C3E50);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: color 0.3s ease;
         }
         
         .bead-description {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--text-secondary, #5D6D7E);
-            line-height: 1.8;
-            max-width: 450px;
+            line-height: 1.7;
+            max-width: 400px;
             margin: 0 auto;
             padding: 0 10px;
             transition: color 0.3s ease;
@@ -1046,20 +1061,21 @@
         @media (max-width: 1024px) {
             .hero-split {
                 grid-template-columns: 1fr !important;
-                gap: 40px !important;
+                gap: 30px !important;
+                align-items: center !important;
             }
             
             /* Text appears first on mobile/tablet (follows HTML order) */
             /* Carousel appears second - no order change needed */
             
             .bead-visual {
-                width: 280px;
-                height: 280px;
+                width: 240px;
+                height: 240px;
             }
             
             /* Reduce carousel padding for tablet */
             .bead-carousel-container {
-                padding: 30px 50px;
+                padding: 25px 45px;
             }
             
             /* Center hero text on tablet/mobile */
@@ -1096,6 +1112,10 @@
             .compact-login-card {
                 margin-left: auto;
                 margin-right: auto;
+            }
+            
+            .hero-title-new {
+                font-size: 2rem !important;
             }
         }
         
@@ -1139,16 +1159,16 @@
                 text-align: center;
                 margin-left: auto;
                 margin-right: auto;
-                font-size: 0.95rem;
+                font-size: 0.9rem !important;
                 padding: 0 10px;
             }
             
             .bead-title {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
             }
             
             .bead-description {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
                 padding: 0 15px;
             }
             
@@ -1176,13 +1196,13 @@
             }
             
             .hero-description-new {
-                font-size: 0.9rem;
+                font-size: 0.85rem !important;
                 text-align: center;
                 padding: 0 5px;
             }
             
             .hero-description-new .highlight-quote {
-                font-size: 1rem;
+                font-size: 0.9rem !important;
             }
             
             .bead-visual {
@@ -1210,11 +1230,11 @@
             }
             
             .bead-title {
-                font-size: 1.25rem;
+                font-size: 1.2rem;
             }
             
             .bead-description {
-                font-size: 0.85rem;
+                font-size: 0.8rem;
                 line-height: 1.6;
             }
             
