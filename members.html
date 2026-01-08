@@ -476,7 +476,10 @@
           if (!result.valid) throw new Error(result.error || 'Username not found');
           
           btn.innerHTML = '<span class="spinner"></span> Signing in...';
-          const emailToUse = result.email || `${username.toLowerCase()}@rosary73.app`;
+          
+          // FIX: Use correct email domain for guest users
+          // Guest users have @guest.r73.app emails, not @rosary73.app
+          const emailToUse = result.email || `${username.toLowerCase()}@guest.r73.app`;
           await auth.signInWithEmailAndPassword(emailToUse, password);
           
           userData = result;
