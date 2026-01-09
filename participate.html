@@ -56,7 +56,7 @@
       background: none;
       border: none;
     }
-    .hamburger span { width: 24px; height: 2px; background: white; transition: all 0.3s ease; }
+    .hamburger span { width: 24px; height: 3px; background: #d4af37; border-radius: 2px; transition: all 0.3s ease; }
     .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .hamburger.active span:nth-child(2) { opacity: 0; }
     .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
@@ -725,7 +725,7 @@
     function logout() {
       auth.signOut();
       sessionStorage.removeItem('rosary73UserData');
-      window.location.href = 'members.html';
+      window.location.href = 'index.html';
     }
 
     function showLoginGate() {
