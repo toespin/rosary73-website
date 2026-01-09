@@ -67,8 +67,9 @@
     
     .hamburger span {
       width: 24px;
-      height: 2px;
-      background: white;
+      height: 3px;
+      background: #d4af37;
+      border-radius: 2px;
       transition: all 0.3s ease;
     }
     
@@ -1256,8 +1257,7 @@
       auth.signOut();
       userData = null;
       sessionStorage.removeItem('rosary73UserData');
-      showLoginGate();
-      showToast('Logged out', 'success');
+      window.location.href = 'index.html';
     }
 
     function showLoginGate() {
