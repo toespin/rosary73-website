@@ -10,6 +10,17 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
+    :root {
+      --sidebar-width: 280px;
+      --header-height: 60px;
+      --gold: #d4af37;
+      --gold-dark: #b8860b;
+      --bg-dark: #1a1a2e;
+      --bg-darker: #16213e;
+      --text-light: rgba(255,255,255,0.9);
+      --text-muted: rgba(255,255,255,0.6);
+    }
+    
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
@@ -17,42 +28,46 @@
       color: #ffffff;
     }
     
+    /* Header */
     .header {
-      padding: 15px 30px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      padding: 0 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      position: sticky;
-      top: 0;
-      background: rgba(26, 26, 46, 0.95);
+      background: rgba(26, 26, 46, 0.98);
       backdrop-filter: blur(10px);
-      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      z-index: 1000;
     }
     
-    .logo-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
+    .header-left { display: flex; align-items: center; gap: 15px; }
+    
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      cursor: pointer;
+      background: none;
+      border: none;
     }
+    .hamburger span { width: 24px; height: 2px; background: white; transition: all 0.3s ease; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
     
-    .logo { width: 40px; height: 40px; }
-    .logo-text { color: #d4af37; font-size: 1.3rem; font-weight: 600; }
+    .logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo { width: 36px; height: 36px; }
+    .logo-text { color: var(--gold); font-size: 1.2rem; font-weight: 600; }
     
-    .header-right { display: flex; align-items: center; gap: 20px; }
-    
-    .header-user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: rgba(255,255,255,0.8);
-      font-size: 0.9rem;
-    }
-    
-    .header-user-name { color: #d4af37; font-weight: 600; }
-    
-    .logout-btn {
+    .header-user { display: flex; align-items: center; gap: 15px; }
+    .header-username { color: var(--gold); font-weight: 600; font-size: 0.95rem; }
+    .header-logout {
       background: rgba(255,255,255,0.1);
       border: 1px solid rgba(255,255,255,0.2);
       color: #fff;
@@ -62,52 +77,81 @@
       font-size: 0.85rem;
     }
     
-    .members-nav {
-      background: rgba(212, 175, 55, 0.1);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-      display: none;
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      width: var(--sidebar-width);
+      height: calc(100vh - var(--header-height));
+      background: rgba(22, 33, 62, 0.98);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      overflow-y: auto;
+      z-index: 900;
+      transition: transform 0.3s ease;
     }
     
-    .members-nav.visible { display: block; }
-    
-    .members-nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 5px;
-      padding: 10px 20px;
+    .sidebar-section { margin-bottom: 20px; padding-top: 15px; }
+    .sidebar-section-title {
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 20px 8px;
+      font-weight: 600;
     }
     
-    .members-nav-item {
+    .sidebar-item {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       padding: 12px 20px;
-      color: rgba(255,255,255,0.8);
+      color: var(--text-light);
       text-decoration: none;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-item:hover { background: rgba(255,255,255,0.05); border-left-color: var(--gold); }
+    .sidebar-item.active { background: rgba(212, 175, 55, 0.1); border-left-color: var(--gold); color: var(--gold); }
+    .sidebar-item-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+    .sidebar-item-badge {
+      background: var(--gold);
+      color: var(--bg-dark);
+      font-size: 0.65rem;
+      padding: 2px 8px;
       border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
+      font-weight: 600;
+      margin-left: auto;
+    }
+    .sidebar-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 10px 20px; }
+    .sidebar-item.danger { color: #f87171; }
+    
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 850;
+    }
+    .sidebar-overlay.visible { display: block; }
+    
+    /* Main Content */
+    .main-wrapper {
+      margin-left: var(--sidebar-width);
+      padding-top: var(--header-height);
+      min-height: 100vh;
     }
     
-    .members-nav-item:hover { background: rgba(212, 175, 55, 0.2); color: #fff; }
-    .members-nav-item.active { background: rgba(212, 175, 55, 0.3); color: #d4af37; }
-    
-    @media (max-width: 768px) {
-      .header-user span:not(.header-user-name) { display: none; }
-      .members-nav-inner { flex-direction: column; gap: 0; }
-      .members-nav-item {
-        justify-content: center;
-        padding: 14px 20px;
-        border-radius: 0;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-      }
-    }
-    
-    .main {
+    .main-content {
       max-width: 900px;
       margin: 0 auto;
       padding: 30px 20px;
@@ -117,12 +161,12 @@
       text-align: center;
       margin-bottom: 10px;
       font-size: 1.8rem;
-      color: #d4af37;
+      color: var(--gold);
     }
     
     .page-subtitle {
       text-align: center;
-      color: rgba(255,255,255,0.7);
+      color: var(--text-muted);
       margin-bottom: 30px;
     }
     
@@ -136,12 +180,9 @@
       max-width: 400px;
       margin: 50px auto;
     }
-    
-    .login-gate h2 { color: #d4af37; margin-bottom: 15px; }
-    .login-gate p { color: rgba(255,255,255,0.7); margin-bottom: 20px; }
-    
+    .login-gate h2 { color: var(--gold); margin-bottom: 15px; }
+    .login-gate p { color: var(--text-muted); margin-bottom: 20px; }
     .login-form { display: flex; flex-direction: column; gap: 15px; }
-    
     .login-form input {
       padding: 14px 16px;
       border-radius: 10px;
@@ -150,7 +191,6 @@
       color: #fff;
       font-size: 1rem;
     }
-    
     .login-form input::placeholder { color: rgba(255,255,255,0.4); }
     
     /* Filter Tabs */
@@ -160,7 +200,6 @@
       margin-bottom: 25px;
       flex-wrap: wrap;
     }
-    
     .filter-tab {
       padding: 10px 20px;
       background: rgba(255,255,255,0.05);
@@ -171,12 +210,11 @@
       font-size: 0.9rem;
       transition: all 0.3s;
     }
-    
     .filter-tab:hover { border-color: rgba(212, 175, 55, 0.5); }
     .filter-tab.active {
       background: rgba(212, 175, 55, 0.2);
-      border-color: #d4af37;
-      color: #d4af37;
+      border-color: var(--gold);
+      color: var(--gold);
     }
     
     /* Stats Bar */
@@ -186,7 +224,6 @@
       margin-bottom: 25px;
       flex-wrap: wrap;
     }
-    
     .stat-item {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
@@ -196,13 +233,11 @@
       flex: 1;
       min-width: 120px;
     }
-    
-    .stat-value { font-size: 1.5rem; font-weight: 700; color: #d4af37; }
-    .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 5px; }
+    .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--gold); }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 5px; }
     
     /* Rosary Cards */
     .rosary-list { display: flex; flex-direction: column; gap: 15px; }
-    
     .rosary-card {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
@@ -210,11 +245,7 @@
       padding: 20px;
       transition: all 0.3s ease;
     }
-    
-    .rosary-card:hover {
-      border-color: rgba(212, 175, 55, 0.3);
-      transform: translateY(-2px);
-    }
+    .rosary-card:hover { border-color: rgba(212, 175, 55, 0.3); transform: translateY(-2px); }
     
     .rosary-header {
       display: flex;
@@ -222,7 +253,6 @@
       align-items: flex-start;
       margin-bottom: 15px;
     }
-    
     .rosary-mystery {
       display: inline-flex;
       align-items: center;
@@ -231,23 +261,11 @@
       background: rgba(212, 175, 55, 0.15);
       border-radius: 20px;
       font-size: 0.85rem;
-      color: #d4af37;
+      color: var(--gold);
     }
-    
-    .rosary-progress {
-      text-align: right;
-    }
-    
-    .progress-text {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #fff;
-    }
-    
-    .progress-label {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.5);
-    }
+    .rosary-progress { text-align: right; }
+    .progress-text { font-size: 1.1rem; font-weight: 600; color: #fff; }
+    .progress-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
     
     .rosary-intention {
       font-size: 1rem;
@@ -263,12 +281,7 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-    
-    .rosary-creator {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.5);
-    }
-    
+    .rosary-creator { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
     .rosary-creator strong { color: rgba(255,255,255,0.8); }
     
     .progress-bar-container {
@@ -280,71 +293,46 @@
       border-radius: 4px;
       overflow: hidden;
     }
-    
     .progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, #d4af37, #4ade80);
+      background: linear-gradient(90deg, var(--gold), #4ade80);
       border-radius: 4px;
       transition: width 0.3s ease;
     }
     
     .join-btn {
       padding: 10px 25px;
-      background: linear-gradient(135deg, #d4af37, #b8860b);
-      color: #1a1a2e;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--bg-dark);
       border: none;
       border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
     }
+    .join-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3); }
+    .join-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .join-btn.joined { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
     
-    .join-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
-    }
-    
-    .join-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    .join-btn.joined {
-      background: rgba(74, 222, 128, 0.2);
-      color: #4ade80;
-    }
-    
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: rgba(255,255,255,0.6);
-    }
-    
-    .empty-state-icon { font-size: 4rem; margin-bottom: 20px; }
-    .empty-state h3 { color: #d4af37; margin-bottom: 10px; }
-    
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 60px 20px;
-      color: rgba(255,255,255,0.6);
-    }
-    
+    /* Loading & Empty */
+    .loading { text-align: center; padding: 60px 20px; color: var(--text-muted); }
     .spinner {
       width: 40px;
       height: 40px;
       border: 3px solid rgba(255,255,255,0.1);
-      border-top-color: #d4af37;
+      border-top-color: var(--gold);
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin: 0 auto 20px;
     }
-    
+    .spinner-small { width: 20px; height: 20px; border-width: 2px; margin: 0; display: inline-block; }
     @keyframes spin { to { transform: rotate(360deg); } }
     
-    /* Alerts */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .empty-state-icon { font-size: 4rem; margin-bottom: 20px; }
+    .empty-state h3 { color: var(--gold); margin-bottom: 10px; }
+    
+    /* Alerts & Buttons */
     .alert {
       padding: 15px 20px;
       border-radius: 10px;
@@ -353,26 +341,9 @@
       align-items: flex-start;
       gap: 12px;
     }
+    .alert-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; }
+    .alert-warning { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); color: #fbbf24; }
     
-    .alert-error {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #f87171;
-    }
-    
-    .alert-warning {
-      background: rgba(251, 191, 36, 0.1);
-      border: 1px solid rgba(251, 191, 36, 0.3);
-      color: #fbbf24;
-    }
-    
-    .alert-success {
-      background: rgba(74, 222, 128, 0.1);
-      border: 1px solid rgba(74, 222, 128, 0.3);
-      color: #4ade80;
-    }
-    
-    /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -387,146 +358,186 @@
       border: none;
       text-decoration: none;
     }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, #d4af37, #b8860b);
-      color: #1a1a2e;
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-    }
-    
-    .footer {
-      text-align: center;
-      padding: 30px 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin-top: 50px;
-    }
-    
-    .footer p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
-    .footer a { color: #d4af37; text-decoration: none; }
+    .btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--bg-dark); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
     
     .hidden { display: none !important; }
+    
+    /* Mobile */
+    @media (max-width: 900px) {
+      .hamburger { display: flex; }
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-wrapper { margin-left: 0; }
+    }
+    
+    @media (max-width: 480px) {
+      .header-username { display: none; }
+      .filter-tabs { justify-content: center; }
+      .filter-tab { padding: 8px 15px; font-size: 0.8rem; }
+    }
   </style>
 </head>
 <body>
+  <!-- Header -->
   <header class="header">
-    <a href="index.html" class="logo-link">
-      <img src="images/R73logo.png" alt="Rosary73" class="logo">
-      <span class="logo-text">Rosary73</span>
-    </a>
-    
-    <div class="header-right">
-      <div class="header-user hidden" id="header-user">
-        <span>Welcome,</span>
-        <span class="header-user-name" id="header-username">User</span>
-        <button class="logout-btn" id="logout-btn">Logout</button>
-      </div>
+    <div class="header-left">
+      <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="index.html" class="logo-link">
+        <img src="images/R73logo.png" alt="Rosary73" class="logo">
+        <span class="logo-text">Rosary73</span>
+      </a>
+    </div>
+    <div class="header-user hidden" id="header-user">
+      <span class="header-username" id="header-username">User</span>
+      <button class="header-logout" onclick="logout()">Logout</button>
     </div>
   </header>
 
-  <nav class="members-nav" id="members-nav">
-    <div class="members-nav-inner">
-      <a href="start-rosary.html" class="members-nav-item">
-        <span>✝️</span>
-        <span>Start Rosary</span>
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Main</div>
+      <a href="start-rosary.html" class="sidebar-item">
+        <span class="sidebar-item-icon">✝️</span>
+        <span>Start a Rosary</span>
       </a>
-      <a href="participate.html" class="members-nav-item active">
-        <span>🙏</span>
+      <a href="participate.html" class="sidebar-item active">
+        <span class="sidebar-item-icon">🙏</span>
         <span>Join Rosary</span>
       </a>
-      <a href="finished.html" class="members-nav-item">
-        <span>🎧</span>
+      <a href="finished.html" class="sidebar-item">
+        <span class="sidebar-item-icon">🎧</span>
         <span>Finished Rosaries</span>
       </a>
-      <a href="members.html" class="members-nav-item">
-        <span>👤</span>
-        <span>My Account</span>
+      <a href="upload-prayers.html" class="sidebar-item">
+        <span class="sidebar-item-icon">🎤</span>
+        <span>Upload Prayers</span>
+        <span class="sidebar-item-badge" id="prayers-badge">0/7</span>
       </a>
     </div>
-  </nav>
 
-  <main class="main">
-    <h1 class="page-title">🙏 Join a Rosary</h1>
-    <p class="page-subtitle">Browse active rosaries and add your prayers</p>
-
-    <!-- Login Gate -->
-    <div id="login-gate" class="login-gate">
-      <h2>🔐 Sign In Required</h2>
-      <p>Please sign in to join rosaries</p>
-      
-      <form class="login-form" id="login-form">
-        <input type="text" id="login-username" placeholder="Username" required>
-        <input type="password" id="login-password" placeholder="Password" required>
-        <button type="submit" class="btn btn-primary">Sign In</button>
-      </form>
-      
-      <div id="login-error" class="alert alert-error hidden" style="margin-top: 15px;">
-        <span>❌</span>
-        <span id="login-error-text"></span>
-      </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">My Content</div>
+      <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','my-rosaries')">
+        <span class="sidebar-item-icon">📿</span>
+        <span>My Rosaries</span>
+      </a>
+      <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','my-groups')">
+        <span class="sidebar-item-icon">👥</span>
+        <span>My Groups</span>
+      </a>
     </div>
 
-    <!-- Main Content -->
-    <div id="main-content" class="hidden">
-      <!-- Requirements Warning -->
-      <div id="requirements-warning" class="alert alert-warning hidden">
-        <span>⚠️</span>
-        <div>
-          <strong>Cannot join rosaries</strong><br>
-          <span id="requirements-text"></span>
-        </div>
-      </div>
-
-      <!-- Filter Tabs -->
-      <div class="filter-tabs">
-        <button class="filter-tab active" data-filter="all">📿 All Mysteries</button>
-        <button class="filter-tab" data-filter="joyful">👶 Joyful</button>
-        <button class="filter-tab" data-filter="sorrowful">✝️ Sorrowful</button>
-        <button class="filter-tab" data-filter="glorious">👑 Glorious</button>
-        <button class="filter-tab" data-filter="luminous">✨ Luminous</button>
-      </div>
-
-      <!-- Stats -->
-      <div class="stats-bar">
-        <div class="stat-item">
-          <div class="stat-value" id="stat-active">0</div>
-          <div class="stat-label">Active Rosaries</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value" id="stat-joined">0</div>
-          <div class="stat-label">You've Joined</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value" id="stat-available">0</div>
-          <div class="stat-label">Spots Available</div>
-        </div>
-      </div>
-
-      <!-- Loading -->
-      <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <p>Loading rosaries...</p>
-      </div>
-
-      <!-- Rosary List -->
-      <div class="rosary-list" id="rosary-list"></div>
-
-      <!-- Empty State -->
-      <div class="empty-state hidden" id="empty-state">
-        <div class="empty-state-icon">📿</div>
-        <h3>No Active Rosaries</h3>
-        <p>Be the first to start a rosary!</p>
-        <a href="start-rosary.html" class="btn btn-primary" style="margin-top: 20px;">Start a Rosary</a>
-      </div>
+    <div class="sidebar-section" id="support-section">
+      <div class="sidebar-section-title">Support Us</div>
+      <a href="members.html" class="sidebar-item" id="subscribe-link" onclick="sessionStorage.setItem('openSection','subscribe')">
+        <span class="sidebar-item-icon">⭐</span>
+        <span>Subscribe</span>
+      </a>
+      <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','gift')">
+        <span class="sidebar-item-icon">🎁</span>
+        <span>Gift Subscription</span>
+      </a>
+      <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','donate')">
+        <span class="sidebar-item-icon">💝</span>
+        <span>Donate</span>
+      </a>
     </div>
-  </main>
 
-  <footer class="footer">
-    <p><a href="index.html">Home</a> | <a href="members.html">My Account</a> | <a href="contact.html">Contact</a></p>
-  </footer>
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Account</div>
+      <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','settings')">
+        <span class="sidebar-item-icon">⚙️</span>
+        <span>Account Settings</span>
+      </a>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <button class="sidebar-item danger" onclick="logout()">
+      <span class="sidebar-item-icon">🚪</span>
+      <span>Logout</span>
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-wrapper" id="main-wrapper">
+    <main class="main-content">
+      <h1 class="page-title">🙏 Join a Rosary</h1>
+      <p class="page-subtitle">Browse active rosaries and add your prayers</p>
+
+      <!-- Login Gate -->
+      <div id="login-gate" class="login-gate">
+        <h2>🔐 Sign In Required</h2>
+        <p>Please sign in to join rosaries</p>
+        <form class="login-form" id="login-form">
+          <input type="text" id="login-username" placeholder="Username" required>
+          <input type="password" id="login-password" placeholder="Password" required>
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <div id="login-error" class="alert alert-error hidden" style="margin-top: 15px;">
+          <span>❌</span>
+          <span id="login-error-text"></span>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div id="main-content" class="hidden">
+        <div id="requirements-warning" class="alert alert-warning hidden">
+          <span>⚠️</span>
+          <div>
+            <strong>Cannot join rosaries</strong><br>
+            <span id="requirements-text"></span>
+          </div>
+        </div>
+
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">📿 All Mysteries</button>
+          <button class="filter-tab" data-filter="joyful">👶 Joyful</button>
+          <button class="filter-tab" data-filter="sorrowful">✝️ Sorrowful</button>
+          <button class="filter-tab" data-filter="glorious">👑 Glorious</button>
+          <button class="filter-tab" data-filter="luminous">✨ Luminous</button>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-value" id="stat-active">0</div>
+            <div class="stat-label">Active Rosaries</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="stat-joined">0</div>
+            <div class="stat-label">You've Joined</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="stat-available">0</div>
+            <div class="stat-label">Spots Available</div>
+          </div>
+        </div>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Loading rosaries...</p>
+        </div>
+
+        <div class="rosary-list" id="rosary-list"></div>
+
+        <div class="empty-state hidden" id="empty-state">
+          <div class="empty-state-icon">📿</div>
+          <h3>No Active Rosaries</h3>
+          <p>Be the first to start a rosary!</p>
+          <a href="start-rosary.html" class="btn btn-primary" style="margin-top: 20px;">Start a Rosary</a>
+        </div>
+      </div>
+    </main>
+  </div>
 
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
@@ -546,8 +557,6 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
-
-    // Cloud Functions URL
     const FUNCTIONS_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net';
 
     let currentUser = null;
@@ -556,49 +565,40 @@
     let currentFilter = 'all';
     let canJoin = false;
 
-    // Prayer type for position (same as app)
+    const mysteryIcons = { joyful: '👶', sorrowful: '✝️', glorious: '👑', luminous: '✨' };
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('visible');
+      document.getElementById('hamburger').classList.toggle('active');
+    }
+
     function getPrayerTypeForPosition(position) {
       if (position === 1) return 'creed';
       if (position === 2) return 'ourFather';
       if (position >= 3 && position <= 5) return 'hailMary';
       if (position === 6) return 'gloryBe';
-      
       if (position >= 7 && position <= 71) {
         const relativePos = position - 7;
         const posInDecade = relativePos % 13;
-        
         if (posInDecade === 0) return 'ourFather';
         if (posInDecade >= 1 && posInDecade <= 10) return 'hailMary';
         if (posInDecade === 11) return 'gloryBe';
         if (posInDecade === 12) return 'fatimaPrayer';
       }
-      
       if (position === 72) return 'hailHolyQueen';
       if (position === 73) return 'finalPrayer';
-      
       return null;
     }
 
-    // Find first available position
     function findFirstAvailablePosition(participants) {
       for (let i = 2; i <= 73; i++) {
-        if (!participants[i.toString()]) {
-          return i;
-        }
+        if (!participants[i.toString()]) return i;
       }
       return null;
     }
 
-    // Mystery icons
-    const mysteryIcons = {
-      joyful: '👶',
-      sorrowful: '✝️',
-      glorious: '👑',
-      luminous: '✨'
-    };
-
     document.addEventListener('DOMContentLoaded', () => {
-      // Check for stored session first
       const storedUser = sessionStorage.getItem('rosary73UserData');
       if (storedUser) {
         userData = JSON.parse(storedUser);
@@ -611,18 +611,15 @@
     });
 
     function initializeWithUserData() {
-      // User already logged in via members.html
       document.getElementById('header-username').textContent = userData.username || 'User';
       showMainContent();
       checkRequirements();
       loadRosaries();
+      updateSidebarForUser();
       
-      // Also listen for auth state changes
       auth.onAuthStateChanged((user) => {
-        if (user) {
-          currentUser = user;
-        } else {
-          // Logged out
+        if (user) currentUser = user;
+        else {
           sessionStorage.removeItem('rosary73UserData');
           userData = null;
           showLoginGate();
@@ -638,9 +635,8 @@
           showMainContent();
           checkRequirements();
           loadRosaries();
+          updateSidebarForUser();
         } else {
-          currentUser = null;
-          userData = null;
           showLoginGate();
         }
       });
@@ -648,15 +644,12 @@
 
     async function loadUserData() {
       try {
-        // Try to get from sessionStorage for complete data
         const storedUser = sessionStorage.getItem('rosary73UserData');
         if (storedUser) {
           userData = JSON.parse(storedUser);
           document.getElementById('header-username').textContent = userData.username || 'User';
           return;
         }
-
-        // Fallback: Load from Firestore
         const userDoc = await db.collection('users').doc(currentUser.uid).get();
         if (userDoc.exists) {
           userData = userDoc.data();
@@ -668,6 +661,23 @@
       }
     }
 
+    function updateSidebarForUser() {
+      if (!userData) return;
+      const prayerCount = userData.prayerCount || 0;
+      document.getElementById('prayers-badge').textContent = `${prayerCount}/7`;
+      
+      const isPerpetual = userData.isPerpetual === true || userData.isAdmin === true || 
+                          userData.hasSpecialAccess === true || userData.subscriptionStatus === 'perpetual';
+      if (isPerpetual) {
+        const subscribeLink = document.getElementById('subscribe-link');
+        if (subscribeLink) {
+          subscribeLink.innerHTML = '<span class="sidebar-item-icon">✨</span><span>Perpetual Access</span>';
+          subscribeLink.style.pointerEvents = 'none';
+          subscribeLink.style.color = '#d4af37';
+        }
+      }
+    }
+
     function setupLoginForm() {
       document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -676,10 +686,9 @@
         const btn = e.target.querySelector('button');
         
         btn.disabled = true;
-        btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;"></span>';
+        btn.innerHTML = '<span class="spinner spinner-small"></span>';
         
         try {
-          // Use verifyWebUser to get complete user data
           const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -688,11 +697,9 @@
           const result = await response.json();
           if (!result.valid) throw new Error(result.error || 'Username not found');
           
-          // Sign in with Firebase Auth
-          const emailToUse = result.email || `${username.toLowerCase()}@rosary73.app`;
+          const emailToUse = result.email || `${username.toLowerCase()}@guest.r73.app`;
           await auth.signInWithEmailAndPassword(emailToUse, password);
           
-          // Store user data in session
           userData = result;
           sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
           
@@ -700,12 +707,12 @@
           showMainContent();
           checkRequirements();
           loadRosaries();
-          
+          updateSidebarForUser();
         } catch (error) {
           document.getElementById('login-error').classList.remove('hidden');
           let errorMsg = error.message || 'Login failed';
           if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-            errorMsg = 'Incorrect password. Please try again.';
+            errorMsg = 'Incorrect password.';
           }
           document.getElementById('login-error-text').textContent = errorMsg;
         } finally {
@@ -713,36 +720,37 @@
           btn.textContent = 'Sign In';
         }
       });
-      
-      document.getElementById('logout-btn').addEventListener('click', () => {
-        auth.signOut();
-        sessionStorage.removeItem('rosary73UserData');
-      });
+    }
+
+    function logout() {
+      auth.signOut();
+      sessionStorage.removeItem('rosary73UserData');
+      window.location.href = 'members.html';
     }
 
     function showLoginGate() {
       document.getElementById('login-gate').classList.remove('hidden');
       document.getElementById('main-content').classList.add('hidden');
-      document.getElementById('members-nav').classList.remove('visible');
+      document.getElementById('sidebar').style.display = 'none';
       document.getElementById('header-user').classList.add('hidden');
+      document.getElementById('main-wrapper').style.marginLeft = '0';
     }
 
     function showMainContent() {
       document.getElementById('login-gate').classList.add('hidden');
       document.getElementById('main-content').classList.remove('hidden');
-      document.getElementById('members-nav').classList.add('visible');
+      document.getElementById('sidebar').style.display = 'block';
       document.getElementById('header-user').classList.remove('hidden');
+      if (window.innerWidth > 900) {
+        document.getElementById('main-wrapper').style.marginLeft = 'var(--sidebar-width)';
+      }
     }
 
     function checkRequirements() {
-      // Check if user has all 7 prayers recorded
       let hasAllPrayers = false;
-      
-      // Check prayerCount from verifyWebUser
       if (userData?.prayerCount && userData.prayerCount >= 7) {
         hasAllPrayers = true;
       } else if (userData?.recordings) {
-        // Fallback: Check recordings object
         const requiredPrayers = ['creed', 'ourFather', 'hailMary', 'gloryBe', 'fatimaPrayer', 'hailHolyQueen', 'finalPrayer'];
         hasAllPrayers = requiredPrayers.every(p => !!userData.recordings[p]);
       }
@@ -752,7 +760,6 @@
       if (!canJoin) {
         const prayerCount = userData?.prayerCount || 0;
         const missing = 7 - prayerCount;
-        
         document.getElementById('requirements-warning').classList.remove('hidden');
         document.getElementById('requirements-text').innerHTML = 
           `You need to <a href="upload-prayers.html" style="color:#d4af37">upload all 7 prayers</a> to join rosaries. Missing: ${missing} prayers.`;
@@ -776,18 +783,14 @@
         allRosaries = [];
         let joinedCount = 0;
         let availableSpots = 0;
-        
         const userId = currentUser?.uid || userData?.userId;
         
         snapshot.forEach(doc => {
           const data = doc.data();
           allRosaries.push({ id: doc.id, ...data });
-          
-          // Check if user already joined
           const isCreator = data.creatorId === userId;
           const isParticipant = Object.values(data.participants || {}).some(p => p.userId === userId);
           if (isCreator || isParticipant) joinedCount++;
-          
           availableSpots += (73 - (data.participantCount || 1));
         });
         
@@ -797,7 +800,6 @@
         
         document.getElementById('loading').classList.add('hidden');
         renderRosaries();
-        
       } catch (error) {
         console.error('Error loading rosaries:', error);
         document.getElementById('loading').innerHTML = '<p style="color:#f87171;">Error loading rosaries</p>';
@@ -820,8 +822,8 @@
       }
       
       const userId = currentUser?.uid || userData?.userId;
-      
       emptyState.classList.add('hidden');
+      
       list.innerHTML = filtered.map(rosary => {
         const isCreator = rosary.creatorId === userId;
         const isParticipant = Object.values(rosary.participants || {}).some(p => p.userId === userId);
@@ -838,19 +840,13 @@
                 <div class="progress-label">${73 - (rosary.participantCount || 1)} spots left</div>
               </div>
             </div>
-            
             <div class="rosary-intention">"${rosary.intention || 'No intention specified'}"</div>
-            
             <div class="rosary-meta">
               <div class="rosary-creator">Started by <strong>${rosary.creatorUsername || 'Anonymous'}</strong></div>
               <div class="progress-bar-container">
                 <div class="progress-bar" style="width: ${progress}%"></div>
               </div>
-              <button 
-                class="join-btn ${hasJoined ? 'joined' : ''}" 
-                data-rosary-id="${rosary.id}"
-                ${hasJoined || !canJoin ? 'disabled' : ''}
-              >
+              <button class="join-btn ${hasJoined ? 'joined' : ''}" data-rosary-id="${rosary.id}" ${hasJoined || !canJoin ? 'disabled' : ''}>
                 ${hasJoined ? '✓ Joined' : '🙏 Join'}
               </button>
             </div>
@@ -858,7 +854,6 @@
         `;
       }).join('');
       
-      // Add join handlers
       list.querySelectorAll('.join-btn:not([disabled])').forEach(btn => {
         btn.addEventListener('click', () => joinRosary(btn.dataset.rosaryId));
       });
@@ -880,21 +875,18 @@
       
       const btn = document.querySelector(`[data-rosary-id="${rosaryId}"]`);
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner" style="width:16px;height:16px;border-width:2px;"></span>';
+      btn.innerHTML = '<span class="spinner spinner-small"></span>';
       
       try {
         const userId = currentUser?.uid || userData?.userId;
         if (!userId) throw new Error('User not authenticated');
         
-        // Get current rosary data
         const rosaryRef = db.collection('rosaries').doc(rosaryId);
         const rosaryDoc = await rosaryRef.get();
         
         if (!rosaryDoc.exists) throw new Error('Rosary not found');
         
         const rosary = rosaryDoc.data();
-        
-        // Check if already joined
         const isCreator = rosary.creatorId === userId;
         const isParticipant = Object.values(rosary.participants || {}).some(p => p.userId === userId);
         
@@ -902,20 +894,11 @@
           throw new Error('You have already joined this rosary');
         }
         
-        // Find first available position
         const position = findFirstAvailablePosition(rosary.participants || {});
+        if (!position) throw new Error('This rosary is full');
         
-        if (!position) {
-          throw new Error('This rosary is full');
-        }
-        
-        // Get required prayer type for this position
-        const prayerType = getPrayerTypeForPosition(position);
-        
-        // Build recordings object from userData
         let recordings = userData?.recordings || {};
         
-        // Add participant (EXACT same structure as app)
         const participantData = {
           userId: userId,
           userName: userData?.username || 'Anonymous',
@@ -923,24 +906,19 @@
           joinedAt: new Date().toISOString()
         };
         
-        // Update rosary document
         await rosaryRef.update({
           [`participants.${position}`]: participantData,
           participantCount: firebase.firestore.FieldValue.increment(1)
         });
         
-        // Update user's joined count
         await db.collection('users').doc(userId).update({
           rosariesJoined: firebase.firestore.FieldValue.increment(1)
         }).catch(() => {});
         
-        // Update UI
         btn.classList.add('joined');
         btn.textContent = '✓ Joined';
         
-        // Reload to update stats
         setTimeout(() => loadRosaries(), 500);
-        
       } catch (error) {
         console.error('Error joining rosary:', error);
         alert('Failed to join: ' + error.message);
@@ -948,6 +926,17 @@
         btn.textContent = '🙏 Join';
       }
     }
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900 && userData) {
+        document.getElementById('main-wrapper').style.marginLeft = 'var(--sidebar-width)';
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebar-overlay').classList.remove('visible');
+        document.getElementById('hamburger').classList.remove('active');
+      } else if (userData) {
+        document.getElementById('main-wrapper').style.marginLeft = '0';
+      }
+    });
   </script>
 </body>
 </html>
