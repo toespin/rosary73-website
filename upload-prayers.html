@@ -193,49 +193,6 @@
     }
     .login-form input::placeholder { color: rgba(255,255,255,0.4); }
     
-    /* Instructions Card */
-    .instructions-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 25px;
-      margin-bottom: 30px;
-    }
-    .instructions-card h3 { color: var(--gold); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-    .instructions-card ul { list-style: none; color: rgba(255,255,255,0.8); }
-    .instructions-card li { padding: 8px 0; padding-left: 25px; position: relative; }
-    .instructions-card li::before { content: "✓"; position: absolute; left: 0; color: #4ade80; }
-    
-    .language-note {
-      background: rgba(212, 175, 55, 0.1);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 15px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-    .language-note .icon { font-size: 1.5rem; }
-    .language-note p { color: rgba(255,255,255,0.9); font-size: 0.95rem; }
-    
-    .formats-info {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-    .format-badge {
-      background: rgba(255,255,255,0.1);
-      padding: 8px 12px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 0.85rem;
-    }
-    .format-badge strong { color: var(--gold); }
-    
     /* Progress Overview */
     .progress-overview {
       background: rgba(255,255,255,0.05);
@@ -291,7 +248,6 @@
     .prayer-status { padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
     .status-pending { background: rgba(255,255,255,0.1); color: var(--text-muted); }
     .status-uploaded { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
-    .status-error { background: rgba(239, 68, 68, 0.2); color: #f87171; }
     
     /* Upload Area */
     .upload-area {
@@ -303,7 +259,6 @@
       transition: all 0.3s ease;
     }
     .upload-area:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
-    .upload-area.dragover { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
     .upload-icon { font-size: 2.5rem; margin-bottom: 10px; }
     .upload-text { color: rgba(255,255,255,0.7); margin-bottom: 5px; }
     .upload-hint { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
@@ -312,45 +267,9 @@
     /* Audio Preview */
     .audio-preview { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; }
     .audio-preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .file-name { color: var(--gold); font-weight: 500; word-break: break-all; }
+    .file-name { color: var(--gold); font-weight: 500; }
     .remove-file { background: rgba(239, 68, 68, 0.2); border: none; color: #f87171; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
     .audio-player { width: 100%; margin: 10px 0; }
-    
-    /* Audio Analysis */
-    .audio-analysis { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 10px; }
-    .analysis-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; text-align: center; }
-    .analysis-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 3px; }
-    .analysis-value { font-weight: 600; font-size: 0.95rem; }
-    .analysis-value.good { color: #4ade80; }
-    .analysis-value.warning { color: #fbbf24; }
-    .analysis-value.error { color: #f87171; }
-    
-    /* Warnings */
-    .warning-box {
-      background: rgba(251, 191, 36, 0.1);
-      border: 1px solid rgba(251, 191, 36, 0.3);
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 10px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-    .warning-box.error { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
-    .warning-icon { font-size: 1.2rem; }
-    .warning-text { color: rgba(255,255,255,0.9); font-size: 0.9rem; }
-    
-    /* Trim Controls */
-    .trim-controls { margin-top: 15px; padding: 15px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; }
-    .trim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .trim-header h5 { color: var(--gold); font-size: 0.9rem; }
-    .trim-toggle { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 0.85rem; }
-    .trim-toggle.active { background: var(--gold); color: var(--bg-dark); }
-    .trim-sliders { display: none; }
-    .trim-sliders.visible { display: block; }
-    .trim-slider-group { margin-bottom: 10px; }
-    .trim-slider-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; color: rgba(255,255,255,0.7); }
-    .trim-slider { width: 100%; accent-color: var(--gold); }
     
     /* Buttons */
     .btn {
@@ -371,18 +290,11 @@
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
     .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     .btn-secondary { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
-    .btn-small { padding: 8px 16px; font-size: 0.9rem; }
     
-    /* Upload Actions */
     .upload-actions { display: flex; gap: 10px; margin-top: 15px; }
     .upload-btn { flex: 1; }
     
-    /* Waveform */
-    .waveform-container { height: 60px; background: rgba(0,0,0,0.3); border-radius: 8px; margin: 10px 0; position: relative; overflow: hidden; }
-    .waveform-canvas { width: 100%; height: 100%; }
-    .waveform-trim-overlay { position: absolute; top: 0; height: 100%; background: rgba(212, 175, 55, 0.2); pointer-events: none; }
-    
-    /* Toast Notifications */
+    /* Toast */
     .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
     .toast {
       background: rgba(30, 30, 50, 0.95);
@@ -394,20 +306,13 @@
       align-items: center;
       gap: 10px;
       animation: slideIn 0.3s ease;
-      max-width: 350px;
     }
     .toast.success { border-color: rgba(74, 222, 128, 0.3); }
     .toast.error { border-color: rgba(239, 68, 68, 0.3); }
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     
-    /* Loading Spinner */
     .spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    
-    /* Footer */
-    .footer { text-align: center; padding: 30px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; }
-    .footer p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
-    .footer a { color: var(--gold); text-decoration: none; }
     
     .hidden { display: none !important; }
     
@@ -494,4 +399,381 @@
         <span>Gift Subscription</span>
       </a>
       <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','donate')">
-        <span class="sidebar-item
+        <span class="sidebar-item-icon">💝</span>
+        <span>Donate</span>
+      </a>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Account</div>
+      <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','settings')">
+        <span class="sidebar-item-icon">⚙️</span>
+        <span>Account Settings</span>
+      </a>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <button class="sidebar-item danger" onclick="logout()">
+      <span class="sidebar-item-icon">🚪</span>
+      <span>Logout</span>
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-wrapper" id="main-wrapper">
+    <main class="main">
+      <h1 class="page-title">🎤 Upload Prayer Recordings</h1>
+      <p class="page-subtitle">Record all 7 prayers to participate in community rosaries</p>
+
+      <!-- Login Gate -->
+      <div id="login-gate" class="login-gate">
+        <h2>🔐 Sign In Required</h2>
+        <p>Please sign in to upload your prayers</p>
+        <form class="login-form" id="login-form">
+          <input type="text" id="login-username" placeholder="Username" required>
+          <input type="password" id="login-password" placeholder="Password" required>
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <div id="login-error" class="hidden" style="margin-top: 15px; color: #f87171;"></div>
+      </div>
+
+      <!-- Main Content -->
+      <div id="main-content" class="hidden">
+        <!-- Progress Overview -->
+        <div class="progress-overview">
+          <div class="progress-text">Progress: <span id="progress-count">0</span>/7 prayers</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Prayer Cards -->
+        <div id="prayer-cards"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBBzm-LuWZwyOCMqYzxodpqLNn4Eg3wNDk",
+      authDomain: "rosary--interact-app.firebaseapp.com",
+      projectId: "rosary--interact-app",
+      storageBucket: "rosary--interact-app.firebasestorage.app",
+      messagingSenderId: "174985016192",
+      appId: "1:174985016192:web:134b684d6f0ba731510765"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+    const FUNCTIONS_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net';
+
+    let currentUser = null;
+    let userData = null;
+
+    const PRAYERS = [
+      { id: 'creed', name: 'The Creed', duration: '45-60 sec' },
+      { id: 'ourFather', name: 'Our Father', duration: '20-30 sec' },
+      { id: 'hailMary', name: 'Hail Mary', duration: '15-25 sec' },
+      { id: 'gloryBe', name: 'Glory Be', duration: '10-15 sec' },
+      { id: 'fatimaPrayer', name: 'Fatima Prayer', duration: '15-20 sec' },
+      { id: 'hailHolyQueen', name: 'Hail Holy Queen', duration: '30-45 sec' },
+      { id: 'finalPrayer', name: 'Final Prayer', duration: '20-30 sec' }
+    ];
+
+    // Sidebar Toggle
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('visible');
+      document.getElementById('hamburger').classList.toggle('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const storedUser = sessionStorage.getItem('rosary73UserData');
+      if (storedUser) {
+        userData = JSON.parse(storedUser);
+        initializeWithUserData();
+      } else {
+        initializeAuth();
+      }
+      setupLoginForm();
+    });
+
+    function initializeWithUserData() {
+      document.getElementById('header-username').textContent = userData.username || 'User';
+      showMainContent();
+      renderPrayerCards();
+      updateSidebarForUser();
+      
+      auth.onAuthStateChanged((user) => {
+        if (user) currentUser = user;
+        else {
+          sessionStorage.removeItem('rosary73UserData');
+          userData = null;
+          showLoginGate();
+        }
+      });
+    }
+
+    function initializeAuth() {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          currentUser = user;
+          await loadUserData();
+          showMainContent();
+          renderPrayerCards();
+          updateSidebarForUser();
+        } else {
+          showLoginGate();
+        }
+      });
+    }
+
+    async function loadUserData() {
+      try {
+        const storedUser = sessionStorage.getItem('rosary73UserData');
+        if (storedUser) {
+          userData = JSON.parse(storedUser);
+          document.getElementById('header-username').textContent = userData.username || 'User';
+          return;
+        }
+        const userDoc = await db.collection('users').doc(currentUser.uid).get();
+        if (userDoc.exists) {
+          userData = userDoc.data();
+          userData.userId = currentUser.uid;
+          document.getElementById('header-username').textContent = userData.username || 'User';
+        }
+      } catch (error) {
+        console.error('Error loading user:', error);
+      }
+    }
+
+    function updateSidebarForUser() {
+      if (!userData) return;
+      
+      // Update prayers badge
+      const prayerCount = userData.prayerCount || 0;
+      document.getElementById('prayers-badge').textContent = `${prayerCount}/7`;
+      
+      // Check perpetual/admin status
+      const isPerpetual = userData.isPerpetual === true || userData.subscriptionStatus === 'perpetual';
+      const isAdmin = userData.isAdmin === true;
+      const hasSpecialAccess = userData.hasSpecialAccess === true || userData.subscriptionStatus === 'special_access';
+      
+      if (isPerpetual || isAdmin || hasSpecialAccess) {
+        const subscribeLink = document.getElementById('subscribe-link');
+        if (subscribeLink) {
+          subscribeLink.innerHTML = '<span class="sidebar-item-icon">✨</span><span>Perpetual Access</span>';
+          subscribeLink.style.pointerEvents = 'none';
+          subscribeLink.style.color = '#d4af37';
+        }
+      }
+    }
+
+    function setupLoginForm() {
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('login-username').value.trim();
+        const password = document.getElementById('login-password').value;
+        const btn = e.target.querySelector('button');
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Signing in...';
+        
+        try {
+          const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username })
+          });
+          const result = await response.json();
+          if (!result.valid) throw new Error(result.error || 'Username not found');
+          
+          const emailToUse = result.email || `${username.toLowerCase()}@guest.r73.app`;
+          await auth.signInWithEmailAndPassword(emailToUse, password);
+          
+          userData = result;
+          sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
+          
+          document.getElementById('header-username').textContent = result.username || 'User';
+          showMainContent();
+          renderPrayerCards();
+          updateSidebarForUser();
+        } catch (error) {
+          document.getElementById('login-error').classList.remove('hidden');
+          document.getElementById('login-error').textContent = error.message || 'Login failed';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Sign In';
+        }
+      });
+    }
+
+    function logout() {
+      auth.signOut();
+      sessionStorage.removeItem('rosary73UserData');
+      window.location.href = 'index.html';
+    }
+
+    function showLoginGate() {
+      document.getElementById('login-gate').classList.remove('hidden');
+      document.getElementById('main-content').classList.add('hidden');
+      document.getElementById('sidebar').style.display = 'none';
+      document.getElementById('header-user').classList.add('hidden');
+      document.getElementById('main-wrapper').style.marginLeft = '0';
+    }
+
+    function showMainContent() {
+      document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('main-content').classList.remove('hidden');
+      document.getElementById('sidebar').style.display = 'block';
+      document.getElementById('header-user').classList.remove('hidden');
+      if (window.innerWidth > 900) {
+        document.getElementById('main-wrapper').style.marginLeft = 'var(--sidebar-width)';
+      }
+    }
+
+    function renderPrayerCards() {
+      const container = document.getElementById('prayer-cards');
+      const recordings = userData?.recordings || {};
+      let uploadedCount = 0;
+      
+      container.innerHTML = PRAYERS.map(prayer => {
+        const isUploaded = !!recordings[prayer.id];
+        if (isUploaded) uploadedCount++;
+        
+        return `
+          <div class="prayer-card ${isUploaded ? 'uploaded' : ''}" id="card-${prayer.id}">
+            <div class="prayer-header">
+              <div class="prayer-info">
+                <h4>${prayer.name}</h4>
+                <div class="prayer-requirements">Recommended: ${prayer.duration}</div>
+              </div>
+              <span class="prayer-status ${isUploaded ? 'status-uploaded' : 'status-pending'}">
+                ${isUploaded ? '✓ Uploaded' : 'Pending'}
+              </span>
+            </div>
+            
+            ${isUploaded ? `
+              <div class="audio-preview">
+                <audio controls class="audio-player">
+                  <source src="${recordings[prayer.id]}" type="audio/mpeg">
+                </audio>
+                <div class="upload-actions">
+                  <button class="btn btn-secondary upload-btn" onclick="triggerUpload('${prayer.id}')">
+                    Replace Recording
+                  </button>
+                </div>
+              </div>
+            ` : `
+              <div class="upload-area" onclick="triggerUpload('${prayer.id}')">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Click to upload audio file</div>
+                <div class="upload-hint">MP3, M4A, WAV (max 10MB)</div>
+              </div>
+            `}
+            
+            <input type="file" class="file-input" id="file-${prayer.id}" 
+                   accept="audio/*" onchange="handleFileSelect('${prayer.id}', this)">
+          </div>
+        `;
+      }).join('');
+      
+      // Update progress
+      document.getElementById('progress-count').textContent = uploadedCount;
+      document.getElementById('progress-bar').style.width = `${(uploadedCount / 7) * 100}%`;
+      document.getElementById('prayers-badge').textContent = `${uploadedCount}/7`;
+    }
+
+    function triggerUpload(prayerId) {
+      document.getElementById(`file-${prayerId}`).click();
+    }
+
+    async function handleFileSelect(prayerId, input) {
+      const file = input.files[0];
+      if (!file) return;
+      
+      if (file.size > 10 * 1024 * 1024) {
+        showToast('File too large. Maximum size is 10MB.', 'error');
+        return;
+      }
+      
+      const card = document.getElementById(`card-${prayerId}`);
+      const originalContent = card.innerHTML;
+      
+      // Show uploading state
+      card.innerHTML = `
+        <div style="text-align: center; padding: 40px;">
+          <div class="spinner" style="margin: 0 auto 15px;"></div>
+          <div>Uploading ${file.name}...</div>
+        </div>
+      `;
+      
+      try {
+        const userId = currentUser?.uid || userData?.userId;
+        const storageRef = storage.ref(`users/${userId}/prayers/${prayerId}.m4a`);
+        
+        await storageRef.put(file);
+        const downloadUrl = await storageRef.getDownloadURL();
+        
+        // Update Firestore
+        await db.collection('users').doc(userId).update({
+          [`recordings.${prayerId}`]: downloadUrl,
+          prayerCount: firebase.firestore.FieldValue.increment(userData?.recordings?.[prayerId] ? 0 : 1)
+        });
+        
+        // Update local data
+        if (!userData.recordings) userData.recordings = {};
+        if (!userData.recordings[prayerId]) {
+          userData.prayerCount = (userData.prayerCount || 0) + 1;
+        }
+        userData.recordings[prayerId] = downloadUrl;
+        sessionStorage.setItem('rosary73UserData', JSON.stringify(userData));
+        
+        showToast(`${PRAYERS.find(p => p.id === prayerId).name} uploaded successfully!`, 'success');
+        renderPrayerCards();
+      } catch (error) {
+        console.error('Upload error:', error);
+        showToast('Upload failed. Please try again.', 'error');
+        card.innerHTML = originalContent;
+      }
+      
+      input.value = '';
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `<span>${type === 'success' ? '✓' : '✗'}</span><span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900 && userData) {
+        document.getElementById('main-wrapper').style.marginLeft = 'var(--sidebar-width)';
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebar-overlay').classList.remove('visible');
+        document.getElementById('hamburger').classList.remove('active');
+      } else if (userData) {
+        document.getElementById('main-wrapper').style.marginLeft = '0';
+      }
+    });
+  </script>
+</body>
+</html>
