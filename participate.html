@@ -870,6 +870,12 @@
       });
     }
 
+    // ========================================================================
+    // RACE CONDITION FIX: Use Firestore Transaction for atomic participation
+    // This prevents two users from being assigned the same position when they
+    // click simultaneously. The transaction will automatically retry if another
+    // user modified the document between our read and write.
+    // ========================================================================
     async function joinRosary(rosaryId) {
       if (!canJoin) return;
       
@@ -882,35 +888,68 @@
         if (!userId) throw new Error('User not authenticated');
         
         const rosaryRef = db.collection('rosaries').doc(rosaryId);
-        const rosaryDoc = await rosaryRef.get();
         
-        if (!rosaryDoc.exists) throw new Error('Rosary not found');
-        
-        const rosary = rosaryDoc.data();
-        const isCreator = rosary.creatorId === userId;
-        const isParticipant = Object.values(rosary.participants || {}).some(p => p.userId === userId);
-        
-        if (isCreator || isParticipant) {
-          throw new Error('You have already joined this rosary');
-        }
-        
-        const position = findFirstAvailablePosition(rosary.participants || {});
-        if (!position) throw new Error('This rosary is full');
-        
+        // Get recordings from userData (now contains actual URLs after webAuth fix)
         let recordings = userData?.recordings || {};
         
-        const participantData = {
-          userId: userId,
-          userName: userData?.username || 'Anonymous',
-          recordings: recordings,
-          joinedAt: new Date().toISOString()
-        };
+        // Use Firestore transaction for atomic read-check-write
+        let assignedPosition = null;
         
-        await rosaryRef.update({
-          [`participants.${position}`]: participantData,
-          participantCount: firebase.firestore.FieldValue.increment(1)
+        await db.runTransaction(async (transaction) => {
+          // Read the current state inside the transaction
+          const rosaryDoc = await transaction.get(rosaryRef);
+          
+          if (!rosaryDoc.exists) {
+            throw new Error('ROSARY_NOT_FOUND');
+          }
+          
+          const rosary = rosaryDoc.data();
+          
+          // Check if user is creator
+          if (rosary.creatorId === userId) {
+            throw new Error('ALREADY_JOINED');
+          }
+          
+          // Check if user already participated
+          const isParticipant = Object.values(rosary.participants || {}).some(p => p.userId === userId);
+          if (isParticipant) {
+            throw new Error('ALREADY_JOINED');
+          }
+          
+          // Find first available position using FRESH data
+          const position = findFirstAvailablePosition(rosary.participants || {});
+          if (!position) {
+            throw new Error('ROSARY_FULL');
+          }
+          
+          // Double-check the position is still available
+          if (rosary.participants && rosary.participants[position.toString()]) {
+            throw new Error('POSITION_TAKEN');
+          }
+          
+          assignedPosition = position;
+          
+          console.log(`🔐 Transaction: Assigning position ${position} to user ${userData?.username || 'Anonymous'}`);
+          
+          // Build participant data with actual recording URLs
+          const participantData = {
+            userId: userId,
+            userName: userData?.username || 'Anonymous',
+            recordings: recordings,
+            joinedAt: new Date().toISOString(),
+            hasRecordings: Object.keys(recordings).length >= 7
+          };
+          
+          // Write the update atomically
+          transaction.update(rosaryRef, {
+            [`participants.${position}`]: participantData,
+            participantCount: firebase.firestore.FieldValue.increment(1)
+          });
         });
         
+        console.log(`✅ Successfully joined rosary at position ${assignedPosition}`);
+        
+        // Update user's rosariesJoined count (non-critical, can fail)
         await db.collection('users').doc(userId).update({
           rosariesJoined: firebase.firestore.FieldValue.increment(1)
         }).catch(() => {});
@@ -919,9 +958,29 @@
         btn.textContent = '✓ Joined';
         
         setTimeout(() => loadRosaries(), 500);
+        
       } catch (error) {
         console.error('Error joining rosary:', error);
-        alert('Failed to join: ' + error.message);
+        
+        // Handle specific transaction errors with user-friendly messages
+        let errorMessage = 'Failed to join rosary. Please try again.';
+        
+        if (error.message === 'ROSARY_NOT_FOUND') {
+          errorMessage = 'This rosary no longer exists.';
+        } else if (error.message === 'ALREADY_JOINED') {
+          errorMessage = 'You have already joined this rosary.';
+          btn.classList.add('joined');
+          btn.textContent = '✓ Joined';
+          setTimeout(() => loadRosaries(), 500);
+          return;
+        } else if (error.message === 'ROSARY_FULL') {
+          errorMessage = 'This rosary is now full.';
+        } else if (error.message === 'POSITION_TAKEN') {
+          // Transaction should have retried, but if we get here, show a friendly message
+          errorMessage = 'Another user just took that spot. Please try again.';
+        }
+        
+        alert(errorMessage);
         btn.disabled = false;
         btn.textContent = '🙏 Join';
       }
