@@ -229,6 +229,7 @@
       transition: all 0.3s ease;
     }
     .rosary-card:hover { border-color: rgba(212, 175, 55, 0.3); }
+    .rosary-card.group-rosary { border-left: 3px solid #60a5fa; }
     
     .rosary-header {
       display: flex;
@@ -237,6 +238,12 @@
       margin-bottom: 15px;
       flex-wrap: wrap;
       gap: 10px;
+    }
+    
+    .rosary-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     
     .rosary-mystery {
@@ -248,6 +255,17 @@
       border-radius: 20px;
       font-size: 0.85rem;
       color: var(--gold);
+    }
+    
+    .group-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(96, 165, 250, 0.15);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: #60a5fa;
     }
     
     .rosary-date { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
@@ -514,6 +532,7 @@
     let currentUser = null;
     let userData = null;
     let allRosaries = [];
+    let userGroupIds = [];
     let currentFilter = 'participated';
 
     const mysteryIcons = { joyful: '👶', sorrowful: '✝️', glorious: '👑', luminous: '✨' };
@@ -552,7 +571,7 @@
     function initializeWithUserData() {
       document.getElementById('header-username').textContent = userData.username || 'User';
       showMainContent();
-      loadRosaries();
+      loadUserGroups().then(() => loadRosaries());
       updateSidebarForUser();
       
       auth.onAuthStateChanged((user) => {
@@ -571,6 +590,7 @@
           currentUser = user;
           await loadUserData();
           showMainContent();
+          await loadUserGroups();
           loadRosaries();
           updateSidebarForUser();
         } else {
@@ -595,6 +615,26 @@
         }
       } catch (error) {
         console.error('Error loading user:', error);
+      }
+    }
+
+    async function loadUserGroups() {
+      try {
+        const userId = currentUser?.uid || userData?.userId;
+        if (!userId) return;
+        
+        const groupsSnapshot = await db.collection('groups')
+          .where('memberIds', 'array-contains', userId)
+          .get();
+        
+        userGroupIds = [];
+        groupsSnapshot.forEach(doc => {
+          userGroupIds.push(doc.id);
+        });
+        
+        console.log('User belongs to', userGroupIds.length, 'groups');
+      } catch (error) {
+        console.error('Error loading user groups:', error);
       }
     }
 
@@ -642,6 +682,7 @@
           
           document.getElementById('header-username').textContent = result.username || 'User';
           showMainContent();
+          await loadUserGroups();
           loadRosaries();
           updateSidebarForUser();
         } catch (error) {
@@ -682,6 +723,26 @@
       }
     }
 
+    // Check if user can view a rosary (public OR member of group)
+    function canViewRosary(rosary) {
+      // Public rosaries - everyone can see
+      if (rosary.isPublic === true || !rosary.isGroupRosary) {
+        return true;
+      }
+      
+      // Group rosaries - check if user is member
+      if (rosary.groupId && userGroupIds.includes(rosary.groupId)) {
+        return true;
+      }
+      
+      // Check groups array
+      if (rosary.groups && rosary.groups.length > 0) {
+        return rosary.groups.some(gId => userGroupIds.includes(gId));
+      }
+      
+      return false;
+    }
+
     async function loadRosaries() {
       document.getElementById('loading').classList.remove('hidden');
       document.getElementById('rosary-list').innerHTML = '';
@@ -699,9 +760,20 @@
         
         snapshot.forEach(doc => {
           const data = doc.data();
+          
+          // Filter: Only show rosaries user can view
+          if (!canViewRosary(data)) return;
+          
           const isCreator = data.creatorId === userId;
           const isParticipant = Object.values(data.participants || {}).some(p => p.userId === userId);
-          allRosaries.push({ id: doc.id, ...data, userParticipated: isCreator || isParticipant });
+          const isGroupMember = data.isGroupRosary && data.groupId && userGroupIds.includes(data.groupId);
+          
+          allRosaries.push({ 
+            id: doc.id, 
+            ...data, 
+            userParticipated: isCreator || isParticipant,
+            userIsGroupMember: isGroupMember
+          });
         });
         
         document.getElementById('loading').classList.add('hidden');
@@ -719,7 +791,8 @@
       
       let filtered = allRosaries;
       if (currentFilter === 'participated') {
-        filtered = allRosaries.filter(r => r.userParticipated);
+        // Show rosaries where user participated OR is a group member
+        filtered = allRosaries.filter(r => r.userParticipated || r.userIsGroupMember);
         emptyText.textContent = 'Join rosaries to see them here when completed!';
       } else {
         emptyText.textContent = 'No completed rosaries yet.';
@@ -736,11 +809,15 @@
         const icon = mysteryIcons[rosary.mysteryType] || '📿';
         const hasAudio = !!rosary.stitchedAudioUrl;
         const audioUrl = hasAudio ? `${FUNCTIONS_URL}/streamAudio?rosaryId=${rosary.id}` : '';
+        const isGroupRosary = rosary.isGroupRosary === true;
         
         return `
-          <div class="rosary-card" data-rosary-id="${rosary.id}">
+          <div class="rosary-card ${isGroupRosary ? 'group-rosary' : ''}" data-rosary-id="${rosary.id}">
             <div class="rosary-header">
-              <span class="rosary-mystery">${icon} ${rosary.mysteryType?.charAt(0).toUpperCase() + rosary.mysteryType?.slice(1)} Mysteries</span>
+              <div class="rosary-badges">
+                <span class="rosary-mystery">${icon} ${rosary.mysteryType?.charAt(0).toUpperCase() + rosary.mysteryType?.slice(1)} Mysteries</span>
+                ${isGroupRosary ? `<span class="group-badge">👥 ${rosary.groupName || 'Group'}</span>` : ''}
+              </div>
               <span class="rosary-date">📅 ${formatDate(rosary.completedAt || rosary.createdAt)}</span>
             </div>
             <div class="rosary-intention">"${rosary.intention || 'No intention specified'}"</div>

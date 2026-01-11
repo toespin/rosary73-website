@@ -212,6 +212,34 @@
       gap: 10px;
     }
     
+    /* Group Selection */
+    .group-selector {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+    .group-selector:focus { outline: none; border-color: var(--gold); }
+    .group-selector option { background: var(--bg-dark); color: #fff; }
+    
+    .group-note {
+      margin-top: 10px;
+      padding: 12px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--gold);
+    }
+    .group-note.info { background: rgba(96, 165, 250, 0.1); color: #60a5fa; }
+    
     /* Mystery Selection */
     .mystery-grid {
       display: grid;
@@ -511,6 +539,17 @@
 
         <!-- Rosary Form -->
         <div id="rosary-form">
+          <!-- Group Selection -->
+          <div class="content-card" id="group-card">
+            <h3 class="section-title">👥 Rosary Type</h3>
+            <select class="group-selector" id="group-selector">
+              <option value="public">🌍 Public Rosary (Anyone can join)</option>
+            </select>
+            <div class="group-note info" id="group-note">
+              ℹ️ Public rosaries are visible to all Rosary73 users
+            </div>
+          </div>
+
           <div class="content-card">
             <h3 class="section-title">💿 Select Mystery</h3>
             <div class="mystery-grid" id="mystery-grid">
@@ -561,7 +600,7 @@
     <div class="modal-content">
       <div class="modal-icon">✅</div>
       <h2 class="modal-title">Rosary Started!</h2>
-      <p class="modal-text">
+      <p class="modal-text" id="success-text">
         Your rosary has been created. You are participant #1.<br>
         <strong>72 more people</strong> can now join and pray with you.
       </p>
@@ -595,6 +634,8 @@
     let currentUser = null;
     let userData = null;
     let selectedMystery = null;
+    let selectedGroup = null;
+    let userGroups = [];
     let canStart = false;
 
     // Sidebar Toggle
@@ -623,6 +664,7 @@
       setupMysterySelection();
       setupIntentionInput();
       setupStartButton();
+      setupGroupSelector();
     });
 
     function initializeWithUserData() {
@@ -631,6 +673,7 @@
       checkRequirements();
       highlightTodaysMystery();
       updateSidebarForUser();
+      loadUserGroups();
       
       auth.onAuthStateChanged((user) => {
         if (user) currentUser = user;
@@ -651,6 +694,7 @@
           checkRequirements();
           highlightTodaysMystery();
           updateSidebarForUser();
+          loadUserGroups();
         } else {
           showLoginGate();
         }
@@ -674,6 +718,74 @@
       } catch (error) {
         console.error('Error loading user:', error);
       }
+    }
+
+    async function loadUserGroups() {
+      try {
+        const userId = currentUser?.uid || userData?.userId;
+        if (!userId) return;
+        
+        // Query groups where user is a member
+        const groupsSnapshot = await db.collection('groups')
+          .where('memberIds', 'array-contains', userId)
+          .get();
+        
+        userGroups = [];
+        groupsSnapshot.forEach(doc => {
+          const data = doc.data();
+          // Check if group is active (75+ members)
+          if (data.isActive || data.activeMemberCount >= 75) {
+            userGroups.push({
+              id: doc.id,
+              name: data.name || 'Unnamed Group',
+              memberCount: data.activeMemberCount || 0,
+              isAdmin: data.adminIds?.includes(userId) || data.createdBy === userId
+            });
+          }
+        });
+        
+        updateGroupSelector();
+      } catch (error) {
+        console.error('Error loading groups:', error);
+      }
+    }
+
+    function updateGroupSelector() {
+      const selector = document.getElementById('group-selector');
+      
+      // Clear existing group options (keep public)
+      selector.innerHTML = '<option value="public">🌍 Public Rosary (Anyone can join)</option>';
+      
+      // Add user's groups
+      if (userGroups.length > 0) {
+        const groupOptgroup = document.createElement('optgroup');
+        groupOptgroup.label = 'Your Groups';
+        
+        userGroups.forEach(group => {
+          const option = document.createElement('option');
+          option.value = group.id;
+          option.textContent = `👥 ${group.name} (${group.memberCount} members)`;
+          groupOptgroup.appendChild(option);
+        });
+        
+        selector.appendChild(groupOptgroup);
+      }
+    }
+
+    function setupGroupSelector() {
+      document.getElementById('group-selector').addEventListener('change', (e) => {
+        selectedGroup = e.target.value;
+        const note = document.getElementById('group-note');
+        
+        if (selectedGroup === 'public') {
+          note.className = 'group-note info';
+          note.textContent = 'ℹ️ Public rosaries are visible to all Rosary73 users';
+        } else {
+          const group = userGroups.find(g => g.id === selectedGroup);
+          note.className = 'group-note';
+          note.textContent = `🔒 Only members of "${group?.name}" can join this rosary`;
+        }
+      });
     }
 
     function updateSidebarForUser() {
@@ -728,6 +840,7 @@
           checkRequirements();
           highlightTodaysMystery();
           updateSidebarForUser();
+          loadUserGroups();
         } catch (error) {
           document.getElementById('login-error').classList.remove('hidden');
           let errorMsg = error.message || 'Login failed';
@@ -787,7 +900,7 @@
         creedStatus.className = 'requirement-status status-missing';
       }
       
-      // Check subscription - FIXED: Include perpetual, admin, special_access
+      // Check subscription - Include perpetual, admin, special_access
       const status = userData?.subscriptionStatus;
       let hasActiveSubscription = false;
       let isPerpetualOrSpecial = false;
@@ -890,6 +1003,7 @@
     async function startRosary() {
       const btn = document.getElementById('start-btn');
       const intention = document.getElementById('intention-input').value.trim();
+      const groupValue = document.getElementById('group-selector').value;
       
       if (!canStart || !selectedMystery || intention.length < 10) return;
       
@@ -904,13 +1018,17 @@
         let creedUrl = userData?.recordings?.creed || userData?.creedUrl || '';
         const creatorUsername = userData.username || 'Anonymous';
         
-        // CROSS-PLATFORM FIX: Include all fields for app compatibility
+        // Determine group settings
+        const isGroupRosary = groupValue !== 'public';
+        const selectedGroupData = isGroupRosary ? userGroups.find(g => g.id === groupValue) : null;
+        
+        // Build rosary data
         const rosaryData = {
           rosaryId,
           creatorId: userId,
           creatorUsername: creatorUsername,
           creatorCreedUrl: creedUrl,
-          createdBy: creatorUsername,  // Added for app compatibility
+          createdBy: creatorUsername,
           intention,
           mysteryType: selectedMystery,
           status: 'active',
@@ -919,17 +1037,17 @@
           audioProcessing: false,
           stitchedAudioUrl: null,
           
-          // GROUP FIELDS - Website rosaries are always public
-          groups: [],              // Empty array = no group restrictions
-          isPublic: true,          // Website rosaries are always public
-          isGroupRosary: false,
-          groupId: null,
-          groupName: null,
+          // GROUP FIELDS
+          groups: isGroupRosary ? [groupValue] : [],
+          isPublic: !isGroupRosary,
+          isGroupRosary: isGroupRosary,
+          groupId: isGroupRosary ? groupValue : null,
+          groupName: isGroupRosary ? selectedGroupData?.name : null,
           
           // APP COMPATIBILITY FIELDS
           numberingSystem: '1-73',
           hasCreatorRecording: !!creedUrl,
-          source: 'website',       // Track origin for analytics
+          source: 'website',
           
           // TIMESTAMPS
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -941,7 +1059,16 @@
           rosariesStarted: firebase.firestore.FieldValue.increment(1)
         }).catch(() => {});
         
-        console.log('✅ Rosary created with cross-platform fields:', rosaryId);
+        console.log('✅ Rosary created:', rosaryId, isGroupRosary ? `for group ${selectedGroupData?.name}` : 'public');
+        
+        // Update success modal text
+        const successText = document.getElementById('success-text');
+        if (isGroupRosary) {
+          successText.innerHTML = `Your rosary for <strong>${selectedGroupData?.name}</strong> has been created. You are participant #1.<br>Only group members can join this rosary.`;
+        } else {
+          successText.innerHTML = 'Your rosary has been created. You are participant #1.<br><strong>72 more people</strong> can now join and pray with you.';
+        }
+        
         document.getElementById('success-modal').classList.remove('hidden');
       } catch (error) {
         console.error('Error creating rosary:', error);
