@@ -264,33 +264,21 @@
     .upload-hint { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
     .file-input { display: none; }
     
-    /* Audio Preview */
-    .audio-preview { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; }
-    
-    /* Native Audio Player */
-    .native-audio-player {
-      width: 100%;
-      height: 45px;
-      border-radius: 8px;
-    }
-    
-    .audio-loading {
+    /* Recording Saved Indicator */
+    .recording-saved {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+      gap: 12px;
       padding: 15px;
-      color: var(--text-muted);
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      border-radius: 10px;
+      color: #4ade80;
     }
-    
-    .audio-info-msg {
-      padding: 10px;
-      background: rgba(212, 175, 55, 0.1);
-      border-radius: 8px;
-      color: var(--gold);
-      font-size: 0.85rem;
-      text-align: center;
-    }
+    .recording-saved-icon { font-size: 1.5rem; }
+    .recording-saved-text { flex: 1; }
+    .recording-saved-text strong { display: block; margin-bottom: 3px; }
+    .recording-saved-text small { color: rgba(255,255,255,0.5); font-size: 0.8rem; }
     
     /* Buttons */
     .btn {
@@ -682,7 +670,7 @@
       document.getElementById('progress-bar').style.width = `${(uploadedCount / 7) * 100}%`;
       document.getElementById('prayers-badge').textContent = `${uploadedCount}/7`;
       
-      // Render cards
+      // Render cards - simplified without audio preview (which has CORS issues)
       container.innerHTML = PRAYERS.map(prayer => {
         const isUploaded = !!recordings[prayer.id];
         
@@ -699,10 +687,11 @@
             </div>
             
             ${isUploaded ? `
-              <div class="audio-preview" id="audio-container-${prayer.id}">
-                <div class="audio-loading" id="audio-loading-${prayer.id}">
-                  <div class="spinner"></div>
-                  <span>Loading audio...</span>
+              <div class="recording-saved">
+                <span class="recording-saved-icon">✅</span>
+                <div class="recording-saved-text">
+                  <strong>Recording Saved</strong>
+                  <small>Your prayer will be used in community rosaries</small>
                 </div>
               </div>
               <div class="upload-actions">
@@ -723,78 +712,6 @@
           </div>
         `;
       }).join('');
-      
-      // Load audio for uploaded prayers
-      for (const prayer of PRAYERS) {
-        if (recordings[prayer.id]) {
-          loadAudioPlayer(prayer.id, recordings[prayer.id]);
-        }
-      }
-    }
-
-    async function loadAudioPlayer(prayerId, recordingUrl) {
-      const container = document.getElementById(`audio-container-${prayerId}`);
-      if (!container) return;
-      
-      const userId = currentUser?.uid || userData?.userId;
-      
-      // Try multiple approaches to get a working audio URL
-      let workingUrl = null;
-      
-      // Approach 1: Try the URL from Firestore directly (might be a signed URL)
-      if (recordingUrl && recordingUrl.startsWith('http')) {
-        workingUrl = recordingUrl;
-      }
-      
-      // Approach 2: Try to get a fresh download URL from Storage
-      if (!workingUrl && userId) {
-        try {
-          // Try .m4a first (mobile app format)
-          const storageRef = storage.ref(`users/${userId}/prayers/${prayerId}.m4a`);
-          workingUrl = await storageRef.getDownloadURL();
-        } catch (e1) {
-          try {
-            // Try without extension
-            const storageRef2 = storage.ref(`users/${userId}/prayers/${prayerId}`);
-            workingUrl = await storageRef2.getDownloadURL();
-          } catch (e2) {
-            console.log('Could not get fresh URL for', prayerId);
-          }
-        }
-      }
-      
-      // If we still don't have a URL, use the original
-      if (!workingUrl) {
-        workingUrl = recordingUrl;
-      }
-      
-      if (workingUrl) {
-        // Show audio player with the URL
-        container.innerHTML = `
-          <audio controls class="native-audio-player" preload="metadata">
-            <source src="${workingUrl}" type="audio/mp4">
-            <source src="${workingUrl}" type="audio/mpeg">
-            <source src="${workingUrl}" type="audio/m4a">
-            Your browser does not support audio playback.
-          </audio>
-        `;
-        
-        // Add error handler
-        const audio = container.querySelector('audio');
-        audio.addEventListener('error', () => {
-          container.innerHTML = `
-            <div class="audio-info-msg">
-              ✓ Recording saved. Preview not available in browser, but it will work in rosaries.
-            </div>
-          `;
-        });
-      } else {
-        container.innerHTML = `
-          <div class="audio-info-msg">
-            ✓ Recording saved. Preview not available.
-          </div>
-        `;
-      }
     }
 
     function triggerUpload(prayerId) {

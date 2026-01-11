@@ -641,24 +641,19 @@
             isMember = data.memberIds.includes(userId);
           }
           if (!isMember && data.activeMembers && Array.isArray(data.activeMembers)) {
-            isMember = data.activeMembers.some(m => {
-              if (typeof m === 'string') return m === userId;
-              if (typeof m === 'object' && m !== null) return m.userId === userId;
-              return false;
-            });
+            isMember = data.activeMembers.some(m => 
+              (typeof m === 'object' && m.userId === userId) || m === userId
+            );
           }
           if (!isMember && data.members) {
             if (Array.isArray(data.members)) {
-              isMember = data.members.some(m => {
-                if (typeof m === 'string') return m === userId;
-                if (typeof m === 'object' && m !== null) return m.userId === userId;
-                return false;
-              });
+              isMember = data.members.some(m => 
+                (typeof m === 'object' && m.userId === userId) || m === userId
+              );
             }
           }
           if (!isMember) {
-            isMember = data.createdBy === userId || data.creatorId === userId || 
-                      (data.adminIds && data.adminIds.includes(userId));
+            isMember = data.createdBy === userId || (data.adminIds && data.adminIds.includes(userId));
           }
           
           if (isMember) {
@@ -795,11 +790,10 @@
           const isCreator = data.creatorId === userId;
           const isParticipant = Object.values(data.participants || {}).some(p => p.userId === userId);
           
-          // Determine if it's a group rosary - check multiple fields
+          // Determine if it's a group rosary
           const isGroupRosary = data.isGroupRosary === true || 
-                               (data.groupId && data.groupId !== null && data.groupId !== '') ||
-                               (data.groups && data.groups.length > 0) ||
-                               data.isPublic === false;
+                               (data.groupId && data.groupId !== null) ||
+                               (data.groups && data.groups.length > 0);
           
           allRosaries.push({ 
             id: doc.id, 
@@ -840,7 +834,6 @@
       list.innerHTML = filtered.map((rosary) => {
         const icon = mysteryIcons[rosary.mysteryType] || '📿';
         const hasAudio = !!rosary.stitchedAudioUrl;
-        // Use preload="metadata" for faster initial load
         const audioUrl = hasAudio ? `${FUNCTIONS_URL}/streamAudio?rosaryId=${rosary.id}` : '';
         const isGroupRosary = rosary.isGroupRosary === true;
         const groupName = rosary.groupName || 'Group';

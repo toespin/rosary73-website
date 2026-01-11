@@ -737,15 +737,19 @@
       try {
         const userId = currentUser?.uid || userData?.userId;
         if (!userId) {
+          console.log('No userId for group loading');
           loadingEl.classList.add('hidden');
           return;
         }
         
-        // Query ALL groups (no filter) and check membership client-side
-        // This handles different group structures
+        console.log('Loading groups for user:', userId);
+        
+        // Query ALL groups (remove isActive filter to see what's available)
         const groupsSnapshot = await db.collection('groups')
           .limit(200)
           .get();
+        
+        console.log('Total groups found:', groupsSnapshot.size);
         
         userGroups = [];
         
@@ -762,21 +766,17 @@
           
           // Format 2: activeMembers array of objects with userId field
           if (!isMember && data.activeMembers && Array.isArray(data.activeMembers)) {
-            isMember = data.activeMembers.some(m => {
-              if (typeof m === 'string') return m === userId;
-              if (typeof m === 'object' && m !== null) return m.userId === userId;
-              return false;
-            });
+            isMember = data.activeMembers.some(m => 
+              (typeof m === 'object' && m.userId === userId) || m === userId
+            );
           }
           
           // Format 3: members object/array
           if (!isMember && data.members) {
             if (Array.isArray(data.members)) {
-              isMember = data.members.some(m => {
-                if (typeof m === 'string') return m === userId;
-                if (typeof m === 'object' && m !== null) return m.userId === userId;
-                return false;
-              });
+              isMember = data.members.some(m => 
+                (typeof m === 'object' && m.userId === userId) || m === userId
+              );
             } else if (typeof data.members === 'object') {
               isMember = userId in data.members;
             }
@@ -784,35 +784,30 @@
           
           // Format 4: Check if user is admin/creator
           if (!isMember) {
-            isMember = data.createdBy === userId || data.creatorId === userId ||
-                       (data.adminIds && data.adminIds.includes(userId)) ||
-                       (data.admins && data.admins.includes(userId));
+            isMember = data.createdBy === userId || 
+                       (data.adminIds && data.adminIds.includes(userId));
           }
           
           if (isMember) {
-            // Check if group is active (75+ members or isActive flag)
+            console.log('User is member of:', data.name);
+            
+            // Calculate member count
             const memberCount = data.activeMemberCount || 
                                (data.activeMembers ? data.activeMembers.length : 0) ||
-                               (data.memberIds ? data.memberIds.length : 0) ||
-                               (data.members ? (Array.isArray(data.members) ? data.members.length : Object.keys(data.members).length) : 0) || 0;
+                               (data.memberIds ? data.memberIds.length : 0) || 0;
             
-            // Include group if it's active OR has enough members
-            const isActiveGroup = data.isActive === true || memberCount >= 75;
-            
-            if (isActiveGroup || memberCount >= 1) { // Show all groups user is member of
-              userGroups.push({
-                id: doc.id,
-                name: data.name || data.groupName || 'Unnamed Group',
-                memberCount: memberCount,
-                isAdmin: data.createdBy === userId || data.creatorId === userId || 
-                        (data.adminIds && data.adminIds.includes(userId)),
-                isActive: isActiveGroup
-              });
-            }
+            // Add group without 75+ member requirement (let user see all their groups)
+            userGroups.push({
+              id: doc.id,
+              name: data.name || 'Unnamed Group',
+              memberCount: memberCount,
+              isActive: data.isActive !== false, // default to true if not set
+              isAdmin: data.createdBy === userId || (data.adminIds && data.adminIds.includes(userId))
+            });
           }
         });
         
-        console.log('Found', userGroups.length, 'groups for user:', userGroups.map(g => g.name));
+        console.log('User groups found:', userGroups.length, userGroups);
         updateGroupSelector();
       } catch (error) {
         console.error('Error loading groups:', error);
@@ -837,11 +832,8 @@
         userGroups.forEach(group => {
           const option = document.createElement('option');
           option.value = group.id;
-          const statusIcon = group.isActive ? '👥' : '⏸️';
-          option.textContent = `${statusIcon} ${group.name} (${group.memberCount} members)`;
-          if (!group.isActive) {
-            option.textContent += ' - Inactive';
-          }
+          const activeLabel = group.isActive ? '' : ' (inactive)';
+          option.textContent = `👥 ${group.name} (${group.memberCount} members)${activeLabel}`;
           selector.appendChild(option);
         });
       }
@@ -858,11 +850,7 @@
         } else {
           const group = userGroups.find(g => g.id === selectedGroup);
           note.className = 'group-note';
-          if (group && !group.isActive) {
-            note.textContent = `⚠️ "${group?.name}" is inactive. Rosary will still be created for members.`;
-          } else {
-            note.textContent = `🔒 Only members of "${group?.name}" can join this rosary`;
-          }
+          note.textContent = `🔐 Only members of "${group?.name}" can join this rosary`;
         }
       });
     }
