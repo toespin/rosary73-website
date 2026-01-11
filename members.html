@@ -183,6 +183,20 @@
       font-weight: 600;
     }
     
+    .sidebar-item-badge.notification-badge {
+      background: #ef4444;
+      color: #fff;
+      min-width: 20px;
+      text-align: center;
+    }
+    
+    .sidebar-item-badge.app-only-badge {
+      background: rgba(147, 51, 234, 0.3);
+      color: #a855f7;
+      font-size: 0.6rem;
+      padding: 2px 6px;
+    }
+    
     .sidebar-divider {
       height: 1px;
       background: rgba(255,255,255,0.1);
@@ -489,7 +503,7 @@
     }
     
     /* =========================================
-       GIFT FORM
+       GIFT FORM & REDEMPTION
     ========================================= */
     .gift-form { max-width: 500px; }
     .gift-form .form-group { margin-bottom: 20px; }
@@ -504,6 +518,201 @@
       font-size: 1rem;
       resize: vertical;
       min-height: 100px;
+    }
+    
+    .gift-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    
+    .gift-tab {
+      flex: 1;
+      padding: 12px 20px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+    
+    .gift-tab:hover { border-color: rgba(212, 175, 55, 0.5); }
+    .gift-tab.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); color: var(--gold); }
+    
+    .gift-tab-content { display: none; }
+    .gift-tab-content.active { display: block; }
+    
+    .redeem-input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .redeem-input-group input {
+      flex: 1;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .redeem-result {
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+      display: none;
+    }
+    
+    .redeem-result.success {
+      display: block;
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      color: #4ade80;
+    }
+    
+    .redeem-result.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+    
+    /* =========================================
+       NOTIFICATIONS
+    ========================================= */
+    .notifications-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    .notification-item {
+      display: flex;
+      gap: 15px;
+      padding: 15px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .notification-item:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+    }
+    
+    .notification-item.unread {
+      background: rgba(212, 175, 55, 0.05);
+      border-color: rgba(212, 175, 55, 0.2);
+    }
+    
+    .notification-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    .notification-content { flex: 1; }
+    .notification-title { font-weight: 600; margin-bottom: 4px; }
+    .notification-message { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 6px; }
+    .notification-time { color: var(--text-muted); font-size: 0.75rem; }
+    
+    .notification-unread-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    
+    .notifications-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+    
+    .notifications-empty-icon { font-size: 3rem; margin-bottom: 15px; opacity: 0.5; }
+    
+    .mark-all-read-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+    .mark-all-read-btn:hover { background: rgba(255,255,255,0.2); }
+    
+    /* =========================================
+       APP ONLY INDICATOR
+    ========================================= */
+    .app-only-info {
+      background: rgba(147, 51, 234, 0.1);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .app-only-info-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    
+    .app-only-info-text h4 {
+      color: #a855f7;
+      margin-bottom: 5px;
+    }
+    
+    .app-only-info-text p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    .app-store-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .app-store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+    
+    .app-store-btn:hover {
+      background: rgba(255,255,255,0.2);
     }
     
     /* =========================================
@@ -542,6 +751,19 @@
     }
     .settings-item.danger .settings-item-icon,
     .settings-item.danger .settings-item-text { color: #f87171; }
+    
+    .settings-item.app-only {
+      opacity: 0.7;
+    }
+    
+    .settings-item .app-only-tag {
+      background: rgba(147, 51, 234, 0.3);
+      color: #a855f7;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
     
     /* =========================================
        BUTTONS
@@ -674,6 +896,10 @@
         margin: 40px 15px;
         padding: 30px 20px;
       }
+      
+      .gift-tabs {
+        flex-direction: column;
+      }
     }
     
     @media (max-width: 480px) {
@@ -690,6 +916,10 @@
       
       .stat-value {
         font-size: 1.5rem;
+      }
+      
+      .redeem-input-group {
+        flex-direction: column;
       }
     }
   </style>
@@ -742,6 +972,11 @@
           <span class="sidebar-item-icon">🏠</span>
           <span class="sidebar-item-text">Dashboard</span>
         </button>
+        <button class="sidebar-item" onclick="showSection('notifications')" data-section="notifications">
+          <span class="sidebar-item-icon">🔔</span>
+          <span class="sidebar-item-text">Notifications</span>
+          <span class="sidebar-item-badge notification-badge hidden" id="notification-count">0</span>
+        </button>
         <a href="start-rosary.html" class="sidebar-item">
           <span class="sidebar-item-icon">✝️</span>
           <span class="sidebar-item-text">Start a Rosary</span>
@@ -771,6 +1006,7 @@
         <button class="sidebar-item" onclick="showSection('my-groups')" data-section="my-groups">
           <span class="sidebar-item-icon">👥</span>
           <span class="sidebar-item-text">My Groups</span>
+          <span class="sidebar-item-badge app-only-badge">APP</span>
         </button>
       </div>
 
@@ -881,6 +1117,24 @@
           </div>
         </div>
 
+        <!-- Notifications Section -->
+        <div class="section-panel" id="section-notifications">
+          <div class="section-header">
+            <h2>🔔 Notifications</h2>
+            <div style="display: flex; gap: 10px;">
+              <button class="mark-all-read-btn" onclick="markAllNotificationsRead()">Mark All Read</button>
+              <button class="close-section" onclick="showSection('dashboard')">×</button>
+            </div>
+          </div>
+          
+          <div class="notifications-list" id="notifications-list">
+            <div class="notifications-empty">
+              <div class="notifications-empty-icon">🔔</div>
+              <p>No notifications yet</p>
+            </div>
+          </div>
+        </div>
+
         <!-- My Rosaries Section -->
         <div class="section-panel" id="section-my-rosaries">
           <div class="section-header">
@@ -900,9 +1154,22 @@
             <h2>👥 My Groups</h2>
             <button class="close-section" onclick="showSection('dashboard')">×</button>
           </div>
-          <div class="alert alert-warning">
-            <span>🔜</span>
-            <div><strong>Coming Soon!</strong><br>Group management will be available on the website soon. For now, please use the mobile app to create and manage groups.</div>
+          
+          <div class="app-only-info">
+            <div class="app-only-info-icon">📱</div>
+            <div class="app-only-info-text">
+              <h4>App Only Feature</h4>
+              <p>Group management is only available in the Rosary73 mobile app. Download the app to create, join, and manage prayer groups with your community.</p>
+            </div>
+          </div>
+          
+          <div class="app-store-buttons">
+            <a href="https://apps.apple.com/app/rosary73" class="app-store-btn" target="_blank">
+              <span>🍎</span> App Store
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.rosary73" class="app-store-btn" target="_blank">
+              <span>🤖</span> Google Play
+            </a>
           </div>
         </div>
 
@@ -971,48 +1238,75 @@
         <!-- Gift Section -->
         <div class="section-panel" id="section-gift">
           <div class="section-header">
-            <h2>🎁 Gift a Subscription</h2>
+            <h2>🎁 Gift Subscription</h2>
             <button class="close-section" onclick="showSection('dashboard')">×</button>
           </div>
-          <p style="margin-bottom: 25px; color: var(--text-muted);">Share the gift of prayer!</p>
-          <div class="gift-form">
-            <div class="form-group">
-              <label>Recipient's Username or Email</label>
-              <input type="text" id="gift-recipient" class="form-input" placeholder="Enter username or email">
-            </div>
-            <div class="form-group">
-              <label>Personal Message (Optional)</label>
-              <textarea id="gift-message" placeholder="Add a heartfelt message..."></textarea>
-            </div>
-            <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Gift Duration</h3>
-            <div class="plans-grid" id="gift-plans-grid">
-              <div class="plan-card" data-plan="threeMonth" onclick="selectGiftPlan('threeMonth')"><div class="plan-duration">3 Months</div><div class="plan-price"><span id="gift-price-3mo">₱99</span></div></div>
-              <div class="plan-card popular" data-plan="sixMonth" onclick="selectGiftPlan('sixMonth')"><div class="plan-duration">6 Months</div><div class="plan-price"><span id="gift-price-6mo">₱179</span></div></div>
-              <div class="plan-card" data-plan="twelveMonth" onclick="selectGiftPlan('twelveMonth')"><div class="plan-duration">12 Months</div><div class="plan-price"><span id="gift-price-12mo">₱329</span></div></div>
-            </div>
-            <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Payment Method</h3>
-            <div class="payment-methods-section" id="payment-methods-gift">
-              <div id="ewallet-group-gift">
-                <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
+          
+          <!-- Gift Tabs -->
+          <div class="gift-tabs">
+            <button class="gift-tab active" onclick="switchGiftTab('send')">🎁 Send a Gift</button>
+            <button class="gift-tab" onclick="switchGiftTab('redeem')">🎟️ Redeem Gift Code</button>
+          </div>
+          
+          <!-- Send Gift Tab -->
+          <div class="gift-tab-content active" id="gift-tab-send">
+            <p style="margin-bottom: 25px; color: var(--text-muted);">Share the gift of prayer!</p>
+            <div class="gift-form">
+              <div class="form-group">
+                <label>Recipient's Username or Email</label>
+                <input type="text" id="gift-recipient" class="form-input" placeholder="Enter username or email">
+              </div>
+              <div class="form-group">
+                <label>Personal Message (Optional)</label>
+                <textarea id="gift-message" placeholder="Add a heartfelt message..."></textarea>
+              </div>
+              <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Gift Duration</h3>
+              <div class="plans-grid" id="gift-plans-grid">
+                <div class="plan-card" data-plan="threeMonth" onclick="selectGiftPlan('threeMonth')"><div class="plan-duration">3 Months</div><div class="plan-price"><span id="gift-price-3mo">₱99</span></div></div>
+                <div class="plan-card popular" data-plan="sixMonth" onclick="selectGiftPlan('sixMonth')"><div class="plan-duration">6 Months</div><div class="plan-price"><span id="gift-price-6mo">₱179</span></div></div>
+                <div class="plan-card" data-plan="twelveMonth" onclick="selectGiftPlan('twelveMonth')"><div class="plan-duration">12 Months</div><div class="plan-price"><span id="gift-price-12mo">₱329</span></div></div>
+              </div>
+              <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Payment Method</h3>
+              <div class="payment-methods-section" id="payment-methods-gift">
+                <div id="ewallet-group-gift">
+                  <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
+                  <div class="payment-methods">
+                    <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('gift', 'gcash')"><div class="payment-method-icon">💙</div><div class="payment-method-name">GCash</div></div>
+                    <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('gift', 'maya')"><div class="payment-method-icon">💚</div><div class="payment-method-name">Maya</div></div>
+                    <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('gift', 'grabpay')"><div class="payment-method-icon">🚗</div><div class="payment-method-name">GrabPay</div></div>
+                    <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('gift', 'shopeepay')"><div class="payment-method-icon">🧡</div><div class="payment-method-name">ShopeePay</div></div>
+                  </div>
+                </div>
+                <div id="qrph-group-gift">
+                  <div class="payment-group-title"><span>QR PH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
+                  <div class="payment-methods">
+                    <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('gift', 'qrph')"><div class="payment-method-icon">📱</div><div class="payment-method-name">QR PH</div></div>
+                  </div>
+                </div>
+                <div class="payment-group-title">Credit/Debit Card</div>
                 <div class="payment-methods">
-                  <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('gift', 'gcash')"><div class="payment-method-icon">💙</div><div class="payment-method-name">GCash</div></div>
-                  <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('gift', 'maya')"><div class="payment-method-icon">💚</div><div class="payment-method-name">Maya</div></div>
-                  <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('gift', 'grabpay')"><div class="payment-method-icon">🚗</div><div class="payment-method-name">GrabPay</div></div>
-                  <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('gift', 'shopeepay')"><div class="payment-method-icon">🧡</div><div class="payment-method-name">ShopeePay</div></div>
+                  <div class="payment-method" data-method="card" onclick="selectPaymentMethod('gift', 'card')"><div class="payment-method-icon">💳</div><div class="payment-method-name">Card</div></div>
                 </div>
               </div>
-              <div id="qrph-group-gift">
-                <div class="payment-group-title"><span>QR PH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
-                <div class="payment-methods">
-                  <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('gift', 'qrph')"><div class="payment-method-icon">📱</div><div class="payment-method-name">QR PH</div></div>
-                </div>
-              </div>
-              <div class="payment-group-title">Credit/Debit Card</div>
-              <div class="payment-methods">
-                <div class="payment-method" data-method="card" onclick="selectPaymentMethod('gift', 'card')"><div class="payment-method-icon">💳</div><div class="payment-method-name">Card</div></div>
-              </div>
+              <button class="btn btn-primary btn-block" id="gift-btn" onclick="processGift()" disabled>🎁 Send Gift</button>
             </div>
-            <button class="btn btn-primary btn-block" id="gift-btn" onclick="processGift()" disabled>🎁 Send Gift</button>
+          </div>
+          
+          <!-- Redeem Gift Tab -->
+          <div class="gift-tab-content" id="gift-tab-redeem">
+            <p style="margin-bottom: 25px; color: var(--text-muted);">Have a gift code? Enter it below to redeem your subscription!</p>
+            
+            <div class="redeem-input-group">
+              <input type="text" id="redeem-code" class="form-input" placeholder="R73GIFT-XXXXXXXX" maxlength="16">
+              <button class="btn btn-primary" id="redeem-btn" onclick="redeemGiftCode()">Redeem</button>
+            </div>
+            
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Gift codes are in the format: R73GIFT-XXXXXXXX</p>
+            
+            <div class="redeem-result" id="redeem-result">
+              <span id="redeem-result-icon"></span>
+              <span id="redeem-result-text"></span>
+            </div>
           </div>
         </div>
 
@@ -1080,15 +1374,16 @@
               <span class="settings-item-arrow">›</span>
             </div>
             
-            <div class="settings-item" onclick="showToast('Notification settings coming soon!', 'info')">
+            <div class="settings-item" onclick="showSection('notifications')">
               <span class="settings-item-icon">🔔</span>
-              <span class="settings-item-text">Notification Settings</span>
+              <span class="settings-item-text">View Notifications</span>
               <span class="settings-item-arrow">›</span>
             </div>
             
-            <div class="settings-item" onclick="showToast('Language settings coming soon!', 'info')">
+            <div class="settings-item app-only" onclick="showAppOnlyMessage('Language settings')">
               <span class="settings-item-icon">🌐</span>
               <span class="settings-item-text">Language Settings</span>
+              <span class="app-only-tag">APP ONLY</span>
               <span class="settings-item-arrow">›</span>
             </div>
             
@@ -1144,6 +1439,8 @@
       OTHER: { currency: 'USD', symbol: '$', plans: { threeMonth: 2.99, sixMonth: 5.49, twelveMonth: 9.90 }, donations: [2, 5, 10, 20], minDonation: 1 }
     };
 
+    const PLAN_MONTHS = { threeMonth: 3, sixMonth: 6, twelveMonth: 12 };
+
     let currentUser = null;
     let userData = null;
     let selectedPlan = null;
@@ -1152,6 +1449,7 @@
     let selectedPaymentMethods = { subscribe: null, gift: null, donate: null };
     let userPricing = PRICING.PH;
     let isPerpetualUser = false;
+    let notificationsListener = null;
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
@@ -1163,6 +1461,7 @@
         updateUI();
         updatePaymentVisibility();
         checkOpenSection();
+        loadNotifications();
       } else {
         showLoginGate();
       }
@@ -1204,6 +1503,11 @@
       }
     }
 
+    // Show App Only Message
+    function showAppOnlyMessage(feature) {
+      showToast(`${feature} is only available in the Rosary73 mobile app.`, 'info');
+    }
+
     function setupLoginForm() {
       document.getElementById('login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -1239,6 +1543,7 @@
           showDashboard();
           updateUI();
           updatePaymentVisibility();
+          loadNotifications();
           showToast('Welcome back, ' + result.username + '!', 'success');
         } catch (error) {
           errorDiv.classList.remove('hidden');
@@ -1254,6 +1559,7 @@
     }
 
     function logout() {
+      if (notificationsListener) notificationsListener();
       auth.signOut();
       userData = null;
       sessionStorage.removeItem('rosary73UserData');
@@ -1416,6 +1722,271 @@
       document.querySelectorAll('#donation-grid .donation-amount').forEach((el, i) => { el.dataset.amount = d[i]; });
     }
 
+    // =========================================
+    // NOTIFICATIONS
+    // =========================================
+    function loadNotifications() {
+      if (!userData?.userId) return;
+      
+      // Set up real-time listener
+      notificationsListener = db.collection('users').doc(userData.userId)
+        .collection('notifications')
+        .orderBy('createdAt', 'desc')
+        .limit(50)
+        .onSnapshot(snapshot => {
+          const notifications = [];
+          let unreadCount = 0;
+          
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            notifications.push({ id: doc.id, ...data });
+            if (!data.read) unreadCount++;
+          });
+          
+          renderNotifications(notifications);
+          updateNotificationBadge(unreadCount);
+        }, error => {
+          console.error('Error loading notifications:', error);
+        });
+    }
+
+    function renderNotifications(notifications) {
+      const container = document.getElementById('notifications-list');
+      
+      if (notifications.length === 0) {
+        container.innerHTML = `
+          <div class="notifications-empty">
+            <div class="notifications-empty-icon">🔔</div>
+            <p>No notifications yet</p>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = notifications.map(n => {
+        const icon = getNotificationIcon(n.type);
+        const timeAgo = formatTimeAgo(n.createdAt?.toDate?.() || new Date(n.createdAt));
+        
+        return `
+          <div class="notification-item ${n.read ? '' : 'unread'}" onclick="markNotificationRead('${n.id}')">
+            <div class="notification-icon">${icon}</div>
+            <div class="notification-content">
+              <div class="notification-title">${escapeHtml(n.title || 'Notification')}</div>
+              <div class="notification-message">${escapeHtml(n.message || n.body || '')}</div>
+              <div class="notification-time">${timeAgo}</div>
+            </div>
+            ${n.read ? '' : '<div class="notification-unread-dot"></div>'}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getNotificationIcon(type) {
+      const icons = {
+        gift_received: '🎁',
+        rosary_completed: '✝️',
+        rosary_joined: '🙏',
+        subscription_reminder: '⭐',
+        subscription_alert: '⚠️',
+        trial_ending: '⏰',
+        trial_expired: '📅',
+        group_invitation: '👥',
+        group_inactive: '👥',
+        group_active: '👥',
+        youtube_ready: '📺',
+        prayer_reminder: '🙏'
+      };
+      return icons[type] || '🔔';
+    }
+
+    function formatTimeAgo(date) {
+      if (!date) return '';
+      const seconds = Math.floor((new Date() - date) / 1000);
+      
+      if (seconds < 60) return 'Just now';
+      if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+      if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+      if (seconds < 604800) return `${Math.floor(seconds / 86400)}d ago`;
+      return date.toLocaleDateString();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function updateNotificationBadge(count) {
+      const badge = document.getElementById('notification-count');
+      if (count > 0) {
+        badge.textContent = count > 99 ? '99+' : count;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    async function markNotificationRead(notificationId) {
+      if (!userData?.userId) return;
+      
+      try {
+        await db.collection('users').doc(userData.userId)
+          .collection('notifications').doc(notificationId)
+          .update({ read: true });
+      } catch (error) {
+        console.error('Error marking notification read:', error);
+      }
+    }
+
+    async function markAllNotificationsRead() {
+      if (!userData?.userId) return;
+      
+      try {
+        const snapshot = await db.collection('users').doc(userData.userId)
+          .collection('notifications')
+          .where('read', '==', false)
+          .get();
+        
+        const batch = db.batch();
+        snapshot.forEach(doc => {
+          batch.update(doc.ref, { read: true });
+        });
+        
+        await batch.commit();
+        showToast('All notifications marked as read', 'success');
+      } catch (error) {
+        console.error('Error marking all read:', error);
+        showToast('Failed to mark notifications as read', 'error');
+      }
+    }
+
+    // =========================================
+    // GIFT CODE REDEMPTION
+    // =========================================
+    function switchGiftTab(tab) {
+      document.querySelectorAll('.gift-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.gift-tab-content').forEach(c => c.classList.remove('active'));
+      
+      document.querySelector(`.gift-tab:nth-child(${tab === 'send' ? 1 : 2})`).classList.add('active');
+      document.getElementById(`gift-tab-${tab}`).classList.add('active');
+    }
+
+    async function redeemGiftCode() {
+      const codeInput = document.getElementById('redeem-code');
+      const btn = document.getElementById('redeem-btn');
+      const resultDiv = document.getElementById('redeem-result');
+      const resultIcon = document.getElementById('redeem-result-icon');
+      const resultText = document.getElementById('redeem-result-text');
+      
+      let code = codeInput.value.trim().toUpperCase();
+      
+      // Normalize code format
+      if (!code.startsWith('R73GIFT-')) {
+        code = 'R73GIFT-' + code.replace(/[^A-Z0-9]/g, '');
+      }
+      
+      if (code.length < 16) {
+        resultDiv.className = 'redeem-result error';
+        resultIcon.textContent = '❌';
+        resultText.textContent = 'Please enter a valid gift code (R73GIFT-XXXXXXXX)';
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>';
+      resultDiv.style.display = 'none';
+      
+      try {
+        // Query giftCodes collection
+        const giftDoc = await db.collection('giftCodes').doc(code).get();
+        
+        if (!giftDoc.exists) {
+          throw new Error('Gift code not found. Please check and try again.');
+        }
+        
+        const giftData = giftDoc.data();
+        
+        // Check if already redeemed
+        if (giftData.redeemed) {
+          throw new Error('This gift code has already been redeemed.');
+        }
+        
+        // Check expiration
+        if (giftData.expiresAt) {
+          const expiresAt = giftData.expiresAt.toDate ? giftData.expiresAt.toDate() : new Date(giftData.expiresAt);
+          if (expiresAt < new Date()) {
+            throw new Error('This gift code has expired.');
+          }
+        }
+        
+        // Apply the gift subscription
+        const months = PLAN_MONTHS[giftData.plan] || 3;
+        const now = new Date();
+        
+        // Get current subscription end date or use now
+        let newEndDate;
+        if (userData.subscriptionEndDate) {
+          const currentEnd = new Date(userData.subscriptionEndDate);
+          newEndDate = currentEnd > now ? new Date(currentEnd) : new Date(now);
+        } else {
+          newEndDate = new Date(now);
+        }
+        newEndDate.setMonth(newEndDate.getMonth() + months);
+        
+        // Update user subscription
+        await db.collection('users').doc(userData.userId).update({
+          subscriptionStatus: 'active',
+          subscriptionEndDate: newEndDate,
+          subscriptionType: 'paid'
+        });
+        
+        // Mark gift code as redeemed
+        await db.collection('giftCodes').doc(code).update({
+          redeemed: true,
+          redeemedBy: userData.userId,
+          redeemedByUsername: userData.username,
+          redeemedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Record redemption
+        await db.collection('giftRedemptions').add({
+          code: code,
+          userId: userData.userId,
+          username: userData.username,
+          plan: giftData.plan,
+          gifterId: giftData.gifterId,
+          gifterName: giftData.gifterName,
+          redeemedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Update local userData
+        userData.subscriptionStatus = 'active';
+        userData.subscriptionEndDate = newEndDate.toISOString();
+        sessionStorage.setItem('rosary73UserData', JSON.stringify(userData));
+        
+        // Show success
+        resultDiv.className = 'redeem-result success';
+        resultIcon.textContent = '✅';
+        resultText.textContent = `Success! ${months} months of subscription has been added to your account.`;
+        codeInput.value = '';
+        
+        // Update UI
+        updateUI();
+        showToast('Gift code redeemed successfully!', 'success');
+        
+      } catch (error) {
+        resultDiv.className = 'redeem-result error';
+        resultIcon.textContent = '❌';
+        resultText.textContent = error.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Redeem';
+      }
+    }
+
+    // =========================================
+    // PLAN & PAYMENT SELECTION
+    // =========================================
     function selectPlan(plan) {
       selectedPlan = plan;
       document.querySelectorAll('#plans-grid .plan-card').forEach(el => el.classList.toggle('selected', el.dataset.plan === plan));
