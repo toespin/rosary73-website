@@ -598,6 +598,35 @@
       return null;
     }
 
+    /**
+     * CROSS-PLATFORM FIX: Check if rosary is accessible to website users
+     * Website only shows PUBLIC rosaries. Group-private rosaries are app-only.
+     * 
+     * A rosary is public if:
+     * - isPublic === true (explicitly public)
+     * - OR groups array is empty/undefined (no group restrictions)
+     * - OR isGroupRosary === false
+     */
+    function isRosaryPublic(rosary) {
+      // Explicit public flag
+      if (rosary.isPublic === true) {
+        return true;
+      }
+      
+      // No group restrictions = public
+      if (!rosary.groups || rosary.groups.length === 0) {
+        return true;
+      }
+      
+      // Not a group rosary = public
+      if (rosary.isGroupRosary === false) {
+        return true;
+      }
+      
+      // Has groups but not explicitly public = private group rosary
+      return false;
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const storedUser = sessionStorage.getItem('rosary73UserData');
       if (storedUser) {
@@ -787,12 +816,22 @@
         
         snapshot.forEach(doc => {
           const data = doc.data();
+          
+          // CROSS-PLATFORM FIX: Only include public rosaries on website
+          // Private group rosaries should only be visible in the app
+          if (!isRosaryPublic(data)) {
+            console.log(`🔒 Filtering out private group rosary: ${doc.id} (group: ${data.groupName || 'unknown'})`);
+            return; // Skip this rosary
+          }
+          
           allRosaries.push({ id: doc.id, ...data });
           const isCreator = data.creatorId === userId;
           const isParticipant = Object.values(data.participants || {}).some(p => p.userId === userId);
           if (isCreator || isParticipant) joinedCount++;
           availableSpots += (73 - (data.participantCount || 1));
         });
+        
+        console.log(`📿 Loaded ${allRosaries.length} public rosaries for website`);
         
         document.getElementById('stat-active').textContent = allRosaries.length;
         document.getElementById('stat-joined').textContent = joinedCount;
