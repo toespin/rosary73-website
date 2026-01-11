@@ -267,7 +267,7 @@
     /* Audio Preview */
     .audio-preview { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; }
     
-    /* Native Audio Player - Simple and Reliable */
+    /* Native Audio Player */
     .native-audio-player {
       width: 100%;
       height: 45px;
@@ -283,11 +283,11 @@
       color: var(--text-muted);
     }
     
-    .audio-error-msg {
+    .audio-info-msg {
       padding: 10px;
-      background: rgba(239, 68, 68, 0.1);
+      background: rgba(212, 175, 55, 0.1);
       border-radius: 8px;
-      color: #f87171;
+      color: var(--gold);
       font-size: 0.85rem;
       text-align: center;
     }
@@ -724,41 +724,74 @@
         `;
       }).join('');
       
-      // Load audio for uploaded prayers using fresh URLs from Storage
+      // Load audio for uploaded prayers
       for (const prayer of PRAYERS) {
         if (recordings[prayer.id]) {
-          loadAudioPlayer(prayer.id);
+          loadAudioPlayer(prayer.id, recordings[prayer.id]);
         }
       }
     }
 
-    async function loadAudioPlayer(prayerId) {
+    async function loadAudioPlayer(prayerId, recordingUrl) {
       const container = document.getElementById(`audio-container-${prayerId}`);
-      const loadingEl = document.getElementById(`audio-loading-${prayerId}`);
-      
       if (!container) return;
       
-      try {
-        const userId = currentUser?.uid || userData?.userId;
-        if (!userId) throw new Error('No user ID');
-        
-        // Get fresh download URL from Firebase Storage
-        const storageRef = storage.ref(`users/${userId}/prayers/${prayerId}.m4a`);
-        const downloadUrl = await storageRef.getDownloadURL();
-        
-        // Create native audio player
+      const userId = currentUser?.uid || userData?.userId;
+      
+      // Try multiple approaches to get a working audio URL
+      let workingUrl = null;
+      
+      // Approach 1: Try the URL from Firestore directly (might be a signed URL)
+      if (recordingUrl && recordingUrl.startsWith('http')) {
+        workingUrl = recordingUrl;
+      }
+      
+      // Approach 2: Try to get a fresh download URL from Storage
+      if (!workingUrl && userId) {
+        try {
+          // Try .m4a first (mobile app format)
+          const storageRef = storage.ref(`users/${userId}/prayers/${prayerId}.m4a`);
+          workingUrl = await storageRef.getDownloadURL();
+        } catch (e1) {
+          try {
+            // Try without extension
+            const storageRef2 = storage.ref(`users/${userId}/prayers/${prayerId}`);
+            workingUrl = await storageRef2.getDownloadURL();
+          } catch (e2) {
+            console.log('Could not get fresh URL for', prayerId);
+          }
+        }
+      }
+      
+      // If we still don't have a URL, use the original
+      if (!workingUrl) {
+        workingUrl = recordingUrl;
+      }
+      
+      if (workingUrl) {
+        // Show audio player with the URL
         container.innerHTML = `
           <audio controls class="native-audio-player" preload="metadata">
-            <source src="${downloadUrl}" type="audio/mp4">
-            <source src="${downloadUrl}" type="audio/mpeg">
+            <source src="${workingUrl}" type="audio/mp4">
+            <source src="${workingUrl}" type="audio/mpeg">
+            <source src="${workingUrl}" type="audio/m4a">
             Your browser does not support audio playback.
           </audio>
         `;
-      } catch (error) {
-        console.error('Error loading audio for', prayerId, error);
+        
+        // Add error handler
+        const audio = container.querySelector('audio');
+        audio.addEventListener('error', () => {
+          container.innerHTML = `
+            <div class="audio-info-msg">
+              ✓ Recording saved. Preview not available in browser, but it will work in rosaries.
+            </div>
+          `;
+        });
+      } else {
         container.innerHTML = `
-          <div class="audio-error-msg">
-            ⚠️ Could not load audio preview. The recording is saved and will work in rosaries.
+          <div class="audio-info-msg">
+            ✓ Recording saved. Preview not available.
           </div>
         `;
       }
