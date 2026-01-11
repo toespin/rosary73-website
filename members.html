@@ -369,6 +369,224 @@
     .stat-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 5px; }
     
     /* =========================================
+       MY ROSARIES SECTION
+    ========================================= */
+    .my-rosaries-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .my-rosaries-tab {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    
+    .my-rosaries-tab:hover {
+      border-color: rgba(212, 175, 55, 0.5);
+    }
+    
+    .my-rosaries-tab.active {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    
+    .my-rosaries-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .my-rosaries-stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .my-rosaries-stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    
+    .my-rosaries-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    
+    .my-rosaries-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    .my-rosary-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+    
+    .my-rosary-card:hover {
+      border-color: rgba(212, 175, 55, 0.3);
+      background: rgba(255,255,255,0.05);
+    }
+    
+    .my-rosary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    
+    .my-rosary-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    
+    .my-rosary-badge {
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    
+    .my-rosary-badge.mystery {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+    }
+    
+    .my-rosary-badge.started {
+      background: rgba(147, 51, 234, 0.2);
+      color: #a855f7;
+    }
+    
+    .my-rosary-badge.joined {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+    }
+    
+    .my-rosary-badge.active {
+      background: rgba(74, 222, 128, 0.2);
+      color: #4ade80;
+    }
+    
+    .my-rosary-badge.completed {
+      background: rgba(212, 175, 55, 0.2);
+      color: var(--gold);
+    }
+    
+    .my-rosary-progress {
+      text-align: right;
+    }
+    
+    .my-rosary-progress-text {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    
+    .my-rosary-progress-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    
+    .my-rosary-intention {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    
+    .my-rosary-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .my-rosary-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    
+    .my-rosary-progress-bar {
+      flex: 1;
+      min-width: 100px;
+      max-width: 200px;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .my-rosary-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), #4ade80);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+    
+    .my-rosary-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .my-rosary-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    
+    .my-rosary-btn.primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--bg-dark);
+    }
+    
+    .my-rosary-btn.secondary {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .my-rosaries-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+    
+    .my-rosaries-empty-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+    
+    .my-rosaries-loading {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+    
+    /* =========================================
        PLANS & PAYMENT
     ========================================= */
     .plans-grid {
@@ -921,6 +1139,10 @@
       .redeem-input-group {
         flex-direction: column;
       }
+      
+      .my-rosaries-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
@@ -1135,17 +1357,68 @@
           </div>
         </div>
 
-        <!-- My Rosaries Section -->
+        <!-- My Rosaries Section - FULLY IMPLEMENTED -->
         <div class="section-panel" id="section-my-rosaries">
           <div class="section-header">
             <h2>📿 My Rosaries</h2>
-            <button class="close-section" onclick="showSection('dashboard')">×</button>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-small btn-secondary" onclick="loadMyRosaries()">🔄 Refresh</button>
+              <button class="close-section" onclick="showSection('dashboard')">×</button>
+            </div>
           </div>
-          <div class="alert alert-warning">
-            <span>🔜</span>
-            <div><strong>Coming Soon!</strong><br>View and manage your rosaries directly from the website. For now, please use the mobile app.</div>
+          
+          <!-- Stats -->
+          <div class="my-rosaries-stats">
+            <div class="my-rosaries-stat">
+              <div class="my-rosaries-stat-value" id="my-rosaries-total">0</div>
+              <div class="my-rosaries-stat-label">Total</div>
+            </div>
+            <div class="my-rosaries-stat">
+              <div class="my-rosaries-stat-value" id="my-rosaries-started">0</div>
+              <div class="my-rosaries-stat-label">Started</div>
+            </div>
+            <div class="my-rosaries-stat">
+              <div class="my-rosaries-stat-value" id="my-rosaries-joined">0</div>
+              <div class="my-rosaries-stat-label">Joined</div>
+            </div>
+            <div class="my-rosaries-stat">
+              <div class="my-rosaries-stat-value" id="my-rosaries-active">0</div>
+              <div class="my-rosaries-stat-label">Active</div>
+            </div>
+            <div class="my-rosaries-stat">
+              <div class="my-rosaries-stat-value" id="my-rosaries-completed">0</div>
+              <div class="my-rosaries-stat-label">Completed</div>
+            </div>
           </div>
-          <a href="start-rosary.html" class="btn btn-primary">✝️ Start New Rosary</a>
+          
+          <!-- Filter Tabs -->
+          <div class="my-rosaries-tabs">
+            <button class="my-rosaries-tab active" data-filter="all" onclick="filterMyRosaries('all')">📿 All</button>
+            <button class="my-rosaries-tab" data-filter="started" onclick="filterMyRosaries('started')">⭐ Started</button>
+            <button class="my-rosaries-tab" data-filter="joined" onclick="filterMyRosaries('joined')">🙏 Joined</button>
+            <button class="my-rosaries-tab" data-filter="active" onclick="filterMyRosaries('active')">🟢 Active</button>
+            <button class="my-rosaries-tab" data-filter="completed" onclick="filterMyRosaries('completed')">✅ Completed</button>
+          </div>
+          
+          <!-- Loading -->
+          <div class="my-rosaries-loading" id="my-rosaries-loading">
+            <div class="spinner"></div>
+            <p>Loading your rosaries...</p>
+          </div>
+          
+          <!-- List -->
+          <div class="my-rosaries-list" id="my-rosaries-list"></div>
+          
+          <!-- Empty State -->
+          <div class="my-rosaries-empty hidden" id="my-rosaries-empty">
+            <div class="my-rosaries-empty-icon">📿</div>
+            <h3>No Rosaries Found</h3>
+            <p>Start or join a rosary to see it here!</p>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+              <a href="start-rosary.html" class="btn btn-primary btn-small">✝️ Start Rosary</a>
+              <a href="participate.html" class="btn btn-secondary btn-small">🙏 Join Rosary</a>
+            </div>
+          </div>
         </div>
 
         <!-- My Groups Section -->
@@ -1440,6 +1713,7 @@
     };
 
     const PLAN_MONTHS = { threeMonth: 3, sixMonth: 6, twelveMonth: 12 };
+    const MYSTERY_ICONS = { joyful: '👶', sorrowful: '✝️', glorious: '👑', luminous: '✨' };
 
     let currentUser = null;
     let userData = null;
@@ -1450,6 +1724,10 @@
     let userPricing = PRICING.PH;
     let isPerpetualUser = false;
     let notificationsListener = null;
+    
+    // My Rosaries data
+    let myRosariesData = [];
+    let myRosariesFilter = 'all';
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
@@ -1500,6 +1778,11 @@
         document.getElementById('sidebar').classList.remove('open');
         document.getElementById('sidebar-overlay').classList.remove('visible');
         document.getElementById('hamburger').classList.remove('active');
+      }
+      
+      // Load My Rosaries when section is opened
+      if (sectionId === 'my-rosaries') {
+        loadMyRosaries();
       }
     }
 
@@ -1720,6 +2003,249 @@
       document.getElementById('donate-300').textContent = s + d[2];
       document.getElementById('donate-500').textContent = s + d[3];
       document.querySelectorAll('#donation-grid .donation-amount').forEach((el, i) => { el.dataset.amount = d[i]; });
+    }
+
+    // =========================================
+    // MY ROSARIES SECTION
+    // =========================================
+    async function loadMyRosaries() {
+      const userId = userData?.userId;
+      if (!userId) return;
+      
+      const loadingEl = document.getElementById('my-rosaries-loading');
+      const listEl = document.getElementById('my-rosaries-list');
+      const emptyEl = document.getElementById('my-rosaries-empty');
+      
+      loadingEl.classList.remove('hidden');
+      listEl.innerHTML = '';
+      emptyEl.classList.add('hidden');
+      
+      try {
+        myRosariesData = [];
+        
+        // Query 1: Rosaries user STARTED (as creator)
+        const startedSnapshot = await db.collection('rosaries')
+          .where('creatorId', '==', userId)
+          .orderBy('createdAt', 'desc')
+          .limit(50)
+          .get();
+        
+        startedSnapshot.forEach(doc => {
+          const data = doc.data();
+          myRosariesData.push({
+            id: doc.id,
+            ...data,
+            userRole: 'started',
+            userPosition: 1
+          });
+        });
+        
+        // Query 2: Rosaries user JOINED (as participant)
+        // We need to query all active rosaries and filter client-side
+        // because Firestore doesn't support querying nested map keys
+        const activeSnapshot = await db.collection('rosaries')
+          .where('status', '==', 'active')
+          .orderBy('createdAt', 'desc')
+          .limit(200)
+          .get();
+        
+        activeSnapshot.forEach(doc => {
+          const data = doc.data();
+          // Skip if user is creator (already added)
+          if (data.creatorId === userId) return;
+          
+          // Check if user is a participant
+          if (data.participants) {
+            for (const [position, participant] of Object.entries(data.participants)) {
+              if (participant.userId === userId) {
+                myRosariesData.push({
+                  id: doc.id,
+                  ...data,
+                  userRole: 'joined',
+                  userPosition: parseInt(position)
+                });
+                break;
+              }
+            }
+          }
+        });
+        
+        // Also check completed rosaries for joined ones
+        const completedSnapshot = await db.collection('rosaries')
+          .where('status', '==', 'completed')
+          .orderBy('createdAt', 'desc')
+          .limit(100)
+          .get();
+        
+        completedSnapshot.forEach(doc => {
+          const data = doc.data();
+          // Skip if user is creator (already added) or if we already have this rosary
+          if (data.creatorId === userId) return;
+          if (myRosariesData.some(r => r.id === doc.id)) return;
+          
+          // Check if user is a participant
+          if (data.participants) {
+            for (const [position, participant] of Object.entries(data.participants)) {
+              if (participant.userId === userId) {
+                myRosariesData.push({
+                  id: doc.id,
+                  ...data,
+                  userRole: 'joined',
+                  userPosition: parseInt(position)
+                });
+                break;
+              }
+            }
+          }
+        });
+        
+        // Sort by createdAt descending
+        myRosariesData.sort((a, b) => {
+          const dateA = a.createdAt?.toDate?.() || new Date(a.createdAt) || new Date(0);
+          const dateB = b.createdAt?.toDate?.() || new Date(b.createdAt) || new Date(0);
+          return dateB - dateA;
+        });
+        
+        // Remove duplicates
+        const seen = new Set();
+        myRosariesData = myRosariesData.filter(r => {
+          if (seen.has(r.id)) return false;
+          seen.add(r.id);
+          return true;
+        });
+        
+        // Update stats
+        updateMyRosariesStats();
+        
+        // Render
+        loadingEl.classList.add('hidden');
+        renderMyRosaries();
+        
+      } catch (error) {
+        console.error('Error loading my rosaries:', error);
+        loadingEl.innerHTML = '<p style="color:#f87171;">Error loading rosaries. Please try again.</p>';
+      }
+    }
+    
+    function updateMyRosariesStats() {
+      const total = myRosariesData.length;
+      const started = myRosariesData.filter(r => r.userRole === 'started').length;
+      const joined = myRosariesData.filter(r => r.userRole === 'joined').length;
+      const active = myRosariesData.filter(r => r.status === 'active').length;
+      const completed = myRosariesData.filter(r => r.status === 'completed').length;
+      
+      document.getElementById('my-rosaries-total').textContent = total;
+      document.getElementById('my-rosaries-started').textContent = started;
+      document.getElementById('my-rosaries-joined').textContent = joined;
+      document.getElementById('my-rosaries-active').textContent = active;
+      document.getElementById('my-rosaries-completed').textContent = completed;
+    }
+    
+    function filterMyRosaries(filter) {
+      myRosariesFilter = filter;
+      
+      // Update tab states
+      document.querySelectorAll('.my-rosaries-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.filter === filter);
+      });
+      
+      renderMyRosaries();
+    }
+    
+    function renderMyRosaries() {
+      const listEl = document.getElementById('my-rosaries-list');
+      const emptyEl = document.getElementById('my-rosaries-empty');
+      
+      // Filter data
+      let filtered = myRosariesData;
+      
+      if (myRosariesFilter === 'started') {
+        filtered = myRosariesData.filter(r => r.userRole === 'started');
+      } else if (myRosariesFilter === 'joined') {
+        filtered = myRosariesData.filter(r => r.userRole === 'joined');
+      } else if (myRosariesFilter === 'active') {
+        filtered = myRosariesData.filter(r => r.status === 'active');
+      } else if (myRosariesFilter === 'completed') {
+        filtered = myRosariesData.filter(r => r.status === 'completed');
+      }
+      
+      if (filtered.length === 0) {
+        listEl.innerHTML = '';
+        emptyEl.classList.remove('hidden');
+        
+        // Update empty message based on filter
+        const h3 = emptyEl.querySelector('h3');
+        const p = emptyEl.querySelector('p');
+        
+        if (myRosariesFilter === 'started') {
+          h3.textContent = 'No Rosaries Started';
+          p.textContent = 'Start your first rosary to see it here!';
+        } else if (myRosariesFilter === 'joined') {
+          h3.textContent = 'No Rosaries Joined';
+          p.textContent = 'Join a rosary to see it here!';
+        } else if (myRosariesFilter === 'active') {
+          h3.textContent = 'No Active Rosaries';
+          p.textContent = 'Start or join a rosary to participate!';
+        } else if (myRosariesFilter === 'completed') {
+          h3.textContent = 'No Completed Rosaries';
+          p.textContent = 'Complete a rosary to see it here!';
+        } else {
+          h3.textContent = 'No Rosaries Found';
+          p.textContent = 'Start or join a rosary to see it here!';
+        }
+        return;
+      }
+      
+      emptyEl.classList.add('hidden');
+      
+      listEl.innerHTML = filtered.map(rosary => {
+        const mysteryIcon = MYSTERY_ICONS[rosary.mysteryType] || '📿';
+        const mysteryName = rosary.mysteryType ? rosary.mysteryType.charAt(0).toUpperCase() + rosary.mysteryType.slice(1) : 'Unknown';
+        const progress = ((rosary.participantCount || 1) / 73 * 100).toFixed(0);
+        const isCompleted = rosary.status === 'completed';
+        const isStarted = rosary.userRole === 'started';
+        
+        // Format date
+        let dateStr = '';
+        if (rosary.createdAt) {
+          const date = rosary.createdAt.toDate ? rosary.createdAt.toDate() : new Date(rosary.createdAt);
+          dateStr = date.toLocaleDateString();
+        }
+        
+        return `
+          <div class="my-rosary-card" data-id="${rosary.id}">
+            <div class="my-rosary-header">
+              <div class="my-rosary-badges">
+                <span class="my-rosary-badge mystery">${mysteryIcon} ${mysteryName}</span>
+                <span class="my-rosary-badge ${isStarted ? 'started' : 'joined'}">${isStarted ? '⭐ Started' : '🙏 Joined'}</span>
+                <span class="my-rosary-badge ${isCompleted ? 'completed' : 'active'}">${isCompleted ? '✅ Completed' : '🟢 Active'}</span>
+              </div>
+              <div class="my-rosary-progress">
+                <div class="my-rosary-progress-text">${rosary.participantCount || 1}/73</div>
+                <div class="my-rosary-progress-label">${isCompleted ? 'Complete' : `${73 - (rosary.participantCount || 1)} spots left`}</div>
+              </div>
+            </div>
+            
+            <div class="my-rosary-intention">"${escapeHtml(rosary.intention || 'No intention specified')}"</div>
+            
+            <div class="my-rosary-footer">
+              <div class="my-rosary-meta">
+                ${isStarted ? 'You started this' : `Position #${rosary.userPosition}`} • ${dateStr}
+              </div>
+              <div class="my-rosary-progress-bar">
+                <div class="my-rosary-progress-fill" style="width: ${progress}%"></div>
+              </div>
+              <div class="my-rosary-actions">
+                ${isCompleted && rosary.stitchedAudioUrl ? `
+                  <a href="finished.html" class="my-rosary-btn primary">🎧 Listen</a>
+                ` : !isCompleted ? `
+                  <a href="participate.html" class="my-rosary-btn secondary">👁️ View</a>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     // =========================================
