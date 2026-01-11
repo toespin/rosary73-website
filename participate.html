@@ -343,6 +343,7 @@
     }
     .alert-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; }
     .alert-warning { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); color: #fbbf24; }
+    .alert-info { background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; }
     
     .btn {
       display: inline-flex;
@@ -362,6 +363,20 @@
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
     
     .hidden { display: none !important; }
+    
+    /* Joined count info */
+    .joined-info {
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #4ade80;
+      font-size: 0.9rem;
+    }
     
     /* Mobile */
     @media (max-width: 900px) {
@@ -499,6 +514,12 @@
           </div>
         </div>
 
+        <!-- Info about already joined rosaries -->
+        <div id="joined-info" class="joined-info hidden">
+          <span>✓</span>
+          <span>You've already joined <strong id="joined-count">0</strong> active rosaries. They're hidden from this list.</span>
+        </div>
+
         <div class="filter-tabs">
           <button class="filter-tab active" data-filter="all">📿 All Mysteries</button>
           <button class="filter-tab" data-filter="joyful">👶 Joyful</button>
@@ -510,11 +531,11 @@
         <div class="stats-bar">
           <div class="stat-item">
             <div class="stat-value" id="stat-active">0</div>
-            <div class="stat-label">Active Rosaries</div>
+            <div class="stat-label">Available to Join</div>
           </div>
           <div class="stat-item">
             <div class="stat-value" id="stat-joined">0</div>
-            <div class="stat-label">You've Joined</div>
+            <div class="stat-label">Already Joined</div>
           </div>
           <div class="stat-item">
             <div class="stat-value" id="stat-available">0</div>
@@ -561,7 +582,9 @@
 
     let currentUser = null;
     let userData = null;
-    let allRosaries = [];
+    let allRosaries = [];       // All fetched rosaries (public only)
+    let availableRosaries = []; // Rosaries user can join (not already joined)
+    let joinedRosaries = [];    // Rosaries user has already joined
     let currentFilter = 'all';
     let canJoin = false;
 
@@ -601,29 +624,30 @@
     /**
      * CROSS-PLATFORM FIX: Check if rosary is accessible to website users
      * Website only shows PUBLIC rosaries. Group-private rosaries are app-only.
-     * 
-     * A rosary is public if:
-     * - isPublic === true (explicitly public)
-     * - OR groups array is empty/undefined (no group restrictions)
-     * - OR isGroupRosary === false
      */
     function isRosaryPublic(rosary) {
-      // Explicit public flag
-      if (rosary.isPublic === true) {
-        return true;
+      if (rosary.isPublic === true) return true;
+      if (!rosary.groups || rosary.groups.length === 0) return true;
+      if (rosary.isGroupRosary === false) return true;
+      return false;
+    }
+
+    /**
+     * Check if user has already joined this rosary (as creator or participant)
+     */
+    function hasUserJoined(rosary, userId) {
+      if (!userId) return false;
+      
+      // Check if user is the creator
+      if (rosary.creatorId === userId) return true;
+      
+      // Check if user is a participant
+      if (rosary.participants) {
+        for (const participant of Object.values(rosary.participants)) {
+          if (participant.userId === userId) return true;
+        }
       }
       
-      // No group restrictions = public
-      if (!rosary.groups || rosary.groups.length === 0) {
-        return true;
-      }
-      
-      // Not a group rosary = public
-      if (rosary.isGroupRosary === false) {
-        return true;
-      }
-      
-      // Has groups but not explicitly public = private group rosary
       return false;
     }
 
@@ -801,16 +825,18 @@
       document.getElementById('loading').classList.remove('hidden');
       document.getElementById('rosary-list').innerHTML = '';
       document.getElementById('empty-state').classList.add('hidden');
+      document.getElementById('joined-info').classList.add('hidden');
       
       try {
         const snapshot = await db.collection('rosaries')
           .where('status', '==', 'active')
           .orderBy('createdAt', 'desc')
-          .limit(50)
+          .limit(100)
           .get();
         
         allRosaries = [];
-        let joinedCount = 0;
+        availableRosaries = [];
+        joinedRosaries = [];
         let availableSpots = 0;
         const userId = currentUser?.uid || userData?.userId;
         
@@ -818,24 +844,36 @@
           const data = doc.data();
           
           // CROSS-PLATFORM FIX: Only include public rosaries on website
-          // Private group rosaries should only be visible in the app
           if (!isRosaryPublic(data)) {
-            console.log(`🔒 Filtering out private group rosary: ${doc.id} (group: ${data.groupName || 'unknown'})`);
-            return; // Skip this rosary
+            console.log(`🔒 Filtering out private group rosary: ${doc.id}`);
+            return;
           }
           
-          allRosaries.push({ id: doc.id, ...data });
-          const isCreator = data.creatorId === userId;
-          const isParticipant = Object.values(data.participants || {}).some(p => p.userId === userId);
-          if (isCreator || isParticipant) joinedCount++;
-          availableSpots += (73 - (data.participantCount || 1));
+          const rosary = { id: doc.id, ...data };
+          allRosaries.push(rosary);
+          
+          // Check if user has already joined this rosary
+          if (hasUserJoined(data, userId)) {
+            joinedRosaries.push(rosary);
+            console.log(`✓ Already joined: ${doc.id}`);
+          } else {
+            availableRosaries.push(rosary);
+            availableSpots += (73 - (data.participantCount || 1));
+          }
         });
         
-        console.log(`📿 Loaded ${allRosaries.length} public rosaries for website`);
+        console.log(`📿 Loaded ${allRosaries.length} public rosaries: ${availableRosaries.length} available, ${joinedRosaries.length} already joined`);
         
-        document.getElementById('stat-active').textContent = allRosaries.length;
-        document.getElementById('stat-joined').textContent = joinedCount;
+        // Update stats - show available rosaries count, not total
+        document.getElementById('stat-active').textContent = availableRosaries.length;
+        document.getElementById('stat-joined').textContent = joinedRosaries.length;
         document.getElementById('stat-available').textContent = availableSpots;
+        
+        // Show info about hidden joined rosaries
+        if (joinedRosaries.length > 0) {
+          document.getElementById('joined-count').textContent = joinedRosaries.length;
+          document.getElementById('joined-info').classList.remove('hidden');
+        }
         
         document.getElementById('loading').classList.add('hidden');
         renderRosaries();
@@ -849,24 +887,33 @@
       const list = document.getElementById('rosary-list');
       const emptyState = document.getElementById('empty-state');
       
-      let filtered = allRosaries;
+      // Only show AVAILABLE rosaries (not already joined)
+      let filtered = availableRosaries;
       if (currentFilter !== 'all') {
-        filtered = allRosaries.filter(r => r.mysteryType === currentFilter);
+        filtered = availableRosaries.filter(r => r.mysteryType === currentFilter);
       }
       
       if (filtered.length === 0) {
         list.innerHTML = '';
         emptyState.classList.remove('hidden');
+        
+        // Update empty state message based on context
+        if (availableRosaries.length === 0 && joinedRosaries.length > 0) {
+          emptyState.querySelector('h3').textContent = 'You\'ve Joined All Available Rosaries!';
+          emptyState.querySelector('p').textContent = 'Start a new one or wait for more rosaries to become available.';
+        } else if (currentFilter !== 'all') {
+          emptyState.querySelector('h3').textContent = 'No Rosaries for This Mystery';
+          emptyState.querySelector('p').textContent = 'Try a different mystery type or start a new rosary!';
+        } else {
+          emptyState.querySelector('h3').textContent = 'No Active Rosaries';
+          emptyState.querySelector('p').textContent = 'Be the first to start a rosary!';
+        }
         return;
       }
       
-      const userId = currentUser?.uid || userData?.userId;
       emptyState.classList.add('hidden');
       
       list.innerHTML = filtered.map(rosary => {
-        const isCreator = rosary.creatorId === userId;
-        const isParticipant = Object.values(rosary.participants || {}).some(p => p.userId === userId);
-        const hasJoined = isCreator || isParticipant;
         const progress = ((rosary.participantCount || 1) / 73 * 100).toFixed(0);
         const icon = mysteryIcons[rosary.mysteryType] || '📿';
         
@@ -885,8 +932,8 @@
               <div class="progress-bar-container">
                 <div class="progress-bar" style="width: ${progress}%"></div>
               </div>
-              <button class="join-btn ${hasJoined ? 'joined' : ''}" data-rosary-id="${rosary.id}" ${hasJoined || !canJoin ? 'disabled' : ''}>
-                ${hasJoined ? '✓ Joined' : '🙏 Join'}
+              <button class="join-btn" data-rosary-id="${rosary.id}" ${!canJoin ? 'disabled' : ''}>
+                🙏 Join
               </button>
             </div>
           </div>
@@ -911,9 +958,6 @@
 
     // ========================================================================
     // RACE CONDITION FIX: Use Firestore Transaction for atomic participation
-    // This prevents two users from being assigned the same position when they
-    // click simultaneously. The transaction will automatically retry if another
-    // user modified the document between our read and write.
     // ========================================================================
     async function joinRosary(rosaryId) {
       if (!canJoin) return;
@@ -927,15 +971,10 @@
         if (!userId) throw new Error('User not authenticated');
         
         const rosaryRef = db.collection('rosaries').doc(rosaryId);
-        
-        // Get recordings from userData (now contains actual URLs after webAuth fix)
         let recordings = userData?.recordings || {};
-        
-        // Use Firestore transaction for atomic read-check-write
         let assignedPosition = null;
         
         await db.runTransaction(async (transaction) => {
-          // Read the current state inside the transaction
           const rosaryDoc = await transaction.get(rosaryRef);
           
           if (!rosaryDoc.exists) {
@@ -955,13 +994,12 @@
             throw new Error('ALREADY_JOINED');
           }
           
-          // Find first available position using FRESH data
+          // Find first available position
           const position = findFirstAvailablePosition(rosary.participants || {});
           if (!position) {
             throw new Error('ROSARY_FULL');
           }
           
-          // Double-check the position is still available
           if (rosary.participants && rosary.participants[position.toString()]) {
             throw new Error('POSITION_TAKEN');
           }
@@ -970,7 +1008,6 @@
           
           console.log(`🔐 Transaction: Assigning position ${position} to user ${userData?.username || 'Anonymous'}`);
           
-          // Build participant data with actual recording URLs
           const participantData = {
             userId: userId,
             userName: userData?.username || 'Anonymous',
@@ -979,7 +1016,6 @@
             hasRecordings: Object.keys(recordings).length >= 7
           };
           
-          // Write the update atomically
           transaction.update(rosaryRef, {
             [`participants.${position}`]: participantData,
             participantCount: firebase.firestore.FieldValue.increment(1)
@@ -988,7 +1024,7 @@
         
         console.log(`✅ Successfully joined rosary at position ${assignedPosition}`);
         
-        // Update user's rosariesJoined count (non-critical, can fail)
+        // Update user's rosariesJoined count
         await db.collection('users').doc(userId).update({
           rosariesJoined: firebase.firestore.FieldValue.increment(1)
         }).catch(() => {});
@@ -996,26 +1032,24 @@
         btn.classList.add('joined');
         btn.textContent = '✓ Joined';
         
+        // Reload rosaries to remove from available list
         setTimeout(() => loadRosaries(), 500);
         
       } catch (error) {
         console.error('Error joining rosary:', error);
         
-        // Handle specific transaction errors with user-friendly messages
         let errorMessage = 'Failed to join rosary. Please try again.';
         
         if (error.message === 'ROSARY_NOT_FOUND') {
           errorMessage = 'This rosary no longer exists.';
         } else if (error.message === 'ALREADY_JOINED') {
           errorMessage = 'You have already joined this rosary.';
-          btn.classList.add('joined');
-          btn.textContent = '✓ Joined';
+          // Reload to refresh the list
           setTimeout(() => loadRosaries(), 500);
           return;
         } else if (error.message === 'ROSARY_FULL') {
           errorMessage = 'This rosary is now full.';
         } else if (error.message === 'POSITION_TAKEN') {
-          // Transaction should have retried, but if we get here, show a friendly message
           errorMessage = 'Another user just took that spot. Please try again.';
         }
         
