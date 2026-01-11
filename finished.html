@@ -229,7 +229,7 @@
       transition: all 0.3s ease;
     }
     .rosary-card:hover { border-color: rgba(212, 175, 55, 0.3); }
-    .rosary-card.group-rosary { border-left: 3px solid #60a5fa; }
+    .rosary-card.group-rosary { border-left: 4px solid #60a5fa; }
     
     .rosary-header {
       display: flex;
@@ -262,10 +262,12 @@
       align-items: center;
       gap: 6px;
       padding: 6px 12px;
-      background: rgba(96, 165, 250, 0.15);
+      background: rgba(96, 165, 250, 0.2);
+      border: 1px solid rgba(96, 165, 250, 0.4);
       border-radius: 20px;
       font-size: 0.8rem;
       color: #60a5fa;
+      font-weight: 500;
     }
     
     .rosary-date { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
@@ -623,13 +625,37 @@
         const userId = currentUser?.uid || userData?.userId;
         if (!userId) return;
         
+        // Query all active groups and filter client-side for membership
         const groupsSnapshot = await db.collection('groups')
-          .where('memberIds', 'array-contains', userId)
+          .where('isActive', '==', true)
+          .limit(100)
           .get();
         
         userGroupIds = [];
+        
         groupsSnapshot.forEach(doc => {
-          userGroupIds.push(doc.id);
+          const data = doc.data();
+          let isMember = false;
+          
+          // Check various membership formats
+          if (data.memberIds && Array.isArray(data.memberIds)) {
+            isMember = data.memberIds.includes(userId);
+          }
+          if (!isMember && data.activeMembers && Array.isArray(data.activeMembers)) {
+            isMember = data.activeMembers.some(m => m.userId === userId || m === userId);
+          }
+          if (!isMember && data.members) {
+            if (Array.isArray(data.members)) {
+              isMember = data.members.some(m => m.userId === userId || m === userId);
+            }
+          }
+          if (!isMember) {
+            isMember = data.createdBy === userId || (data.adminIds && data.adminIds.includes(userId));
+          }
+          
+          if (isMember) {
+            userGroupIds.push(doc.id);
+          }
         });
         
         console.log('User belongs to', userGroupIds.length, 'groups');
@@ -726,19 +752,13 @@
     // Check if user can view a rosary (public OR member of group)
     function canViewRosary(rosary) {
       // Public rosaries - everyone can see
-      if (rosary.isPublic === true || !rosary.isGroupRosary) {
-        return true;
-      }
+      if (rosary.isPublic === true) return true;
+      if (!rosary.isGroupRosary && !rosary.groupId) return true;
+      if (rosary.groups && rosary.groups.length === 0) return true;
       
       // Group rosaries - check if user is member
-      if (rosary.groupId && userGroupIds.includes(rosary.groupId)) {
-        return true;
-      }
-      
-      // Check groups array
-      if (rosary.groups && rosary.groups.length > 0) {
-        return rosary.groups.some(gId => userGroupIds.includes(gId));
-      }
+      if (rosary.groupId && userGroupIds.includes(rosary.groupId)) return true;
+      if (rosary.groups && rosary.groups.some(gId => userGroupIds.includes(gId))) return true;
       
       return false;
     }
@@ -766,13 +786,17 @@
           
           const isCreator = data.creatorId === userId;
           const isParticipant = Object.values(data.participants || {}).some(p => p.userId === userId);
-          const isGroupMember = data.isGroupRosary && data.groupId && userGroupIds.includes(data.groupId);
+          
+          // Determine if it's a group rosary
+          const isGroupRosary = data.isGroupRosary === true || 
+                               (data.groupId && data.groupId !== null) ||
+                               (data.groups && data.groups.length > 0);
           
           allRosaries.push({ 
             id: doc.id, 
             ...data, 
             userParticipated: isCreator || isParticipant,
-            userIsGroupMember: isGroupMember
+            isGroupRosary: isGroupRosary
           });
         });
         
@@ -791,8 +815,7 @@
       
       let filtered = allRosaries;
       if (currentFilter === 'participated') {
-        // Show rosaries where user participated OR is a group member
-        filtered = allRosaries.filter(r => r.userParticipated || r.userIsGroupMember);
+        filtered = allRosaries.filter(r => r.userParticipated);
         emptyText.textContent = 'Join rosaries to see them here when completed!';
       } else {
         emptyText.textContent = 'No completed rosaries yet.';
@@ -810,13 +833,14 @@
         const hasAudio = !!rosary.stitchedAudioUrl;
         const audioUrl = hasAudio ? `${FUNCTIONS_URL}/streamAudio?rosaryId=${rosary.id}` : '';
         const isGroupRosary = rosary.isGroupRosary === true;
+        const groupName = rosary.groupName || 'Group';
         
         return `
           <div class="rosary-card ${isGroupRosary ? 'group-rosary' : ''}" data-rosary-id="${rosary.id}">
             <div class="rosary-header">
               <div class="rosary-badges">
                 <span class="rosary-mystery">${icon} ${rosary.mysteryType?.charAt(0).toUpperCase() + rosary.mysteryType?.slice(1)} Mysteries</span>
-                ${isGroupRosary ? `<span class="group-badge">👥 ${rosary.groupName || 'Group'}</span>` : ''}
+                ${isGroupRosary ? `<span class="group-badge">👥 ${groupName}</span>` : ''}
               </div>
               <span class="rosary-date">📅 ${formatDate(rosary.completedAt || rosary.createdAt)}</span>
             </div>

@@ -240,6 +240,13 @@
     }
     .group-note.info { background: rgba(96, 165, 250, 0.1); color: #60a5fa; }
     
+    .groups-loading {
+      padding: 10px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
     /* Mystery Selection */
     .mystery-grid {
       display: grid;
@@ -548,6 +555,9 @@
             <div class="group-note info" id="group-note">
               ℹ️ Public rosaries are visible to all Rosary73 users
             </div>
+            <div class="groups-loading hidden" id="groups-loading">
+              Loading your groups...
+            </div>
           </div>
 
           <div class="content-card">
@@ -721,32 +731,79 @@
     }
 
     async function loadUserGroups() {
+      const loadingEl = document.getElementById('groups-loading');
+      loadingEl.classList.remove('hidden');
+      
       try {
         const userId = currentUser?.uid || userData?.userId;
-        if (!userId) return;
+        if (!userId) {
+          loadingEl.classList.add('hidden');
+          return;
+        }
         
-        // Query groups where user is a member
+        // Query ALL groups and filter client-side
+        // This handles groups that store members as activeMembers array of objects
         const groupsSnapshot = await db.collection('groups')
-          .where('memberIds', 'array-contains', userId)
+          .where('isActive', '==', true)
+          .limit(100)
           .get();
         
         userGroups = [];
+        
         groupsSnapshot.forEach(doc => {
           const data = doc.data();
-          // Check if group is active (75+ members)
-          if (data.isActive || data.activeMemberCount >= 75) {
-            userGroups.push({
-              id: doc.id,
-              name: data.name || 'Unnamed Group',
-              memberCount: data.activeMemberCount || 0,
-              isAdmin: data.adminIds?.includes(userId) || data.createdBy === userId
-            });
+          
+          // Check if user is a member - handle multiple possible storage formats
+          let isMember = false;
+          
+          // Format 1: memberIds array (simple array of user IDs)
+          if (data.memberIds && Array.isArray(data.memberIds)) {
+            isMember = data.memberIds.includes(userId);
+          }
+          
+          // Format 2: activeMembers array of objects with userId field
+          if (!isMember && data.activeMembers && Array.isArray(data.activeMembers)) {
+            isMember = data.activeMembers.some(m => m.userId === userId || m === userId);
+          }
+          
+          // Format 3: members object/array
+          if (!isMember && data.members) {
+            if (Array.isArray(data.members)) {
+              isMember = data.members.some(m => m.userId === userId || m === userId);
+            } else if (typeof data.members === 'object') {
+              isMember = userId in data.members;
+            }
+          }
+          
+          // Format 4: Check if user is admin/creator
+          if (!isMember) {
+            isMember = data.createdBy === userId || 
+                       (data.adminIds && data.adminIds.includes(userId));
+          }
+          
+          if (isMember) {
+            // Check if group is active (75+ members or isActive flag)
+            const memberCount = data.activeMemberCount || 
+                               (data.activeMembers ? data.activeMembers.length : 0) ||
+                               (data.memberIds ? data.memberIds.length : 0) || 0;
+            
+            if (data.isActive || memberCount >= 75) {
+              userGroups.push({
+                id: doc.id,
+                name: data.name || 'Unnamed Group',
+                memberCount: memberCount,
+                isAdmin: data.createdBy === userId || (data.adminIds && data.adminIds.includes(userId))
+              });
+            }
           }
         });
         
+        console.log('Found', userGroups.length, 'groups for user');
         updateGroupSelector();
       } catch (error) {
         console.error('Error loading groups:', error);
+      } finally {
+        loadingEl.classList.add('hidden');
       }
     }
 
@@ -758,17 +815,17 @@
       
       // Add user's groups
       if (userGroups.length > 0) {
-        const groupOptgroup = document.createElement('optgroup');
-        groupOptgroup.label = 'Your Groups';
+        const separator = document.createElement('option');
+        separator.disabled = true;
+        separator.textContent = '── Your Groups ──';
+        selector.appendChild(separator);
         
         userGroups.forEach(group => {
           const option = document.createElement('option');
           option.value = group.id;
           option.textContent = `👥 ${group.name} (${group.memberCount} members)`;
-          groupOptgroup.appendChild(option);
+          selector.appendChild(option);
         });
-        
-        selector.appendChild(groupOptgroup);
       }
     }
 

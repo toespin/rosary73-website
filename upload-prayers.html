@@ -266,64 +266,30 @@
     
     /* Audio Preview */
     .audio-preview { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; }
-    .audio-preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .file-name { color: var(--gold); font-weight: 500; }
-    .remove-file { background: rgba(239, 68, 68, 0.2); border: none; color: #f87171; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
-    .audio-player { width: 100%; margin: 10px 0; }
     
-    /* Custom Audio Player */
-    .custom-audio-player {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px;
-      background: rgba(0,0,0,0.3);
+    /* Native Audio Player - Simple and Reliable */
+    .native-audio-player {
+      width: 100%;
+      height: 45px;
       border-radius: 8px;
     }
-    .play-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--gold);
-      border: none;
-      cursor: pointer;
+    
+    .audio-loading {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
-      color: var(--bg-dark);
-      transition: all 0.2s;
-    }
-    .play-btn:hover { transform: scale(1.05); }
-    .play-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .audio-progress {
-      flex: 1;
-      height: 6px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 3px;
-      cursor: pointer;
-      position: relative;
-    }
-    .audio-progress-fill {
-      height: 100%;
-      background: var(--gold);
-      border-radius: 3px;
-      width: 0%;
-      transition: width 0.1s;
-    }
-    .audio-time {
-      font-size: 0.8rem;
+      gap: 10px;
+      padding: 15px;
       color: var(--text-muted);
-      min-width: 45px;
-      text-align: right;
     }
-    .audio-loading {
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+    
+    .audio-error-msg {
+      padding: 10px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 8px;
+      color: #f87171;
+      font-size: 0.85rem;
+      text-align: center;
     }
     
     /* Buttons */
@@ -538,7 +504,6 @@
 
     let currentUser = null;
     let userData = null;
-    let audioPlayers = {}; // Track audio elements
 
     const PRAYERS = [
       { id: 'creed', name: 'The Creed', duration: '45-60 sec' },
@@ -702,29 +667,24 @@
       }
     }
 
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins}:${secs.toString().padStart(2, '0')}`;
-    }
-
-    function renderPrayerCards() {
+    async function renderPrayerCards() {
       const container = document.getElementById('prayer-cards');
       const recordings = userData?.recordings || {};
       let uploadedCount = 0;
       
-      // Clear existing audio players
-      Object.values(audioPlayers).forEach(player => {
-        if (player.audio) {
-          player.audio.pause();
-          player.audio.src = '';
-        }
+      // Count uploaded prayers
+      PRAYERS.forEach(prayer => {
+        if (recordings[prayer.id]) uploadedCount++;
       });
-      audioPlayers = {};
       
+      // Update progress
+      document.getElementById('progress-count').textContent = uploadedCount;
+      document.getElementById('progress-bar').style.width = `${(uploadedCount / 7) * 100}%`;
+      document.getElementById('prayers-badge').textContent = `${uploadedCount}/7`;
+      
+      // Render cards
       container.innerHTML = PRAYERS.map(prayer => {
         const isUploaded = !!recordings[prayer.id];
-        if (isUploaded) uploadedCount++;
         
         return `
           <div class="prayer-card ${isUploaded ? 'uploaded' : ''}" id="card-${prayer.id}">
@@ -739,21 +699,16 @@
             </div>
             
             ${isUploaded ? `
-              <div class="audio-preview">
-                <div class="custom-audio-player" id="player-${prayer.id}">
-                  <button class="play-btn" id="play-btn-${prayer.id}" onclick="togglePlay('${prayer.id}')">
-                    <span id="play-icon-${prayer.id}">▶</span>
-                  </button>
-                  <div class="audio-progress" id="progress-${prayer.id}" onclick="seekAudio(event, '${prayer.id}')">
-                    <div class="audio-progress-fill" id="progress-fill-${prayer.id}"></div>
-                  </div>
-                  <span class="audio-time" id="time-${prayer.id}">--:--</span>
+              <div class="audio-preview" id="audio-container-${prayer.id}">
+                <div class="audio-loading" id="audio-loading-${prayer.id}">
+                  <div class="spinner"></div>
+                  <span>Loading audio...</span>
                 </div>
-                <div class="upload-actions">
-                  <button class="btn btn-secondary upload-btn" onclick="triggerUpload('${prayer.id}')">
-                    Replace Recording
-                  </button>
-                </div>
+              </div>
+              <div class="upload-actions">
+                <button class="btn btn-secondary upload-btn" onclick="triggerUpload('${prayer.id}')">
+                  Replace Recording
+                </button>
               </div>
             ` : `
               <div class="upload-area" onclick="triggerUpload('${prayer.id}')">
@@ -769,108 +724,44 @@
         `;
       }).join('');
       
-      // Initialize audio elements for uploaded prayers
-      PRAYERS.forEach(prayer => {
+      // Load audio for uploaded prayers using fresh URLs from Storage
+      for (const prayer of PRAYERS) {
         if (recordings[prayer.id]) {
-          initAudioPlayer(prayer.id, recordings[prayer.id]);
+          loadAudioPlayer(prayer.id);
         }
-      });
-      
-      // Update progress
-      document.getElementById('progress-count').textContent = uploadedCount;
-      document.getElementById('progress-bar').style.width = `${(uploadedCount / 7) * 100}%`;
-      document.getElementById('prayers-badge').textContent = `${uploadedCount}/7`;
-    }
-
-    function initAudioPlayer(prayerId, url) {
-      const audio = new Audio();
-      audio.preload = 'metadata';
-      
-      audioPlayers[prayerId] = {
-        audio: audio,
-        isPlaying: false,
-        isLoaded: false,
-        duration: 0
-      };
-      
-      audio.addEventListener('loadedmetadata', () => {
-        audioPlayers[prayerId].isLoaded = true;
-        audioPlayers[prayerId].duration = audio.duration;
-        const timeEl = document.getElementById(`time-${prayerId}`);
-        if (timeEl) timeEl.textContent = formatTime(audio.duration);
-      });
-      
-      audio.addEventListener('timeupdate', () => {
-        const progressFill = document.getElementById(`progress-fill-${prayerId}`);
-        const timeEl = document.getElementById(`time-${prayerId}`);
-        if (progressFill && audio.duration) {
-          progressFill.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
-        }
-        if (timeEl && audio.duration) {
-          const remaining = audio.duration - audio.currentTime;
-          timeEl.textContent = formatTime(remaining);
-        }
-      });
-      
-      audio.addEventListener('ended', () => {
-        audioPlayers[prayerId].isPlaying = false;
-        const playIcon = document.getElementById(`play-icon-${prayerId}`);
-        const progressFill = document.getElementById(`progress-fill-${prayerId}`);
-        const timeEl = document.getElementById(`time-${prayerId}`);
-        if (playIcon) playIcon.textContent = '▶';
-        if (progressFill) progressFill.style.width = '0%';
-        if (timeEl) timeEl.textContent = formatTime(audio.duration);
-      });
-      
-      audio.addEventListener('error', (e) => {
-        console.error('Audio error for', prayerId, e);
-        const timeEl = document.getElementById(`time-${prayerId}`);
-        if (timeEl) timeEl.textContent = 'Error';
-      });
-      
-      // Set source
-      audio.src = url;
-    }
-
-    function togglePlay(prayerId) {
-      const player = audioPlayers[prayerId];
-      if (!player || !player.audio) return;
-      
-      // Pause all other players
-      Object.keys(audioPlayers).forEach(id => {
-        if (id !== prayerId && audioPlayers[id].isPlaying) {
-          audioPlayers[id].audio.pause();
-          audioPlayers[id].isPlaying = false;
-          const icon = document.getElementById(`play-icon-${id}`);
-          if (icon) icon.textContent = '▶';
-        }
-      });
-      
-      const playIcon = document.getElementById(`play-icon-${prayerId}`);
-      
-      if (player.isPlaying) {
-        player.audio.pause();
-        player.isPlaying = false;
-        if (playIcon) playIcon.textContent = '▶';
-      } else {
-        player.audio.play().then(() => {
-          player.isPlaying = true;
-          if (playIcon) playIcon.textContent = '⏸';
-        }).catch(err => {
-          console.error('Play error:', err);
-          showToast('Could not play audio', 'error');
-        });
       }
     }
 
-    function seekAudio(event, prayerId) {
-      const player = audioPlayers[prayerId];
-      if (!player || !player.audio || !player.audio.duration) return;
+    async function loadAudioPlayer(prayerId) {
+      const container = document.getElementById(`audio-container-${prayerId}`);
+      const loadingEl = document.getElementById(`audio-loading-${prayerId}`);
       
-      const progressBar = event.currentTarget;
-      const rect = progressBar.getBoundingClientRect();
-      const percent = (event.clientX - rect.left) / rect.width;
-      player.audio.currentTime = percent * player.audio.duration;
+      if (!container) return;
+      
+      try {
+        const userId = currentUser?.uid || userData?.userId;
+        if (!userId) throw new Error('No user ID');
+        
+        // Get fresh download URL from Firebase Storage
+        const storageRef = storage.ref(`users/${userId}/prayers/${prayerId}.m4a`);
+        const downloadUrl = await storageRef.getDownloadURL();
+        
+        // Create native audio player
+        container.innerHTML = `
+          <audio controls class="native-audio-player" preload="metadata">
+            <source src="${downloadUrl}" type="audio/mp4">
+            <source src="${downloadUrl}" type="audio/mpeg">
+            Your browser does not support audio playback.
+          </audio>
+        `;
+      } catch (error) {
+        console.error('Error loading audio for', prayerId, error);
+        container.innerHTML = `
+          <div class="audio-error-msg">
+            ⚠️ Could not load audio preview. The recording is saved and will work in rosaries.
+          </div>
+        `;
+      }
     }
 
     function triggerUpload(prayerId) {
@@ -888,12 +779,6 @@
       
       const card = document.getElementById(`card-${prayerId}`);
       const originalContent = card.innerHTML;
-      
-      // Stop any playing audio for this prayer
-      if (audioPlayers[prayerId] && audioPlayers[prayerId].audio) {
-        audioPlayers[prayerId].audio.pause();
-        audioPlayers[prayerId].audio.src = '';
-      }
       
       // Show uploading state
       card.innerHTML = `
