@@ -902,12 +902,15 @@
         
         const rosaryId = `rosary_${Date.now()}`;
         let creedUrl = userData?.recordings?.creed || userData?.creedUrl || '';
+        const creatorUsername = userData.username || 'Anonymous';
         
+        // CROSS-PLATFORM FIX: Include all fields for app compatibility
         const rosaryData = {
           rosaryId,
           creatorId: userId,
-          creatorUsername: userData.username || 'Anonymous',
+          creatorUsername: creatorUsername,
           creatorCreedUrl: creedUrl,
+          createdBy: creatorUsername,  // Added for app compatibility
           intention,
           mysteryType: selectedMystery,
           status: 'active',
@@ -915,9 +918,20 @@
           participants: {},
           audioProcessing: false,
           stitchedAudioUrl: null,
+          
+          // GROUP FIELDS - Website rosaries are always public
+          groups: [],              // Empty array = no group restrictions
+          isPublic: true,          // Website rosaries are always public
           isGroupRosary: false,
           groupId: null,
           groupName: null,
+          
+          // APP COMPATIBILITY FIELDS
+          numberingSystem: '1-73',
+          hasCreatorRecording: !!creedUrl,
+          source: 'website',       // Track origin for analytics
+          
+          // TIMESTAMPS
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           completedAt: null
         };
@@ -927,6 +941,7 @@
           rosariesStarted: firebase.firestore.FieldValue.increment(1)
         }).catch(() => {});
         
+        console.log('✅ Rosary created with cross-platform fields:', rosaryId);
         document.getElementById('success-modal').classList.remove('hidden');
       } catch (error) {
         console.error('Error creating rosary:', error);
