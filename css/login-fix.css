@@ -1,0 +1,25 @@
+/* 
+ * Login Form Responsive Fix
+ * Created: 2026-01-16
+ * Fixes: Password field overflow at medium screen widths
+ */
+
+/* Fix input fields overflow */
+.compact-login-input {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Fix grid children overflow */
+.compact-form-group {
+    min-width: 0;
+}
+
+/* Switch to stacked layout at 600px instead of waiting until 480px */
+@media (max-width: 600px) {
+    .compact-login-row {
+        grid-template-columns: 1fr;
+    }
+}
