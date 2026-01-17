@@ -683,6 +683,15 @@
       font-weight: 600;
     }
     
+    .all-countries-tag {
+      background: #60a5fa;
+      color: var(--bg-dark);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+    
     /* Perpetual Info */
     .perpetual-info {
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(184, 134, 11, 0.05));
@@ -738,10 +747,10 @@
     /* =========================================
        GIFT FORM & REDEMPTION
     ========================================= */
-    .gift-form { max-width: 500px; }
-    .gift-form .form-group { margin-bottom: 20px; }
+    .gift-recipient-form { max-width: 500px; }
+    .gift-recipient-form .form-group { margin-bottom: 20px; }
     
-    .gift-form textarea {
+    .gift-recipient-form textarea {
       width: 100%;
       padding: 14px 16px;
       border-radius: 10px;
@@ -1518,7 +1527,7 @@
                   <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('subscribe', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
                 </div>
               </div>
-              <div class="payment-group-title">Credit/Debit Card</div>
+              <div class="payment-group-title"><span>Credit/Debit Card</span><span class="all-countries-tag">ALL COUNTRIES</span></div>
               <div class="payment-methods">
                 <div class="payment-method" data-method="card" onclick="selectPaymentMethod('subscribe', 'card')"><div class="payment-method-icon"><img src="images/creditcardlogos.png" alt="Credit/Debit Card"></div></div>
               </div>
@@ -1543,7 +1552,9 @@
           <!-- Send Gift Tab -->
           <div class="gift-tab-content active" id="gift-tab-send">
             <p style="margin-bottom: 25px; color: var(--text-muted);">Share the gift of prayer!</p>
-            <div class="gift-form">
+            
+            <!-- Recipient Form (constrained width) -->
+            <div class="gift-recipient-form">
               <div class="form-group">
                 <label>Recipient's Username or Email</label>
                 <input type="text" id="gift-recipient" class="form-input" placeholder="Enter username or email">
@@ -1552,32 +1563,34 @@
                 <label>Personal Message (Optional)</label>
                 <textarea id="gift-message" placeholder="Add a heartfelt message..."></textarea>
               </div>
-              <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Gift Duration</h3>
-              <div class="plans-grid" id="gift-plans-grid">
-                <div class="plan-card" data-plan="threeMonth" onclick="selectGiftPlan('threeMonth')"><div class="plan-duration">3 Months</div><div class="plan-price"><span id="gift-price-3mo">₱99</span></div></div>
-                <div class="plan-card popular" data-plan="sixMonth" onclick="selectGiftPlan('sixMonth')"><div class="plan-duration">6 Months</div><div class="plan-price"><span id="gift-price-6mo">₱179</span></div></div>
-                <div class="plan-card" data-plan="twelveMonth" onclick="selectGiftPlan('twelveMonth')"><div class="plan-duration">12 Months</div><div class="plan-price"><span id="gift-price-12mo">₱329</span></div></div>
-              </div>
-              <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Payment Method</h3>
-              <div class="payment-methods-section" id="payment-methods-gift">
-                <!-- Merged eWallets/QRPH Section -->
-                <div id="ewallet-qrph-group-gift">
-                  <div class="payment-group-title"><span>eWallets/QRPH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
-                  <div class="payment-methods">
-                    <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('gift', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div></div>
-                    <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('gift', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div></div>
-                    <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('gift', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div></div>
-                    <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('gift', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div></div>
-                    <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('gift', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
-                  </div>
-                </div>
-                <div class="payment-group-title">Credit/Debit Card</div>
-                <div class="payment-methods">
-                  <div class="payment-method" data-method="card" onclick="selectPaymentMethod('gift', 'card')"><div class="payment-method-icon"><img src="images/creditcardlogos.png" alt="Credit/Debit Card"></div></div>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-block" id="gift-btn" onclick="processGift()" disabled>🎁 Send Gift</button>
             </div>
+            
+            <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Gift Duration</h3>
+            <div class="plans-grid" id="gift-plans-grid">
+              <div class="plan-card" data-plan="threeMonth" onclick="selectGiftPlan('threeMonth')"><div class="plan-duration">3 Months</div><div class="plan-price"><span id="gift-price-3mo">₱99</span></div></div>
+              <div class="plan-card popular" data-plan="sixMonth" onclick="selectGiftPlan('sixMonth')"><div class="plan-duration">6 Months</div><div class="plan-price"><span id="gift-price-6mo">₱179</span></div></div>
+              <div class="plan-card" data-plan="twelveMonth" onclick="selectGiftPlan('twelveMonth')"><div class="plan-duration">12 Months</div><div class="plan-price"><span id="gift-price-12mo">₱329</span></div></div>
+            </div>
+            
+            <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Payment Method</h3>
+            <div class="payment-methods-section" id="payment-methods-gift">
+              <!-- Merged eWallets/QRPH Section -->
+              <div id="ewallet-qrph-group-gift">
+                <div class="payment-group-title"><span>eWallets/QRPH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
+                <div class="payment-methods">
+                  <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('gift', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div></div>
+                  <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('gift', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div></div>
+                  <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('gift', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div></div>
+                  <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('gift', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div></div>
+                  <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('gift', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
+                </div>
+              </div>
+              <div class="payment-group-title"><span>Credit/Debit Card</span><span class="all-countries-tag">ALL COUNTRIES</span></div>
+              <div class="payment-methods">
+                <div class="payment-method" data-method="card" onclick="selectPaymentMethod('gift', 'card')"><div class="payment-method-icon"><img src="images/creditcardlogos.png" alt="Credit/Debit Card"></div></div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-block" id="gift-btn" onclick="processGift()" disabled>🎁 Send Gift</button>
           </div>
           
           <!-- Redeem Gift Tab -->
@@ -1630,7 +1643,7 @@
                 <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('donate', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
               </div>
             </div>
-            <div class="payment-group-title">Credit/Debit Card</div>
+            <div class="payment-group-title"><span>Credit/Debit Card</span><span class="all-countries-tag">ALL COUNTRIES</span></div>
             <div class="payment-methods">
               <div class="payment-method" data-method="card" onclick="selectPaymentMethod('donate', 'card')"><div class="payment-method-icon"><img src="images/creditcardlogos.png" alt="Credit/Debit Card"></div></div>
             </div>
