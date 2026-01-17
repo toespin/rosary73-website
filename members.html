@@ -1736,7 +1736,7 @@
       OTHER: { currency: 'USD', symbol: '$', plans: { threeMonth: 2.99, sixMonth: 5.49, twelveMonth: 9.90 }, donations: [2, 5, 10, 20], minDonation: 1 }
     };
 
-    const PLAN_MONTHS = { threeMonth: 3, sixMonth: 6, twelveMonth: 12 };
+    const PLAN_MONTHS = { threeMonth: 3, sixMonth: 6, twelveMonth: 12, '3 Months': 3, '6 Months': 6, '12 Months': 12 };
     const MYSTERY_ICONS = { joyful: '👶', sorrowful: '✝️', glorious: '👑', luminous: '✨' };
 
     let currentUser = null;
@@ -1911,9 +1911,11 @@
       const isAdmin = userData.isAdmin === true || userData.userId === ADMIN_UID;
       const isPerpetual = userData.isPerpetual === true;
       const hasSpecialAccess = userData.hasSpecialAccess === true;
+      const tier = userData.subscriptionTier;
       const status = userData.subscriptionStatus;
       
       return isAdmin || isPerpetual || hasSpecialAccess || 
+             tier === 'perpetual' || tier === 'admin' ||
              status === 'perpetual' || status === 'special_access' || status === 'admin';
     }
 
@@ -1939,34 +1941,35 @@
       // Status Badge
       const statusBadge = document.getElementById('sidebar-status-badge');
       const statusText = document.getElementById('sidebar-status-text');
+      const tier = userData.subscriptionTier || 'none';
       const status = userData.subscriptionStatus || 'none';
       
       const isAdmin = userData.isAdmin === true || userData.userId === ADMIN_UID;
-      const isPerpetual = userData.isPerpetual === true;
+      const isPerpetual = userData.isPerpetual === true || tier === 'perpetual';
       const hasSpecialAccess = userData.hasSpecialAccess === true;
       
-      if (isAdmin) {
+      if (isAdmin || tier === 'admin') {
         statusBadge.textContent = 'Admin';
         statusBadge.className = 'status-badge status-admin';
         statusText.textContent = 'Perpetual access';
-      } else if (isPerpetual || status === 'perpetual') {
+      } else if (isPerpetual) {
         statusBadge.textContent = '✨ Perpetual';
         statusBadge.className = 'status-badge status-perpetual';
         statusText.textContent = 'Lifetime access';
-      } else if (hasSpecialAccess || status === 'special_access') {
+      } else if (hasSpecialAccess || tier === 'free') {
         statusBadge.textContent = '🙏 Free Access';
         statusBadge.className = 'status-badge status-special';
         statusText.textContent = 'Special access';
-      } else if (status === 'trial') {
+      } else if (tier === 'trial') {
         statusBadge.textContent = 'Trial';
         statusBadge.className = 'status-badge status-trial';
-        if (userData.trialEndDate) {
-          const daysLeft = Math.ceil((new Date(userData.trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
+        if (userData.subscriptionEndDate) {
+          const daysLeft = Math.ceil((new Date(userData.subscriptionEndDate) - new Date()) / (1000 * 60 * 60 * 24));
           statusText.textContent = daysLeft > 0 ? `${daysLeft} days left` : 'Trial expired';
         } else {
           statusText.textContent = 'Free trial';
         }
-      } else if (status === 'active') {
+      } else if (status === 'active' || tier === 'paid' || tier === 'gifted') {
         statusBadge.textContent = 'Active';
         statusBadge.className = 'status-badge status-active';
         if (userData.subscriptionEndDate) {
@@ -2409,7 +2412,7 @@
     }
 
     // =========================================
-    // GIFT CODE REDEMPTION
+    // GIFT CODE REDEMPTION - FIXED WITH V2 SCHEMA
     // =========================================
     function switchGiftTab(tab) {
       document.querySelectorAll('.gift-tab').forEach(t => t.classList.remove('active'));
@@ -2417,6 +2420,60 @@
       
       document.querySelector(`.gift-tab:nth-child(${tab === 'send' ? 1 : 2})`).classList.add('active');
       document.getElementById(`gift-tab-${tab}`).classList.add('active');
+    }
+
+    /**
+     * Parse months from gift plan data
+     * Handles both object format: { duration: "3 Months" }
+     * And string format: "threeMonth"
+     */
+    function parseMonthsFromPlan(plan) {
+      // Default to 3 months if parsing fails
+      let months = 3;
+      
+      if (!plan) return months;
+      
+      // Handle object format: { duration: "3 Months", price: 99 }
+      if (typeof plan === 'object' && plan.duration) {
+        // Try direct lookup first
+        if (PLAN_MONTHS[plan.duration]) {
+          months = PLAN_MONTHS[plan.duration];
+        } else {
+          // Extract number from string like "3 Months" or "12 Months"
+          const match = plan.duration.match(/(\d+)/);
+          if (match) {
+            months = parseInt(match[1], 10);
+          }
+        }
+      }
+      // Handle string format: "threeMonth", "sixMonth", "twelveMonth"
+      else if (typeof plan === 'string') {
+        if (PLAN_MONTHS[plan]) {
+          months = PLAN_MONTHS[plan];
+        } else {
+          // Try to extract number from string
+          const match = plan.match(/(\d+)/);
+          if (match) {
+            months = parseInt(match[1], 10);
+          }
+        }
+      }
+      
+      // Validate reasonable range
+      if (months < 1 || months > 24) {
+        console.warn(`Invalid months value: ${months}, defaulting to 3`);
+        months = 3;
+      }
+      
+      return months;
+    }
+
+    /**
+     * Get display duration text
+     */
+    function getDurationText(plan) {
+      const months = parseMonthsFromPlan(plan);
+      return `${months} Month${months > 1 ? 's' : ''}`;
     }
 
     async function redeemGiftCode() {
@@ -2445,6 +2502,12 @@
       resultDiv.style.display = 'none';
       
       try {
+        // Check if user already has perpetual/admin access
+        const tier = userData.subscriptionTier;
+        if (tier === 'perpetual' || tier === 'admin' || isPerpetualUser) {
+          throw new Error('You already have lifetime access! This gift code can be given to someone else.');
+        }
+        
         // Query giftCodes collection
         const giftDoc = await db.collection('giftCodes').doc(code).get();
         
@@ -2467,25 +2530,46 @@
           }
         }
         
-        // Apply the gift subscription
-        const months = PLAN_MONTHS[giftData.plan] || 3;
+        // Parse months from plan (handles both object and string formats)
+        const monthsToAdd = parseMonthsFromPlan(giftData.plan);
+        console.log(`Gift redemption: Adding ${monthsToAdd} months from plan:`, giftData.plan);
+        
+        // Calculate new subscription end date
         const now = new Date();
+        let subscriptionEnd = new Date(now);
+        let wasExtended = false;
         
         // Get current subscription end date or use now
-        let newEndDate;
         if (userData.subscriptionEndDate) {
           const currentEnd = new Date(userData.subscriptionEndDate);
-          newEndDate = currentEnd > now ? new Date(currentEnd) : new Date(now);
-        } else {
-          newEndDate = new Date(now);
+          if (currentEnd > now) {
+            // Extend from current end date
+            subscriptionEnd = new Date(currentEnd);
+            wasExtended = true;
+          }
         }
-        newEndDate.setMonth(newEndDate.getMonth() + months);
         
-        // Update user subscription
+        subscriptionEnd.setMonth(subscriptionEnd.getMonth() + monthsToAdd);
+        
+        // Update user subscription with V2 schema
         await db.collection('users').doc(userData.userId).update({
+          // V2 Schema fields
+          subscriptionTier: 'gifted',
           subscriptionStatus: 'active',
-          subscriptionEndDate: newEndDate,
-          subscriptionType: 'paid'
+          subscriptionEndDate: subscriptionEnd,
+          subscriptionSchemaVersion: 2,
+          
+          // Gift tracking
+          isGift: true,
+          giftedBy: giftData.gifterId || null,
+          giftedByUsername: giftData.gifterName || 'Anonymous',
+          giftedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastGiftRedemption: firebase.firestore.FieldValue.serverTimestamp(),
+          
+          // Keep plan info for reference
+          subscriptionPlan: typeof giftData.plan === 'string' 
+            ? giftData.plan 
+            : (monthsToAdd === 12 ? 'twelveMonth' : monthsToAdd === 6 ? 'sixMonth' : 'threeMonth')
         });
         
         // Mark gift code as redeemed
@@ -2496,26 +2580,46 @@
           redeemedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         
-        // Record redemption
+        // Record redemption for tracking
         await db.collection('giftRedemptions').add({
           code: code,
+          giftCodeId: code,
           userId: userData.userId,
           username: userData.username,
           plan: giftData.plan,
-          gifterId: giftData.gifterId,
-          gifterName: giftData.gifterName,
-          redeemedAt: firebase.firestore.FieldValue.serverTimestamp()
+          monthsAdded: monthsToAdd,
+          gifterId: giftData.gifterId || null,
+          gifterName: giftData.gifterName || 'Anonymous',
+          isAnonymous: giftData.isAnonymous || false,
+          redeemedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          extendedSubscription: wasExtended,
+          previousEndDate: wasExtended ? userData.subscriptionEndDate : null,
+          newEndDate: subscriptionEnd.toISOString(),
+          source: 'website'
         });
         
         // Update local userData
+        userData.subscriptionTier = 'gifted';
         userData.subscriptionStatus = 'active';
-        userData.subscriptionEndDate = newEndDate.toISOString();
+        userData.subscriptionEndDate = subscriptionEnd.toISOString();
+        userData.subscriptionSchemaVersion = 2;
+        userData.isGift = true;
         sessionStorage.setItem('rosary73UserData', JSON.stringify(userData));
         
         // Show success
+        const gifterText = giftData.isAnonymous ? 'An anonymous benefactor' : (giftData.gifterName || 'A friend');
+        const durationText = getDurationText(giftData.plan);
+        const messageText = wasExtended 
+          ? 'Your existing subscription has been extended!'
+          : 'Your subscription has been activated!';
+        
         resultDiv.className = 'redeem-result success';
         resultIcon.textContent = '✅';
-        resultText.textContent = `Success! ${months} months of subscription has been added to your account.`;
+        resultText.innerHTML = `🎉 ${messageText}<br><br>` +
+          `<strong>Gifted by:</strong> ${gifterText}<br>` +
+          `<strong>Duration:</strong> ${durationText}<br>` +
+          `<strong>New expiry:</strong> ${subscriptionEnd.toLocaleDateString()}<br><br>` +
+          `Enjoy your premium access!`;
         codeInput.value = '';
         
         // Update UI
