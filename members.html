@@ -639,17 +639,21 @@
       background: rgba(255,255,255,0.05);
       border: 2px solid rgba(255,255,255,0.1);
       border-radius: 12px;
-      padding: 15px 10px;
+      padding: 12px 10px;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s ease;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .payment-method:hover { border-color: rgba(212, 175, 55, 0.5); }
     .payment-method.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
-    .payment-method-icon { font-size: 1.3rem; margin-bottom: 5px; display: flex; justify-content: center; align-items: center; height: 32px; }
-    .payment-method-icon img { max-width: 50px; max-height: 32px; object-fit: contain; }
-    .payment-method-name { font-size: 0.8rem; font-weight: 500; }
+    .payment-method-icon { display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; }
+    .payment-method-icon img { height: 75%; width: auto; max-width: 90%; object-fit: contain; }
+    .payment-method-name { display: none; }
     
     .payment-group-title {
       color: var(--text-muted);
@@ -1488,21 +1492,21 @@
               <div id="ewallet-group-subscribe">
                 <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
                 <div class="payment-methods">
-                  <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('subscribe', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div><div class="payment-method-name">GCash</div></div>
-                  <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('subscribe', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div><div class="payment-method-name">Maya</div></div>
-                  <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('subscribe', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div><div class="payment-method-name">GrabPay</div></div>
-                  <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('subscribe', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div><div class="payment-method-name">ShopeePay</div></div>
+                  <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('subscribe', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div></div>
+                  <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('subscribe', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div></div>
+                  <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('subscribe', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div></div>
+                  <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('subscribe', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div></div>
                 </div>
               </div>
               <div id="qrph-group-subscribe">
                 <div class="payment-group-title"><span>QR PH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
                 <div class="payment-methods">
-                  <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('subscribe', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div><div class="payment-method-name">QR PH</div></div>
+                  <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('subscribe', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
                 </div>
               </div>
               <div class="payment-group-title">Credit/Debit Card</div>
               <div class="payment-methods">
-                <div class="payment-method" data-method="card" onclick="selectPaymentMethod('subscribe', 'card')"><div class="payment-method-icon">💳</div><div class="payment-method-name">Card</div></div>
+                <div class="payment-method" data-method="card" onclick="selectPaymentMethod('subscribe', 'card')"><div class="payment-method-icon">💳</div></div>
               </div>
             </div>
             <button class="btn btn-primary btn-block" id="subscribe-btn" onclick="processSubscription()" disabled>Subscribe Now</button>
@@ -1545,21 +1549,21 @@
                 <div id="ewallet-group-gift">
                   <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
                   <div class="payment-methods">
-                    <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('gift', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div><div class="payment-method-name">GCash</div></div>
-                    <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('gift', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div><div class="payment-method-name">Maya</div></div>
-                    <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('gift', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div><div class="payment-method-name">GrabPay</div></div>
-                    <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('gift', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div><div class="payment-method-name">ShopeePay</div></div>
+                    <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('gift', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div></div>
+                    <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('gift', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div></div>
+                    <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('gift', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div></div>
+                    <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('gift', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div></div>
                   </div>
                 </div>
                 <div id="qrph-group-gift">
                   <div class="payment-group-title"><span>QR PH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
                   <div class="payment-methods">
-                    <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('gift', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div><div class="payment-method-name">QR PH</div></div>
+                    <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('gift', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
                   </div>
                 </div>
                 <div class="payment-group-title">Credit/Debit Card</div>
                 <div class="payment-methods">
-                  <div class="payment-method" data-method="card" onclick="selectPaymentMethod('gift', 'card')"><div class="payment-method-icon">💳</div><div class="payment-method-name">Card</div></div>
+                  <div class="payment-method" data-method="card" onclick="selectPaymentMethod('gift', 'card')"><div class="payment-method-icon">💳</div></div>
                 </div>
               </div>
               <button class="btn btn-primary btn-block" id="gift-btn" onclick="processGift()" disabled>🎁 Send Gift</button>
@@ -1608,21 +1612,21 @@
             <div id="ewallet-group-donate">
               <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
               <div class="payment-methods">
-                <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('donate', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div><div class="payment-method-name">GCash</div></div>
-                <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('donate', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div><div class="payment-method-name">Maya</div></div>
-                <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('donate', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div><div class="payment-method-name">GrabPay</div></div>
-                <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('donate', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div><div class="payment-method-name">ShopeePay</div></div>
+                <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('donate', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div></div>
+                <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('donate', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div></div>
+                <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('donate', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div></div>
+                <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('donate', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div></div>
               </div>
             </div>
             <div id="qrph-group-donate">
               <div class="payment-group-title"><span>QR PH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
               <div class="payment-methods">
-                <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('donate', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div><div class="payment-method-name">QR PH</div></div>
+                <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('donate', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
               </div>
             </div>
             <div class="payment-group-title">Credit/Debit Card</div>
             <div class="payment-methods">
-              <div class="payment-method" data-method="card" onclick="selectPaymentMethod('donate', 'card')"><div class="payment-method-icon">💳</div><div class="payment-method-name">Card</div></div>
+              <div class="payment-method" data-method="card" onclick="selectPaymentMethod('donate', 'card')"><div class="payment-method-icon">💳</div></div>
             </div>
           </div>
           <button class="btn btn-primary btn-block" id="donate-btn" onclick="processDonation()" disabled>💝 Donate Now</button>
