@@ -630,7 +630,7 @@
     
     .payment-methods {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       gap: 10px;
       margin-bottom: 15px;
     }
@@ -652,8 +652,18 @@
     .payment-method:hover { border-color: rgba(212, 175, 55, 0.5); }
     .payment-method.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); }
     .payment-method-icon { display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; }
-    .payment-method-icon img { height: 75%; width: auto; max-width: 90%; object-fit: contain; }
+    .payment-method-icon img { height: 90%; width: auto; max-width: 95%; object-fit: contain; }
     .payment-method-name { display: none; }
+    
+    /* Credit/Debit Card styling */
+    .payment-method-icon.card-icon {
+      background: linear-gradient(135deg, #1a1f71, #00579f);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .payment-method-icon.card-icon img {
+      height: 85%;
+    }
     
     .payment-group-title {
       color: var(--text-muted);
@@ -1123,6 +1133,10 @@
       .gift-tabs {
         flex-direction: column;
       }
+      
+      .payment-methods {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     
     @media (max-width: 480px) {
@@ -1146,6 +1160,10 @@
       }
       
       .my-rosaries-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .payment-methods {
         grid-template-columns: repeat(2, 1fr);
       }
     }
@@ -1489,24 +1507,20 @@
             </div>
             <h3 style="margin: 25px 0 15px; font-size: 1rem; color: var(--text-muted);">Select Payment Method</h3>
             <div class="payment-methods-section" id="payment-methods-subscribe">
-              <div id="ewallet-group-subscribe">
-                <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
+              <!-- Merged eWallets/QRPH Section -->
+              <div id="ewallet-qrph-group-subscribe">
+                <div class="payment-group-title"><span>eWallets/QRPH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
                 <div class="payment-methods">
                   <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('subscribe', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div></div>
                   <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('subscribe', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div></div>
                   <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('subscribe', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div></div>
                   <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('subscribe', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div></div>
-                </div>
-              </div>
-              <div id="qrph-group-subscribe">
-                <div class="payment-group-title"><span>QR PH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
-                <div class="payment-methods">
                   <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('subscribe', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
                 </div>
               </div>
               <div class="payment-group-title">Credit/Debit Card</div>
               <div class="payment-methods">
-                <div class="payment-method" data-method="card" onclick="selectPaymentMethod('subscribe', 'card')"><div class="payment-method-icon">💳</div></div>
+                <div class="payment-method" data-method="card" onclick="selectPaymentMethod('subscribe', 'card')"><div class="payment-method-icon"><img src="images/CreditCard.png" alt="Credit/Debit Card"></div></div>
               </div>
             </div>
             <button class="btn btn-primary btn-block" id="subscribe-btn" onclick="processSubscription()" disabled>Subscribe Now</button>
@@ -1546,24 +1560,20 @@
               </div>
               <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Payment Method</h3>
               <div class="payment-methods-section" id="payment-methods-gift">
-                <div id="ewallet-group-gift">
-                  <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
+                <!-- Merged eWallets/QRPH Section -->
+                <div id="ewallet-qrph-group-gift">
+                  <div class="payment-group-title"><span>eWallets/QRPH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
                   <div class="payment-methods">
                     <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('gift', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div></div>
                     <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('gift', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div></div>
                     <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('gift', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div></div>
                     <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('gift', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div></div>
-                  </div>
-                </div>
-                <div id="qrph-group-gift">
-                  <div class="payment-group-title"><span>QR PH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
-                  <div class="payment-methods">
                     <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('gift', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
                   </div>
                 </div>
                 <div class="payment-group-title">Credit/Debit Card</div>
                 <div class="payment-methods">
-                  <div class="payment-method" data-method="card" onclick="selectPaymentMethod('gift', 'card')"><div class="payment-method-icon">💳</div></div>
+                  <div class="payment-method" data-method="card" onclick="selectPaymentMethod('gift', 'card')"><div class="payment-method-icon"><img src="images/CreditCard.png" alt="Credit/Debit Card"></div></div>
                 </div>
               </div>
               <button class="btn btn-primary btn-block" id="gift-btn" onclick="processGift()" disabled>🎁 Send Gift</button>
@@ -1609,24 +1619,20 @@
           </div>
           <h3 style="margin: 25px 0 15px; font-size: 1rem;">Select Payment Method</h3>
           <div class="payment-methods-section" id="payment-methods-donate">
-            <div id="ewallet-group-donate">
-              <div class="payment-group-title"><span>eWallets</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
+            <!-- Merged eWallets/QRPH Section -->
+            <div id="ewallet-qrph-group-donate">
+              <div class="payment-group-title"><span>eWallets/QRPH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
               <div class="payment-methods">
                 <div class="payment-method" data-method="gcash" onclick="selectPaymentMethod('donate', 'gcash')"><div class="payment-method-icon"><img src="images/GCash.png" alt="GCash"></div></div>
                 <div class="payment-method" data-method="maya" onclick="selectPaymentMethod('donate', 'maya')"><div class="payment-method-icon"><img src="images/Maya.png" alt="Maya"></div></div>
                 <div class="payment-method" data-method="grabpay" onclick="selectPaymentMethod('donate', 'grabpay')"><div class="payment-method-icon"><img src="images/Grabpay.png" alt="GrabPay"></div></div>
                 <div class="payment-method" data-method="shopeepay" onclick="selectPaymentMethod('donate', 'shopeepay')"><div class="payment-method-icon"><img src="images/Shopeepay.png" alt="ShopeePay"></div></div>
-              </div>
-            </div>
-            <div id="qrph-group-donate">
-              <div class="payment-group-title"><span>QR PH</span><span class="ph-only-tag">PHILIPPINES ONLY</span></div>
-              <div class="payment-methods">
                 <div class="payment-method" data-method="qrph" onclick="selectPaymentMethod('donate', 'qrph')"><div class="payment-method-icon"><img src="images/QR_PH.png" alt="QR PH"></div></div>
               </div>
             </div>
             <div class="payment-group-title">Credit/Debit Card</div>
             <div class="payment-methods">
-              <div class="payment-method" data-method="card" onclick="selectPaymentMethod('donate', 'card')"><div class="payment-method-icon">💳</div></div>
+              <div class="payment-method" data-method="card" onclick="selectPaymentMethod('donate', 'card')"><div class="payment-method-icon"><img src="images/CreditCard.png" alt="Credit/Debit Card"></div></div>
             </div>
           </div>
           <button class="btn btn-primary btn-block" id="donate-btn" onclick="processDonation()" disabled>💝 Donate Now</button>
@@ -1876,10 +1882,8 @@
     function updatePaymentVisibility() {
       const isPH = (userData?.regionCode || 'OTHER') === 'PH';
       ['subscribe', 'gift', 'donate'].forEach(s => {
-        const ew = document.getElementById(`ewallet-group-${s}`);
-        const qr = document.getElementById(`qrph-group-${s}`);
-        if (ew) ew.style.display = isPH ? 'block' : 'none';
-        if (qr) qr.style.display = isPH ? 'block' : 'none';
+        const ewalletQrph = document.getElementById(`ewallet-qrph-group-${s}`);
+        if (ewalletQrph) ewalletQrph.style.display = isPH ? 'block' : 'none';
       });
     }
 
