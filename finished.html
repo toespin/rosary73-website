@@ -536,6 +536,9 @@
     let allRosaries = [];
     let userGroupIds = [];
     let currentFilter = 'participated';
+    
+    // Global audio manager - only one audio plays at a time
+    let currentlyPlayingAudio = null;
 
     const mysteryIcons = { joyful: '👶', sorrowful: '✝️', glorious: '👑', luminous: '✨' };
 
@@ -868,12 +871,45 @@
         `;
       }).join('');
       
+      // Setup audio players with single-audio-at-a-time behavior
+      setupAudioPlayers();
+    }
+    
+    // Setup audio players to ensure only one plays at a time
+    function setupAudioPlayers() {
       document.querySelectorAll('.audio-player').forEach((audio) => {
         const rosaryId = audio.dataset.rosaryId;
+        
+        // When this audio starts playing, pause any other playing audio
+        audio.addEventListener('play', () => {
+          if (currentlyPlayingAudio && currentlyPlayingAudio !== audio) {
+            currentlyPlayingAudio.pause();
+          }
+          currentlyPlayingAudio = audio;
+        });
+        
+        // When audio ends or is paused, clear the reference if it's this audio
+        audio.addEventListener('pause', () => {
+          if (currentlyPlayingAudio === audio) {
+            // Only clear if fully paused (not just seeking)
+            // Keep reference so we know what was last playing
+          }
+        });
+        
+        audio.addEventListener('ended', () => {
+          if (currentlyPlayingAudio === audio) {
+            currentlyPlayingAudio = null;
+          }
+        });
+        
+        // Handle error
         audio.addEventListener('error', () => {
           const wrapper = document.getElementById(`player-wrapper-${rosaryId}`);
           if (wrapper) {
             wrapper.innerHTML = '<div class="audio-error">⚠️ Could not load audio. Please try again later.</div>';
+          }
+          if (currentlyPlayingAudio === audio) {
+            currentlyPlayingAudio = null;
           }
         });
       });
