@@ -104,6 +104,7 @@
     .payment-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .payment-btn .icon { font-size: 1.5rem; }
     .payment-btn .name { font-size: 0.85rem; }
+    .pay-logo { width: 32px; height: 32px; object-fit: contain; border-radius: 6px; }
     
     /* Card Logos */
     .card-logos { display: flex; gap: 8px; align-items: center; justify-content: center; margin-bottom: 5px; }
@@ -162,7 +163,7 @@
     <!-- Login Gate (shown when not logged in) -->
     <div id="login-gate" class="login-gate">
       <div class="login-gate-card">
-        <div class="login-gate-icon">🔐</div>
+        <div class="login-gate-icon">&#128274;</div>
         <h2>Sign Up First to See Your Rates</h2>
         <p>
           To show you the correct regional pricing and payment methods for your country, 
@@ -210,7 +211,7 @@
 
       <!-- Perpetual Access Message (hidden by default) -->
       <div id="perpetual-message" class="perpetual-message hidden">
-        <div class="icon">✨</div>
+        <div class="icon">&#10024;</div>
         <h3>You Have Perpetual Access!</h3>
         <p>Thank you for being a valued member of Rosary73. You have lifetime access to all features.<br>If you'd like to support our mission, consider making a donation below.</p>
       </div>
@@ -246,10 +247,10 @@
               <span class="web-only-tag">PHILIPPINES ONLY</span>
             </div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'sub')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
-              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'sub')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
-              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'sub')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
-              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'sub')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'sub')"><img src="images/GCash.png" class="pay-logo"><span class="name">GCash</span></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'sub')"><img src="images/Maya.png" class="pay-logo"><span class="name">Maya</span></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'sub')"><img src="images/Grabpay.png" class="pay-logo"><span class="name">GrabPay</span></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'sub')"><img src="images/Shopeepay.png" class="pay-logo"><span class="name">ShopeePay</span></button>
             </div>
           </div>
           <div class="payment-group" id="qrph-group-sub">
@@ -311,10 +312,10 @@
           <div class="payment-group" id="ewallet-group-upgrade">
             <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'upgrade')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
-              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'upgrade')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
-              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'upgrade')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
-              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'upgrade')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'upgrade')"><img src="images/GCash.png" class="pay-logo"><span class="name">GCash</span></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'upgrade')"><img src="images/Maya.png" class="pay-logo"><span class="name">Maya</span></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'upgrade')"><img src="images/Grabpay.png" class="pay-logo"><span class="name">GrabPay</span></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'upgrade')"><img src="images/Shopeepay.png" class="pay-logo"><span class="name">ShopeePay</span></button>
             </div>
           </div>
           <div class="payment-group" id="qrph-group-upgrade">
@@ -356,10 +357,10 @@
           <div class="payment-group" id="ewallet-group-donate">
             <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'donate')"><span class="icon">&#128153;</span><span class="name">GCash</span></button>
-              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'donate')"><span class="icon">&#128154;</span><span class="name">Maya</span></button>
-              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'donate')"><span class="icon">&#128154;</span><span class="name">GrabPay</span></button>
-              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'donate')"><span class="icon">&#129505;</span><span class="name">ShopeePay</span></button>
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash', 'donate')"><img src="images/GCash.png" class="pay-logo"><span class="name">GCash</span></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya', 'donate')"><img src="images/Maya.png" class="pay-logo"><span class="name">Maya</span></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay', 'donate')"><img src="images/Grabpay.png" class="pay-logo"><span class="name">GrabPay</span></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay', 'donate')"><img src="images/Shopeepay.png" class="pay-logo"><span class="name">ShopeePay</span></button>
             </div>
           </div>
           <div class="payment-group" id="qrph-group-donate">
@@ -435,7 +436,7 @@
     var isPerpetualUser = false;
 
     var PRICING = {
-      PH: { threeMonth: 99, sixMonth: 179, twelveMonth: 329, currency: 'PHP', symbol: '\u20B1' },
+      PH: { threeMonth: 99, sixMonth: 149, twelveMonth: 249, currency: 'PHP', symbol: '\u20B1' },
       OTHER: { threeMonth: 2.99, sixMonth: 5.49, twelveMonth: 9.90, currency: 'USD', symbol: '$' }
     };
     
@@ -580,15 +581,15 @@
       
       // Check for perpetual/admin/special access FIRST
       if (isPerpetualUser) {
-        statusEl.textContent = '✨ Perpetual Access';
+        statusEl.textContent = '\u2728 Perpetual Access';
         statusEl.style.color = '#d4af37';
         badgeEl.classList.add('perpetual');
       } else if (currentUser.subscriptionStatus === 'active') {
-        statusEl.textContent = '✅ Active Subscriber';
+        statusEl.textContent = '\u2705 Active Subscriber';
       } else if (currentUser.subscriptionStatus === 'trial') {
-        statusEl.textContent = '⏳ Free Trial';
+        statusEl.textContent = '\u23F3 Free Trial';
       } else {
-        statusEl.textContent = '⚠ Expired';
+        statusEl.textContent = '\u26A0 Expired';
       }
     }
 
