@@ -119,12 +119,41 @@
     .action-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
     .action-btn:disabled { opacity: 0.6; cursor: not-allowed; }
     
+    /* Can't Afford Banner */
+    .cant-afford-banner {
+      margin-top: 30px;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .cant-afford-banner p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+    .cant-afford-banner p span { color: #60a5fa; }
+    .cant-afford-link {
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid #3b82f6;
+      border-radius: 8px;
+      color: #60a5fa;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+    .cant-afford-link:hover { background: rgba(59, 130, 246, 0.15); }
+
     /* Free Subscription Section */
     .free-section { background: linear-gradient(135deg, #1e3a5f 0%, #1a2e4a 100%); border: 1px solid #3b82f6; border-radius: 16px; padding: 30px; margin-bottom: 30px; text-align: center; }
     .free-section h3 { color: #60a5fa; font-size: 1.3rem; margin-bottom: 15px; }
     .free-section p { color: rgba(255,255,255,0.8); margin-bottom: 20px; line-height: 1.6; }
     .free-section .icon { font-size: 3rem; margin-bottom: 15px; }
-    .free-btn { padding: 14px 30px; background: #3b82f6; border: none; border-radius: 10px; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+    .free-btn { padding: 14px 30px; background: #3b82f6; border: none; border-radius: 10px; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; display: inline-block; text-decoration: none; }
     .free-btn:hover { background: #2563eb; transform: translateY(-2px); }
     
     /* Upgrade Section */
@@ -137,7 +166,20 @@
     .processing-content { text-align: center; color: #fff; }
     .processing-spinner { width: 50px; height: 50px; border: 4px solid rgba(212, 175, 55, 0.3); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    
+
+    /* Beta Alert Modal */
+    .beta-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 20px; }
+    .beta-modal { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border: 2px solid rgba(59, 130, 246, 0.5); border-radius: 20px; padding: 40px 30px; max-width: 480px; width: 100%; text-align: center; }
+    .beta-modal .beta-icon { font-size: 3.5rem; margin-bottom: 15px; }
+    .beta-modal h3 { color: #60a5fa; font-size: 1.4rem; margin-bottom: 12px; }
+    .beta-modal p { color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 10px; font-size: 0.95rem; }
+    .beta-modal .beta-note { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); border-radius: 10px; padding: 14px; margin: 15px 0 25px; font-size: 0.88rem; color: rgba(255,255,255,0.7); }
+    .beta-modal-actions { display: flex; flex-direction: column; gap: 12px; }
+    .beta-free-btn { padding: 16px; background: #3b82f6; border: none; border-radius: 12px; color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+    .beta-free-btn:hover { background: #2563eb; transform: translateY(-1px); }
+    .beta-continue-btn { padding: 14px; background: transparent; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: rgba(255,255,255,0.5); font-size: 0.9rem; cursor: pointer; transition: all 0.3s; }
+    .beta-continue-btn:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.7); }
+
     .footer { padding: 30px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
     .footer p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
     .footer a { color: #d4af37; text-decoration: none; }
@@ -148,6 +190,7 @@
       .price-card .price { font-size: 2rem; }
       .login-gate-buttons { flex-direction: column; }
       .gate-btn { width: 100%; text-align: center; }
+      .cant-afford-banner { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -195,7 +238,7 @@
         <button class="tab-btn active" onclick="switchTab('subscribe')">&#11088; Subscribe</button>
         <button class="tab-btn" onclick="switchTab('upgrade')">&#8593; Upgrade</button>
         <button class="tab-btn" onclick="switchTab('donate')">&#10084; Donate</button>
-        <button class="tab-btn" onclick="switchTab('free')">&#10013; Free for Clergy/Religious</button>
+        <button class="tab-btn" onclick="switchTab('free')">&#10013; Free Access</button>
       </div>
 
       <!-- User Info Section -->
@@ -276,6 +319,12 @@
             </div>
           </div>
           <button class="action-btn" id="subscribe-btn" onclick="processPayment('subscription')" disabled>Select a payment method</button>
+        </div>
+
+        <!-- Can't Afford Banner -->
+        <div class="cant-afford-banner">
+          <p>&#10013; <span>Can't afford a subscription?</span> Rosary73 offers free access for clergy, religious, and those with financial hardship.</p>
+          <button class="cant-afford-link" onclick="switchTab('free')">Apply for Free Access</button>
         </div>
       </div>
 
@@ -386,11 +435,11 @@
         </div>
       </div>
 
-      <!-- Tab: Free for Clergy/Religious -->
+      <!-- Tab: Free Access -->
       <div id="tab-free" class="tab-content">
         <div class="free-section">
           <div class="icon">&#10013;</div>
-          <h3>Free Subscription for Clergy, Religious &amp; Those in Need</h3>
+          <h3>Free Access for Clergy, Religious &amp; Those in Need</h3>
           <p>
             Rosary73 is committed to making prayer accessible to all. If you are a priest, religious sister/brother, 
             seminarian, or someone who cannot afford a subscription, please contact us for a free account.
@@ -399,8 +448,8 @@
             We believe that financial constraints should never be a barrier to prayer. Simply send us an email 
             explaining your situation, and we will gladly provide you with complimentary access.
           </p>
-          <a href="mailto:support@rosary73.com?subject=Free%20Subscription%20Request" class="free-btn" style="display: inline-block; margin-top: 20px; text-decoration: none;">
-            &#9993; Request Free Access
+          <a href="mailto:support@rosary73.com?subject=Free%20Subscription%20Request" class="free-btn" style="margin-top: 20px;">
+            &#9993;&nbsp; Request Free Access
           </a>
         </div>
         <p style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.85rem;">
@@ -410,10 +459,27 @@
     </div>
   </main>
 
+  <!-- Processing Overlay -->
   <div class="processing-overlay hidden" id="processing-overlay">
     <div class="processing-content">
       <div class="processing-spinner"></div>
       <p>Redirecting to payment...</p>
+    </div>
+  </div>
+
+  <!-- Beta Alert Modal (shown for non-PH card payments) -->
+  <div class="beta-modal-overlay hidden" id="beta-modal">
+    <div class="beta-modal">
+      <div class="beta-icon">&#9888;&#65039;</div>
+      <h3>USD Card Payments — BETA Notice</h3>
+      <p>We are currently in <strong>BETA testing</strong> and our USD card payment processing is pending final verification with our payment provider.</p>
+      <div class="beta-note">
+        &#128221; <strong>During this period</strong>, we warmly invite you to apply for a <strong>free subscription</strong> while we finalize USD card processing. Your support of the community is what matters most!
+      </div>
+      <div class="beta-modal-actions">
+        <button class="beta-free-btn" onclick="betaGoFree()">&#10013;&nbsp; Apply for Free Access</button>
+        <button class="beta-continue-btn" onclick="betaContinue()">I understand — continue with card anyway</button>
+      </div>
     </div>
   </div>
 
@@ -434,6 +500,8 @@
     var selectedPaymentDonate = null;
     var currentRegion = 'OTHER';
     var isPerpetualUser = false;
+    // Track pending card selection for beta modal callback
+    var pendingCardType = null;
 
     var PRICING = {
       PH: { threeMonth: 99, sixMonth: 149, twelveMonth: 249, currency: 'PHP', symbol: '\u20B1' },
@@ -470,7 +538,6 @@
     }
 
     function checkPerpetualStatus() {
-      // Check for perpetual/admin/special access
       isPerpetualUser = (
         currentUser.isPerpetual === true ||
         currentUser.isAdmin === true ||
@@ -492,28 +559,16 @@
       updatePricing();
       updateDonationGrid();
       updatePaymentVisibility();
-      
-      // Handle perpetual users
-      if (isPerpetualUser) {
-        showPerpetualUI();
-      }
+      if (isPerpetualUser) { showPerpetualUI(); }
     }
 
     function showPerpetualUI() {
-      // Show perpetual message
       document.getElementById('perpetual-message').classList.remove('hidden');
-      
-      // Hide subscribe and upgrade tabs, show only donate tab
       document.getElementById('tab-subscribe').classList.add('hidden');
       document.getElementById('tab-upgrade').classList.add('hidden');
       document.getElementById('pricing-grid').classList.add('hidden');
-      
-      // Switch to donate tab by default
       switchTab('donate');
-      
-      // Update tabs - hide subscribe and upgrade buttons
-      var tabButtons = document.querySelectorAll('.tab-btn');
-      tabButtons.forEach(function(btn) {
+      document.querySelectorAll('.tab-btn').forEach(function(btn) {
         var onclick = btn.getAttribute('onclick');
         if (onclick && (onclick.includes('subscribe') || onclick.includes('upgrade'))) {
           btn.style.display = 'none';
@@ -575,11 +630,8 @@
 
     function showLoggedIn() {
       document.getElementById('logged-username').textContent = currentUser.username;
-      
       var statusEl = document.getElementById('subscription-status');
       var badgeEl = document.getElementById('user-badge');
-      
-      // Check for perpetual/admin/special access FIRST
       if (isPerpetualUser) {
         statusEl.textContent = '\u2728 Perpetual Access';
         statusEl.style.color = '#d4af37';
@@ -599,11 +651,9 @@
       isPerpetualUser = false;
       sessionStorage.removeItem('rosary73User');
       showLoginGate();
-      // Reset gate login form
       document.getElementById('gate-login-form').classList.add('hidden');
       document.getElementById('gate-login-status').classList.add('hidden');
       document.getElementById('gate-username-input').value = '';
-      // Reset perpetual UI
       document.getElementById('perpetual-message').classList.add('hidden');
       document.getElementById('tab-subscribe').classList.remove('hidden');
       document.getElementById('tab-upgrade').classList.remove('hidden');
@@ -622,9 +672,7 @@
     }
 
     function formatPrice(amount, symbol) {
-      if (symbol === '$') {
-        return symbol + amount.toFixed(2);
-      }
+      if (symbol === '$') { return symbol + amount.toFixed(2); }
       return symbol + amount;
     }
 
@@ -687,7 +735,55 @@
       }
     }
 
+    // Beta modal handlers
+    function showBetaModal(tabType) {
+      pendingCardType = tabType;
+      document.getElementById('beta-modal').classList.remove('hidden');
+    }
+
+    function betaGoFree() {
+      document.getElementById('beta-modal').classList.add('hidden');
+      pendingCardType = null;
+      switchTab('free');
+    }
+
+    function betaContinue() {
+      document.getElementById('beta-modal').classList.add('hidden');
+      var type = pendingCardType;
+      pendingCardType = null;
+      // Actually apply the card selection now
+      applyCardSelection(type);
+    }
+
+    function applyCardSelection(type) {
+      if (type === 'sub') {
+        selectedPaymentSub = 'card';
+        document.querySelectorAll('#tab-subscribe .payment-btn').forEach(function(btn) {
+          btn.classList.toggle('selected', btn.dataset.method === 'card');
+        });
+        updateSubscribeButton();
+      } else if (type === 'upgrade') {
+        selectedPaymentUpgrade = 'card';
+        document.querySelectorAll('#tab-upgrade .payment-btn').forEach(function(btn) {
+          btn.classList.toggle('selected', btn.dataset.method === 'card');
+        });
+        updateUpgradeButton();
+      } else if (type === 'donate') {
+        selectedPaymentDonate = 'card';
+        document.querySelectorAll('#tab-donate .payment-btn').forEach(function(btn) {
+          btn.classList.toggle('selected', btn.dataset.method === 'card');
+        });
+        updateDonateButton();
+      }
+    }
+
     function selectPayment(method, type) {
+      // For non-PH users selecting card: show beta alert
+      if (method === 'card' && currentRegion !== 'PH') {
+        showBetaModal(type);
+        return;
+      }
+
       if (type === 'sub') {
         selectedPaymentSub = method;
         document.querySelectorAll('#tab-subscribe .payment-btn').forEach(function(btn) {
