@@ -119,8 +119,8 @@
     .recipient-input:focus { outline: none; border-color: #d4af37; }
     .recipient-input::placeholder { color: rgba(255,255,255,0.35); }
 
-    /* Can't Afford Banner */
-    .cant-afford-banner { margin-top: 30px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+    /* Can't Afford Banner — sits ABOVE the payment section so it's visible without scrolling */
+    .cant-afford-banner { margin-bottom: 30px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
     .cant-afford-banner p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
     .cant-afford-banner p span { color: #60a5fa; }
     .cant-afford-link { padding: 10px 20px; background: transparent; border: 1px solid #3b82f6; border-radius: 8px; color: #60a5fa; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
@@ -259,6 +259,11 @@
             <div class="savings">Save 17%</div>
           </div>
         </div>
+        <!-- Can't Afford Banner — shown ABOVE payment methods so it's visible without scrolling -->
+        <div class="cant-afford-banner">
+          <p>&#10013; <span>Can't afford a subscription?</span> Rosary73 offers free access for clergy, religious, and those with financial hardship.</p>
+          <button class="cant-afford-link" onclick="switchTab('free')">Apply for Free Access</button>
+        </div>
         <div class="payment-section" id="payment-section-sub">
           <h2>Select Payment Method</h2>
           <div class="payment-group" id="ewallet-group-sub">
@@ -286,10 +291,6 @@
             </div>
           </div>
           <button class="action-btn" id="subscribe-btn" onclick="processPayment('subscription')" disabled>Select a payment method</button>
-        </div>
-        <div class="cant-afford-banner">
-          <p>&#10013; <span>Can't afford a subscription?</span> Rosary73 offers free access for clergy, religious, and those with financial hardship.</p>
-          <button class="cant-afford-link" onclick="switchTab('free')">Apply for Free Access</button>
         </div>
       </div>
 
@@ -525,7 +526,21 @@
     function init() {
       var saved = sessionStorage.getItem('rosary73User');
       if (saved) {
-        currentUser = JSON.parse(saved);
+        var parsed = JSON.parse(saved);
+        // ✅ FIX: Bust stale cache where expired trial/paid users were incorrectly
+        // stored as subscriptionStatus='free' due to old backend bug (special_access field).
+        // Also bust if isPerpetual flag is missing entirely (pre-fix cache format).
+        // Force re-login so they get fresh accurate data from the updated backend.
+        var cachedStatus = parsed.subscriptionStatus;
+        var isRealPerpetual = parsed.isPerpetual === true || parsed.isAdmin === true;
+        var isStaleFreeCache = cachedStatus === 'free' && !isRealPerpetual;
+        var isMissingPerpetualFlag = typeof parsed.isPerpetual === 'undefined';
+        if (isStaleFreeCache || isMissingPerpetualFlag) {
+          sessionStorage.removeItem('rosary73User');
+          showLoginGate();
+          return;
+        }
+        currentUser = parsed;
         currentRegion = currentUser.regionCode || 'OTHER';
         checkPerpetualStatus();
         showMainContent();
@@ -534,9 +549,7 @@
       }
     }
 
-    // ✅ FIX: Only trust isPerpetual and isAdmin flags (hardcoded server-side to named users).
-    // hasSpecialAccess and subscriptionStatus string checks caused ALL users to appear perpetual
-    // because subscriptionTier === 'free' triggers hasSpecialAccess for many users.
+    // Only trust isPerpetual and isAdmin flags (hardcoded server-side to named users).
     function checkPerpetualStatus() {
       isPerpetualUser = (
         currentUser.isPerpetual === true ||
