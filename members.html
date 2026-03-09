@@ -1514,6 +1514,11 @@
                 <div class="plan-savings">Save 17%</div>
               </div>
             </div>
+            <!-- Can't Afford Banner -->
+            <div style="margin-bottom:20px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+              <p style="color:rgba(255,255,255,0.7);font-size:0.88rem;margin:0;">✝ <span style="color:#60a5fa;">Can't afford a subscription?</span> Rosary73 offers free access for clergy, religious, and those with financial hardship.</p>
+              <a href="mailto:support@rosary73.com?subject=Free%20Subscription%20Request" style="flex-shrink:0;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);color:#60a5fa;padding:8px 16px;border-radius:8px;font-size:0.82rem;text-decoration:none;white-space:nowrap;">Apply for Free Access</a>
+            </div>
             <h3 style="margin: 25px 0 15px; font-size: 1rem; color: var(--text-muted);">Select Payment Method</h3>
             <div class="payment-methods-section" id="payment-methods-subscribe">
               <!-- Merged eWallets/QRPH Section -->
@@ -1845,6 +1850,7 @@
           
           userData = result;
           sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
+          sessionStorage.setItem('rosary73User', JSON.stringify(result)); // sync for subscribe.html
           userPricing = result.regionCode === 'PH' ? PRICING.PH : PRICING.OTHER;
           
           showDashboard();
@@ -1956,7 +1962,7 @@
         statusBadge.textContent = '✨ Perpetual';
         statusBadge.className = 'status-badge status-perpetual';
         statusText.textContent = 'Lifetime access';
-      } else if (hasSpecialAccess || tier === 'free') {
+      } else if (hasSpecialAccess || (tier === 'free' && status === 'active')) {
         statusBadge.textContent = '🙏 Free Access';
         statusBadge.className = 'status-badge status-special';
         statusText.textContent = 'Special access';
