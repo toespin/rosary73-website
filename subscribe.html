@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- v2026-03-09 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Subscribe - Rosary73</title>
   <meta name="description" content="Subscribe to Rosary73 and unlock all premium features">
@@ -527,10 +528,9 @@
       var saved = sessionStorage.getItem('rosary73User');
       if (saved) {
         var parsed = JSON.parse(saved);
-        // ✅ FIX: Bust stale cache where expired trial/paid users were incorrectly
+        // Bust stale cache where expired trial/paid users were incorrectly
         // stored as subscriptionStatus='free' due to old backend bug (special_access field).
         // Also bust if isPerpetual flag is missing entirely (pre-fix cache format).
-        // Force re-login so they get fresh accurate data from the updated backend.
         var cachedStatus = parsed.subscriptionStatus;
         var isRealPerpetual = parsed.isPerpetual === true || parsed.isAdmin === true;
         var isStaleFreeCache = cachedStatus === 'free' && !isRealPerpetual;
@@ -549,7 +549,6 @@
       }
     }
 
-    // Only trust isPerpetual and isAdmin flags (hardcoded server-side to named users).
     function checkPerpetualStatus() {
       isPerpetualUser = (
         currentUser.isPerpetual === true ||
@@ -743,7 +742,6 @@
       }
     }
 
-    // ── Beta modal ──────────────────────────────────────────────────────────
     function showBetaModal(tabType) {
       pendingCardType = tabType;
       document.getElementById('beta-modal').classList.remove('hidden');
@@ -778,9 +776,7 @@
       }
     }
 
-    // ── Payment selection ────────────────────────────────────────────────────
     function selectPayment(method, type) {
-      // Non-PH users selecting card: show beta modal first
       if (method === 'card' && currentRegion !== 'PH') {
         showBetaModal(type);
         return;
@@ -804,7 +800,6 @@
       }
     }
 
-    // ── Button state updaters ───────────────────────────────────────────────
     function updateSubscribeButton() {
       var btn = document.getElementById('subscribe-btn');
       if (!selectedPaymentSub) { btn.textContent = 'Select a payment method'; btn.disabled = true; }
@@ -829,7 +824,6 @@
       else { var p = PRICING[currentRegion]; btn.textContent = 'Donate ' + p.symbol + selectedDonation; btn.disabled = false; }
     }
 
-    // ── Payment processing ───────────────────────────────────────────────────
     async function processPayment(type) {
       if (!currentUser) return;
       var overlay = document.getElementById('processing-overlay');
