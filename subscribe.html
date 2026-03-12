@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- v2026-03-09 -->
+  <!-- v2026-03-12 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Subscribe - Rosary73</title>
   <meta name="description" content="Subscribe to Rosary73 and unlock all premium features">
@@ -120,7 +120,7 @@
     .recipient-input:focus { outline: none; border-color: #d4af37; }
     .recipient-input::placeholder { color: rgba(255,255,255,0.35); }
 
-    /* Can't Afford Banner — sits ABOVE the payment section so it's visible without scrolling */
+    /* Can't Afford Banner */
     .cant-afford-banner { margin-bottom: 30px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
     .cant-afford-banner p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
     .cant-afford-banner p span { color: #60a5fa; }
@@ -151,7 +151,96 @@
     .processing-spinner { width: 50px; height: 50px; border: 4px solid rgba(212,175,55,0.3); border-top-color: #d4af37; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Beta Alert Modal */
+    /* =========================================
+       BETA PAGE-LOAD NOTICE MODAL
+    ========================================= */
+    .beta-notice-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.82);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1100; padding: 20px;
+      animation: fadeInOverlay 0.25s ease;
+    }
+    @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+
+    .beta-notice-card {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border: 2px solid rgba(59,130,246,0.45);
+      border-radius: 22px;
+      padding: 40px 32px 32px;
+      max-width: 500px; width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+      animation: slideUpCard 0.3s ease;
+    }
+    @keyframes slideUpCard { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .beta-notice-close {
+      position: absolute; top: 14px; right: 16px;
+      background: rgba(255,255,255,0.08); border: none;
+      color: rgba(255,255,255,0.5); font-size: 1.2rem;
+      width: 32px; height: 32px; border-radius: 50%;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
+    }
+    .beta-notice-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+    .beta-notice-badge {
+      display: inline-block;
+      background: rgba(59,130,246,0.2);
+      border: 1px solid rgba(59,130,246,0.5);
+      color: #60a5fa;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px;
+      margin-bottom: 18px;
+    }
+
+    .beta-notice-icon { font-size: 3rem; margin-bottom: 14px; }
+
+    .beta-notice-card h3 {
+      color: #fff; font-size: 1.35rem; font-weight: 700;
+      margin-bottom: 14px; line-height: 1.3;
+    }
+
+    .beta-notice-card .beta-notice-body {
+      color: rgba(255,255,255,0.75); font-size: 0.95rem;
+      line-height: 1.7; margin-bottom: 22px;
+    }
+
+    .beta-notice-card .beta-notice-body strong { color: #fff; }
+    .beta-notice-card .beta-notice-body a,
+    .beta-notice-card .beta-notice-body .inline-link {
+      color: #60a5fa; font-weight: 600;
+      text-decoration: none; cursor: pointer;
+    }
+
+    .beta-notice-actions {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+
+    .beta-notice-free-btn {
+      padding: 15px 24px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      border: none; border-radius: 12px;
+      color: #fff; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .beta-notice-free-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(59,130,246,0.4); }
+
+    .beta-notice-dismiss-btn {
+      padding: 13px 24px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      color: rgba(255,255,255,0.45); font-size: 0.88rem;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .beta-notice-dismiss-btn:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.65); }
+
+    /* USD Card Beta Modal (existing) */
     .beta-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 20px; }
     .beta-modal { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border: 2px solid rgba(59,130,246,0.5); border-radius: 20px; padding: 40px 30px; max-width: 480px; width: 100%; text-align: center; }
     .beta-modal .beta-icon { font-size: 3.5rem; margin-bottom: 15px; }
@@ -175,6 +264,7 @@
       .login-gate-buttons { flex-direction: column; }
       .gate-btn { width: 100%; text-align: center; }
       .cant-afford-banner { flex-direction: column; align-items: flex-start; }
+      .beta-notice-card { padding: 32px 22px 26px; }
     }
   </style>
 </head>
@@ -260,7 +350,7 @@
             <div class="savings">Save 17%</div>
           </div>
         </div>
-        <!-- Can't Afford Banner — shown ABOVE payment methods so it's visible without scrolling -->
+        <!-- Can't Afford Banner -->
         <div class="cant-afford-banner">
           <p>&#10013; <span>Can't afford a subscription?</span> Rosary73 offers free access for clergy, religious, and those with financial hardship.</p>
           <button class="cant-afford-link" onclick="switchTab('free')">Apply for Free Access</button>
@@ -489,6 +579,33 @@
     </div>
   </div>
 
+  <!-- =============================================
+       BETA PAGE-LOAD NOTICE MODAL
+  ============================================== -->
+  <div class="beta-notice-overlay hidden" id="beta-notice-overlay">
+    <div class="beta-notice-card">
+      <button class="beta-notice-close" onclick="dismissBetaNotice()" title="Close">&#10005;</button>
+      <div class="beta-notice-badge">&#128312; BETA</div>
+      <div class="beta-notice-icon">&#128591;</div>
+      <h3>We're in Beta Testing Mode</h3>
+      <div class="beta-notice-body">
+        <p>Rosary73 is currently in <strong>beta</strong> — thank you for being part of this journey!</p>
+        <p style="margin-top: 10px;">
+          You can click <strong>"Apply for Free Access"</strong> to start a rosary or participate in any of the rosaries right away.
+          You may also choose any subscription plan anytime should you choose to help support the community. 🙏
+        </p>
+      </div>
+      <div class="beta-notice-actions">
+        <button class="beta-notice-free-btn" onclick="betaNoticeFreeAccess()">
+          &#10013;&nbsp; Apply for Free Access
+        </button>
+        <button class="beta-notice-dismiss-btn" onclick="dismissBetaNotice()">
+          Got it — show me the plans
+        </button>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
     <p>Secure payments powered by Xendit</p>
     <p style="margin-top: 10px;"><a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a> | <a href="contact.html">Support</a></p>
@@ -524,13 +641,40 @@
       ]
     };
 
+    // =============================================
+    // BETA PAGE-LOAD NOTICE
+    // =============================================
+    function showBetaNoticeIfNeeded() {
+      // Show once per browser session (dismissed = gone until new tab/session)
+      if (!sessionStorage.getItem('betaNoticeSeen')) {
+        document.getElementById('beta-notice-overlay').classList.remove('hidden');
+      }
+    }
+
+    function dismissBetaNotice() {
+      sessionStorage.setItem('betaNoticeSeen', '1');
+      var overlay = document.getElementById('beta-notice-overlay');
+      overlay.style.animation = 'fadeInOverlay 0.2s ease reverse';
+      setTimeout(function() { overlay.classList.add('hidden'); overlay.style.animation = ''; }, 180);
+    }
+
+    function betaNoticeFreeAccess() {
+      dismissBetaNotice();
+      // If already logged in, switch to Free Access tab; otherwise show after login
+      if (currentUser) {
+        switchTab('free');
+      } else {
+        sessionStorage.setItem('betaNoticeOpenTab', 'free');
+      }
+    }
+
+    // =============================================
+    // MAIN INIT
+    // =============================================
     function init() {
       var saved = sessionStorage.getItem('rosary73User');
       if (saved) {
         var parsed = JSON.parse(saved);
-        // Bust stale cache where expired trial/paid users were incorrectly
-        // stored as subscriptionStatus='free' due to old backend bug (special_access field).
-        // Also bust if isPerpetual flag is missing entirely (pre-fix cache format).
         var cachedStatus = parsed.subscriptionStatus;
         var isRealPerpetual = parsed.isPerpetual === true || parsed.isAdmin === true;
         var isStaleFreeCache = cachedStatus === 'free' && !isRealPerpetual;
@@ -538,6 +682,7 @@
         if (isStaleFreeCache || isMissingPerpetualFlag) {
           sessionStorage.removeItem('rosary73User');
           showLoginGate();
+          showBetaNoticeIfNeeded();
           return;
         }
         currentUser = parsed;
@@ -546,6 +691,14 @@
         showMainContent();
       } else {
         showLoginGate();
+      }
+      showBetaNoticeIfNeeded();
+
+      // If beta notice directed user to free tab, open it after content loads
+      var pendingTab = sessionStorage.getItem('betaNoticeOpenTab');
+      if (pendingTab && currentUser) {
+        sessionStorage.removeItem('betaNoticeOpenTab');
+        switchTab(pendingTab);
       }
     }
 
@@ -617,6 +770,12 @@
         sessionStorage.setItem('rosary73User', JSON.stringify(result));
         checkPerpetualStatus();
         showMainContent();
+        // Check if beta notice wanted to redirect to free tab
+        var pendingTab = sessionStorage.getItem('betaNoticeOpenTab');
+        if (pendingTab) {
+          sessionStorage.removeItem('betaNoticeOpenTab');
+          switchTab(pendingTab);
+        }
       } catch (error) {
         status.className = 'status-msg status-error';
         status.textContent = 'Connection error. Please try again.';
