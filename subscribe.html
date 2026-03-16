@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- v2026-03-12 -->
+  <!-- v2026-03-16 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Subscribe - Rosary73</title>
   <meta name="description" content="Subscribe to Rosary73 and unlock all premium features">
@@ -363,7 +363,7 @@
           <button class="cant-afford-link" onclick="switchTab('free')">Apply for Free Access</button>
         </div>
         <div class="payment-section" id="payment-section-sub">
-          <h2>Select Payment Method</h2>
+          <h2>Payment Method</h2>
           <div class="payment-group" id="ewallet-group-sub">
             <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
             <div class="payment-methods">
@@ -846,6 +846,22 @@
         if (ewallet) ewallet.style.display = isPH ? 'block' : 'none';
         if (qrph) qrph.style.display = isPH ? 'block' : 'none';
       });
+      // Non-PH: card is the only payment option — pre-select it automatically
+      if (!isPH) {
+        selectedPaymentSub = 'card';
+        selectedPaymentUpgrade = 'card';
+        selectedPaymentGift = 'card';
+        selectedPaymentDonate = 'card';
+        ['tab-subscribe','tab-upgrade','tab-gift','tab-donate'].forEach(function(tabId) {
+          document.querySelectorAll('#' + tabId + ' .payment-btn').forEach(function(b) {
+            b.classList.toggle('selected', b.dataset.method === 'card');
+          });
+        });
+        updateSubscribeButton();
+        updateUpgradeButton();
+        updateDonateButton();
+        // updateGiftButton() intentionally skipped — also requires recipient username
+      }
     }
 
     function formatPrice(amount, symbol) {
@@ -922,7 +938,7 @@
     function betaContinue() {
       document.getElementById('beta-modal').classList.add('hidden');
       var type = pendingCardType; pendingCardType = null;
-      applyCardSelection(type);
+      processPaymentDirect(type);
     }
     function applyCardSelection(type) {
       if (type === 'sub') {
@@ -945,10 +961,6 @@
     }
 
     function selectPayment(method, type) {
-      if (method === 'card' && currentRegion !== 'PH') {
-        showBetaModal(type);
-        return;
-      }
       if (type === 'sub') {
         selectedPaymentSub = method;
         document.querySelectorAll('#tab-subscribe .payment-btn').forEach(function(b) { b.classList.toggle('selected', b.dataset.method === method); });
@@ -992,8 +1004,20 @@
       else { var p = PRICING[currentRegion]; btn.textContent = 'Donate ' + p.symbol + selectedDonation; btn.disabled = false; }
     }
 
+    // processPayment: for non-PH users, show beta warning before processing
     async function processPayment(type) {
       if (!currentUser) return;
+      if (currentRegion !== 'PH') {
+        pendingCardType = type;
+        document.getElementById('beta-modal').classList.remove('hidden');
+        return;
+      }
+      await processPaymentDirect(type);
+    }
+
+    // processPaymentDirect: actual Xendit fetch (called after beta modal confirmation for non-PH,
+    // or directly for PH users)
+    async function processPaymentDirect(type) {
       var overlay = document.getElementById('processing-overlay');
       overlay.classList.remove('hidden');
       try {
