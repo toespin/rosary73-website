@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- v2026-03-16b -->
+    <!-- v2026-03-17 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Rosary73 - Unite in Prayer with 73 Unique Voices. Interactive audio rosary app where each prayer is recorded by a different person, creating a powerful community prayer experience.">
     <meta name="keywords" content="rosary, prayer, Catholic, audio rosary, community prayer, mobile app, iOS, Android, Blessed Virgin Mary">
@@ -21,7 +21,7 @@
     <!-- Favicon - Using R73 bead logo -->
     <link rel="icon" type="image/png" href="images/R73logo.png">
     <link rel="apple-touch-icon" href="images/R73logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     
     <!-- Theme initialization - prevents flash of wrong theme -->
     <script>
@@ -564,6 +564,60 @@
         }
         .idx-beta-dismiss-btn:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.65); }
         @media (max-width: 480px) { .idx-beta-card { padding: 32px 22px 26px; } }
+
+        /* =========================================
+           STATIC BETA NOTICE BANNER
+        ========================================= */
+        .static-beta-banner {
+            background: linear-gradient(135deg, rgba(23, 37, 84, 0.97), rgba(30, 64, 175, 0.95));
+            border-bottom: 2px solid rgba(59, 130, 246, 0.45);
+            padding: 11px 16px;
+            text-align: center;
+            position: relative;
+            z-index: 90;
+        }
+        .beta-banner-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .beta-banner-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.25);
+            border: 1px solid rgba(59, 130, 246, 0.55);
+            color: #93c5fd;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .beta-banner-text {
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.88rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .beta-banner-text strong { color: #fff; }
+        .beta-banner-link {
+            color: #93c5fd;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            transition: color 0.2s ease;
+        }
+        .beta-banner-link:hover { color: #bfdbfe; }
+        @media (max-width: 480px) {
+            .beta-banner-text { font-size: 0.8rem; }
+            .static-beta-banner { padding: 10px 12px; }
+        }
     </style>
 </head>
 <body class="splash-active">
@@ -618,6 +672,18 @@
             </button>
         </div>
     </nav>
+
+    <!-- STATIC BETA NOTICE BANNER -->
+    <div class="static-beta-banner">
+        <div class="beta-banner-inner">
+            <span class="beta-banner-badge">&#128312; Beta</span>
+            <p class="beta-banner-text">
+                Rosary73 is currently in <strong>beta</strong> &mdash;
+                <a href="subscribe.html?tab=free" class="beta-banner-link">Apply for Free Access</a>
+                and start praying right away. &#127591;
+            </p>
+        </div>
+    </div>
 
     <!-- HERO -->
     <section id="home" class="hero-modern">
