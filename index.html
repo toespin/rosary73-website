@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- v2026-03-17 -->
+    <!-- v2026-03-17b -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Rosary73 - Unite in Prayer with 73 Unique Voices. Interactive audio rosary app where each prayer is recorded by a different person, creating a powerful community prayer experience.">
     <meta name="keywords" content="rosary, prayer, Catholic, audio rosary, community prayer, mobile app, iOS, Android, Blessed Virgin Mary">
@@ -567,6 +567,8 @@
 
         /* =========================================
            STATIC BETA NOTICE BANNER
+           The navbar is position:fixed at ~87px tall,
+           so we offset the banner below it with margin-top.
         ========================================= */
         .static-beta-banner {
             background: linear-gradient(135deg, rgba(23, 37, 84, 0.97), rgba(30, 64, 175, 0.95));
@@ -575,6 +577,7 @@
             text-align: center;
             position: relative;
             z-index: 90;
+            margin-top: 87px; /* push below the fixed navbar */
         }
         .beta-banner-inner {
             display: flex;
