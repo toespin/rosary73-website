@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- v2026-03-17b -->
+    <!-- v2026-03-18a -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Rosary73 - Unite in Prayer with 73 Unique Voices. Interactive audio rosary app where each prayer is recorded by a different person, creating a powerful community prayer experience.">
     <meta name="keywords" content="rosary, prayer, Catholic, audio rosary, community prayer, mobile app, iOS, Android, Blessed Virgin Mary">
@@ -18,12 +18,10 @@
     <link rel="stylesheet" href="css/enhanced-style.css">
     <link rel="stylesheet" href="css/carousel.css">
     <link rel="stylesheet" href="css/login-fix.css">
-    <!-- Favicon - Using R73 bead logo -->
     <link rel="icon" type="image/png" href="images/R73logo.png">
     <link rel="apple-touch-icon" href="images/R73logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     
-    <!-- Theme initialization - prevents flash of wrong theme -->
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
@@ -33,303 +31,65 @@
         })();
     </script>
 
-    <!-- =============================================
-         BETA INTERCEPT: runs in <head> at capture phase
-         so it fires BEFORE enhanced.js / main.js handlers
-    ============================================== -->
-    <script>
-        // Register at document level in CAPTURE phase (true = capture).
-        // Capture phase runs top-down, before any bubble-phase or stopImmediatePropagation.
-        document.addEventListener('click', function r73BetaIntercept(e) {
-            // Walk up from the clicked target to find a subscribe-intercept anchor
-            var el = e.target;
-            while (el && el !== document) {
-                if (el.tagName === 'A' && el.classList.contains('subscribe-intercept')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    // Show the modal (may not exist yet if <head> fires before body;
-                    // so we defer to next tick just in case)
-                    setTimeout(function() {
-                        var overlay = document.getElementById('idx-beta-overlay');
-                        if (overlay) {
-                            overlay.style.display = 'flex';
-                            sessionStorage.setItem('betaNoticeSeen', '1');
-                        } else {
-                            // Fallback: navigate directly if modal not found
-                            window.location.href = el.href;
-                        }
-                    }, 0);
-                    return;
-                }
-                el = el.parentElement;
-            }
-        }, true); // <-- TRUE = capture phase
-    </script>
-    
     <style>
-        /* =========================================
-           SPLASH SCREEN STYLES
-        ========================================= */
-        
-        .splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            overflow: hidden;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-        
-        .splash-screen.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .splash-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('images/splash-rosary.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        
-        .splash-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                180deg,
-                rgba(0, 0, 0, 0.3) 0%,
-                rgba(0, 0, 0, 0.5) 50%,
-                rgba(0, 0, 0, 0.7) 100%
-            );
-        }
-        
-        .splash-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 20px;
-            max-width: 500px;
-        }
-        
-        .splash-logo {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 24px;
-            filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
-            animation: gentlePulse 3s ease-in-out infinite;
-        }
-        
-        @keyframes gentlePulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.95; }
-        }
-        
-        .splash-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: white;
-            margin: 0 0 12px 0;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            letter-spacing: 0.02em;
-        }
-        
-        .splash-tagline {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.9);
-            margin: 0 0 50px 0;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-            font-style: italic;
-        }
-        
-        .splash-enter {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.85);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            animation: fadeInUp 1s ease 0.5s both, pulseGlow 2s ease-in-out infinite;
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.85; }
-            50% { opacity: 1; }
-        }
-        
-        .splash-enter svg {
-            width: 20px;
-            height: 20px;
-            animation: bounceRight 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes bounceRight {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(5px); }
-        }
-        
-        @media (max-width: 768px) {
-            .splash-logo { width: 100px; height: 100px; }
-            .splash-title { font-size: 2.5rem; }
-            .splash-tagline { font-size: 1.1rem; margin-bottom: 40px; }
-            .splash-enter { font-size: 0.9rem; }
-        }
-        
-        @media (max-width: 480px) {
-            .splash-logo { width: 80px; height: 80px; }
-            .splash-title { font-size: 2rem; }
-            .splash-tagline { font-size: 1rem; }
-        }
-        
+        .splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; transition: opacity 0.8s ease, visibility 0.8s ease; }
+        .splash-screen.fade-out { opacity: 0; visibility: hidden; }
+        .splash-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('images/splash-rosary.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .splash-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 100%); }
+        .splash-content { position: relative; z-index: 2; text-align: center; padding: 20px; max-width: 500px; }
+        .splash-logo { width: 120px; height: 120px; margin-bottom: 24px; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4)); animation: gentlePulse 3s ease-in-out infinite; }
+        @keyframes gentlePulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.95; } }
+        .splash-title { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 700; color: white; margin: 0 0 12px 0; text-shadow: 0 4px 20px rgba(0,0,0,0.5); letter-spacing: 0.02em; }
+        .splash-tagline { font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 400; color: rgba(255,255,255,0.9); margin: 0 0 50px 0; text-shadow: 0 2px 10px rgba(0,0,0,0.4); font-style: italic; }
+        .splash-enter { display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.85); text-transform: uppercase; letter-spacing: 0.15em; animation: fadeInUp 1s ease 0.5s both, pulseGlow 2s ease-in-out infinite; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulseGlow { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+        .splash-enter svg { width: 20px; height: 20px; animation: bounceRight 1.5s ease-in-out infinite; }
+        @keyframes bounceRight { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+        @media (max-width: 768px) { .splash-logo { width: 100px; height: 100px; } .splash-title { font-size: 2.5rem; } .splash-tagline { font-size: 1.1rem; margin-bottom: 40px; } .splash-enter { font-size: 0.9rem; } }
+        @media (max-width: 480px) { .splash-logo { width: 80px; height: 80px; } .splash-title { font-size: 2rem; } .splash-tagline { font-size: 1rem; } }
         body.splash-active { overflow: hidden; }
-        
-        /* =========================================
-           HERO SPLIT
-        ========================================= */
-        .hero-split {
-            align-items: flex-start !important;
-            grid-template-columns: 1fr 1fr !important;
-            gap: 40px !important;
-        }
+        .hero-split { align-items: flex-start !important; grid-template-columns: 1fr 1fr !important; gap: 40px !important; }
         .hero-text { max-width: 100% !important; width: 100% !important; }
-        
-        /* =========================================
-           COMPACT MEMBER LOGIN CARD
-        ========================================= */
-        .compact-login-card {
-            background: rgba(26, 26, 46, 0.95);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 24px;
-            padding: 20px 24px;
-            max-width: 100%;
-            width: 100%;
-            margin-bottom: 18px;
-            box-shadow: 0 10px 40px rgba(93, 173, 226, 0.15);
-        }
-        [data-theme="light"] .compact-login-card {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 40px rgba(93, 173, 226, 0.15);
-        }
-        .compact-login-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem; font-weight: 700; color: #d4af37; margin: 0 0 10px 0;
-        }
+        .compact-login-card { background: rgba(26,26,46,0.95); border: 2px solid rgba(255,215,0,0.3); border-radius: 24px; padding: 20px 24px; max-width: 100%; width: 100%; margin-bottom: 18px; box-shadow: 0 10px 40px rgba(93,173,226,0.15); }
+        [data-theme="light"] .compact-login-card { background: rgba(255,255,255,0.95); box-shadow: 0 10px 40px rgba(93,173,226,0.15); }
+        .compact-login-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #d4af37; margin: 0 0 10px 0; }
         .compact-login-form { display: flex; flex-direction: column; gap: 8px; }
         .compact-login-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .compact-form-group { display: flex; flex-direction: column; }
         .compact-form-group label { color: rgba(255,255,255,0.7); font-size: 0.7rem; margin-bottom: 3px; font-weight: 500; }
         [data-theme="light"] .compact-form-group label { color: rgba(0,0,0,0.7); }
-        .compact-login-input {
-            padding: 7px 9px; border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.08); color: #fff; font-size: 0.85rem;
-            transition: border-color 0.3s ease;
-        }
-        [data-theme="light"] .compact-login-input {
-            border: 1px solid rgba(0,0,0,0.2); background: rgba(0,0,0,0.03); color: #333;
-        }
+        .compact-login-input { padding: 7px 9px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; font-size: 0.85rem; transition: border-color 0.3s ease; }
+        [data-theme="light"] .compact-login-input { border: 1px solid rgba(0,0,0,0.2); background: rgba(0,0,0,0.03); color: #333; }
         .compact-login-input:focus { outline: none; border-color: #d4af37; }
         .compact-login-input::placeholder { color: rgba(255,255,255,0.4); font-size: 0.75rem; }
         [data-theme="light"] .compact-login-input::placeholder { color: rgba(0,0,0,0.4); }
-        .compact-login-btn {
-            padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
-            cursor: pointer; border: none;
-            background: linear-gradient(135deg, #d4af37, #b8860b); color: #1a1a2e;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+        .compact-login-btn { padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; background: linear-gradient(135deg, #d4af37, #b8860b); color: #1a1a2e; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .compact-login-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,175,55,0.3); }
         .compact-login-links { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.7rem; }
         .compact-login-links a { color: #d4af37; text-decoration: none; transition: opacity 0.3s ease; }
         .compact-login-links a:hover { opacity: 0.8; }
-        .compact-login-error {
-            padding: 6px 10px; border-radius: 8px;
-            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
-            color: #f87171; font-size: 0.75rem; display: none; align-items: center; gap: 6px; margin-top: 8px;
-        }
+        .compact-login-error { padding: 6px 10px; border-radius: 8px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #f87171; font-size: 0.75rem; display: none; align-items: center; gap: 6px; margin-top: 8px; }
         .compact-login-error.visible { display: flex; }
-        @media (max-width: 480px) {
-            .compact-login-card { max-width: 100%; padding: 16px 18px; border-radius: 20px; }
-            .compact-login-row { grid-template-columns: 1fr; }
-            .compact-login-title { font-size: 1rem; }
-        }
-        
-        /* =========================================
-           LEFT PANEL - Typography
-        ========================================= */
+        @media (max-width: 480px) { .compact-login-card { max-width: 100%; padding: 16px 18px; border-radius: 20px; } .compact-login-row { grid-template-columns: 1fr; } .compact-login-title { font-size: 1rem; } }
         .hero-title-new { font-size: 2rem !important; line-height: 1.15 !important; margin-bottom: 12px !important; }
-        .hero-title-new, .section-title, .feature-title-enhanced, .cta-title-enhanced, h1, h2, h3.feature-title-enhanced {
-            text-shadow: 0 2px 8px rgba(0,0,0,0.08); font-weight: 600 !important; letter-spacing: -0.01em;
-        }
-        .section-subtitle, .hero-description-new, .section-tag {
-            text-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 500 !important;
-        }
-        .hero-description-new {
-            font-size: 0.9rem !important; line-height: 1.65 !important;
-            color: var(--text-secondary); margin-bottom: 0 !important; max-width: 100%;
-        }
-        .hero-description-new .highlight-quote {
-            font-style: italic; font-weight: 600 !important; color: var(--primary-700);
-            display: block; margin-bottom: 10px; font-size: 0.95rem !important;
-        }
+        .hero-title-new, .section-title, .feature-title-enhanced, .cta-title-enhanced, h1, h2, h3.feature-title-enhanced { text-shadow: 0 2px 8px rgba(0,0,0,0.08); font-weight: 600 !important; letter-spacing: -0.01em; }
+        .section-subtitle, .hero-description-new, .section-tag { text-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 500 !important; }
+        .hero-description-new { font-size: 0.9rem !important; line-height: 1.65 !important; color: var(--text-secondary); margin-bottom: 0 !important; max-width: 100%; }
+        .hero-description-new .highlight-quote { font-style: italic; font-weight: 600 !important; color: var(--primary-700); display: block; margin-bottom: 10px; font-size: 0.95rem !important; }
         [data-theme="dark"] .hero-description-new .highlight-quote { color: var(--primary-400); }
-        
-        /* =========================================
-           CAROUSEL
-        ========================================= */
-        .hero-visual-carousel {
-            position: relative; display: flex; align-items: flex-start;
-            justify-content: center; width: 100%; overflow: hidden;
-        }
+        .hero-visual-carousel { position: relative; display: flex; align-items: flex-start; justify-content: center; width: 100%; overflow: hidden; }
         .carousel-container-hero { max-width: 100%; width: 100%; overflow: hidden; }
         .bead-carousel-container { position: relative; padding: 20px 45px 15px 45px !important; overflow: hidden; }
         .carousel-slide { text-align: center; }
         .bead-image-container { margin-bottom: 12px !important; width: auto !important; height: auto !important; }
         .bead-image-container::after { display: none !important; content: none !important; }
-        .bead-visual {
-            width: 220px !important; height: 220px !important; margin: 0 auto;
-            display: flex; align-items: center; justify-content: center;
-            position: relative; transform: none !important;
-        }
+        .bead-visual { width: 220px !important; height: 220px !important; margin: 0 auto; display: flex; align-items: center; justify-content: center; position: relative; transform: none !important; }
         .bead-visual:hover { transform: scale(1.05) !important; }
         .bead-visual::before, .bead-visual::after { display: none !important; content: none !important; }
         .bead-image { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 20px rgba(93,173,226,0.3)); }
-        .carousel-nav {
-            position: absolute; top: 45%; transform: translateY(-50%);
-            background: rgba(93,173,226,0.95) !important; color: white !important;
-            border: 3px solid white !important; width: 40px !important; height: 40px !important;
-            border-radius: 50%; font-size: 20px !important; cursor: pointer; z-index: 10;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important; transition: all 0.3s ease;
-        }
-        .carousel-nav:hover {
-            background: rgba(52,152,219,1) !important; transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.3) !important;
-        }
+        .carousel-nav { position: absolute; top: 45%; transform: translateY(-50%); background: rgba(93,173,226,0.95) !important; color: white !important; border: 3px solid white !important; width: 40px !important; height: 40px !important; border-radius: 50%; font-size: 20px !important; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important; transition: all 0.3s ease; }
+        .carousel-nav:hover { background: rgba(52,152,219,1) !important; transform: translateY(-50%) scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.3) !important; }
         .carousel-prev { left: 0; }
         .carousel-next { right: 0; }
         .carousel-indicators { margin-top: 12px !important; }
@@ -339,21 +99,9 @@
         [data-theme="dark"] .bead-title { color: #F0F6FC !important; }
         [data-theme="dark"] .bead-description { color: #C9D1D9 !important; }
         [data-theme="dark"] .bead-carousel-container { background: var(--bg-card) !important; }
-        
-        /* =========================================
-           HOW IT WORKS
-        ========================================= */
-        .step-number-circle {
-            width: 200px !important; height: 200px !important; margin: 0 auto 30px !important;
-            display: flex !important; align-items: center !important; justify-content: center !important;
-            background: none !important; border: none !important; box-shadow: none !important; position: relative;
-        }
+        .step-number-circle { width: 200px !important; height: 200px !important; margin: 0 auto 30px !important; display: flex !important; align-items: center !important; justify-content: center !important; background: none !important; border: none !important; box-shadow: none !important; position: relative; }
         .step-number-circle::after { display: none !important; }
-        .step-bead-image {
-            width: 200px !important; height: 200px !important; object-fit: contain;
-            filter: drop-shadow(0 10px 30px rgba(93,173,226,0.3));
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
+        .step-bead-image { width: 200px !important; height: 200px !important; object-fit: contain; filter: drop-shadow(0 10px 30px rgba(93,173,226,0.3)); transition: transform 0.3s ease, filter 0.3s ease; }
         .timeline-step:nth-child(1) .step-bead-image { transform: scale(1.2); }
         .timeline-step:nth-child(2) .step-bead-image { transform: scale(0.929); }
         .timeline-step:nth-child(3) .step-bead-image { transform: scale(1.2648); }
@@ -364,267 +112,60 @@
         .timeline-step::before, .timeline-step::after, .timeline-container::before { display: none !important; }
         .timeline-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 60px; position: relative; }
         .timeline-step { display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
-        
         .by-toespin { color: white; font-size: 0.75rem; font-weight: 400; margin-left: 6px; }
-        
-        /* =========================================
-           PRIVACY SECTION
-        ========================================= */
-        .privacy-section {
-            padding: 80px 0;
-            background: linear-gradient(180deg, var(--gold-100) 0%, #FFFAEB 100%);
-            transition: background var(--transition-base);
-        }
+        .privacy-section { padding: 80px 0; background: linear-gradient(180deg, var(--gold-100) 0%, #FFFAEB 100%); transition: background var(--transition-base); }
         [data-theme="dark"] .privacy-section { background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%); }
         .privacy-card { max-width: 800px; margin: 0 auto; background: var(--bg-card); padding: 40px; border-radius: 20px; box-shadow: var(--shadow-lg); transition: background-color var(--transition-base), box-shadow var(--transition-base); }
         .privacy-card h3 { color: var(--primary-600); margin-bottom: 20px; }
         .privacy-card p, .privacy-card li { color: var(--text-secondary); line-height: 1.8; }
         .privacy-card ul { padding-left: 30px; line-height: 2; }
         .privacy-note { margin-top: 30px; padding: 20px; background: var(--primary-100); border-radius: 12px; border-left: 4px solid var(--primary-500); transition: background-color var(--transition-base); }
-        
-        /* =========================================
-           FEATURE IMAGES
-        ========================================= */
         .feature-icon-enhanced { width: 120px; height: 120px; border-radius: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; overflow: hidden; padding: 0; }
         .feature-icon-enhanced img.feature-image { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; }
         .feature-card-enhanced:nth-child(1) .feature-icon-enhanced img.feature-image { transform: scale(0.901); }
         .feature-card-enhanced:nth-child(2) .feature-icon-enhanced img.feature-image { transform: scale(1.25); }
-        
-        /* =========================================
-           SCROLLING MOBILE MOCKUP SECTION
-        ========================================= */
         .app-preview-section { padding: 100px 0; background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); overflow: hidden; transition: background var(--transition-base); }
         [data-theme="dark"] .app-preview-section { background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%); }
         .mockup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .mockup-item { display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .iphone-frame { position: relative; width: 280px; height: 580px; background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); border-radius: 50px; padding: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1), inset 0 0 0 1px rgba(0,0,0,0.5); }
+        .iphone-frame { position: relative; width: 280px; height: 580px; background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); border-radius: 50px; padding: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1), inset 0 0 0 1px rgba(0,0,0,0.5); transition: transform 0.4s ease, box-shadow 0.4s ease; }
         .iphone-frame::before { content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; border-radius: 42px; background: #000; z-index: 0; }
         .iphone-notch { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 100px; height: 28px; background: #000; border-radius: 20px; z-index: 20; box-shadow: 0 0 0 3px #1a1a1a; }
         .iphone-notch::before { content: ''; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: radial-gradient(circle, #1a3a5c 0%, #0a1a2c 100%); border-radius: 50%; box-shadow: inset 0 0 2px rgba(255,255,255,0.2); }
         .iphone-screen { position: relative; width: 100%; height: 100%; background: #000; border-radius: 40px; overflow: hidden; z-index: 1; display: flex; flex-direction: column; }
-        .screen-header { flex-shrink: 0; z-index: 10; }
-        .screen-header img { width: 100%; height: auto; display: block; }
-        .screen-bottom-nav { flex-shrink: 0; z-index: 10; }
-        .screen-bottom-nav img { width: 100%; height: auto; display: block; }
+        .screen-header { flex-shrink: 0; z-index: 10; } .screen-header img { width: 100%; height: auto; display: block; }
+        .screen-bottom-nav { flex-shrink: 0; z-index: 10; } .screen-bottom-nav img { width: 100%; height: auto; display: block; }
         .screen-content { flex: 1; overflow: hidden; position: relative; background-color: #FDF6E3; }
         .screen-scroll-image { width: 100%; position: absolute; top: 0; left: 0; animation: scrollScreenContent 12s ease-in-out infinite; }
         .mockup-item:nth-child(1) .screen-scroll-image { animation-duration: 19s; animation-delay: 0s; }
         .mockup-item:nth-child(2) .screen-scroll-image { animation-duration: 43s; animation-delay: 1s; }
         .mockup-item:nth-child(3) .screen-scroll-image { animation-duration: 12s; animation-delay: 2s; }
-        @keyframes scrollScreenContent {
-            0% { transform: translateY(0); }
-            5% { transform: translateY(0); }
-            45% { transform: translateY(calc(-100% + 385px)); }
-            55% { transform: translateY(calc(-100% + 385px)); }
-            95% { transform: translateY(0); }
-            100% { transform: translateY(0); }
-        }
+        @keyframes scrollScreenContent { 0% { transform: translateY(0); } 5% { transform: translateY(0); } 45% { transform: translateY(calc(-100% + 385px)); } 55% { transform: translateY(calc(-100% + 385px)); } 95% { transform: translateY(0); } 100% { transform: translateY(0); } }
         .mockup-item:hover .screen-scroll-image, .mockup-item:active .screen-scroll-image { animation-play-state: paused; }
         .mockup-label { margin-top: 24px; }
         .mockup-label h3 { font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; transition: color var(--transition-base); }
         .mockup-label p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; max-width: 280px; transition: color var(--transition-base); }
         .mockup-item:hover .iphone-frame { transform: translateY(-8px); box-shadow: 0 35px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.15), inset 0 0 0 1px rgba(0,0,0,0.5); }
-        .iphone-frame { transition: transform 0.4s ease, box-shadow 0.4s ease; }
         .screen-placeholder { width: 100%; height: 1200px; background: linear-gradient(180deg, #5DADE2 0%, #3498DB 20%, #2E86AB 40%, #A9CCE3 60%, #D5DBDB 80%, #F8F9F9 100%); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 60px 20px; color: white; }
         .screen-placeholder .placeholder-icon { font-size: 48px; margin-bottom: 20px; opacity: 0.9; }
         .screen-placeholder .placeholder-text { font-size: 18px; font-weight: 600; text-align: center; opacity: 0.9; margin-bottom: 30px; }
-        @media (max-width: 1024px) {
-            .mockup-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
-            .mockup-item:nth-child(3) { grid-column: span 2; justify-self: center; }
-            .iphone-frame { width: 250px; height: 520px; }
-        }
-        @media (max-width: 768px) {
-            .app-preview-section { padding: 60px 0; }
-            .mockup-grid { grid-template-columns: 1fr; gap: 50px; }
-            .mockup-item:nth-child(3) { grid-column: auto; }
-            .iphone-frame { width: 260px; height: 540px; }
-        }
-        @media (max-width: 480px) {
-            .iphone-frame { width: 240px; height: 500px; border-radius: 40px; }
-            .iphone-frame::before { border-radius: 34px; }
-            .iphone-screen { border-radius: 32px; }
-            .iphone-notch { width: 80px; height: 24px; }
-        }
-        
+        @media (max-width: 1024px) { .mockup-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; } .mockup-item:nth-child(3) { grid-column: span 2; justify-self: center; } .iphone-frame { width: 250px; height: 520px; } }
+        @media (max-width: 768px) { .app-preview-section { padding: 60px 0; } .mockup-grid { grid-template-columns: 1fr; gap: 50px; } .mockup-item:nth-child(3) { grid-column: auto; } .iphone-frame { width: 260px; height: 540px; } }
+        @media (max-width: 480px) { .iphone-frame { width: 240px; height: 500px; border-radius: 40px; } .iphone-frame::before { border-radius: 34px; } .iphone-screen { border-radius: 32px; } .iphone-notch { width: 80px; height: 24px; } }
         .hero-modern { min-height: auto !important; padding-bottom: 30px !important; }
         .features-enhanced { padding-top: 50px !important; }
         html, body { overflow-x: hidden; }
         .hero-modern { overflow-x: hidden; }
-        
-        @media (max-width: 1024px) {
-            .hero-split { grid-template-columns: 1fr !important; gap: 25px !important; align-items: center !important; }
-            .bead-visual { width: 200px !important; height: 200px !important; }
-            .bead-carousel-container { padding: 18px 40px 12px 40px !important; }
-            .hero-text { text-align: center; padding: 0 20px; }
-            .hero-description-new { margin-left: auto; margin-right: auto; }
-            .hero-badge { margin-left: auto; margin-right: auto; }
-            .hero-buttons-new { justify-content: center; }
-            .step-number-circle { width: 180px !important; height: 180px !important; }
-            .step-bead-image { width: 180px !important; height: 180px !important; }
-            .compact-login-card { margin-left: auto; margin-right: auto; max-width: 400px; }
-            .hero-title-new { font-size: 1.8rem !important; }
-        }
-        @media (max-width: 768px) {
-            .bead-visual { width: 170px !important; height: 170px !important; }
-            .bead-carousel-container { padding: 15px 40px 10px 40px !important; }
-            .carousel-nav { width: 34px !important; height: 34px !important; font-size: 18px !important; }
-            .carousel-prev { left: 5px; }
-            .carousel-next { right: 5px; }
-            .hero-text { text-align: center !important; padding: 0 15px; }
-            .hero-title-new { text-align: center; font-size: 1.6rem !important; }
-            .hero-description-new { text-align: center; margin-left: auto; margin-right: auto; font-size: 0.8rem !important; padding: 0 10px; }
-            .bead-title { font-size: 1.1rem !important; }
-            .bead-description { font-size: 0.78rem !important; padding: 0 15px; }
-            .step-number-circle { width: 160px !important; height: 160px !important; }
-            .step-bead-image { width: 160px !important; height: 160px !important; }
-            .feature-icon-enhanced { width: 100px; height: 100px; }
-        }
-        @media (max-width: 480px) {
-            .hero-title-new { font-size: 1.4rem !important; text-align: center; }
-            .hero-description-new { font-size: 0.75rem !important; text-align: center; padding: 0 5px; }
-            .hero-description-new .highlight-quote { font-size: 0.8rem !important; }
-            .bead-visual { width: 150px !important; height: 150px !important; }
-            .bead-carousel-container { padding: 12px 35px 8px 35px !important; }
-            .carousel-nav { width: 30px !important; height: 30px !important; font-size: 16px !important; }
-            .carousel-prev { left: 3px; }
-            .carousel-next { right: 3px; }
-            .bead-title { font-size: 1rem !important; }
-            .bead-description { font-size: 0.72rem !important; line-height: 1.5; }
-            .step-number-circle { width: 140px !important; height: 140px !important; }
-            .step-bead-image { width: 140px !important; height: 140px !important; }
-            .hero-buttons-new { flex-direction: column; gap: 12px; align-items: center; }
-            .btn-modern { width: 100%; max-width: 280px; justify-content: center; }
-            .feature-icon-enhanced { width: 90px; height: 90px; }
-        }
-        @media (max-width: 375px) {
-            .bead-visual { width: 130px !important; height: 130px !important; }
-            .bead-carousel-container { padding: 10px 30px 6px 30px !important; }
-            .carousel-nav { width: 26px !important; height: 26px !important; font-size: 14px !important; }
-            .hero-title-new { font-size: 1.3rem !important; }
-            .feature-icon-enhanced { width: 80px; height: 80px; }
-        }
-        
+        @media (max-width: 1024px) { .hero-split { grid-template-columns: 1fr !important; gap: 25px !important; align-items: center !important; } .bead-visual { width: 200px !important; height: 200px !important; } .bead-carousel-container { padding: 18px 40px 12px 40px !important; } .hero-text { text-align: center; padding: 0 20px; } .hero-description-new { margin-left: auto; margin-right: auto; } .hero-badge { margin-left: auto; margin-right: auto; } .hero-buttons-new { justify-content: center; } .step-number-circle { width: 180px !important; height: 180px !important; } .step-bead-image { width: 180px !important; height: 180px !important; } .compact-login-card { margin-left: auto; margin-right: auto; max-width: 400px; } .hero-title-new { font-size: 1.8rem !important; } }
+        @media (max-width: 768px) { .bead-visual { width: 170px !important; height: 170px !important; } .bead-carousel-container { padding: 15px 40px 10px 40px !important; } .carousel-nav { width: 34px !important; height: 34px !important; font-size: 18px !important; } .carousel-prev { left: 5px; } .carousel-next { right: 5px; } .hero-text { text-align: center !important; padding: 0 15px; } .hero-title-new { text-align: center; font-size: 1.6rem !important; } .hero-description-new { text-align: center; margin-left: auto; margin-right: auto; font-size: 0.8rem !important; padding: 0 10px; } .bead-title { font-size: 1.1rem !important; } .bead-description { font-size: 0.78rem !important; padding: 0 15px; } .step-number-circle { width: 160px !important; height: 160px !important; } .step-bead-image { width: 160px !important; height: 160px !important; } .feature-icon-enhanced { width: 100px; height: 100px; } }
+        @media (max-width: 480px) { .hero-title-new { font-size: 1.4rem !important; text-align: center; } .hero-description-new { font-size: 0.75rem !important; text-align: center; padding: 0 5px; } .hero-description-new .highlight-quote { font-size: 0.8rem !important; } .bead-visual { width: 150px !important; height: 150px !important; } .bead-carousel-container { padding: 12px 35px 8px 35px !important; } .carousel-nav { width: 30px !important; height: 30px !important; font-size: 16px !important; } .carousel-prev { left: 3px; } .carousel-next { right: 3px; } .bead-title { font-size: 1rem !important; } .bead-description { font-size: 0.72rem !important; line-height: 1.5; } .step-number-circle { width: 140px !important; height: 140px !important; } .step-bead-image { width: 140px !important; height: 140px !important; } .hero-buttons-new { flex-direction: column; gap: 12px; align-items: center; } .btn-modern { width: 100%; max-width: 280px; justify-content: center; } .feature-icon-enhanced { width: 90px; height: 90px; } }
+        @media (max-width: 375px) { .bead-visual { width: 130px !important; height: 130px !important; } .bead-carousel-container { padding: 10px 30px 6px 30px !important; } .carousel-nav { width: 26px !important; height: 26px !important; font-size: 14px !important; } .hero-title-new { font-size: 1.3rem !important; } .feature-icon-enhanced { width: 80px; height: 80px; } }
         .section-cta { text-align: center; margin-top: 50px; }
         .section-cta .btn-modern { margin: 0 10px 10px 0; }
-        @media (max-width: 480px) {
-            .section-cta .btn-modern { display: block; margin: 10px auto; max-width: 280px; }
-        }
-
-        /* =========================================
-           BETA NOTICE MODAL (index.html)
-        ========================================= */
-        .idx-beta-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.82);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 999999; padding: 20px;
-            animation: idxFadeIn 0.25s ease;
-        }
-        @keyframes idxFadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .idx-beta-card {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border: 2px solid rgba(59,130,246,0.45); border-radius: 22px;
-            padding: 40px 32px 32px; max-width: 500px; width: 100%;
-            text-align: center; position: relative;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-            animation: idxSlideUp 0.3s ease;
-        }
-        @keyframes idxSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .idx-beta-close {
-            position: absolute; top: 14px; right: 16px;
-            background: rgba(255,255,255,0.08); border: none;
-            color: rgba(255,255,255,0.5); font-size: 1.2rem;
-            width: 32px; height: 32px; border-radius: 50%;
-            cursor: pointer; transition: all 0.2s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .idx-beta-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
-        .idx-beta-badge {
-            display: inline-block; background: rgba(59,130,246,0.2);
-            border: 1px solid rgba(59,130,246,0.5); color: #60a5fa;
-            font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-            padding: 5px 14px; border-radius: 20px; margin-bottom: 18px;
-        }
-        .idx-beta-icon { font-size: 3rem; margin-bottom: 14px; }
-        .idx-beta-card h3 { color: #fff; font-size: 1.35rem; font-weight: 700; margin-bottom: 14px; line-height: 1.3; }
-        .idx-beta-body { color: rgba(255,255,255,0.75); font-size: 0.95rem; line-height: 1.7; margin-bottom: 22px; }
-        .idx-beta-body strong { color: #fff; }
-        .idx-beta-actions { display: flex; flex-direction: column; gap: 10px; }
-        .idx-beta-free-btn {
-            padding: 15px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb);
-            border: none; border-radius: 12px; color: #fff; font-size: 1rem; font-weight: 700;
-            cursor: pointer; transition: all 0.3s; text-decoration: none; display: block;
-        }
-        .idx-beta-free-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(59,130,246,0.4); }
-        .idx-beta-dismiss-btn {
-            padding: 13px 24px; background: transparent;
-            border: 1px solid rgba(255,255,255,0.15); border-radius: 12px;
-            color: rgba(255,255,255,0.45); font-size: 0.88rem;
-            cursor: pointer; transition: all 0.3s; text-decoration: none; display: block;
-        }
-        .idx-beta-dismiss-btn:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.65); }
-        @media (max-width: 480px) { .idx-beta-card { padding: 32px 22px 26px; } }
-
-        /* =========================================
-           STATIC BETA NOTICE BANNER
-           The navbar is position:fixed at ~87px tall,
-           so we offset the banner below it with margin-top.
-        ========================================= */
-        .static-beta-banner {
-            background: linear-gradient(135deg, rgba(23, 37, 84, 0.97), rgba(30, 64, 175, 0.95));
-            border-bottom: 2px solid rgba(59, 130, 246, 0.45);
-            padding: 11px 16px;
-            text-align: center;
-            position: relative;
-            z-index: 90;
-            margin-top: 87px; /* push below the fixed navbar */
-        }
-        .beta-banner-inner {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .beta-banner-badge {
-            display: inline-block;
-            background: rgba(59, 130, 246, 0.25);
-            border: 1px solid rgba(59, 130, 246, 0.55);
-            color: #93c5fd;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            padding: 3px 10px;
-            border-radius: 20px;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .beta-banner-text {
-            color: rgba(255, 255, 255, 0.88);
-            font-size: 0.88rem;
-            margin: 0;
-            line-height: 1.5;
-        }
-        .beta-banner-text strong { color: #fff; }
-        .beta-banner-link {
-            color: #93c5fd;
-            font-weight: 600;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-            transition: color 0.2s ease;
-        }
-        .beta-banner-link:hover { color: #bfdbfe; }
-        @media (max-width: 480px) {
-            .beta-banner-text { font-size: 0.8rem; }
-            .static-beta-banner { padding: 10px 12px; }
-        }
+        @media (max-width: 480px) { .section-cta .btn-modern { display: block; margin: 10px auto; max-width: 280px; } }
     </style>
 </head>
 <body class="splash-active">
-    <!-- SPLASH SCREEN -->
     <div class="splash-screen" id="splashScreen">
         <div class="splash-background"></div>
         <div class="splash-overlay"></div>
@@ -634,14 +175,11 @@
             <p class="splash-tagline">73 souls, one prayer</p>
             <div class="splash-enter">
                 <span>Tap to Enter</span>
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
             </div>
         </div>
     </div>
 
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
@@ -655,46 +193,19 @@
                 <li><a href="about.html" class="nav-link">About</a></li>
                 <li><a href="faq.html" class="nav-link">FAQ</a></li>
                 <li><a href="signup.html" class="nav-link">Sign Up</a></li>
-                <li><a href="subscribe.html" class="nav-link subscribe-intercept">Subscribe</a></li>
+                <li><a href="subscribe.html" class="nav-link">Subscribe</a></li>
                 <li><a href="#download" class="nav-link btn-primary">Download</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
-                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-                <span></span><span></span><span></span>
-            </button>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
-    <!-- STATIC BETA NOTICE BANNER -->
-    <div class="static-beta-banner">
-        <div class="beta-banner-inner">
-            <span class="beta-banner-badge">&#128312; Beta</span>
-            <p class="beta-banner-text">
-                Rosary73 is currently in <strong>beta</strong> &mdash;
-                <a href="subscribe.html?tab=free" class="beta-banner-link">Apply for Free Access</a>
-                and start praying right away. &#127591;
-            </p>
-        </div>
-    </div>
-
-    <!-- HERO -->
     <section id="home" class="hero-modern">
-        <div class="hero-background">
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
-        </div>
+        <div class="hero-background"><div class="gradient-orb orb-1"></div><div class="gradient-orb orb-2"></div><div class="gradient-orb orb-3"></div></div>
         <div class="container">
             <div class="hero-split">
                 <div class="hero-text">
@@ -702,86 +213,32 @@
                         <h3 class="compact-login-title">Member Login</h3>
                         <form class="compact-login-form" id="index-login-form">
                             <div class="compact-login-row">
-                                <div class="compact-form-group">
-                                    <label for="index-username">Username</label>
-                                    <input type="text" id="index-username" class="compact-login-input" placeholder="Enter your username" required>
-                                </div>
-                                <div class="compact-form-group">
-                                    <label for="index-password">Password</label>
-                                    <input type="password" id="index-password" class="compact-login-input" placeholder="Enter your password" required>
-                                </div>
+                                <div class="compact-form-group"><label for="index-username">Username</label><input type="text" id="index-username" class="compact-login-input" placeholder="Enter your username" required></div>
+                                <div class="compact-form-group"><label for="index-password">Password</label><input type="password" id="index-password" class="compact-login-input" placeholder="Enter your password" required></div>
                             </div>
                             <button type="submit" class="compact-login-btn" id="index-login-btn">Sign In</button>
                         </form>
-                        <div class="compact-login-links">
-                            <a href="signup.html">Create Account</a>
-                            <a href="forgot-password.html">Forgot Password?</a>
-                        </div>
-                        <div class="compact-login-error" id="index-login-error">
-                            <span>❌</span>
-                            <span id="index-login-error-text"></span>
-                        </div>
+                        <div class="compact-login-links"><a href="signup.html">Create Account</a><a href="forgot-password.html">Forgot Password?</a></div>
+                        <div class="compact-login-error" id="index-login-error"><span>&#10060;</span><span id="index-login-error-text"></span></div>
                     </div>
-                    <h1 class="hero-title-new">
-                        Unite in Prayer<br>
-                        with <span class="highlight">73 Unique Voices</span>
-                    </h1>
-                    <p class="hero-description-new">
-                        <span class="highlight-quote">My prayer lifts others; their prayers lift me to the heart of Mary.</span>
-                        Join a living chain of prayer that circles the globe. Every Rosary is completed by 73 souls praying together — each offering one prayer so the full Rosary may rise to Heaven as one voice. Alone we are a single whisper; together we are a mighty chorus of faith, hope, and love.
-                    </p>
+                    <h1 class="hero-title-new">Unite in Prayer<br>with <span class="highlight">73 Unique Voices</span></h1>
+                    <p class="hero-description-new"><span class="highlight-quote">My prayer lifts others; their prayers lift me to the heart of Mary.</span>Join a living chain of prayer that circles the globe. Every Rosary is completed by 73 souls praying together &#8212; each offering one prayer so the full Rosary may rise to Heaven as one voice. Alone we are a single whisper; together we are a mighty chorus of faith, hope, and love.</p>
                 </div>
                 <div class="hero-visual-carousel">
                     <div class="carousel-container-hero">
                         <div class="bead-carousel-container">
-                            <button class="carousel-nav carousel-prev" onclick="changeSlide(-1)">‹</button>
-                            <button class="carousel-nav carousel-next" onclick="changeSlide(1)">›</button>
+                            <button class="carousel-nav carousel-prev" onclick="changeSlide(-1)">&#8249;</button>
+                            <button class="carousel-nav carousel-next" onclick="changeSlide(1)">&#8250;</button>
                             <div class="bead-carousel">
-                                <div class="carousel-slide active">
-                                    <div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_start.png" alt="Start a Rosary Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">✚</div></div></div>
-                                    <h2 class="bead-title">Start a Rosary</h2>
-                                    <p class="bead-description">Begin a new rosary with your prayer intention. Be the first voice in a chorus of 73 believers united in prayer to the Blessed Virgin Mary.</p>
-                                </div>
-                                <div class="carousel-slide">
-                                    <div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_participate.png" alt="Join Active Rosaries Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">🤝</div></div></div>
-                                    <h2 class="bead-title">Join Active Rosaries</h2>
-                                    <p class="bead-description">Participate in ongoing rosaries by adding your voice. Each rosary needs 73 unique participants to complete this powerful communal prayer.</p>
-                                </div>
-                                <div class="carousel-slide">
-                                    <div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_record.png" alt="Record Your Prayers Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">🎤</div></div></div>
-                                    <h2 class="bead-title">Record Your Prayers</h2>
-                                    <p class="bead-description">Record the 7 essential prayers in your own voice. Your recordings are saved in the cloud and can be part of countless rosaries.</p>
-                                </div>
-                                <div class="carousel-slide">
-                                    <div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_finished.png" alt="Listen to Finished Rosaries Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">🎧</div></div></div>
-                                    <h2 class="bead-title">Listen to Finished Rosaries</h2>
-                                    <p class="bead-description">Experience the beauty of 73 voices united in prayer. Listen to complete rosaries and feel the power of global community prayer.</p>
-                                </div>
-                                <div class="carousel-slide">
-                                    <div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_group.png" alt="Create Prayer Groups Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">👥</div></div></div>
-                                    <h2 class="bead-title">Create Prayer Groups</h2>
-                                    <p class="bead-description">Form private groups for your family, parish, or community. Share the spiritual journey with those who matter most in your faith life.</p>
-                                </div>
-                                <div class="carousel-slide">
-                                    <div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_gift.png" alt="Gift Subscriptions Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">🎁</div></div></div>
-                                    <h2 class="bead-title">Gift the Power of Prayer</h2>
-                                    <p class="bead-description">Share the gift of prayer by gifting subscriptions to loved ones. Help others join this global community of believers.</p>
-                                </div>
-                                <div class="carousel-slide">
-                                    <div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_subscribe.png" alt="Subscribe to Service Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">👑</div></div></div>
-                                    <h2 class="bead-title">Join Our Community</h2>
-                                    <p class="bead-description">Start with a 7-day free trial. Continue your prayer journey for less than the price of a cup of coffee each month.</p>
-                                </div>
+                                <div class="carousel-slide active"><div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_start.png" alt="Start a Rosary Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">&#10010;</div></div></div><h2 class="bead-title">Start a Rosary</h2><p class="bead-description">Begin a new rosary with your prayer intention. Be the first voice in a chorus of 73 believers united in prayer to the Blessed Virgin Mary.</p></div>
+                                <div class="carousel-slide"><div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_participate.png" alt="Join Active Rosaries Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">&#129309;</div></div></div><h2 class="bead-title">Join Active Rosaries</h2><p class="bead-description">Participate in ongoing rosaries by adding your voice. Each rosary needs 73 unique participants to complete this powerful communal prayer.</p></div>
+                                <div class="carousel-slide"><div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_record.png" alt="Record Your Prayers Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">&#127908;</div></div></div><h2 class="bead-title">Record Your Prayers</h2><p class="bead-description">Record the 7 essential prayers in your own voice. Your recordings are saved in the cloud and can be part of countless rosaries.</p></div>
+                                <div class="carousel-slide"><div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_finished.png" alt="Listen to Finished Rosaries Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">&#127911;</div></div></div><h2 class="bead-title">Listen to Finished Rosaries</h2><p class="bead-description">Experience the beauty of 73 voices united in prayer. Listen to complete rosaries and feel the power of global community prayer.</p></div>
+                                <div class="carousel-slide"><div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_group.png" alt="Create Prayer Groups Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">&#128101;</div></div></div><h2 class="bead-title">Create Prayer Groups</h2><p class="bead-description">Form private groups for your family, parish, or community. Share the spiritual journey with those who matter most in your faith life.</p></div>
+                                <div class="carousel-slide"><div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_gift.png" alt="Gift Subscriptions Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">&#127873;</div></div></div><h2 class="bead-title">Gift the Power of Prayer</h2><p class="bead-description">Share the gift of prayer by gifting subscriptions to loved ones. Help others join this global community of believers.</p></div>
+                                <div class="carousel-slide"><div class="bead-image-container"><div class="bead-visual"><img src="images/beads/bead_subscribe.png" alt="Subscribe to Service Bead" class="bead-image" onerror="this.style.display='none'; this.parentElement.classList.add('fallback'); this.nextElementSibling.style.display='block';"><div class="bead-icon" style="display:none;">&#128081;</div></div></div><h2 class="bead-title">Join Our Community</h2><p class="bead-description">Start with a 7-day free trial. Continue your prayer journey for less than the price of a cup of coffee each month.</p></div>
                             </div>
-                            <div class="carousel-indicators">
-                                <span class="indicator active" onclick="goToSlide(0)"></span>
-                                <span class="indicator" onclick="goToSlide(1)"></span>
-                                <span class="indicator" onclick="goToSlide(2)"></span>
-                                <span class="indicator" onclick="goToSlide(3)"></span>
-                                <span class="indicator" onclick="goToSlide(4)"></span>
-                                <span class="indicator" onclick="goToSlide(5)"></span>
-                                <span class="indicator" onclick="goToSlide(6)"></span>
-                            </div>
+                            <div class="carousel-indicators"><span class="indicator active" onclick="goToSlide(0)"></span><span class="indicator" onclick="goToSlide(1)"></span><span class="indicator" onclick="goToSlide(2)"></span><span class="indicator" onclick="goToSlide(3)"></span><span class="indicator" onclick="goToSlide(4)"></span><span class="indicator" onclick="goToSlide(5)"></span><span class="indicator" onclick="goToSlide(6)"></span></div>
                         </div>
                     </div>
                 </div>
@@ -789,276 +246,106 @@
         </div>
     </section>
 
-    <!-- FEATURES -->
     <section id="features" class="features-enhanced">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Experience Divine Unity</h2>
-                <p class="section-subtitle">Discover the unique features that make our app special</p>
-            </div>
+            <div class="section-header"><h2 class="section-title">Experience Divine Unity</h2><p class="section-subtitle">Discover the unique features that make our app special</p></div>
             <div class="features-grid-enhanced">
-                <div class="feature-card-enhanced">
-                    <div class="feature-icon-enhanced"><img src="images/feature-voices.png" alt="73 Unique Voices" class="feature-image"></div>
-                    <h3 class="feature-title-enhanced">73 Unique Voices</h3>
-                    <p class="feature-description-enhanced">Each of the 73 prayers in every rosary is recorded by a different person, creating a truly communal prayer experience that spans the globe.</p>
-                </div>
-                <div class="feature-card-enhanced">
-                    <div class="feature-icon-enhanced"><img src="images/feature-secure.png" alt="Privacy Protected" class="feature-image"></div>
-                    <h3 class="feature-title-enhanced">Privacy Protected</h3>
-                    <p class="feature-description-enhanced">Feel completely at ease—your privacy and comfort always come first. You're welcome to stay fully anonymous, use a voice changer, or simply join in silent contemplation by listening to the rosaries. However you choose to participate, your prayer is treasured.</p>
-                </div>
-                <div class="feature-card-enhanced">
-                    <div class="feature-icon-enhanced"><img src="images/feature-global.png" alt="Multi-Language Support" class="feature-image"></div>
-                    <h3 class="feature-title-enhanced">Multi-Language</h3>
-                    <p class="feature-description-enhanced">Pray in English, Spanish, Filipino, Cebuano or Latin, and more languages coming soon. Honor Jesus and Mary in the language of your heart.</p>
-                </div>
+                <div class="feature-card-enhanced"><div class="feature-icon-enhanced"><img src="images/feature-voices.png" alt="73 Unique Voices" class="feature-image"></div><h3 class="feature-title-enhanced">73 Unique Voices</h3><p class="feature-description-enhanced">Each of the 73 prayers in every rosary is recorded by a different person, creating a truly communal prayer experience that spans the globe.</p></div>
+                <div class="feature-card-enhanced"><div class="feature-icon-enhanced"><img src="images/feature-secure.png" alt="Privacy Protected" class="feature-image"></div><h3 class="feature-title-enhanced">Privacy Protected</h3><p class="feature-description-enhanced">Feel completely at ease&#8212;your privacy and comfort always come first. You're welcome to stay fully anonymous, use a voice changer, or simply join in silent contemplation by listening to the rosaries. However you choose to participate, your prayer is treasured.</p></div>
+                <div class="feature-card-enhanced"><div class="feature-icon-enhanced"><img src="images/feature-global.png" alt="Multi-Language Support" class="feature-image"></div><h3 class="feature-title-enhanced">Multi-Language</h3><p class="feature-description-enhanced">Pray in English, Spanish, Filipino, Cebuano or Latin, and more languages coming soon. Honor Jesus and Mary in the language of your heart.</p></div>
             </div>
-            <div class="section-cta">
-                <a href="signup.html" class="btn-modern btn-primary-modern">Create Free Account</a>
-                <a href="subscribe.html" class="btn-modern btn-secondary-modern subscribe-intercept">View Subscription Plans</a>
-            </div>
+            <div class="section-cta"><a href="signup.html" class="btn-modern btn-primary-modern">Create Free Account</a><a href="subscribe.html" class="btn-modern btn-secondary-modern">View Subscription Plans</a></div>
         </div>
     </section>
 
-    <!-- HOW IT WORKS -->
     <section id="how-it-works" class="how-it-works-enhanced">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Your Journey with Mary</h2>
-                <p class="section-subtitle">Join the global prayer community in 3 simple steps</p>
-            </div>
+            <div class="section-header"><h2 class="section-title">Your Journey with Mary</h2><p class="section-subtitle">Join the global prayer community in 3 simple steps</p></div>
             <div class="timeline-container">
-                <div class="timeline-step">
-                    <div class="step-number-circle"><img src="images/beads/bead_step1.png" alt="Step 1" class="step-bead-image"><span class="number">①</span></div>
-                    <div class="step-content-enhanced">
-                        <div class="step-icon-badge">🎤</div>
-                        <h3>Record Your Voice</h3>
-                        <p>Record 7 essential prayers in your own voice or choose to participate silently. Every contribution matters in our global prayer community.</p>
-                    </div>
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number-circle"><img src="images/beads/bead_step2.png" alt="Step 2" class="step-bead-image"><span class="number">②</span></div>
-                    <div class="step-content-enhanced">
-                        <div class="step-icon-badge">👥</div>
-                        <h3>Join 72 Others</h3>
-                        <p>Start a rosary with your intention or join active prayers. Each complete rosary unites 73 souls in devotion to the Blessed Virgin Mary.</p>
-                    </div>
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number-circle"><img src="images/beads/bead_step3.png" alt="Step 3" class="step-bead-image"><span class="number">③</span></div>
-                    <div class="step-content-enhanced">
-                        <div class="step-icon-badge">🙏</div>
-                        <h3>Experience Unity</h3>
-                        <p>Listen to complete rosaries and feel the power of united prayer. Experience grace through the harmonious voices of believers worldwide.</p>
-                    </div>
-                </div>
+                <div class="timeline-step"><div class="step-number-circle"><img src="images/beads/bead_step1.png" alt="Step 1" class="step-bead-image"><span class="number">&#9312;</span></div><div class="step-content-enhanced"><div class="step-icon-badge">&#127908;</div><h3>Record Your Voice</h3><p>Record 7 essential prayers in your own voice or choose to participate silently. Every contribution matters in our global prayer community.</p></div></div>
+                <div class="timeline-step"><div class="step-number-circle"><img src="images/beads/bead_step2.png" alt="Step 2" class="step-bead-image"><span class="number">&#9313;</span></div><div class="step-content-enhanced"><div class="step-icon-badge">&#128101;</div><h3>Join 72 Others</h3><p>Start a rosary with your intention or join active prayers. Each complete rosary unites 73 souls in devotion to the Blessed Virgin Mary.</p></div></div>
+                <div class="timeline-step"><div class="step-number-circle"><img src="images/beads/bead_step3.png" alt="Step 3" class="step-bead-image"><span class="number">&#9314;</span></div><div class="step-content-enhanced"><div class="step-icon-badge">&#128591;</div><h3>Experience Unity</h3><p>Listen to complete rosaries and feel the power of united prayer. Experience grace through the harmonious voices of believers worldwide.</p></div></div>
             </div>
-            <div class="section-cta">
-                <a href="signup.html" class="btn-modern btn-primary-modern">Get Started Free</a>
-                <a href="subscribe.html" class="btn-modern btn-secondary-modern subscribe-intercept">View Plans</a>
-            </div>
+            <div class="section-cta"><a href="signup.html" class="btn-modern btn-primary-modern">Get Started Free</a><a href="subscribe.html" class="btn-modern btn-secondary-modern">View Plans</a></div>
         </div>
     </section>
 
-    <!-- APP PREVIEW -->
     <section id="app-preview" class="app-preview-section">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">See Rosary73 in Action</h2>
-                <p class="section-subtitle">Explore the beautiful interface designed for your prayer journey</p>
-            </div>
+            <div class="section-header"><h2 class="section-title">See Rosary73 in Action</h2><p class="section-subtitle">Explore the beautiful interface designed for your prayer journey</p></div>
             <div class="mockup-grid">
-                <div class="mockup-item">
-                    <div class="iphone-frame"><div class="iphone-notch"></div><div class="iphone-screen"><div class="screen-header"><img src="images/screenshots/header.png" alt="App Header"></div><div class="screen-content"><img src="images/screenshots/homescreen.png" alt="Rosary73 Home Screen" class="screen-scroll-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="screen-placeholder" style="display:none;"><div class="placeholder-icon">🏠</div><div class="placeholder-text">HomeScreen<br>Screenshot</div></div></div><div class="screen-bottom-nav"><img src="images/screenshots/bottom.png" alt="Bottom Navigation"></div></div></div>
-                    <div class="mockup-label"><h3>Home Screen</h3><p>Your prayer dashboard with 7 beautiful beads to guide your rosary journey. Tap each bead to navigate.</p></div>
-                </div>
-                <div class="mockup-item">
-                    <div class="iphone-frame"><div class="iphone-notch"></div><div class="iphone-screen"><div class="screen-header"><img src="images/screenshots/header.png" alt="App Header"></div><div class="screen-content"><img src="images/screenshots/visual-rosary.png" alt="Visual Rosary Screen" class="screen-scroll-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="screen-placeholder" style="display:none;"><div class="placeholder-icon">📿</div><div class="placeholder-text">Visual Rosary<br>Screenshot</div></div></div><div class="screen-bottom-nav"><img src="images/screenshots/bottom.png" alt="Bottom Navigation"></div></div></div>
-                    <div class="mockup-label"><h3>Visual Rosary</h3><p>See all 73 participants in a beautiful interactive rosary bead display. Your username appears across the prayer you participated in.</p></div>
-                </div>
-                <div class="mockup-item">
-                    <div class="iphone-frame"><div class="iphone-notch"></div><div class="iphone-screen"><div class="screen-header"><img src="images/screenshots/header.png" alt="App Header"></div><div class="screen-content"><img src="images/screenshots/record-prayers.png" alt="Record Prayers Screen" class="screen-scroll-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="screen-placeholder" style="display:none;"><div class="placeholder-icon">🎤</div><div class="placeholder-text">Record Prayers<br>Screenshot</div></div></div><div class="screen-bottom-nav"><img src="images/screenshots/bottom.png" alt="Bottom Navigation"></div></div></div>
-                    <div class="mockup-label"><h3>Record Prayers</h3><p>Record your 7 essential prayers with simple one-tap recording. Choose from 11 languages, with more coming soon.</p></div>
-                </div>
+                <div class="mockup-item"><div class="iphone-frame"><div class="iphone-notch"></div><div class="iphone-screen"><div class="screen-header"><img src="images/screenshots/header.png" alt="App Header"></div><div class="screen-content"><img src="images/screenshots/homescreen.png" alt="Rosary73 Home Screen" class="screen-scroll-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="screen-placeholder" style="display:none;"><div class="placeholder-icon">&#127968;</div><div class="placeholder-text">HomeScreen<br>Screenshot</div></div></div><div class="screen-bottom-nav"><img src="images/screenshots/bottom.png" alt="Bottom Navigation"></div></div></div><div class="mockup-label"><h3>Home Screen</h3><p>Your prayer dashboard with 7 beautiful beads to guide your rosary journey. Tap each bead to navigate.</p></div></div>
+                <div class="mockup-item"><div class="iphone-frame"><div class="iphone-notch"></div><div class="iphone-screen"><div class="screen-header"><img src="images/screenshots/header.png" alt="App Header"></div><div class="screen-content"><img src="images/screenshots/visual-rosary.png" alt="Visual Rosary Screen" class="screen-scroll-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="screen-placeholder" style="display:none;"><div class="placeholder-icon">&#128255;</div><div class="placeholder-text">Visual Rosary<br>Screenshot</div></div></div><div class="screen-bottom-nav"><img src="images/screenshots/bottom.png" alt="Bottom Navigation"></div></div></div><div class="mockup-label"><h3>Visual Rosary</h3><p>See all 73 participants in a beautiful interactive rosary bead display. Your username appears across the prayer you participated in.</p></div></div>
+                <div class="mockup-item"><div class="iphone-frame"><div class="iphone-notch"></div><div class="iphone-screen"><div class="screen-header"><img src="images/screenshots/header.png" alt="App Header"></div><div class="screen-content"><img src="images/screenshots/record-prayers.png" alt="Record Prayers Screen" class="screen-scroll-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="screen-placeholder" style="display:none;"><div class="placeholder-icon">&#127908;</div><div class="placeholder-text">Record Prayers<br>Screenshot</div></div></div><div class="screen-bottom-nav"><img src="images/screenshots/bottom.png" alt="Bottom Navigation"></div></div></div><div class="mockup-label"><h3>Record Prayers</h3><p>Record your 7 essential prayers with simple one-tap recording. Choose from 11 languages, with more coming soon.</p></div></div>
             </div>
-            <div class="section-cta">
-                <a href="signup.html" class="btn-modern btn-primary-modern">Sign Up Now</a>
-                <a href="subscribe.html" class="btn-modern btn-secondary-modern subscribe-intercept">Subscribe</a>
-            </div>
+            <div class="section-cta"><a href="signup.html" class="btn-modern btn-primary-modern">Sign Up Now</a><a href="subscribe.html" class="btn-modern btn-secondary-modern">Subscribe</a></div>
         </div>
     </section>
 
-    <!-- PRIVACY -->
     <section class="privacy-section">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" style="color: var(--gold-600);">Your Privacy is Sacred</h2>
-                <p class="section-subtitle">We understand that prayer is personal</p>
-            </div>
+            <div class="section-header"><h2 class="section-title" style="color: var(--gold-600);">Your Privacy is Sacred</h2><p class="section-subtitle">We understand that prayer is personal</p></div>
             <div class="privacy-card">
-                <h3>🔒 For Those Who Value Privacy</h3>
+                <h3>&#128274; For Those Who Value Privacy</h3>
                 <p style="margin-bottom: 20px;">We respect that not everyone wants their voice or identity public. Rosary73 offers multiple ways to participate while maintaining your privacy:</p>
-                <ul>
-                    <li><strong>Anonymous Participation:</strong> Use a username that doesn't reveal your identity</li>
-                    <li><strong>Private Email:</strong> Sign up without using your personal email address</li>
-                    <li><strong>Silent Prayer:</strong> Participate by listening to finished rosaries</li>
-                    <li><strong>Voice Synthesis:</strong> Use voice synthesizers to record prayers privately</li>
-                </ul>
-                <div class="privacy-note">
-                    <strong>Remember:</strong> Prayer is between you and God. Whether you lend your voice or pray silently, your participation brings grace through Our Lady's intercession.
-                </div>
-                <div style="text-align: center; margin-top: 30px;">
-                    <a href="signup.html" class="btn-modern btn-primary-modern">Join Anonymously</a>
-                    <a href="subscribe.html" class="btn-modern btn-secondary-modern subscribe-intercept">Subscribe</a>
-                </div>
+                <ul><li><strong>Anonymous Participation:</strong> Use a username that doesn't reveal your identity</li><li><strong>Private Email:</strong> Sign up without using your personal email address</li><li><strong>Silent Prayer:</strong> Participate by listening to finished rosaries</li><li><strong>Voice Synthesis:</strong> Use voice synthesizers to record prayers privately</li></ul>
+                <div class="privacy-note"><strong>Remember:</strong> Prayer is between you and God. Whether you lend your voice or pray silently, your participation brings grace through Our Lady's intercession.</div>
+                <div style="text-align: center; margin-top: 30px;"><a href="signup.html" class="btn-modern btn-primary-modern">Join Anonymously</a><a href="subscribe.html" class="btn-modern btn-secondary-modern">Subscribe</a></div>
             </div>
         </div>
     </section>
 
-    <!-- PRICING -->
     <section id="pricing" class="pricing-enhanced">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Affordable Pricing</span>
-                <h2 class="section-title">Blessings Within Reach</h2>
-                <p class="section-subtitle">Less than a cup of coffee each month</p>
-            </div>
+            <div class="section-header"><span class="section-tag">Affordable Pricing</span><h2 class="section-title">Blessings Within Reach</h2><p class="section-subtitle">Less than a cup of coffee each month</p></div>
             <div class="pricing-simple">
                 <div class="price-card-simple">
-                    <div class="price-badge">☕ Coffee Price</div>
+                    <div class="price-badge">&#9749; Coffee Price</div>
                     <h3>Simple &amp; Affordable</h3>
                     <p class="price-description">For less than the price of your daily coffee, unite with believers worldwide in the most powerful prayer experience available today.</p>
-                    <div class="price-details">
-                        <p>✓ 7-day free trial</p>
-                        <p>✓ Cancel anytime</p>
-                        <p>✓ Secure payments</p>
-                        <p>✓ All features included</p>
-                    </div>
+                    <div class="price-details"><p>&#10003; 7-day free trial</p><p>&#10003; Cancel anytime</p><p>&#10003; Secure payments</p><p>&#10003; All features included</p></div>
                     <a href="signup.html" class="btn-modern btn-primary-modern btn-wide">Start Free Trial</a>
-                    <div class="clergy-note">
-                        <p><strong>✝️ Called to Serve?</strong></p>
-                        <p>Free subscriptions available for clergy, religious, and those in financial need.</p>
-                        <div style="text-align: center; margin-top: 15px;">
-                            <a href="signup.html" style="color: #d4af37; margin-right: 20px;">Create Account</a>
-                            <a href="subscribe.html" style="color: #d4af37;" class="subscribe-intercept">Subscribe Now</a>
-                        </div>
-                    </div>
+                    <div class="clergy-note"><p><strong>&#10013;&#65039; Called to Serve?</strong></p><p>Free subscriptions available for clergy, religious, and those in financial need.</p><div style="text-align: center; margin-top: 15px;"><a href="signup.html" style="color: #d4af37; margin-right: 20px;">Create Account</a><a href="subscribe.html" style="color: #d4af37;">Subscribe Now</a></div></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
     <section id="download" class="cta-enhanced">
         <div class="container">
             <div class="cta-content-enhanced">
-                <span class="holy-cross-large">✚</span>
+                <span class="holy-cross-large">&#10010;</span>
                 <h2 class="cta-title-enhanced">Ready to Unite in Prayer?</h2>
                 <p class="cta-description-enhanced">Join thousands of believers worldwide. Through the intercession of the Blessed Virgin Mary, let your voice be part of something greater.</p>
                 <div class="cta-buttons">
-                    <a href="signup.html" class="btn-modern btn-white-modern btn-large">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                        <span>Create Free Account</span>
-                    </a>
-                    <a href="subscribe.html" class="btn-modern btn-secondary-modern btn-large subscribe-intercept">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-                        <span>Subscribe Now</span>
-                    </a>
+                    <a href="signup.html" class="btn-modern btn-white-modern btn-large"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Create Free Account</span></a>
+                    <a href="subscribe.html" class="btn-modern btn-secondary-modern btn-large"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg><span>Subscribe Now</span></a>
                 </div>
                 <p class="testflight-note">App coming soon to iOS and Android!</p>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-brand">
-                        <img src="images/R73logo.png" alt="Rosary73" class="footer-logo" style="height: 40px; width: auto;">
-                        <span class="brand-text" style="color: #5DADE2;">Rosary73</span>
-                        <span class="by-toespin">by Toespin</span>
-                    </div>
-                    <p class="footer-tagline">Unite in Prayer with 73 Unique Voices</p>
-                    <p style="color: #FFD700; margin-top: 15px;">✚ Honoring the Blessed Virgin Mary ✚</p>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-title" style="color: #5DADE2;">Product</h4>
-                    <ul class="footer-links" style="list-style: none;">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-title" style="color: #5DADE2;">Account</h4>
-                    <ul class="footer-links" style="list-style: none;">
-                        <li><a href="signup.html">Sign Up</a></li>
-                        <li><a href="subscribe.html" class="subscribe-intercept">Subscribe</a></li>
-                        <li><a href="members.html">Members</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-title" style="color: #5DADE2;">Legal</h4>
-                    <ul class="footer-links" style="list-style: none;">
-                        <li><a href="terms.html">Terms of Service</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="contact.html">Contact Support</a></li>
-                        <li><a href="faq.html">Help Center</a></li>
-                    </ul>
-                </div>
+                <div class="footer-section"><div class="footer-brand"><img src="images/R73logo.png" alt="Rosary73" class="footer-logo" style="height: 40px; width: auto;"><span class="brand-text" style="color: #5DADE2;">Rosary73</span><span class="by-toespin">by Toespin</span></div><p class="footer-tagline">Unite in Prayer with 73 Unique Voices</p><p style="color: #FFD700; margin-top: 15px;">&#10010; Honoring the Blessed Virgin Mary &#10010;</p></div>
+                <div class="footer-section"><h4 class="footer-title" style="color: #5DADE2;">Product</h4><ul class="footer-links" style="list-style: none;"><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#how-it-works">How It Works</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+                <div class="footer-section"><h4 class="footer-title" style="color: #5DADE2;">Account</h4><ul class="footer-links" style="list-style: none;"><li><a href="signup.html">Sign Up</a></li><li><a href="subscribe.html">Subscribe</a></li><li><a href="members.html">Members</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+                <div class="footer-section"><h4 class="footer-title" style="color: #5DADE2;">Legal</h4><ul class="footer-links" style="list-style: none;"><li><a href="terms.html">Terms of Service</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="contact.html">Contact Support</a></li><li><a href="faq.html">Help Center</a></li></ul></div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Rosary73 <span class="by-toespin">by Toespin</span>. All rights reserved.</p>
-                <p class="footer-verse">"For where two or three are gathered in my name, there am I among them." - Matthew 18:20</p>
-            </div>
+            <div class="footer-bottom"><p>&copy; 2025 Rosary73 <span class="by-toespin">by Toespin</span>. All rights reserved.</p><p class="footer-verse">"For where two or three are gathered in my name, there am I among them." - Matthew 18:20</p></div>
         </div>
     </footer>
 
-    <!-- =============================================
-         BETA NOTICE MODAL (shown when Subscribe clicked)
-    ============================================== -->
-    <div class="idx-beta-overlay" id="idx-beta-overlay" style="display:none;">
-        <div class="idx-beta-card">
-            <button class="idx-beta-close" id="idx-beta-close" title="Close">&#10005;</button>
-            <div class="idx-beta-badge">&#128312; BETA</div>
-            <div class="idx-beta-icon">&#128591;</div>
-            <h3>We're in Beta Testing Mode</h3>
-            <div class="idx-beta-body">
-                <p>Rosary73 is currently in <strong>beta</strong> — thank you for being part of this journey!</p>
-                <p style="margin-top: 10px;">
-                    You can click <strong>"Apply for Free Access"</strong> to start a rosary or participate in any of the rosaries right away.
-                    You may also choose any subscription plan anytime should you choose to help support the community. 🙏
-                </p>
-            </div>
-            <div class="idx-beta-actions">
-                <a href="subscribe.html?tab=free" class="idx-beta-free-btn">&#10013;&nbsp; Apply for Free Access</a>
-                <a href="subscribe.html" class="idx-beta-dismiss-btn">Got it — show me the plans</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
     <script src="js/main.js"></script>
     <script src="js/carousel.js"></script>
     <script src="js/enhanced.js"></script>
 
-    <!-- Login Form Script -->
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBBzm-LuWZwyOCMqYzxodpqLNn4Eg3wNDk",
-            authDomain: "rosary--interact-app.firebaseapp.com",
-            projectId: "rosary--interact-app",
-            storageBucket: "rosary--interact-app.firebasestorage.app",
-            messagingSenderId: "174985016192",
-            appId: "1:174985016192:web:134b684d6f0ba731510765"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyBBzm-LuWZwyOCMqYzxodpqLNn4Eg3wNDk", authDomain: "rosary--interact-app.firebaseapp.com", projectId: "rosary--interact-app", storageBucket: "rosary--interact-app.firebasestorage.app", messagingSenderId: "174985016192", appId: "1:174985016192:web:134b684d6f0ba731510765" };
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const FUNCTIONS_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net';
@@ -1073,15 +360,13 @@
             errorDiv.classList.remove('visible');
             btn.disabled = true; btn.textContent = 'Signing in...';
             try {
-                const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username })
-                });
+                const response = await fetch(`${FUNCTIONS_URL}/verifyWebUser`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username }) });
                 const result = await response.json();
                 if (!result.valid) throw new Error(result.error || 'Username not found');
                 const emailToUse = result.email || `${username.toLowerCase()}@guest.r73.app`;
                 await auth.signInWithEmailAndPassword(emailToUse, password);
                 sessionStorage.setItem('rosary73UserData', JSON.stringify(result));
+                sessionStorage.setItem('showBetaModal', '1');
                 window.location.href = 'members.html';
             } catch (error) {
                 errorDiv.classList.add('visible');
@@ -1089,39 +374,18 @@
                 if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') msg = 'Incorrect password.';
                 else if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try later.';
                 errorText.textContent = msg;
-            } finally {
-                btn.disabled = false; btn.textContent = 'Sign In';
-            }
+            } finally { btn.disabled = false; btn.textContent = 'Sign In'; }
         });
     </script>
 
-    <!-- Theme Toggle Script -->
     <script>
         (function() {
             const themeToggle = document.getElementById('themeToggle');
             const html = document.documentElement;
-            function setTheme(theme) {
-                html.setAttribute('data-theme', theme);
-                localStorage.setItem('theme', theme);
-            }
-            function toggleTheme() {
-                setTheme(html.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
-            }
+            function setTheme(theme) { html.setAttribute('data-theme', theme); localStorage.setItem('theme', theme); }
+            function toggleTheme() { setTheme(html.getAttribute('data-theme') === 'light' ? 'dark' : 'light'); }
             if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light');
-            });
-        })();
-    </script>
-
-    <!-- Beta Modal Close Handlers (modal open is handled in <head> capture listener) -->
-    <script>
-        (function() {
-            var overlay = document.getElementById('idx-beta-overlay');
-            var closeBtn = document.getElementById('idx-beta-close');
-            function hide() { overlay.style.display = 'none'; }
-            closeBtn.addEventListener('click', hide);
-            overlay.addEventListener('click', function(e) { if (e.target === overlay) hide(); });
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => { if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light'); });
         })();
     </script>
 </body>
