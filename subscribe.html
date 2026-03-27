@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- v2026-03-16 -->
+  <!-- v2026-03-27 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Subscribe - Rosary73</title>
   <meta name="description" content="Subscribe to Rosary73 and unlock all premium features">
@@ -84,28 +84,39 @@
     .custom-amount input { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 1.1rem; text-align: center; }
     .custom-amount input:focus { outline: none; border-color: #d4af37; }
 
-    /* Payment Methods */
+    /* Payment Methods — enlarged logos, no text labels */
     .payment-section { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 25px; }
     .payment-section h2 { color: #fff; font-size: 1.2rem; margin-bottom: 20px; text-align: center; }
     .payment-group { margin-bottom: 20px; }
     .payment-group-title { color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
     .web-only-tag { background: #4ade80; color: #1a1a2e; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
-    .payment-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
-    .payment-btn { padding: 15px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .all-countries-tag { background: #60a5fa; color: #1a1a2e; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+    .payment-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
+    .payment-btn {
+      padding: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+    }
     .payment-btn:hover { border-color: rgba(212,175,55,0.5); }
     .payment-btn.selected { border-color: #d4af37; background: rgba(212,175,55,0.1); }
     .payment-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .payment-btn .icon { font-size: 1.5rem; }
-    .payment-btn .name { font-size: 0.85rem; }
-    .pay-logo { width: 32px; height: 32px; object-fit: contain; border-radius: 6px; }
-
-    /* Card Logos */
-    .card-logos { display: flex; gap: 8px; align-items: center; justify-content: center; margin-bottom: 5px; }
-    .card-logo { height: 24px; width: auto; }
-    .card-logo-visa { background: #1a1f71; padding: 4px 8px; border-radius: 4px; }
-    .card-logo-mc { background: linear-gradient(90deg, #eb001b 0%, #f79e1b 100%); padding: 4px 8px; border-radius: 4px; }
-    .card-logo-jcb { background: linear-gradient(135deg, #0066cc 0%, #cc0000 50%, #00aa00 100%); padding: 4px 8px; border-radius: 4px; }
-    .card-logo-text { color: white; font-size: 0.7rem; font-weight: 700; font-style: italic; }
+    .payment-btn .name { display: none; }
+    .payment-btn .icon { display: none; }
+    .pay-logo {
+      height: 90%;
+      width: auto;
+      max-width: 95%;
+      object-fit: contain;
+      border-radius: 6px;
+    }
 
     /* Action Button */
     .action-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #d4af37, #b8860b); border: none; border-radius: 12px; color: #1a1a2e; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 25px; transition: all 0.3s; }
@@ -272,6 +283,7 @@
       .gate-btn { width: 100%; text-align: center; }
       .cant-afford-banner { flex-direction: column; align-items: flex-start; }
       .beta-notice-card { padding: 32px 22px 26px; }
+      .payment-methods { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -348,13 +360,13 @@
             <div class="badge">MOST POPULAR</div>
             <div class="duration">6 Months</div>
             <div class="price" id="price-6"></div>
-            <div class="savings">Save 10%</div>
+            <div class="savings">Save 25%</div>
           </div>
           <div class="price-card" data-plan="twelveMonth" onclick="selectPlan('twelveMonth')">
             <div class="badge">BEST VALUE</div>
             <div class="duration">12 Months</div>
             <div class="price" id="price-12"></div>
-            <div class="savings">Save 17%</div>
+            <div class="savings">Save 37%</div>
           </div>
         </div>
         <!-- Can't Afford Banner -->
@@ -365,27 +377,19 @@
         <div class="payment-section" id="payment-section-sub">
           <h2>Payment Method</h2>
           <div class="payment-group" id="ewallet-group-sub">
-            <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
+            <div class="payment-group-title"><span>eWallets/QRPH</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash','sub')"><img src="images/GCash.png" class="pay-logo"><span class="name">GCash</span></button>
-              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya','sub')"><img src="images/Maya.png" class="pay-logo"><span class="name">Maya</span></button>
-              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay','sub')"><img src="images/Grabpay.png" class="pay-logo"><span class="name">GrabPay</span></button>
-              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay','sub')"><img src="images/Shopeepay.png" class="pay-logo"><span class="name">ShopeePay</span></button>
-            </div>
-          </div>
-          <div class="payment-group" id="qrph-group-sub">
-            <div class="payment-group-title"><span>QR PH (InstaPay/PESONet)</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
-            <div class="payment-methods">
-              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph','sub')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash','sub')"><img src="images/GCash.png" class="pay-logo" alt="GCash"></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya','sub')"><img src="images/Maya.png" class="pay-logo" alt="Maya"></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay','sub')"><img src="images/Grabpay.png" class="pay-logo" alt="GrabPay"></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay','sub')"><img src="images/Shopeepay.png" class="pay-logo" alt="ShopeePay"></button>
+              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph','sub')"><img src="images/QR_PH.png" class="pay-logo" alt="QR PH"></button>
             </div>
           </div>
           <div class="payment-group">
-            <div class="payment-group-title">Credit/Debit Card</div>
+            <div class="payment-group-title"><span>Credit/Debit Card</span><span class="all-countries-tag">ALL COUNTRIES</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="card" onclick="selectPayment('card','sub')">
-                <div class="card-logos"><span class="card-logo card-logo-visa"><span class="card-logo-text">VISA</span></span><span class="card-logo card-logo-mc"><span class="card-logo-text">MC</span></span><span class="card-logo card-logo-jcb"><span class="card-logo-text">JCB</span></span></div>
-                <span class="name">Credit/Debit Card</span>
-              </button>
+              <button class="payment-btn" data-method="card" onclick="selectPayment('card','sub')"><img src="images/creditcardlogos.png" class="pay-logo" alt="Credit/Debit Card"></button>
             </div>
           </div>
           <button class="action-btn" id="subscribe-btn" onclick="processPayment('subscription')" disabled>Select a payment method</button>
@@ -408,39 +412,31 @@
             <div class="badge">MOST POPULAR</div>
             <div class="duration">+6 Months</div>
             <div class="price" id="upgrade-price-6"></div>
-            <div class="savings">Save 10%</div>
+            <div class="savings">Save 25%</div>
           </div>
           <div class="price-card" data-plan="twelveMonth" onclick="selectUpgradePlan('twelveMonth')">
             <div class="badge">BEST VALUE</div>
             <div class="duration">+12 Months</div>
             <div class="price" id="upgrade-price-12"></div>
-            <div class="savings">Save 17%</div>
+            <div class="savings">Save 37%</div>
           </div>
         </div>
         <div class="payment-section">
           <h2>Payment Method</h2>
           <div class="payment-group" id="ewallet-group-upgrade">
-            <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
+            <div class="payment-group-title"><span>eWallets/QRPH</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash','upgrade')"><img src="images/GCash.png" class="pay-logo"><span class="name">GCash</span></button>
-              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya','upgrade')"><img src="images/Maya.png" class="pay-logo"><span class="name">Maya</span></button>
-              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay','upgrade')"><img src="images/Grabpay.png" class="pay-logo"><span class="name">GrabPay</span></button>
-              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay','upgrade')"><img src="images/Shopeepay.png" class="pay-logo"><span class="name">ShopeePay</span></button>
-            </div>
-          </div>
-          <div class="payment-group" id="qrph-group-upgrade">
-            <div class="payment-group-title"><span>QR PH</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
-            <div class="payment-methods">
-              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph','upgrade')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash','upgrade')"><img src="images/GCash.png" class="pay-logo" alt="GCash"></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya','upgrade')"><img src="images/Maya.png" class="pay-logo" alt="Maya"></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay','upgrade')"><img src="images/Grabpay.png" class="pay-logo" alt="GrabPay"></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay','upgrade')"><img src="images/Shopeepay.png" class="pay-logo" alt="ShopeePay"></button>
+              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph','upgrade')"><img src="images/QR_PH.png" class="pay-logo" alt="QR PH"></button>
             </div>
           </div>
           <div class="payment-group">
-            <div class="payment-group-title">Credit/Debit Card</div>
+            <div class="payment-group-title"><span>Credit/Debit Card</span><span class="all-countries-tag">ALL COUNTRIES</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="card" onclick="selectPayment('card','upgrade')">
-                <div class="card-logos"><span class="card-logo card-logo-visa"><span class="card-logo-text">VISA</span></span><span class="card-logo card-logo-mc"><span class="card-logo-text">MC</span></span><span class="card-logo card-logo-jcb"><span class="card-logo-text">JCB</span></span></div>
-                <span class="name">Credit/Debit Card</span>
-              </button>
+              <button class="payment-btn" data-method="card" onclick="selectPayment('card','upgrade')"><img src="images/creditcardlogos.png" class="pay-logo" alt="Credit/Debit Card"></button>
             </div>
           </div>
           <button class="action-btn" id="upgrade-btn" onclick="processPayment('upgrade')" disabled>Select a payment method</button>
@@ -470,40 +466,32 @@
             <div class="badge">MOST POPULAR</div>
             <div class="duration">6 Months</div>
             <div class="price" id="gift-price-6"></div>
-            <div class="savings">Save 10%</div>
+            <div class="savings">Save 25%</div>
           </div>
           <div class="price-card" data-plan="twelveMonth" onclick="selectGiftPlan('twelveMonth')">
             <div class="badge">BEST VALUE</div>
             <div class="duration">12 Months</div>
             <div class="price" id="gift-price-12"></div>
-            <div class="savings">Save 17%</div>
+            <div class="savings">Save 37%</div>
           </div>
         </div>
 
         <div class="payment-section">
           <h2>Payment Method</h2>
           <div class="payment-group" id="ewallet-group-gift">
-            <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
+            <div class="payment-group-title"><span>eWallets/QRPH</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash','gift')"><img src="images/GCash.png" class="pay-logo"><span class="name">GCash</span></button>
-              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya','gift')"><img src="images/Maya.png" class="pay-logo"><span class="name">Maya</span></button>
-              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay','gift')"><img src="images/Grabpay.png" class="pay-logo"><span class="name">GrabPay</span></button>
-              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay','gift')"><img src="images/Shopeepay.png" class="pay-logo"><span class="name">ShopeePay</span></button>
-            </div>
-          </div>
-          <div class="payment-group" id="qrph-group-gift">
-            <div class="payment-group-title"><span>QR PH</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
-            <div class="payment-methods">
-              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph','gift')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash','gift')"><img src="images/GCash.png" class="pay-logo" alt="GCash"></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya','gift')"><img src="images/Maya.png" class="pay-logo" alt="Maya"></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay','gift')"><img src="images/Grabpay.png" class="pay-logo" alt="GrabPay"></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay','gift')"><img src="images/Shopeepay.png" class="pay-logo" alt="ShopeePay"></button>
+              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph','gift')"><img src="images/QR_PH.png" class="pay-logo" alt="QR PH"></button>
             </div>
           </div>
           <div class="payment-group">
-            <div class="payment-group-title">Credit/Debit Card</div>
+            <div class="payment-group-title"><span>Credit/Debit Card</span><span class="all-countries-tag">ALL COUNTRIES</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="card" onclick="selectPayment('card','gift')">
-                <div class="card-logos"><span class="card-logo card-logo-visa"><span class="card-logo-text">VISA</span></span><span class="card-logo card-logo-mc"><span class="card-logo-text">MC</span></span><span class="card-logo card-logo-jcb"><span class="card-logo-text">JCB</span></span></div>
-                <span class="name">Credit/Debit Card</span>
-              </button>
+              <button class="payment-btn" data-method="card" onclick="selectPayment('card','gift')"><img src="images/creditcardlogos.png" class="pay-logo" alt="Credit/Debit Card"></button>
             </div>
           </div>
           <button class="action-btn" id="gift-btn" onclick="processPayment('gift')" disabled>Enter recipient username and select payment</button>
@@ -521,27 +509,19 @@
         <div class="payment-section">
           <h2>Payment Method</h2>
           <div class="payment-group" id="ewallet-group-donate">
-            <div class="payment-group-title"><span>eWallets</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
+            <div class="payment-group-title"><span>eWallets/QRPH</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash','donate')"><img src="images/GCash.png" class="pay-logo"><span class="name">GCash</span></button>
-              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya','donate')"><img src="images/Maya.png" class="pay-logo"><span class="name">Maya</span></button>
-              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay','donate')"><img src="images/Grabpay.png" class="pay-logo"><span class="name">GrabPay</span></button>
-              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay','donate')"><img src="images/Shopeepay.png" class="pay-logo"><span class="name">ShopeePay</span></button>
-            </div>
-          </div>
-          <div class="payment-group" id="qrph-group-donate">
-            <div class="payment-group-title"><span>QR PH</span><span class="web-only-tag">PHILIPPINES ONLY</span></div>
-            <div class="payment-methods">
-              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph','donate')"><span class="icon">&#128241;</span><span class="name">QR PH</span></button>
+              <button class="payment-btn" data-method="gcash" onclick="selectPayment('gcash','donate')"><img src="images/GCash.png" class="pay-logo" alt="GCash"></button>
+              <button class="payment-btn" data-method="maya" onclick="selectPayment('maya','donate')"><img src="images/Maya.png" class="pay-logo" alt="Maya"></button>
+              <button class="payment-btn" data-method="grabpay" onclick="selectPayment('grabpay','donate')"><img src="images/Grabpay.png" class="pay-logo" alt="GrabPay"></button>
+              <button class="payment-btn" data-method="shopeepay" onclick="selectPayment('shopeepay','donate')"><img src="images/Shopeepay.png" class="pay-logo" alt="ShopeePay"></button>
+              <button class="payment-btn" data-method="qrph" onclick="selectPayment('qrph','donate')"><img src="images/QR_PH.png" class="pay-logo" alt="QR PH"></button>
             </div>
           </div>
           <div class="payment-group">
-            <div class="payment-group-title">Credit/Debit Card</div>
+            <div class="payment-group-title"><span>Credit/Debit Card</span><span class="all-countries-tag">ALL COUNTRIES</span></div>
             <div class="payment-methods">
-              <button class="payment-btn" data-method="card" onclick="selectPayment('card','donate')">
-                <div class="card-logos"><span class="card-logo card-logo-visa"><span class="card-logo-text">VISA</span></span><span class="card-logo card-logo-mc"><span class="card-logo-text">MC</span></span><span class="card-logo card-logo-jcb"><span class="card-logo-text">JCB</span></span></div>
-                <span class="name">Credit/Debit Card</span>
-              </button>
+              <button class="payment-btn" data-method="card" onclick="selectPayment('card','donate')"><img src="images/creditcardlogos.png" class="pay-logo" alt="Credit/Debit Card"></button>
             </div>
           </div>
           <button class="action-btn" id="donate-btn" onclick="processPayment('donation')" disabled>Select amount and payment method</button>
@@ -842,11 +822,8 @@
       var isPH = currentRegion === 'PH';
       ['sub', 'upgrade', 'gift', 'donate'].forEach(function(type) {
         var ewallet = document.getElementById('ewallet-group-' + type);
-        var qrph = document.getElementById('qrph-group-' + type);
         if (ewallet) ewallet.style.display = isPH ? 'block' : 'none';
-        if (qrph) qrph.style.display = isPH ? 'block' : 'none';
       });
-      // Non-PH: card is the only payment option — pre-select it automatically
       if (!isPH) {
         selectedPaymentSub = 'card';
         selectedPaymentUpgrade = 'card';
@@ -860,7 +837,6 @@
         updateSubscribeButton();
         updateUpgradeButton();
         updateDonateButton();
-        // updateGiftButton() intentionally skipped — also requires recipient username
       }
     }
 
@@ -940,25 +916,6 @@
       var type = pendingCardType; pendingCardType = null;
       processPaymentDirect(type);
     }
-    function applyCardSelection(type) {
-      if (type === 'sub') {
-        selectedPaymentSub = 'card';
-        document.querySelectorAll('#tab-subscribe .payment-btn').forEach(function(b) { b.classList.toggle('selected', b.dataset.method === 'card'); });
-        updateSubscribeButton();
-      } else if (type === 'upgrade') {
-        selectedPaymentUpgrade = 'card';
-        document.querySelectorAll('#tab-upgrade .payment-btn').forEach(function(b) { b.classList.toggle('selected', b.dataset.method === 'card'); });
-        updateUpgradeButton();
-      } else if (type === 'gift') {
-        selectedPaymentGift = 'card';
-        document.querySelectorAll('#tab-gift .payment-btn').forEach(function(b) { b.classList.toggle('selected', b.dataset.method === 'card'); });
-        updateGiftButton();
-      } else if (type === 'donate') {
-        selectedPaymentDonate = 'card';
-        document.querySelectorAll('#tab-donate .payment-btn').forEach(function(b) { b.classList.toggle('selected', b.dataset.method === 'card'); });
-        updateDonateButton();
-      }
-    }
 
     function selectPayment(method, type) {
       if (type === 'sub') {
@@ -1004,7 +961,6 @@
       else { var p = PRICING[currentRegion]; btn.textContent = 'Donate ' + p.symbol + selectedDonation; btn.disabled = false; }
     }
 
-    // processPayment: for non-PH users, show beta warning before processing
     async function processPayment(type) {
       if (!currentUser) return;
       if (currentRegion !== 'PH') {
@@ -1015,8 +971,6 @@
       await processPaymentDirect(type);
     }
 
-    // processPaymentDirect: actual Xendit fetch (called after beta modal confirmation for non-PH,
-    // or directly for PH users)
     async function processPaymentDirect(type) {
       var overlay = document.getElementById('processing-overlay');
       overlay.classList.remove('hidden');
