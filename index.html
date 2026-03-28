@@ -388,5 +388,43 @@
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => { if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light'); });
         })();
     </script>
+
+    <!-- Logged-in user detection: replace login form with welcome card -->
+<script>
+(function() {
+  var stored = sessionStorage.getItem('rosary73UserData') || sessionStorage.getItem('rosary73User');
+  if (!stored) return;
+  var user;
+  try { user = JSON.parse(stored); } catch(e) { return; }
+  if (!user || !user.username) return;
+
+  // 1. Replace login card with Welcome Back card
+  var loginCard = document.querySelector('.compact-login-card');
+  if (loginCard) {
+    loginCard.innerHTML =
+      '<h3 class="compact-login-title">Welcome back, ' + user.username + '!</h3>' +
+      '<p style="color:rgba(255,255,255,0.7);font-size:0.85rem;margin-bottom:12px;">You are logged in. Explore the site or head to your dashboard.</p>' +
+      '<a href="members.html" class="compact-login-btn" style="display:inline-block;text-decoration:none;text-align:center;width:100%;">Go to Dashboard</a>';
+  }
+
+  // 2. Change "Sign Up" nav link to "Dashboard"
+  var navLinks = document.querySelectorAll('.nav-menu .nav-link');
+  navLinks.forEach(function(link) {
+    if (link.textContent.trim() === 'Sign Up') {
+      link.textContent = 'Dashboard';
+      link.href = 'members.html';
+    }
+  });
+
+  // 3. Change footer "Sign Up" links to "Dashboard"
+  var footerLinks = document.querySelectorAll('.footer a');
+  footerLinks.forEach(function(link) {
+    if (link.textContent.trim() === 'Sign Up') {
+      link.textContent = 'Dashboard';
+      link.href = 'members.html';
+    }
+  });
+})();
+</script>
 </body>
 </html>
