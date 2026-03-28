@@ -709,6 +709,7 @@
       document.getElementById('main-content').classList.remove('hidden');
       showLoggedIn();
       updatePricing();
+      updateBadgesForRegion();
       updateDonationGrid();
       updatePaymentVisibility();
       if (isPerpetualUser) { showPerpetualUI(); }
@@ -855,6 +856,35 @@
       document.getElementById('gift-price-3').innerHTML = formatPrice(p.threeMonth, p.symbol);
       document.getElementById('gift-price-6').innerHTML = formatPrice(p.sixMonth, p.symbol);
       document.getElementById('gift-price-12').innerHTML = formatPrice(p.twelveMonth, p.symbol);
+    }
+
+    function updateBadgesForRegion() {
+      var isPH = currentRegion === 'PH';
+      document.querySelectorAll('.pricing-grid').forEach(function(grid) {
+        var cards = grid.querySelectorAll('.price-card');
+        cards.forEach(function(card) {
+          var plan = card.dataset.plan;
+          var badge = card.querySelector('.badge');
+          var savings = card.querySelector('.savings');
+          if (plan === 'sixMonth') {
+            if (isPH) {
+              if (badge) { badge.style.display = ''; badge.textContent = 'MOST POPULAR'; }
+              if (savings) { savings.style.display = ''; savings.textContent = 'Save 25%'; }
+            } else {
+              if (badge) badge.style.display = 'none';
+              if (savings) savings.style.display = 'none';
+            }
+          } else if (plan === 'twelveMonth') {
+            if (isPH) {
+              if (badge) { badge.style.display = ''; badge.textContent = 'BEST VALUE'; }
+              if (savings) { savings.style.display = ''; savings.textContent = 'Save 37%'; }
+            } else {
+              if (badge) { badge.style.display = ''; badge.textContent = 'POPULAR'; }
+              if (savings) { savings.style.display = ''; savings.textContent = 'Save 16%'; }
+            }
+          }
+        });
+      });
     }
 
     function updateDonationGrid() {
