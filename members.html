@@ -2120,6 +2120,30 @@
       document.getElementById('donate-300').textContent = s + d[2];
       document.getElementById('donate-500').textContent = s + d[3];
       document.querySelectorAll('#donation-grid .donation-amount').forEach((el, i) => { el.dataset.amount = d[i]; });
+
+      // Update badges and savings text based on region
+      var isPH = (userData?.regionCode || 'OTHER') === 'PH';
+      document.querySelectorAll('.plan-card').forEach(function(card) {
+        var plan = card.dataset.plan;
+        var savingsEl = card.querySelector('.plan-savings');
+        if (plan === 'sixMonth') {
+          if (isPH) {
+            card.classList.add('popular');
+            if (savingsEl) { savingsEl.style.display = ''; savingsEl.textContent = 'Save 25%'; }
+          } else {
+            card.classList.remove('popular');
+            if (savingsEl) savingsEl.style.display = 'none';
+          }
+        } else if (plan === 'twelveMonth') {
+          if (isPH) {
+            card.classList.remove('popular');
+            if (savingsEl) { savingsEl.style.display = ''; savingsEl.textContent = 'Save 37%'; }
+          } else {
+            card.classList.add('popular');
+            if (savingsEl) { savingsEl.style.display = ''; savingsEl.textContent = 'Save 16%'; }
+          }
+        }
+      });
     }
 
     // =========================================
