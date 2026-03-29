@@ -91,6 +91,13 @@
       transition: transform 0.3s ease;
     }
     
+    <div style="padding: 15px 20px 5px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.85rem;transition:all 0.2s;">
+        <span style="font-size:1.1rem;">🏠</span>
+        <span>Home Page</span>
+      </a>
+    </div>
+
     .sidebar-section { margin-bottom: 20px; padding-top: 15px; }
     .sidebar-section-title {
       color: var(--text-muted);
@@ -402,6 +409,13 @@
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
+    <div style="padding: 15px 20px 5px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.85rem;transition:all 0.2s;">
+        <span style="font-size:1.1rem;">🏠</span>
+        <span>Home Page</span>
+      </a>
+    </div>
+
     <div class="sidebar-section">
       <div class="sidebar-section-title">Main</div>
       <a href="start-rosary.html" class="sidebar-item">
@@ -628,7 +642,6 @@
         const userId = currentUser?.uid || userData?.userId;
         if (!userId) return;
         
-        // Query all groups and filter client-side for membership
         const groupsSnapshot = await db.collection('groups')
           .limit(200)
           .get();
@@ -639,7 +652,6 @@
           const data = doc.data();
           let isMember = false;
           
-          // Check various membership formats
           if (data.memberIds && Array.isArray(data.memberIds)) {
             isMember = data.memberIds.includes(userId);
           }
@@ -755,14 +767,11 @@
       }
     }
 
-    // Check if user can view a rosary (public OR member of group)
     function canViewRosary(rosary) {
-      // Public rosaries - everyone can see
       if (rosary.isPublic === true) return true;
       if (!rosary.isGroupRosary && !rosary.groupId) return true;
       if (rosary.groups && rosary.groups.length === 0) return true;
       
-      // Group rosaries - check if user is member
       if (rosary.groupId && userGroupIds.includes(rosary.groupId)) return true;
       if (rosary.groups && rosary.groups.some(gId => userGroupIds.includes(gId))) return true;
       
@@ -787,13 +796,11 @@
         snapshot.forEach(doc => {
           const data = doc.data();
           
-          // Filter: Only show rosaries user can view
           if (!canViewRosary(data)) return;
           
           const isCreator = data.creatorId === userId;
           const isParticipant = Object.values(data.participants || {}).some(p => p.userId === userId);
           
-          // Determine if it's a group rosary
           const isGroupRosary = data.isGroupRosary === true || 
                                (data.groupId && data.groupId !== null) ||
                                (data.groups && data.groups.length > 0);
@@ -871,29 +878,18 @@
         `;
       }).join('');
       
-      // Setup audio players with single-audio-at-a-time behavior
       setupAudioPlayers();
     }
     
-    // Setup audio players to ensure only one plays at a time
     function setupAudioPlayers() {
       document.querySelectorAll('.audio-player').forEach((audio) => {
         const rosaryId = audio.dataset.rosaryId;
         
-        // When this audio starts playing, pause any other playing audio
         audio.addEventListener('play', () => {
           if (currentlyPlayingAudio && currentlyPlayingAudio !== audio) {
             currentlyPlayingAudio.pause();
           }
           currentlyPlayingAudio = audio;
-        });
-        
-        // When audio ends or is paused, clear the reference if it's this audio
-        audio.addEventListener('pause', () => {
-          if (currentlyPlayingAudio === audio) {
-            // Only clear if fully paused (not just seeking)
-            // Keep reference so we know what was last playing
-          }
         });
         
         audio.addEventListener('ended', () => {
@@ -902,7 +898,6 @@
           }
         });
         
-        // Handle error
         audio.addEventListener('error', () => {
           const wrapper = document.getElementById(`player-wrapper-${rosaryId}`);
           if (wrapper) {
