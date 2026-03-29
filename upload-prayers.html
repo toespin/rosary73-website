@@ -91,6 +91,13 @@
       transition: transform 0.3s ease;
     }
     
+    <div style="padding: 15px 20px 5px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.85rem;transition:all 0.2s;">
+        <span style="font-size:1.1rem;">🏠</span>
+        <span>Home Page</span>
+      </a>
+    </div>
+
     .sidebar-section { margin-bottom: 20px; padding-top: 15px; }
     .sidebar-section-title {
       color: var(--text-muted);
@@ -417,6 +424,13 @@
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
+    <div style="padding: 15px 20px 5px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.85rem;transition:all 0.2s;">
+        <span style="font-size:1.1rem;">🏠</span>
+        <span>Home Page</span>
+      </a>
+    </div>
+
     <div class="sidebar-section">
       <div class="sidebar-section-title">Main</div>
       <a href="start-rosary.html" class="sidebar-item">
@@ -574,16 +588,13 @@
       var btn = document.getElementById('play-btn-' + prayerId);
       var statusEl = document.getElementById('play-status-' + prayerId);
 
-      // If this prayer is already playing, stop it
       if (currentPlayingId === prayerId && currentAudio && !currentAudio.paused) {
         stopCurrentAudio();
         return;
       }
 
-      // Stop any other audio first
       stopCurrentAudio();
 
-      // Start playing this one
       btn.classList.add('loading');
       btn.innerHTML = '&#8987;';
       if (statusEl) statusEl.textContent = 'Loading...';
@@ -612,14 +623,11 @@
         btn.classList.remove('loading');
         if (statusEl) statusEl.textContent = 'Tap to listen';
 
-        // Try refreshing the URL from Firebase Storage
         var userId = currentUser ? currentUser.uid : (userData ? userData.userId : null);
         if (userId) {
           var storageRef = storage.ref('users/' + userId + '/prayers/' + prayerId + '.m4a');
           storageRef.getDownloadURL().then(function(freshUrl) {
-            // Update local data with fresh URL
             if (userData && userData.recordings) userData.recordings[prayerId] = freshUrl;
-            // Retry with fresh URL
             currentAudio = new Audio(freshUrl);
             currentPlayingId = prayerId;
             btn.classList.add('loading');
@@ -665,7 +673,6 @@
       { id: 'finalPrayer', name: 'Final Prayer', duration: '20-30 sec' }
     ];
 
-    // Sidebar Toggle
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
       document.getElementById('sidebar-overlay').classList.toggle('visible');
@@ -904,7 +911,6 @@
         return;
       }
       
-      // Validate file type
       var validTypes = ['audio/mpeg', 'audio/mp4', 'audio/x-m4a', 'audio/aac', 'audio/wav', 'audio/x-wav', 'audio/wave'];
       var validExts = ['.mp3', '.m4a', '.wav'];
       var fileName = file.name.toLowerCase();
@@ -917,7 +923,6 @@
         return;
       }
 
-      // Stop any playing audio before upload
       stopCurrentAudio();
       
       var card = document.getElementById('card-' + prayerId);
