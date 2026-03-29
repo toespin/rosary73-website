@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Start a Rosary - Rosary73</title>
-  <meta name="description" content="Start a new community rosary and invite 73 people to pray together">
+  <meta name="description" content="Start a new community rosary and invite others to pray with you">
   <link rel="icon" type="image/png" href="images/R73logo.png">
   
   <style>
@@ -13,7 +13,6 @@
     :root {
       --sidebar-width: 280px;
       --header-height: 60px;
-      --primary-color: #2E8B57;
       --gold: #d4af37;
       --gold-dark: #b8860b;
       --bg-dark: #1a1a2e;
@@ -92,6 +91,13 @@
       transition: transform 0.3s ease;
     }
     
+    <div style="padding: 15px 20px 5px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.85rem;transition:all 0.2s;">
+        <span style="font-size:1.1rem;">🏠</span>
+        <span>Home Page</span>
+      </a>
+    </div>
+
     .sidebar-section { margin-bottom: 20px; padding-top: 15px; }
     .sidebar-section-title {
       color: var(--text-muted);
@@ -153,7 +159,7 @@
     }
     
     .main-content {
-      max-width: 700px;
+      max-width: 800px;
       margin: 0 auto;
       padding: 30px 20px;
     }
@@ -194,98 +200,74 @@
     }
     .login-form input::placeholder { color: rgba(255,255,255,0.4); }
     
-    /* Content Card */
+    /* Mystery Selection */
+    .mystery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .mystery-card {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 20px 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .mystery-card:hover { border-color: rgba(212, 175, 55, 0.5); }
+    .mystery-card.selected, .mystery-card.recommended {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.1);
+    }
+    .mystery-icon { font-size: 2.8rem; margin-bottom: 8px; }
+    .mystery-name { font-weight: 600; margin-bottom: 4px; }
+    .mystery-day { font-size: 0.8rem; color: var(--text-muted); }
+    
+    /* Group Selector */
+    .group-selector-container {
+      margin-bottom: 25px;
+    }
+    .group-selector-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .group-selector {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 1rem;
+    }
+    .group-note {
+      margin-top: 8px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+    .group-note.info { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
+    
+    /* Intention Input */
     .content-card {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 16px;
       padding: 25px;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
-    
     .section-title {
       color: var(--gold);
+      margin-bottom: 12px;
       font-size: 1.1rem;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
-    
-    /* Group Selection */
-    .group-selector {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      font-size: 1rem;
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 16px center;
-    }
-    .group-selector:focus { outline: none; border-color: var(--gold); }
-    .group-selector option { background: var(--bg-dark); color: #fff; }
-    
-    .group-note {
-      margin-top: 10px;
-      padding: 12px;
-      background: rgba(212, 175, 55, 0.1);
-      border-radius: 8px;
-      font-size: 0.85rem;
-      color: var(--gold);
-    }
-    .group-note.info { background: rgba(96, 165, 250, 0.1); color: #60a5fa; }
-    
-    .groups-loading {
-      padding: 10px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-    
-    /* Mystery Selection */
-    .mystery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-    
-    .mystery-card {
-      background: rgba(255,255,255,0.05);
-      border: 2px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 20px 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    .mystery-card:hover { border-color: rgba(212, 175, 55, 0.5); transform: translateY(-2px); }
-    .mystery-card.selected { border-color: var(--gold); background: rgba(212, 175, 55, 0.15); }
-    .mystery-card.recommended::before {
-      content: 'TODAY';
-      position: absolute;
-      top: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: var(--bg-dark);
-      padding: 2px 10px;
-      border-radius: 10px;
-      font-size: 0.65rem;
-      font-weight: 700;
-    }
-    .mystery-icon { font-size: 2rem; margin-bottom: 8px; }
-    .mystery-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
-    .mystery-day { font-size: 0.75rem; color: var(--text-muted); }
-    
-    /* Intention Input */
     .intention-input {
       width: 100%;
+      min-height: 120px;
       padding: 16px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.2);
@@ -293,28 +275,48 @@
       color: #fff;
       font-size: 1rem;
       resize: vertical;
-      min-height: 120px;
-      font-family: inherit;
     }
-    .intention-input:focus { outline: none; border-color: var(--gold); }
-    .intention-input::placeholder { color: rgba(255,255,255,0.4); }
-    .char-count { text-align: right; font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; }
+    .char-count {
+      text-align: right;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
     
-    /* Requirement Box */
-    .requirement-box {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
+    /* Requirements */
+    .requirements {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
+      padding: 18px;
+      margin-bottom: 25px;
     }
-    .requirement-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
-    .requirement-icon { font-size: 1.3rem; }
-    .requirement-text { flex: 1; color: var(--text-light); }
-    .requirement-status { font-size: 0.85rem; padding: 4px 12px; border-radius: 20px; }
+    .requirement-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .requirement-item:last-child { margin-bottom: 0; }
+    .requirement-status {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
     .status-ready { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
     .status-missing { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-    .status-perpetual { background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(184, 134, 11, 0.3)); color: var(--gold); }
+    .status-perpetual { background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(184,134,11,0.3)); color: var(--gold); }
+    
+    /* Blocked Message */
+    .blocked-message {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
     
     /* Buttons */
     .btn {
@@ -322,9 +324,9 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 16px 32px;
-      border-radius: 12px;
-      font-size: 1.1rem;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -335,60 +337,6 @@
     .btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--bg-dark); }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
     .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-    .btn-secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
-    
-    /* Alert */
-    .alert {
-      padding: 15px 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-    .alert-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; }
-    .alert-success { background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); color: #4ade80; }
-    .alert-warning { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); color: #fbbf24; }
-    
-    /* Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      padding: 20px;
-    }
-    .modal-content {
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 20px;
-      padding: 40px;
-      text-align: center;
-      max-width: 400px;
-      animation: modalSlide 0.3s ease;
-    }
-    @keyframes modalSlide { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .modal-icon { font-size: 4rem; margin-bottom: 20px; }
-    .modal-title { color: var(--gold); font-size: 1.5rem; margin-bottom: 10px; }
-    .modal-text { color: var(--text-muted); margin-bottom: 25px; line-height: 1.6; }
-    .modal-buttons { display: flex; flex-direction: column; gap: 10px; }
-    
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: var(--bg-dark);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      display: inline-block;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
     
     .hidden { display: none !important; }
     
@@ -398,13 +346,6 @@
       .sidebar { transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
       .main-wrapper { margin-left: 0; }
-    }
-    
-    @media (max-width: 480px) {
-      .header-username { display: none; }
-      .mystery-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-      .mystery-card { padding: 15px 10px; }
-      .mystery-icon { font-size: 1.5rem; }
     }
   </style>
 </head>
@@ -431,6 +372,13 @@
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
+    <div style="padding: 15px 20px 5px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.85rem;transition:all 0.2s;">
+        <span style="font-size:1.1rem;">🏠</span>
+        <span>Home Page</span>
+      </a>
+    </div>
+
     <div class="sidebar-section">
       <div class="sidebar-section-title">Main</div>
       <a href="start-rosary.html" class="sidebar-item active">
@@ -501,8 +449,8 @@
   <!-- Main Content -->
   <div class="main-wrapper" id="main-wrapper">
     <main class="main-content">
-      <h1 class="page-title">✝️ Start a New Rosary</h1>
-      <p class="page-subtitle">Begin a rosary and invite 72 others to pray with you</p>
+      <h1 class="page-title">✝️ Start a Rosary</h1>
+      <p class="page-subtitle">Create a new rosary for the community to join</p>
 
       <!-- Login Gate -->
       <div id="login-gate" class="login-gate">
@@ -521,68 +469,62 @@
 
       <!-- Main Content -->
       <div id="main-content" class="hidden">
-        <!-- Requirements Check -->
-        <div class="requirement-box" id="requirements-box">
+        <div class="requirements">
           <div class="requirement-item">
-            <span class="requirement-icon">📿</span>
-            <span class="requirement-text">The Creed recording</span>
-            <span class="requirement-status" id="creed-status">Checking...</span>
+            <span style="color:#4ade80;">✓</span>
+            <div>
+              <strong>Creed Recording</strong><br>
+              <span id="creed-status" class="requirement-status status-ready">Ready</span>
+            </div>
           </div>
           <div class="requirement-item">
-            <span class="requirement-icon">⭐</span>
-            <span class="requirement-text">Active subscription or trial</span>
-            <span class="requirement-status" id="subscription-status">Checking...</span>
+            <span id="subscription-icon">⭐</span>
+            <div>
+              <strong>Subscription Status</strong><br>
+              <span id="subscription-status" class="requirement-status status-ready">Active</span>
+            </div>
           </div>
         </div>
 
-        <!-- Blocked Message -->
-        <div id="blocked-message" class="alert alert-warning hidden">
-          <span>⚠️</span>
-          <div>
-            <strong>Cannot start rosary</strong><br>
-            <span id="blocked-reason"></span>
-          </div>
+        <div id="blocked-message" class="blocked-message hidden">
+          <strong>Cannot start rosary yet</strong><br>
+          <span id="blocked-reason"></span>
         </div>
 
-        <!-- Rosary Form -->
         <div id="rosary-form">
-          <!-- Group Selection -->
-          <div class="content-card" id="group-card">
-            <h3 class="section-title">👥 Rosary Type</h3>
-            <select class="group-selector" id="group-selector">
-              <option value="public">🌍 Public Rosary (Anyone can join)</option>
-            </select>
-            <div class="group-note info" id="group-note">
-              ℹ️ Public rosaries are visible to all Rosary73 users
-            </div>
-            <div class="groups-loading hidden" id="groups-loading">
-              Loading your groups...
-            </div>
-          </div>
-
           <div class="content-card">
-            <h3 class="section-title">📿 Select Mystery</h3>
+            <h3 class="section-title">Choose Mystery Type</h3>
             <div class="mystery-grid" id="mystery-grid">
               <div class="mystery-card" data-mystery="joyful">
                 <div class="mystery-icon">👶</div>
                 <div class="mystery-name">Joyful</div>
-                <div class="mystery-day">Mon & Sat</div>
+                <div class="mystery-day">Monday & Saturday</div>
               </div>
               <div class="mystery-card" data-mystery="sorrowful">
                 <div class="mystery-icon">✝️</div>
                 <div class="mystery-name">Sorrowful</div>
-                <div class="mystery-day">Tue & Fri</div>
+                <div class="mystery-day">Tuesday & Friday</div>
               </div>
               <div class="mystery-card" data-mystery="glorious">
                 <div class="mystery-icon">👑</div>
                 <div class="mystery-name">Glorious</div>
-                <div class="mystery-day">Wed & Sun</div>
+                <div class="mystery-day">Wednesday & Sunday</div>
               </div>
               <div class="mystery-card" data-mystery="luminous">
                 <div class="mystery-icon">✨</div>
                 <div class="mystery-name">Luminous</div>
                 <div class="mystery-day">Thursday</div>
               </div>
+            </div>
+          </div>
+
+          <div class="group-selector-container">
+            <label class="group-selector-label">Choose Group (Optional)</label>
+            <select id="group-selector" class="group-selector">
+              <option value="public">🌍 Public Rosary (Anyone can join)</option>
+            </select>
+            <div id="group-note" class="group-note info">
+              ℹ️ Public rosaries are visible to all Rosary73 users
             </div>
           </div>
 
@@ -744,7 +686,6 @@
         
         console.log('Loading groups for user:', userId);
         
-        // Query ALL groups (remove isActive filter to see what's available)
         const groupsSnapshot = await db.collection('groups')
           .limit(200)
           .get();
@@ -756,22 +697,16 @@
         groupsSnapshot.forEach(doc => {
           const data = doc.data();
           
-          // Check if user is a member - handle multiple possible storage formats
           let isMember = false;
           
-          // Format 1: memberIds array (simple array of user IDs)
           if (data.memberIds && Array.isArray(data.memberIds)) {
             isMember = data.memberIds.includes(userId);
           }
-          
-          // Format 2: activeMembers array of objects with userId field
           if (!isMember && data.activeMembers && Array.isArray(data.activeMembers)) {
             isMember = data.activeMembers.some(m => 
               (typeof m === 'object' && m.userId === userId) || m === userId
             );
           }
-          
-          // Format 3: members object/array
           if (!isMember && data.members) {
             if (Array.isArray(data.members)) {
               isMember = data.members.some(m => 
@@ -781,8 +716,6 @@
               isMember = userId in data.members;
             }
           }
-          
-          // Format 4: Check if user is admin/creator
           if (!isMember) {
             isMember = data.createdBy === userId || 
                        (data.adminIds && data.adminIds.includes(userId));
@@ -791,17 +724,15 @@
           if (isMember) {
             console.log('User is member of:', data.name);
             
-            // Calculate member count
             const memberCount = data.activeMemberCount || 
                                (data.activeMembers ? data.activeMembers.length : 0) ||
                                (data.memberIds ? data.memberIds.length : 0) || 0;
             
-            // Add group without 75+ member requirement (let user see all their groups)
             userGroups.push({
               id: doc.id,
               name: data.name || 'Unnamed Group',
               memberCount: memberCount,
-              isActive: data.isActive !== false, // default to true if not set
+              isActive: data.isActive !== false,
               isAdmin: data.createdBy === userId || (data.adminIds && data.adminIds.includes(userId))
             });
           }
@@ -819,10 +750,8 @@
     function updateGroupSelector() {
       const selector = document.getElementById('group-selector');
       
-      // Clear existing group options (keep public)
       selector.innerHTML = '<option value="public">🌍 Public Rosary (Anyone can join)</option>';
       
-      // Add user's groups
       if (userGroups.length > 0) {
         const separator = document.createElement('option');
         separator.disabled = true;
@@ -858,16 +787,12 @@
     function updateSidebarForUser() {
       if (!userData) return;
       
-      // Update prayers badge
       const prayerCount = userData.prayerCount || 0;
       document.getElementById('prayers-badge').textContent = `${prayerCount}/7`;
       
-      // Hide subscribe for perpetual/admin users
-      const isPerpetual = userData.isPerpetual === true || userData.subscriptionStatus === 'perpetual';
-      const isAdmin = userData.isAdmin === true;
-      const hasSpecialAccess = userData.hasSpecialAccess === true || userData.subscriptionStatus === 'special_access';
-      
-      if (isPerpetual || isAdmin || hasSpecialAccess) {
+      const isPerpetual = userData.isPerpetual === true || userData.isAdmin === true || 
+                          userData.hasSpecialAccess === true || userData.subscriptionStatus === 'perpetual';
+      if (isPerpetual) {
         const subscribeLink = document.getElementById('subscribe-link');
         if (subscribeLink) {
           subscribeLink.innerHTML = '<span class="sidebar-item-icon">✨</span><span>Perpetual Access</span>';
@@ -953,7 +878,6 @@
       const blockedReason = document.getElementById('blocked-reason');
       const rosaryForm = document.getElementById('rosary-form');
       
-      // Check Creed recording
       let hasCreed = false;
       if (userData?.prayerCount >= 1 || userData?.recordings?.creed || userData?.hasCreed) {
         hasCreed = true;
@@ -967,12 +891,10 @@
         creedStatus.className = 'requirement-status status-missing';
       }
       
-      // Check subscription - Include perpetual, admin, special_access
       const status = userData?.subscriptionStatus;
       let hasActiveSubscription = false;
       let isPerpetualOrSpecial = false;
       
-      // Check for perpetual/admin/special access FIRST
       if (userData?.isPerpetual === true || userData?.isAdmin === true) {
         hasActiveSubscription = true;
         isPerpetualOrSpecial = true;
@@ -1085,11 +1007,9 @@
         let creedUrl = userData?.recordings?.creed || userData?.creedUrl || '';
         const creatorUsername = userData.username || 'Anonymous';
         
-        // Determine group settings
         const isGroupRosary = groupValue !== 'public';
         const selectedGroupData = isGroupRosary ? userGroups.find(g => g.id === groupValue) : null;
         
-        // Build rosary data
         const rosaryData = {
           rosaryId,
           creatorId: userId,
@@ -1104,19 +1024,16 @@
           audioProcessing: false,
           stitchedAudioUrl: null,
           
-          // GROUP FIELDS
           groups: isGroupRosary ? [groupValue] : [],
           isPublic: !isGroupRosary,
           isGroupRosary: isGroupRosary,
           groupId: isGroupRosary ? groupValue : null,
           groupName: isGroupRosary ? selectedGroupData?.name : null,
           
-          // APP COMPATIBILITY FIELDS
           numberingSystem: '1-73',
           hasCreatorRecording: !!creedUrl,
           source: 'website',
           
-          // TIMESTAMPS
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           completedAt: null
         };
@@ -1128,7 +1045,6 @@
         
         console.log('✅ Rosary created:', rosaryId, isGroupRosary ? `for group ${selectedGroupData?.name}` : 'public');
         
-        // Update success modal text
         const successText = document.getElementById('success-text');
         if (isGroupRosary) {
           successText.innerHTML = `Your rosary for <strong>${selectedGroupData?.name}</strong> has been created. You are participant #1.<br>Only group members can join this rosary.`;
@@ -1145,7 +1061,6 @@
       }
     }
 
-    // Handle window resize
     window.addEventListener('resize', () => {
       if (window.innerWidth > 900 && userData) {
         document.getElementById('main-wrapper').style.marginLeft = 'var(--sidebar-width)';
