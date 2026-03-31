@@ -1838,6 +1838,12 @@
     let myRosariesData = [];
     let myRosariesFilter = 'all';
 
+    // ============================================================
+    // USD BETA TOGGLE — set to false when Xendit USD is approved
+    // Must match the same flag in subscribe.html
+    // ============================================================
+    var USD_PAYMENTS_DISABLED = true;
+
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       const storedUser = sessionStorage.getItem('rosary73UserData');
@@ -1847,6 +1853,7 @@
         showDashboard();
         updateUI();
         updatePaymentVisibility();
+        applyUsdBetaRestrictions();
         checkOpenSection();
         loadNotifications();
         // Show beta modal if flagged from login/signup redirect
@@ -2105,6 +2112,7 @@
       document.getElementById('stat-groups').textContent = userData.groupsJoined || 0;
       
       updatePricing();
+      applyUsdBetaRestrictions();
     }
 
     function updatePricing() {
@@ -2585,6 +2593,62 @@
       toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
       container.appendChild(toast);
       setTimeout(() => { toast.style.animation = 'slideIn 0.3s ease reverse'; setTimeout(() => toast.remove(), 300); }, 4000);
+    }
+
+    // ============================================================
+    // USD BETA RESTRICTIONS (members.html)
+    // When USD_PAYMENTS_DISABLED is true AND user is non-PH:
+    //   - Grey out all plans, payment methods, and buttons
+    //   - Show banner directing to "Apply for Free Access"
+    // TO REVERSE: set USD_PAYMENTS_DISABLED = false
+    // ============================================================
+    function applyUsdBetaRestrictions() {
+      if (!USD_PAYMENTS_DISABLED) return;
+      var region = (userData && (userData.regionCode || userData.countryCode)) || 'OTHER';
+      if (region === 'PH') return;
+
+      // Remove old banner if exists
+      var old = document.getElementById('usd-beta-banner-members');
+      if (old) old.remove();
+
+      // Grey out subscription-related elements in the subscribe section
+      var subSection = document.getElementById('subscribe-section') || document.getElementById('section-subscribe') || document.querySelector('[data-section="subscribe"]');
+      if (!subSection) {
+        // Try to find the subscribe content area by looking for pricing grids
+        var pricingGrids = document.querySelectorAll('.pricing-grid, .price-card, .plan-card');
+        pricingGrids.forEach(function(el) { subSection = subSection || el.closest('.section-content, .tab-content, section, .content-section'); });
+      }
+
+      // Grey out all price/plan cards anywhere on the page
+      document.querySelectorAll('.price-card, .plan-card').forEach(function(c) {
+        c.style.opacity = '0.4';
+        c.style.pointerEvents = 'none';
+      });
+
+      // Grey out payment sections
+      document.querySelectorAll('.payment-section, .payment-methods').forEach(function(s) {
+        if (s.closest('#donate-section, #section-donate, [data-section="donate"]')) return;
+        s.style.opacity = '0.4';
+        s.style.pointerEvents = 'none';
+      });
+
+      // Grey out action/subscribe buttons (not donate buttons)
+      document.querySelectorAll('.action-btn, .subscribe-btn, #subscribe-btn, #upgrade-btn, #gift-btn').forEach(function(b) {
+        b.disabled = true;
+        b.style.opacity = '0.4';
+      });
+
+      // Insert banner - find the best place (after the Choose Your Plan heading or at top of subscribe section)
+      var target = document.querySelector('.pricing-grid, .plans-container, #pricing-grid');
+      if (target && target.parentElement) {
+        var banner = document.createElement('div');
+        banner.id = 'usd-beta-banner-members';
+        banner.style.cssText = 'background:rgba(239,68,68,0.12);border:2px solid rgba(239,68,68,0.35);border-radius:14px;padding:24px;margin-bottom:25px;text-align:center;';
+        banner.innerHTML = '<p style="color:#fca5a5;font-size:1.05rem;margin-bottom:10px;font-weight:700;">⚠️ USD Payments Coming Soon</p>'
+          + '<p style="color:rgba(255,255,255,0.7);font-size:0.92rem;margin-bottom:16px;line-height:1.6;">We are in <strong style="color:#fff;">BETA mode</strong>. USD payment processing is being finalized with our payment provider. In the meantime, apply for free access to start praying right away!</p>'
+          + '<button onclick="showSection(\'free-access\') || showSection(\'free\')" style="padding:13px 28px;background:#3b82f6;border:none;border-radius:10px;color:#fff;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.3s;">✝ Apply for Free Access</button>';
+        target.parentElement.insertBefore(banner, target);
+      }
     }
 
     window.addEventListener('resize', () => {
