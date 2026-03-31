@@ -619,6 +619,11 @@
     var isPerpetualUser = false;
     var pendingCardType = null;
 
+    // ============================================================
+    // USD BETA TOGGLE — set to false when Xendit USD is approved
+    // ============================================================
+    var USD_PAYMENTS_DISABLED = true;
+
     var PRICING = {
       PH: { threeMonth: 99, sixMonth: 149, twelveMonth: 249, currency: 'PHP', symbol: '\u20B1' },
       OTHER: { threeMonth: 2.99, sixMonth: 5.99, twelveMonth: 9.99, currency: 'USD', symbol: '$' }
@@ -713,6 +718,42 @@
       updateDonationGrid();
       updatePaymentVisibility();
       if (isPerpetualUser) { showPerpetualUI(); }
+      applyUsdBetaRestrictions();
+    }
+
+    // ============================================================
+    // USD BETA RESTRICTIONS
+    // When USD_PAYMENTS_DISABLED is true AND user is non-PH:
+    //   - Grey out all plans, payment methods, and buttons
+    //   - Show banner directing to "Apply for Free Access"
+    // TO REVERSE: set USD_PAYMENTS_DISABLED = false (line above)
+    // ============================================================
+    function applyUsdBetaRestrictions() {
+      if (!USD_PAYMENTS_DISABLED || currentRegion === 'PH') return;
+
+      // Remove old banner if exists (prevent duplicates)
+      var old = document.getElementById('usd-beta-banner');
+      if (old) old.remove();
+
+      // Grey out plan cards, payment sections, donation grid, action buttons
+      ['tab-subscribe', 'tab-upgrade', 'tab-gift', 'tab-donate'].forEach(function(tabId) {
+        var tab = document.getElementById(tabId);
+        if (!tab) return;
+        tab.querySelectorAll('.price-card').forEach(function(c) { c.style.opacity = '0.4'; c.style.pointerEvents = 'none'; });
+        tab.querySelectorAll('.payment-section').forEach(function(s) { s.style.opacity = '0.4'; s.style.pointerEvents = 'none'; });
+        tab.querySelectorAll('.donation-grid, .custom-amount').forEach(function(e) { e.style.opacity = '0.4'; e.style.pointerEvents = 'none'; });
+        tab.querySelectorAll('.action-btn').forEach(function(b) { b.disabled = true; b.style.opacity = '0.4'; });
+      });
+
+      // Insert banner after tabs
+      var banner = document.createElement('div');
+      banner.id = 'usd-beta-banner';
+      banner.style.cssText = 'background:rgba(239,68,68,0.12);border:2px solid rgba(239,68,68,0.35);border-radius:14px;padding:24px;margin-bottom:25px;text-align:center;';
+      banner.innerHTML = '<p style="color:#fca5a5;font-size:1.05rem;margin-bottom:10px;font-weight:700;">⚠️ USD Payments Coming Soon</p>'
+        + '<p style="color:rgba(255,255,255,0.7);font-size:0.92rem;margin-bottom:16px;line-height:1.6;">We are in <strong style="color:#fff;">BETA mode</strong>. USD payment processing is being finalized with our payment provider. In the meantime, apply for free access to start praying right away!</p>'
+        + '<button onclick="switchTab(\'free\')" style="padding:13px 28px;background:#3b82f6;border:none;border-radius:10px;color:#fff;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.3s;">✝ Apply for Free Access</button>';
+      var tabs = document.getElementById('tabs-container');
+      if (tabs) tabs.insertAdjacentElement('afterend', banner);
     }
 
     function showPerpetualUI() {
