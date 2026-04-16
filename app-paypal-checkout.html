@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Rosary73 — Complete payment</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #fff;
+      color: #333;
+      padding: 20px 16px 40px;
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .header { text-align: center; margin-bottom: 20px; }
+    .header .title { font-size: 14px; color: #666; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .header .amount { font-size: 34px; font-weight: 600; color: #2E8B57; line-height: 1.1; }
+    .header .description { font-size: 14px; color: #666; margin-top: 8px; }
+    .summary-card {
+      background: #f7f8fa;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 20px 0;
+      font-size: 13px;
+      color: #555;
+      text-align: center;
+    }
+    .summary-card strong { color: #333; font-weight: 600; }
+    .paypal-buttons-wrapper { margin: 20px 0; min-height: 100px; }
+    #loading {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 14px;
+      color: #666;
+    }
+    .spinner {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      border: 3px solid #eee;
+      border-top-color: #2E8B57;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status {
+      text-align: center;
+      padding: 20px;
+      font-size: 15px;
+      color: #2E8B57;
+      font-weight: 500;
+    }
+    .status.error { color: #c33; }
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: #999;
+      margin-top: 28px;
+    }
+    .footer .lock { vertical-align: middle; margin-right: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="title" id="title">Rosary73</div>
+    <div class="amount" id="amount">$0.00</div>
+    <div class="description" id="description"></div>
+  </div>
+
+  <div class="summary-card" id="summary" style="display:none;"></div>
+
+  <div id="loading">
+    <div class="spinner"></div>
+    Loading secure checkout…
+  </div>
+
+  <div id="paypal-buttons" class="paypal-buttons-wrapper" style="display:none;"></div>
+
+  <div id="status" class="status" style="display:none;"></div>
+
+  <div class="footer">
+    <span class="lock">🔒</span>Secure payment powered by PayPal
+  </div>
+
+  <script>
+    // ==========================
+    // URL params
+    // ==========================
+    var params = new URLSearchParams(window.location.search);
+    var type = params.get('type');                        // subscribe | gift | donate
+    var planKey = params.get('plan');                     // threeMonth | sixMonth | twelveMonth
+    var amount = parseFloat(params.get('amount')) || null;
+    var recipient = params.get('recipient') || '';
+    var username = params.get('username') || '';
+
+    // ==========================
+    // Config (SANDBOX — same as subscribe.html/members.html)
+    // ==========================
+    var CLIENT_ID = 'Aa4mUqIMHbxTlWAUyte1e-A3d7eLQDNjgJY1iGI7wlnDVl13gbeX6T2-1VVyuwBqQvdYf7MTfK7Ab7Tn';
+    var PLAN_IDS = {
+      threeMonth:  'P-92M289068U041772CNHOKWGQ',
+      sixMonth:    'P-4EH579885R318553ANHOLJBI',
+      twelveMonth: 'P-9C957870A23058004NHOLKVY'
+    };
+    var PRICES = { threeMonth: 2.99, sixMonth: 5.99, twelveMonth: 9.99 };
+    var DURATIONS = { threeMonth: '3 months', sixMonth: '6 months', twelveMonth: '12 months' };
+
+    // ==========================
+    // postMessage bridge to RN
+    // ==========================
+    function postToApp(payload) {
+      try {
+        if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+          window.ReactNativeWebView.postMessage(JSON.stringify(payload));
+        } else {
+          console.log('[No RN bridge] Would post:', payload);
+        }
+      } catch (e) {
+        console.error('postToApp error:', e);
+      }
+    }
+
+    // ==========================
+    // UI helpers
+    // ==========================
+    function $(id) { return document.getElementById(id); }
+
+    function setupHeader() {
+      var titleEl = $('title');
+      var amountEl = $('amount');
+      var descEl = $('description');
+      var summaryEl = $('summary');
+
+      if (type === 'subscribe') {
+        var p = PRICES[planKey] || 0;
+        titleEl.textContent = 'ROSARY73 PREMIUM';
+        amountEl.textContent = '$' + p.toFixed(2);
+        descEl.textContent = DURATIONS[planKey] || '';
+        if (username) {
+          summaryEl.style.display = 'block';
+          summaryEl.innerHTML = 'For <strong>' + escapeHtml(username) + '</strong>';
+        }
+      } else if (type === 'gift') {
+        var gp = PRICES[planKey] || 0;
+        titleEl.textContent = 'GIFT SUBSCRIPTION';
+        amountEl.textContent = '$' + gp.toFixed(2);
+        descEl.textContent = DURATIONS[planKey] || '';
+        summaryEl.style.display = 'block';
+        summaryEl.innerHTML = 'For <strong>' + escapeHtml(recipient || 'recipient') + '</strong>';
+      } else if (type === 'donate') {
+        titleEl.textContent = 'DONATION';
+        amountEl.textContent = '$' + (amount || 0).toFixed(2);
+        descEl.textContent = 'Support Rosary73';
+        summaryEl.style.display = 'block';
+        summaryEl.innerHTML = 'Thank you for supporting our ministry';
+      } else {
+        titleEl.textContent = 'ROSARY73';
+        amountEl.textContent = '';
+        descEl.textContent = 'Invalid payment type';
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function(c) {
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+      });
+    }
+
+    function showButtons() {
+      $('loading').style.display = 'none';
+      $('paypal-buttons').style.display = 'block';
+    }
+
+    function showStatus(msg, isError) {
+      $('loading').style.display = 'none';
+      $('paypal-buttons').style.display = 'none';
+      var s = $('status');
+      s.textContent = msg;
+      s.style.display = 'block';
+      s.className = 'status' + (isError ? ' error' : '');
+    }
+
+    // ==========================
+    // PayPal renderers
+    // ==========================
+    function renderPayPal() {
+      if (!window.paypal) {
+        showStatus('Could not load PayPal. Please try again.', true);
+        postToApp({ status: 'error', message: 'PayPal SDK failed to load' });
+        return;
+      }
+
+      if (type === 'subscribe') {
+        var planId = PLAN_IDS[planKey];
+        if (!planId) {
+          showStatus('Invalid plan.', true);
+          postToApp({ status: 'error', message: 'Invalid plan key: ' + planKey });
+          return;
+        }
+        paypal.Buttons({
+          style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe' },
+          createSubscription: function(data, actions) {
+            return actions.subscription.create({ plan_id: planId });
+          },
+          onApprove: function(data) {
+            showStatus('Payment successful. Returning to app…', false);
+            postToApp({
+              status: 'success',
+              type: 'subscribe',
+              paypalSubscriptionId: data.subscriptionID,
+              planKey: planKey,
+              amount: PRICES[planKey]
+            });
+          },
+          onError: function(err) {
+            console.error('PayPal error:', err);
+            postToApp({ status: 'error', message: (err && err.message) || 'PayPal error' });
+          },
+          onCancel: function() {
+            postToApp({ status: 'cancel' });
+          }
+        }).render('#paypal-buttons').then(showButtons, function(err) {
+          showStatus('Could not render PayPal buttons.', true);
+          postToApp({ status: 'error', message: 'Render failed: ' + (err && err.message) });
+        });
+        return;
+      }
+
+      if (type === 'gift' || type === 'donate') {
+        var orderAmount = type === 'gift' ? (PRICES[planKey] || 0) : (amount || 0);
+        if (!orderAmount || orderAmount <= 0) {
+          showStatus('Invalid amount.', true);
+          postToApp({ status: 'error', message: 'Invalid amount' });
+          return;
+        }
+        var description = type === 'gift'
+          ? 'Rosary73 Gift (' + (DURATIONS[planKey] || '') + ') for ' + (recipient || 'recipient')
+          : 'Rosary73 Donation - $' + orderAmount.toFixed(2);
+
+        paypal.Buttons({
+          style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'pay' },
+          createOrder: function(data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                amount: { value: orderAmount.toFixed(2), currency_code: 'USD' },
+                description: description
+              }]
+            });
+          },
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(order) {
+              showStatus('Payment successful. Returning to app…', false);
+              postToApp({
+                status: 'success',
+                type: type,
+                paypalOrderId: data.orderID,
+                planKey: planKey || null,
+                amount: orderAmount,
+                recipientUsername: recipient || null,
+                captureStatus: order && order.status
+              });
+            }).catch(function(err) {
+              console.error('Capture error:', err);
+              postToApp({ status: 'error', message: (err && err.message) || 'Capture failed' });
+            });
+          },
+          onError: function(err) {
+            console.error('PayPal error:', err);
+            postToApp({ status: 'error', message: (err && err.message) || 'PayPal error' });
+          },
+          onCancel: function() {
+            postToApp({ status: 'cancel' });
+          }
+        }).render('#paypal-buttons').then(showButtons, function(err) {
+          showStatus('Could not render PayPal buttons.', true);
+          postToApp({ status: 'error', message: 'Render failed: ' + (err && err.message) });
+        });
+        return;
+      }
+
+      showStatus('Unknown payment type.', true);
+      postToApp({ status: 'error', message: 'Unknown type: ' + type });
+    }
+
+    // ==========================
+    // Load PayPal SDK
+    // ==========================
+    function loadPayPalSdk() {
+      setupHeader();
+      if (!type) {
+        showStatus('Missing payment type.', true);
+        postToApp({ status: 'error', message: 'No type param' });
+        return;
+      }
+      var script = document.createElement('script');
+      script.src = 'https://www.paypal.com/sdk/js?client-id=' + CLIENT_ID + '&vault=true&currency=USD';
+      script.onload = renderPayPal;
+      script.onerror = function() {
+        showStatus('Could not load PayPal. Check your connection.', true);
+        postToApp({ status: 'error', message: 'SDK load failure' });
+      };
+      document.head.appendChild(script);
+    }
+
+    loadPayPalSdk();
+  </script>
+</body>
+</html>
