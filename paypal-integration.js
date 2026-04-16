@@ -2,10 +2,16 @@
  * PayPal Integration for Rosary73
  * Handles USD subscriptions, gifts, and donations via PayPal
  * PHP transactions continue through Xendit
- * 
- * Usage: Include this script in subscribe.html after the PayPal SDK script tag
- * <script src="https://www.paypal.com/sdk/js?client-id=CLIENT_ID&vault=true&intent=subscription&currency=USD"></script>
- * <script src="paypal-integration.js"></script>
+ *
+ * Works with both:
+ *   - subscribe.html (4-tab layout: Subscribe, Upgrade, Gift, Donate)
+ *   - members.html   (sidebar dashboard with Subscribe, Gift, Donate sections)
+ *
+ * Usage:
+ *   <script src="https://www.paypal.com/sdk/js?client-id=CLIENT_ID&vault=true&currency=USD"></script>
+ *   <script src="paypal-integration.js"></script>
+ *   // Then after user login:
+ *   Rosary73PayPal.init(userData);
  */
 
 (function() {
@@ -46,17 +52,17 @@
     // =============================================
     // HELPERS
     // =============================================
-    
+
     function isUSDUser() {
-        // Check if user is non-PH (USD pricing)
+        // Non-PH users pay in USD via PayPal. Normalized: anything not PH is USD.
         if (!currentUser) return false;
         const country = (currentUser.country || '').toLowerCase();
         const regionCode = (currentUser.regionCode || '').toUpperCase();
+        // Philippines users use Xendit, everyone else uses PayPal
         return country !== 'philippines' && regionCode !== 'PH';
     }
 
     function getPlanIdFromSelection(planKey) {
-        // Map plan selection to PayPal plan ID
         const map = {
             'threeMonth':  PAYPAL_CONFIG.plans.threeMonth,
             'sixMonth':    PAYPAL_CONFIG.plans.sixMonth,
@@ -77,7 +83,6 @@
     }
 
     function showPayPalSuccess(type, details) {
-        // Show success message and redirect
         const overlay = document.getElementById('paypal-success-overlay');
         if (overlay) {
             const msg = document.getElementById('paypal-success-message');
@@ -114,13 +119,12 @@
     // =============================================
 
     async function activatePayPalSubscription(subscriptionId, planKey, userId) {
-        // Calculate end date
         var months = getPlanMonths(planKey);
         var endDate = new Date();
-        
-        // If user has existing active subscription, extend from current end date
+
+        // Extend existing active subscription
         if (currentUser && currentUser.subscriptionStatus === 'active' && currentUser.subscriptionEndDate) {
-            var existingEnd = currentUser.subscriptionEndDate.toDate ? 
+            var existingEnd = currentUser.subscriptionEndDate.toDate ?
                 currentUser.subscriptionEndDate.toDate() : new Date(currentUser.subscriptionEndDate);
             if (existingEnd > new Date()) {
                 endDate = existingEnd;
@@ -128,7 +132,6 @@
         }
         endDate.setMonth(endDate.getMonth() + months);
 
-        // Write V2 subscription schema to Firestore
         try {
             var userRef = firebase.firestore().collection('users').doc(userId);
             await userRef.update({
@@ -142,8 +145,7 @@
                 subscriptionUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
             });
             console.log('PayPal subscription activated in Firestore:', subscriptionId);
-            
-            // Record payment intent
+
             await firebase.firestore().collection('paymentIntents').add({
                 userId: userId,
                 type: 'subscription',
@@ -155,7 +157,7 @@
                 status: 'completed',
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            
+
             return true;
         } catch (err) {
             console.error('Failed to activate subscription in Firestore:', err);
@@ -165,32 +167,29 @@
 
     async function activatePayPalGift(orderId, planKey, recipientUsername) {
         var months = getPlanMonths(planKey);
-        
+
         try {
-            // Look up recipient by username
             var usersRef = firebase.firestore().collection('users');
             var snapshot = await usersRef.where('usernameLowercase', '==', recipientUsername.toLowerCase()).get();
-            
+
             if (snapshot.empty) {
                 throw new Error('Recipient username not found: ' + recipientUsername);
             }
-            
+
             var recipientDoc = snapshot.docs[0];
             var recipientData = recipientDoc.data();
             var recipientId = recipientDoc.id;
-            
-            // Calculate end date for recipient
+
             var endDate = new Date();
             if (recipientData.subscriptionStatus === 'active' && recipientData.subscriptionEndDate) {
-                var existingEnd = recipientData.subscriptionEndDate.toDate ? 
+                var existingEnd = recipientData.subscriptionEndDate.toDate ?
                     recipientData.subscriptionEndDate.toDate() : new Date(recipientData.subscriptionEndDate);
                 if (existingEnd > new Date()) {
                     endDate = existingEnd;
                 }
             }
             endDate.setMonth(endDate.getMonth() + months);
-            
-            // Activate gift on recipient
+
             await firebase.firestore().collection('users').doc(recipientId).update({
                 subscriptionTier: 'gifted',
                 subscriptionStatus: 'active',
@@ -200,10 +199,9 @@
                 subscriptionProvider: 'paypal',
                 subscriptionUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            
-            // Record gift
+
             await firebase.firestore().collection('paymentIntents').add({
-                userId: currentUser.uid || 'unknown',
+                userId: (currentUser && (currentUser.uid || currentUser.userId)) || 'unknown',
                 recipientId: recipientId,
                 recipientUsername: recipientUsername,
                 type: 'gift',
@@ -215,7 +213,7 @@
                 status: 'completed',
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            
+
             console.log('Gift activated for', recipientUsername);
             return true;
         } catch (err) {
@@ -226,9 +224,12 @@
 
     async function recordPayPalDonation(orderId, amount) {
         try {
+            var userId = currentUser ? (currentUser.uid || currentUser.userId || 'anonymous') : 'anonymous';
+            var username = currentUser ? (currentUser.username || 'anonymous') : 'anonymous';
+
             await firebase.firestore().collection('donations').add({
-                userId: currentUser ? (currentUser.uid || 'anonymous') : 'anonymous',
-                username: currentUser ? (currentUser.username || 'anonymous') : 'anonymous',
+                userId: userId,
+                username: username,
                 type: 'donation',
                 provider: 'paypal',
                 paypalOrderId: orderId,
@@ -237,9 +238,9 @@
                 status: 'completed',
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            
+
             await firebase.firestore().collection('paymentIntents').add({
-                userId: currentUser ? (currentUser.uid || 'anonymous') : 'anonymous',
+                userId: userId,
                 type: 'donation',
                 provider: 'paypal',
                 paypalOrderId: orderId,
@@ -248,7 +249,7 @@
                 status: 'completed',
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            
+
             console.log('Donation recorded:', amount, 'USD');
             return true;
         } catch (err) {
@@ -266,11 +267,11 @@
             console.warn('PayPal SDK not loaded');
             return;
         }
-        
+
         var container = document.getElementById(containerId);
         if (!container) return;
         container.innerHTML = '';
-        
+
         paypal.Buttons({
             style: {
                 shape: 'rect',
@@ -319,11 +320,11 @@
             console.warn('PayPal SDK not loaded');
             return;
         }
-        
+
         var container = document.getElementById(containerId);
         if (!container) return;
         container.innerHTML = '';
-        
+
         paypal.Buttons({
             style: {
                 shape: 'rect',
@@ -352,7 +353,7 @@
                 var order = await actions.order.capture();
                 try {
                     await onSuccess(data.orderID, order);
-                    showPayPalSuccess(containerId.includes('gift') ? 'gift' : 'donation', data);
+                    showPayPalSuccess(containerId.indexOf('gift') !== -1 ? 'gift' : 'donation', data);
                 } catch (err) {
                     showPayPalError(err);
                 }
@@ -367,19 +368,50 @@
     }
 
     // =============================================
+    // SELECTOR HELPERS (support subscribe.html + members.html)
+    // =============================================
+
+    function findSelectedPlan(selectors) {
+        for (var i = 0; i < selectors.length; i++) {
+            var el = document.querySelector(selectors[i]);
+            if (el) return el.getAttribute('data-plan') || el.getAttribute('data-months');
+        }
+        return null;
+    }
+
+    function findSelectedAmount(selectors) {
+        for (var i = 0; i < selectors.length; i++) {
+            var el = document.querySelector(selectors[i]);
+            if (el) {
+                var amt = parseFloat(el.getAttribute('data-amount'));
+                if (!isNaN(amt)) return amt;
+            }
+        }
+        return null;
+    }
+
+    function findInputValue(selectors) {
+        for (var i = 0; i < selectors.length; i++) {
+            var el = document.querySelector(selectors[i]);
+            if (el && el.value) return el.value.trim();
+        }
+        return '';
+    }
+
+    // =============================================
     // INITIALIZATION
     // =============================================
 
     function initPayPalForUSD(user) {
         currentUser = user;
-        
+
         if (!isUSDUser()) {
             console.log('PayPal: PH user detected, skipping PayPal (using Xendit)');
             return;
         }
-        
+
         console.log('PayPal: USD user detected, initializing PayPal buttons');
-        
+
         // Show PayPal containers, hide Xendit credit card sections for USD
         document.querySelectorAll('.paypal-usd-container').forEach(function(el) {
             el.style.display = 'block';
@@ -387,44 +419,60 @@
         document.querySelectorAll('.xendit-card-section').forEach(function(el) {
             el.style.display = 'none';
         });
-        
-        // Remove USD disabled banner if present
-        var usdBanner = document.getElementById('usd-beta-notice');
-        if (usdBanner) usdBanner.style.display = 'none';
-        var usdModal = document.getElementById('usdBetaModal');
-        if (usdModal) usdModal.style.display = 'none';
-        
-        // 1. Subscribe tab — PayPal subscription buttons
+
+        // Remove USD disabled banners/modals if present
+        ['usd-beta-notice', 'usdBetaModal', 'usd-beta-banner', 'usd-beta-banner-members'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+
+        // 1. Subscribe — PayPal subscription buttons
+        //    Supports both subscribe.html (#subscribe-plans) and members.html (#plans-grid)
         renderSubscriptionButtons('paypal-subscribe-buttons', function() {
-            // Get currently selected plan from the subscribe tab
-            var selected = document.querySelector('#subscribe-plans .plan-card.selected, #subscribe-plans .plan-option.selected, [data-tab="subscribe"] .plan-card.selected');
-            if (selected) {
-                return selected.getAttribute('data-plan') || selected.getAttribute('data-months');
+            var plan = findSelectedPlan([
+                '#subscribe-plans .plan-card.selected',
+                '#subscribe-plans .plan-option.selected',
+                '[data-tab="subscribe"] .plan-card.selected',
+                '#plans-grid .plan-card.selected',
+                '#section-subscribe .plan-card.selected',
+                '#tab-subscribe .plan-card.selected'
+            ]);
+            if (plan) return plan;
+
+            // Fallback: any selected .plan-card NOT in gift or upgrade tabs
+            var all = document.querySelectorAll('.plan-card.selected');
+            for (var i = 0; i < all.length; i++) {
+                var el = all[i];
+                if (el.closest('#gift-plans, #gift-plans-grid, #upgrade-plans, [data-tab="gift"], [data-tab="upgrade"], #section-gift, #tab-gift, #tab-upgrade')) continue;
+                return el.getAttribute('data-plan');
             }
-            // Fallback: check for any selected plan card in subscribe section
-            var allSelected = document.querySelectorAll('.plan-card.selected');
-            if (allSelected.length > 0) return allSelected[0].getAttribute('data-plan');
             return null;
         });
-        
-        // 2. Upgrade tab — PayPal subscription buttons (same plans, extends existing)
+
+        // 2. Upgrade — only on subscribe.html (has its own Upgrade tab)
         renderSubscriptionButtons('paypal-upgrade-buttons', function() {
-            var selected = document.querySelector('#upgrade-plans .plan-card.selected, #upgrade-plans .plan-option.selected, [data-tab="upgrade"] .plan-card.selected');
-            if (selected) {
-                return selected.getAttribute('data-plan') || selected.getAttribute('data-months');
-            }
-            return null;
+            return findSelectedPlan([
+                '#upgrade-plans .plan-card.selected',
+                '#upgrade-plans .plan-option.selected',
+                '[data-tab="upgrade"] .plan-card.selected',
+                '#tab-upgrade .plan-card.selected'
+            ]);
         });
-        
-        // 3. Gift tab — PayPal one-time order
-        renderOrderButtons('paypal-gift-buttons', 
+
+        // 3. Gift — PayPal one-time order
+        renderOrderButtons('paypal-gift-buttons',
             function() {
-                // Get gift plan price
-                var selected = document.querySelector('#gift-plans .plan-card.selected, #gift-plans .plan-option.selected, [data-tab="gift"] .plan-card.selected');
-                if (selected) {
-                    var planKey = selected.getAttribute('data-plan') || selected.getAttribute('data-months');
-                    selectedGiftPlan = planKey;
-                    return PAYPAL_CONFIG.giftPrices[planKey] || PAYPAL_CONFIG.giftPrices['threeMonth'];
+                var plan = findSelectedPlan([
+                    '#gift-plans .plan-card.selected',
+                    '#gift-plans .plan-option.selected',
+                    '[data-tab="gift"] .plan-card.selected',
+                    '#gift-plans-grid .plan-card.selected',
+                    '#section-gift .plan-card.selected',
+                    '#tab-gift .plan-card.selected'
+                ]);
+                if (plan) {
+                    selectedGiftPlan = plan;
+                    return PAYPAL_CONFIG.giftPrices[plan] || PAYPAL_CONFIG.giftPrices['threeMonth'];
                 }
                 return 0;
             },
@@ -432,29 +480,44 @@
                 return 'Rosary73 Gift Subscription for ' + (giftRecipientUsername || 'user');
             },
             async function(orderId, order) {
-                // Get recipient username from the gift input field
-                var recipientInput = document.querySelector('#gift-recipient, #giftRecipientInput, [name="giftRecipient"], .gift-recipient-input');
-                giftRecipientUsername = recipientInput ? recipientInput.value.trim() : '';
+                giftRecipientUsername = findInputValue([
+                    '#gift-recipient',
+                    '#giftRecipientInput',
+                    '[name="giftRecipient"]',
+                    '.gift-recipient-input'
+                ]);
                 if (!giftRecipientUsername) {
                     throw new Error('Please enter a recipient username');
                 }
                 await activatePayPalGift(orderId, selectedGiftPlan, giftRecipientUsername);
             }
         );
-        
-        // 4. Donate tab — PayPal one-time order
+
+        // 4. Donate — PayPal one-time order
         renderOrderButtons('paypal-donate-buttons',
             function() {
-                // Get selected donation amount
-                var selected = document.querySelector('#donate-amounts .amount-card.selected, #donate-amounts .donation-option.selected, [data-tab="donate"] .amount-card.selected');
-                if (selected) {
-                    selectedDonationAmount = parseFloat(selected.getAttribute('data-amount'));
+                // Preset amount selection
+                var amount = findSelectedAmount([
+                    '#donate-amounts .amount-card.selected',
+                    '#donate-amounts .donation-option.selected',
+                    '[data-tab="donate"] .amount-card.selected',
+                    '#donation-grid .donation-amount.selected',
+                    '#section-donate .donation-amount.selected',
+                    '#tab-donate .amount-card.selected'
+                ]);
+                if (amount) {
+                    selectedDonationAmount = amount;
                     return selectedDonationAmount;
                 }
-                // Check for custom amount input
-                var customInput = document.querySelector('#custom-donation-amount, #customDonationInput, .custom-donation-input');
-                if (customInput && customInput.value) {
-                    selectedDonationAmount = parseFloat(customInput.value);
+                // Custom amount
+                var custom = findInputValue([
+                    '#custom-donation',
+                    '#custom-donation-amount',
+                    '#customDonationInput',
+                    '.custom-donation-input'
+                ]);
+                if (custom) {
+                    selectedDonationAmount = parseFloat(custom);
                     return selectedDonationAmount;
                 }
                 return 0;
