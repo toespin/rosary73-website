@@ -95,20 +95,20 @@
     // URL params
     // ==========================
     var params = new URLSearchParams(window.location.search);
-    var type = params.get('type');                        // subscribe | gift | donate
-    var planKey = params.get('plan');                     // threeMonth | sixMonth | twelveMonth
+    var type = params.get('type');
+    var planKey = params.get('plan');
     var amount = parseFloat(params.get('amount')) || null;
     var recipient = params.get('recipient') || '';
     var username = params.get('username') || '';
 
     // ==========================
-    // Config (SANDBOX — same as subscribe.html/members.html)
+    // Config — LIVE PRODUCTION (Apr 22, 2026)
     // ==========================
-    var CLIENT_ID = 'Aa4mUqIMHbxTlWAUyte1e-A3d7eLQDNjgJY1iGI7wlnDVl13gbeX6T2-1VVyuwBqQvdYf7MTfK7Ab7Tn';
+    var CLIENT_ID = 'AQpVJ-HcS6IUwD4mAqPPI3CjO-yWVGJAskogSH9H7zQ39Jhd8o2pYAE1nGzs7BMjYx2vZPA0iFJ50Hfm';
     var PLAN_IDS = {
-      threeMonth:  'P-92M289068U041772CNHOKWGQ',
-      sixMonth:    'P-4EH579885R318553ANHOLJBI',
-      twelveMonth: 'P-9C957870A23058004NHOLKVY'
+      threeMonth:  'P-20B683686G1122848NHUDSSA',
+      sixMonth:    'P-46200420PR542923VNHUDSWY',
+      twelveMonth: 'P-8P625064Y5644281PNHUDSZY'
     };
     var PRICES = { threeMonth: 2.99, sixMonth: 5.99, twelveMonth: 9.99 };
     var DURATIONS = { threeMonth: '3 months', sixMonth: '6 months', twelveMonth: '12 months' };
