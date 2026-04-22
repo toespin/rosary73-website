@@ -12,20 +12,22 @@
  *   <script src="paypal-integration.js"></script>
  *   // Then after user login:
  *   Rosary73PayPal.init(userData);
+ *
+ * UPDATED: Apr 22, 2026 — switched to LIVE credentials
  */
 
 (function() {
     'use strict';
 
     // =============================================
-    // CONFIGURATION
+    // CONFIGURATION — LIVE PRODUCTION (Apr 22, 2026)
     // =============================================
     const PAYPAL_CONFIG = {
-        clientId: 'Aa4mUqIMHbxTlWAUyte1e-A3d7eLQDNjgJY1iGI7wlnDVl13gbeX6T2-1VVyuwBqQvdYf7MTfK7Ab7Tn',
+        clientId: 'AQpVJ-HcS6IUwD4mAqPPI3CjO-yWVGJAskogSH9H7zQ39Jhd8o2pYAE1nGzs7BMjYx2vZPA0iFJ50Hfm',
         plans: {
-            threeMonth:  'P-92M289068U041772CNHOKWGQ',
-            sixMonth:    'P-4EH579885R318553ANHOLJBI',
-            twelveMonth: 'P-9C957870A23058004NHOLKVY'
+            threeMonth:  'P-20B683686G1122848NHUDSSA',
+            sixMonth:    'P-46200420PR542923VNHUDSWY',
+            twelveMonth: 'P-8P625064Y5644281PNHUDSZY'
         },
         prices: {
             threeMonth:  2.99,
@@ -427,7 +429,6 @@
         });
 
         // 1. Subscribe — PayPal subscription buttons
-        //    Supports both subscribe.html (#subscribe-plans) and members.html (#plans-grid)
         renderSubscriptionButtons('paypal-subscribe-buttons', function() {
             var plan = findSelectedPlan([
                 '#subscribe-plans .plan-card.selected',
@@ -439,7 +440,6 @@
             ]);
             if (plan) return plan;
 
-            // Fallback: any selected .plan-card NOT in gift or upgrade tabs
             var all = document.querySelectorAll('.plan-card.selected');
             for (var i = 0; i < all.length; i++) {
                 var el = all[i];
@@ -449,7 +449,7 @@
             return null;
         });
 
-        // 2. Upgrade — only on subscribe.html (has its own Upgrade tab)
+        // 2. Upgrade
         renderSubscriptionButtons('paypal-upgrade-buttons', function() {
             return findSelectedPlan([
                 '#upgrade-plans .plan-card.selected',
@@ -496,7 +496,6 @@
         // 4. Donate — PayPal one-time order
         renderOrderButtons('paypal-donate-buttons',
             function() {
-                // Preset amount selection
                 var amount = findSelectedAmount([
                     '#donate-amounts .amount-card.selected',
                     '#donate-amounts .donation-option.selected',
@@ -509,7 +508,6 @@
                     selectedDonationAmount = amount;
                     return selectedDonationAmount;
                 }
-                // Custom amount
                 var custom = findInputValue([
                     '#custom-donation',
                     '#custom-donation-amount',
