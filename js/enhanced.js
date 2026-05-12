@@ -202,7 +202,7 @@ if (videoButton) {
     videoButton.addEventListener('click', (e) => {
         e.preventDefault();
         // TODO: Open video modal or redirect to demo video
-        alert('Demo video coming soon! Join our TestFlight to see the app in action.');
+        alert('Demo video coming soon. In the meantime, download the app from the App Store or Google Play.');
     });
 }
 
