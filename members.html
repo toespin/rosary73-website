@@ -1794,6 +1794,7 @@
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
+      captureSectionFromUrl();
       const storedUser = sessionStorage.getItem('rosary73UserData');
       if (storedUser) {
         userData = JSON.parse(storedUser);
@@ -1809,6 +1810,17 @@
       }
       setupLoginForm();
     });
+
+    // Map a URL hash (e.g. members.html#subscribe) to a dashboard section so
+    // external links open the right panel — both when the user is already
+    // logged in and after they sign in from the gate.
+    function captureSectionFromUrl() {
+      var VALID = ['dashboard','notifications','my-rosaries','my-groups','subscribe','gift','donate','settings'];
+      var hash = (window.location.hash || '').replace('#','').trim();
+      if (hash && VALID.indexOf(hash) !== -1) {
+        sessionStorage.setItem('openSection', hash);
+      }
+    }
 
     // Check if should open specific section
     function checkOpenSection() {
@@ -1892,6 +1904,7 @@
           updateUI();
           updatePaymentVisibility();
           loadNotifications();
+          checkOpenSection();
           showToast('Welcome back, ' + result.username + '!', 'success');
         } catch (error) {
           errorDiv.classList.remove('hidden');
