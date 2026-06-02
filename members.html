@@ -1519,7 +1519,7 @@
             <!-- Can't Afford Banner -->
             <div style="margin-bottom:20px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
               <p style="color:rgba(255,255,255,0.7);font-size:0.88rem;margin:0;">✝ <span style="color:#60a5fa;">Can't afford a subscription?</span> Rosary73 offers free access for clergy, religious, and those with financial hardship.</p>
-              <a href="mailto:support@rosary73.com?subject=Free%20Subscription%20Request" style="flex-shrink:0;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);color:#60a5fa;padding:8px 16px;border-radius:8px;font-size:0.82rem;text-decoration:none;white-space:nowrap;">Apply for Free Access</a>
+              <button type="button" onclick="openFreeAccessModal()" style="flex-shrink:0;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);color:#60a5fa;padding:8px 16px;border-radius:8px;font-size:0.82rem;cursor:pointer;white-space:nowrap;">Apply for Free Access</button>
             </div>
             <h3 style="margin: 25px 0 15px; font-size: 1rem; color: var(--text-muted);">Select Payment Method</h3>
             <div class="payment-methods-section" id="payment-methods-subscribe">
@@ -1741,6 +1741,25 @@
   </div>
 
   <div class="toast-container" id="toast-container"></div>
+
+  <!-- Free Access Modal (honor system, no verification) -->
+  <div id="free-access-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border:1px solid rgba(59,130,246,0.4);border-radius:18px;padding:30px 26px;max-width:440px;width:100%;text-align:center;">
+      <div style="font-size:2.6rem;margin-bottom:10px;">&#128591;</div>
+      <h3 style="color:#60a5fa;font-size:1.3rem;margin:0 0 10px;">Apply for Free Access</h3>
+      <p style="color:rgba(255,255,255,0.75);font-size:0.9rem;line-height:1.55;margin:0 0 18px;">Rosary73 offers free access on an <strong>honor system</strong> &mdash; no verification required. Please choose the option that applies to you:</p>
+      <select id="free-access-reason" style="width:100%;padding:13px 14px;border-radius:10px;background:#0f1626;border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:0.95rem;margin-bottom:20px;">
+        <option value="">&mdash; Select an option &mdash;</option>
+        <option value="clergy">I am clergy or religious (1 year free)</option>
+        <option value="hardship">Financial hardship (1 month free)</option>
+      </select>
+      <div id="free-access-result" style="display:none;font-size:0.9rem;margin-bottom:16px;line-height:1.5;"></div>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button type="button" id="free-access-confirm" onclick="grantFreeAccess()" style="padding:13px 26px;background:#3b82f6;border:none;border-radius:10px;color:#fff;font-weight:700;font-size:0.95rem;cursor:pointer;">Confirm</button>
+        <button type="button" onclick="closeFreeAccessModal()" style="padding:13px 22px;background:transparent;border:1px solid rgba(255,255,255,0.25);border-radius:10px;color:rgba(255,255,255,0.7);font-size:0.92rem;cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -2501,6 +2520,75 @@
         codeInput.value = ''; updateUI(); showToast('Gift code redeemed successfully!', 'success');
       } catch (error) { resultDiv.className = 'redeem-result error'; resultIcon.textContent = '❌'; resultText.textContent = error.message;
       } finally { btn.disabled = false; btn.textContent = 'Redeem'; }
+    }
+
+    // =========================================
+    // FREE ACCESS (honor system, no verification)
+    // =========================================
+    function openFreeAccessModal() {
+      var sel = document.getElementById('free-access-reason');
+      if (sel) sel.value = '';
+      var r = document.getElementById('free-access-result');
+      if (r) { r.style.display = 'none'; r.textContent = ''; }
+      var c = document.getElementById('free-access-confirm');
+      if (c) { c.disabled = false; c.style.display = ''; c.innerHTML = 'Confirm'; }
+      document.getElementById('free-access-modal').style.display = 'flex';
+    }
+
+    function closeFreeAccessModal() {
+      document.getElementById('free-access-modal').style.display = 'none';
+    }
+
+    async function grantFreeAccess() {
+      var reason = document.getElementById('free-access-reason').value;
+      var resultDiv = document.getElementById('free-access-result');
+      var confirmBtn = document.getElementById('free-access-confirm');
+      function fail(msg) { resultDiv.style.display = 'block'; resultDiv.style.color = '#fca5a5'; resultDiv.innerHTML = msg; }
+      if (!reason) { fail('Please select an option first.'); return; }
+      var tier = userData.subscriptionTier;
+      if (tier === 'perpetual' || tier === 'admin' || isPerpetualUser) {
+        fail('You already have lifetime access &mdash; no need to apply.'); return;
+      }
+      confirmBtn.disabled = true; confirmBtn.innerHTML = '<span class="spinner"></span>';
+      try {
+        var months = reason === 'clergy' ? 12 : 1;
+        var now = new Date();
+        var endDate = new Date(now);
+        // Never shorten an existing, still-valid subscription
+        if (userData.subscriptionEndDate) {
+          var currentEnd = new Date(userData.subscriptionEndDate);
+          if (currentEnd > endDate) endDate = new Date(currentEnd);
+        }
+        endDate.setMonth(endDate.getMonth() + months);
+        var previousTier = userData.subscriptionTier || null;
+        var previousEnd = userData.subscriptionEndDate || null;
+        // 1) Update the user's own record (Date is stored as a Firestore Timestamp)
+        await db.collection('users').doc(userData.userId).update({
+          subscriptionTier: 'free', subscriptionStatus: 'active', subscriptionEndDate: endDate,
+          subscriptionSchemaVersion: 2, subscriptionProvider: 'honor',
+          freeAccessReason: reason, freeAccessGrantedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        // 2) Append an audit-log entry (never overwritten)
+        await db.collection('freeAccessGrants').add({
+          userId: userData.userId, username: userData.username || null, email: userData.email || null,
+          reason: reason, months: months, previousTier: previousTier, previousEndDate: previousEnd,
+          newEndDate: endDate.toISOString(), grantedAt: firebase.firestore.FieldValue.serverTimestamp(), source: 'website'
+        });
+        // 3) Sync local state + refresh UI
+        userData.subscriptionTier = 'free'; userData.subscriptionStatus = 'active';
+        userData.subscriptionEndDate = endDate.toISOString(); userData.subscriptionSchemaVersion = 2;
+        sessionStorage.setItem('rosary73UserData', JSON.stringify(userData));
+        updateUI();
+        var durLabel = reason === 'clergy' ? '1 year' : '1 month';
+        resultDiv.style.display = 'block'; resultDiv.style.color = '#86efac';
+        resultDiv.innerHTML = '&#128591; Free access granted for ' + durLabel + '!<br>Valid until <strong>' + endDate.toLocaleDateString() + '</strong>.';
+        confirmBtn.style.display = 'none';
+        showToast('Free access activated!', 'success');
+        setTimeout(closeFreeAccessModal, 2600);
+      } catch (e) {
+        fail('Could not activate: ' + e.message);
+        confirmBtn.disabled = false; confirmBtn.innerHTML = 'Confirm';
+      }
     }
 
     // =========================================
