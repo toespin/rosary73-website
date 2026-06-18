@@ -26,6 +26,7 @@
     .step-num { background: #d4af37; color: #1a1a2e; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
     .step-text { color: rgba(255,255,255,0.9); }
     .step-text strong { color: #ffffff; }
+    .code-hint { background: rgba(212, 175, 55, 0.12); border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 10px; padding: 14px 16px; margin-top: 4px; color: rgba(255,255,255,0.9); font-size: 0.95rem; line-height: 1.5; }
     .buttons { display: flex; gap: 15px; margin-top: 30px; justify-content: center; flex-wrap: wrap; }
     .btn { padding: 14px 28px; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; }
     .btn-primary { background: linear-gradient(135deg, #d4af37, #b8860b); color: #1a1a2e; }
@@ -52,35 +53,39 @@
 
   <main class="main">
     <div class="success-container">
-      <div class="icon-large">🎉</div>
-      <h1>Payment Successful!</h1>
-      <p>Thank you for subscribing to Rosary73.</p>
-      <p>Your subscription is now active.</p>
+      <div class="icon-large" id="icon">🎉</div>
+      <h1 id="title">Payment Successful!</h1>
+      <div id="subtitle">
+        <p>Thank you for subscribing to Rosary73.</p>
+        <p>Your subscription is now active.</p>
+      </div>
       
       <div class="card">
         <div class="next-steps">
-          <h3>What's Next?</h3>
-          <div class="step">
-            <span class="step-num">1</span>
-            <span class="step-text"><strong>Download the app</strong> from the App Store or Google Play</span>
-          </div>
-          <div class="step">
-            <span class="step-num">2</span>
-            <span class="step-text"><strong>Login</strong> with your username and password</span>
-          </div>
-          <div class="step">
-            <span class="step-num">3</span>
-            <span class="step-text"><strong>Record your 7 prayers</strong> to start participating in rosaries</span>
-          </div>
-          <div class="step">
-            <span class="step-num">4</span>
-            <span class="step-text"><strong>Start praying!</strong> Join rosaries with 73 people worldwide</span>
+          <h3 id="stepsTitle">What's Next?</h3>
+          <div id="stepsList">
+            <div class="step">
+              <span class="step-num">1</span>
+              <span class="step-text"><strong>Download the app</strong> from the App Store or Google Play</span>
+            </div>
+            <div class="step">
+              <span class="step-num">2</span>
+              <span class="step-text"><strong>Login</strong> with your username and password</span>
+            </div>
+            <div class="step">
+              <span class="step-num">3</span>
+              <span class="step-text"><strong>Record your 7 prayers</strong> to start participating in rosaries</span>
+            </div>
+            <div class="step">
+              <span class="step-num">4</span>
+              <span class="step-text"><strong>Start praying!</strong> Join rosaries with 73 people worldwide</span>
+            </div>
           </div>
         </div>
         
         <div class="buttons">
-          <a href="index.html#download" class="btn btn-primary">Download the App</a>
-          <a href="index.html" class="btn btn-secondary">Return to Home</a>
+          <a href="index.html#download" id="primaryBtn" class="btn btn-primary">Download the App</a>
+          <a href="index.html" id="secondaryBtn" class="btn btn-secondary">Return to Home</a>
         </div>
       </div>
     </div>
@@ -91,29 +96,77 @@
   </footer>
 
   <script>
-    // Clear session storage
-    sessionStorage.removeItem('rosary73User');
-    sessionStorage.removeItem('pendingVerification');
-    
-    // Confetti animation
-    function createConfetti() {
-      const colors = ['#d4af37', '#86efac', '#f472b6', '#60a5fa', '#fbbf24', '#a78bfa'];
-      for (let i = 0; i < 50; i++) {
-        setTimeout(() => {
-          const confetti = document.createElement('div');
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var type = params.get('type');
+
+      // Keep the buyer logged in for gift/donation (so they can grab their code
+      // from Notifications). For a self-subscription, preserve prior behavior.
+      if (type !== 'gift' && type !== 'donation') {
+        sessionStorage.removeItem('rosary73User');
+      }
+      sessionStorage.removeItem('pendingVerification');
+
+      function step(num, html) {
+        return '<div class="step"><span class="step-num">' + num + '</span>' +
+               '<span class="step-text">' + html + '</span></div>';
+      }
+
+      var icon = document.getElementById('icon');
+      var title = document.getElementById('title');
+      var subtitle = document.getElementById('subtitle');
+      var stepsTitle = document.getElementById('stepsTitle');
+      var stepsList = document.getElementById('stepsList');
+      var primaryBtn = document.getElementById('primaryBtn');
+      var secondaryBtn = document.getElementById('secondaryBtn');
+
+      if (type === 'gift') {
+        icon.textContent = '🎁';
+        title.textContent = 'Gift Purchased!';
+        subtitle.innerHTML =
+          '<p>Thank you for gifting Rosary73.</p>' +
+          '<p>Your gift code has been created and sent to your <strong>Notifications</strong> — open them to copy the code and share it with your recipient.</p>';
+        stepsTitle.textContent = 'What your recipient does';
+        stepsList.innerHTML =
+          step(1, '<strong>Download the app</strong> from the App Store or Google Play') +
+          step(2, '<strong>Log in</strong> or create a Rosary73 account') +
+          step(3, '<strong>Redeem the gift code</strong> in Support R73 &rarr; Redeem Gift Code') +
+          step(4, '<strong>Start praying!</strong> Record prayers and join rosaries with 73 people worldwide') +
+          '<div class="code-hint">💡 Your gift code expires in 90 days. You can find it any time under Notifications in the app or your account dashboard.</div>';
+        primaryBtn.textContent = 'View Your Gift Code';
+        primaryBtn.setAttribute('href', 'members.html');
+        secondaryBtn.textContent = 'Return to Home';
+        secondaryBtn.setAttribute('href', 'index.html');
+      } else if (type === 'donation') {
+        icon.textContent = '❤️';
+        title.textContent = 'Thank You!';
+        subtitle.innerHTML =
+          '<p>Your donation to Rosary73 has been received.</p>' +
+          '<p>Your generosity helps keep the prayers going. God bless you.</p>';
+        stepsTitle.textContent = 'Your support matters';
+        stepsList.innerHTML =
+          '<p style="color: rgba(255,255,255,0.9);">Every contribution helps cover audio processing and hosting, and keeps Rosary73 accessible to people praying around the world. Thank you for being part of it.</p>';
+        primaryBtn.textContent = 'Return to Home';
+        primaryBtn.setAttribute('href', 'index.html');
+        secondaryBtn.style.display = 'none';
+      }
+      // else: default subscription copy already in the markup.
+
+      // Confetti animation
+      var colors = ['#d4af37', '#86efac', '#f472b6', '#60a5fa', '#fbbf24', '#a78bfa'];
+      for (var i = 0; i < 50; i++) {
+        setTimeout(function () {
+          var confetti = document.createElement('div');
           confetti.className = 'confetti';
           confetti.style.left = Math.random() * 100 + 'vw';
           confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
           confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
           confetti.style.opacity = Math.random() * 0.8 + 0.2;
           document.body.appendChild(confetti);
-          
-          setTimeout(() => confetti.remove(), 4000);
+          setTimeout(function () { confetti.remove(); }, 4000);
         }, i * 50);
       }
-    }
-    
-    createConfetti();
+    })();
   </script>
 </body>
 </html>
