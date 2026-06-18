@@ -14,6 +14,9 @@
  *   Rosary73PayPal.init(userData);
  *
  * UPDATED: Apr 22, 2026 — switched to LIVE credentials
+ * UPDATED: Jun 18, 2026 — gifts now mint a server-side redeemable code via the
+ *   issueGiftCodePayPal Cloud Function (Option A) instead of granting the
+ *   recipient directly by username.
  */
 
 (function() {
@@ -41,6 +44,11 @@
             twelveMonth: 9.99
         }
     };
+
+    // Cloud Function that verifies the PayPal gift order server-side and mints a
+    // redeemable R73GIFT- code (Option A, Jun 2026).
+    const ISSUE_GIFT_CODE_PAYPAL_URL =
+        'https://us-central1-rosary--interact-app.cloudfunctions.net/issueGiftCodePayPal';
 
     // =============================================
     // STATE
@@ -85,6 +93,14 @@
     }
 
     function showPayPalSuccess(type, details) {
+        // Route to the typed success page so it shows the right message.
+        var successUrl = 'payment-success.html';
+        if (type === 'gift') {
+            successUrl = 'payment-success.html?type=gift';
+        } else if (type === 'donation') {
+            successUrl = 'payment-success.html?type=donation';
+        }
+
         const overlay = document.getElementById('paypal-success-overlay');
         if (overlay) {
             const msg = document.getElementById('paypal-success-message');
@@ -94,7 +110,7 @@
                         msg.textContent = 'Subscription activated! Redirecting...';
                         break;
                     case 'gift':
-                        msg.textContent = 'Gift sent successfully! Redirecting...';
+                        msg.textContent = 'Gift code created! Redirecting...';
                         break;
                     case 'donation':
                         msg.textContent = 'Thank you for your donation! Redirecting...';
@@ -103,11 +119,11 @@
             }
             overlay.style.display = 'flex';
             setTimeout(function() {
-                window.location.href = 'payment-success.html';
+                window.location.href = successUrl;
             }, 2000);
         } else {
             alert('Payment successful! Thank you.');
-            window.location.href = 'payment-success.html';
+            window.location.href = successUrl;
         }
     }
 
@@ -167,61 +183,40 @@
         }
     }
 
+    // Gifts no longer grant the recipient directly from the browser. After the
+    // PayPal order is captured, we call the issueGiftCodePayPal Cloud Function,
+    // which verifies the order server-side and mints a redeemable code. The buyer
+    // receives the code in their Notifications to share with the recipient.
     async function activatePayPalGift(orderId, planKey, recipientUsername) {
-        var months = getPlanMonths(planKey);
-
-        try {
-            var usersRef = firebase.firestore().collection('users');
-            var snapshot = await usersRef.where('usernameLowercase', '==', recipientUsername.toLowerCase()).get();
-
-            if (snapshot.empty) {
-                throw new Error('Recipient username not found: ' + recipientUsername);
-            }
-
-            var recipientDoc = snapshot.docs[0];
-            var recipientData = recipientDoc.data();
-            var recipientId = recipientDoc.id;
-
-            var endDate = new Date();
-            if (recipientData.subscriptionStatus === 'active' && recipientData.subscriptionEndDate) {
-                var existingEnd = recipientData.subscriptionEndDate.toDate ?
-                    recipientData.subscriptionEndDate.toDate() : new Date(recipientData.subscriptionEndDate);
-                if (existingEnd > new Date()) {
-                    endDate = existingEnd;
-                }
-            }
-            endDate.setMonth(endDate.getMonth() + months);
-
-            await firebase.firestore().collection('users').doc(recipientId).update({
-                subscriptionTier: 'gifted',
-                subscriptionStatus: 'active',
-                subscriptionPlan: planKey,
-                subscriptionEndDate: firebase.firestore.Timestamp.fromDate(endDate),
-                subscriptionSchemaVersion: 2,
-                subscriptionProvider: 'paypal',
-                subscriptionUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-
-            await firebase.firestore().collection('paymentIntents').add({
-                userId: (currentUser && (currentUser.uid || currentUser.userId)) || 'unknown',
-                recipientId: recipientId,
-                recipientUsername: recipientUsername,
-                type: 'gift',
-                provider: 'paypal',
-                paypalOrderId: orderId,
-                plan: planKey,
-                amount: PAYPAL_CONFIG.giftPrices[planKey],
-                currency: 'USD',
-                status: 'completed',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-
-            console.log('Gift activated for', recipientUsername);
-            return true;
-        } catch (err) {
-            console.error('Failed to activate gift:', err);
-            throw err;
+        var gifterId = currentUser ? (currentUser.uid || currentUser.userId) : null;
+        if (!gifterId) {
+            throw new Error('You must be signed in to send a gift.');
         }
+
+        var resp = await fetch(ISSUE_GIFT_CODE_PAYPAL_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                orderId: orderId,
+                planKey: planKey,
+                gifterId: gifterId,
+                recipientName: recipientUsername || null
+            })
+        });
+
+        var result;
+        try {
+            result = await resp.json();
+        } catch (e) {
+            result = {};
+        }
+
+        if (!resp.ok || !result || !result.success) {
+            throw new Error((result && result.error) || 'Failed to issue gift code.');
+        }
+
+        console.log('Gift code issued:', result.code);
+        return result.code;
     }
 
     async function recordPayPalDonation(orderId, amount) {
@@ -486,10 +481,9 @@
                     '[name="giftRecipient"]',
                     '.gift-recipient-input'
                 ]);
-                if (!giftRecipientUsername) {
-                    throw new Error('Please enter a recipient username');
-                }
-                await activatePayPalGift(orderId, selectedGiftPlan, giftRecipientUsername);
+                // Recipient is optional now — an empty value mints a shareable
+                // "gift to anyone" code. The buyer gets the code in Notifications.
+                await activatePayPalGift(orderId, selectedGiftPlan, giftRecipientUsername || null);
             }
         );
 
