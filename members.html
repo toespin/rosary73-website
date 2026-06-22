@@ -2481,48 +2481,31 @@
       btn.innerHTML = '<span class="spinner"></span>';
       resultDiv.style.display = 'none';
       try {
-        const tier = userData.subscriptionTier;
-        if (tier === 'perpetual' || tier === 'admin' || isPerpetualUser) throw new Error('You already have lifetime access! This gift code can be given to someone else.');
-        const giftDoc = await db.collection('giftCodes').doc(code).get();
-        if (!giftDoc.exists) throw new Error('Gift code not found. Please check and try again.');
-        const giftData = giftDoc.data();
-        if (giftData.redeemed) throw new Error('This gift code has already been redeemed.');
-        if (giftData.expiresAt) {
-          const expiresAt = giftData.expiresAt.toDate ? giftData.expiresAt.toDate() : new Date(giftData.expiresAt);
-          if (expiresAt < new Date()) throw new Error('This gift code has expired.');
-        }
-        const monthsToAdd = parseMonthsFromPlan(giftData.plan);
-        const now = new Date();
-        let subscriptionEnd = new Date(now);
-        let wasExtended = false;
-        if (userData.subscriptionEndDate) {
-          const currentEnd = new Date(userData.subscriptionEndDate);
-          if (currentEnd > now) { subscriptionEnd = new Date(currentEnd); wasExtended = true; }
-        }
-        subscriptionEnd.setMonth(subscriptionEnd.getMonth() + monthsToAdd);
-        await db.collection('users').doc(userData.userId).update({
-          subscriptionTier: 'gifted', subscriptionStatus: 'active', subscriptionEndDate: subscriptionEnd,
-          subscriptionSchemaVersion: 2, isGift: true, giftedBy: giftData.gifterId || null,
-          giftedByUsername: giftData.gifterName || 'Anonymous', giftedAt: firebase.firestore.FieldValue.serverTimestamp(),
-          lastGiftRedemption: firebase.firestore.FieldValue.serverTimestamp(),
-          subscriptionPlan: typeof giftData.plan === 'string' ? giftData.plan : (monthsToAdd === 12 ? 'twelveMonth' : monthsToAdd === 6 ? 'sixMonth' : 'threeMonth')
+        const REDEEM_GIFT_CODE_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net/redeemGiftCode';
+        const response = await fetch(REDEEM_GIFT_CODE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: code, userId: userData.userId })
         });
-        await db.collection('giftCodes').doc(code).update({ redeemed: true, redeemedBy: userData.userId, redeemedByUsername: userData.username, redeemedAt: firebase.firestore.FieldValue.serverTimestamp() });
-        await db.collection('giftRedemptions').add({
-          code: code, giftCodeId: code, userId: userData.userId, username: userData.username, plan: giftData.plan,
-          monthsAdded: monthsToAdd, gifterId: giftData.gifterId || null, gifterName: giftData.gifterName || 'Anonymous',
-          isAnonymous: giftData.isAnonymous || false, redeemedAt: firebase.firestore.FieldValue.serverTimestamp(),
-          extendedSubscription: wasExtended, previousEndDate: wasExtended ? userData.subscriptionEndDate : null,
-          newEndDate: subscriptionEnd.toISOString(), source: 'website'
-        });
-        userData.subscriptionTier = 'gifted'; userData.subscriptionStatus = 'active';
-        userData.subscriptionEndDate = subscriptionEnd.toISOString(); userData.subscriptionSchemaVersion = 2;
-        userData.isGift = true; sessionStorage.setItem('rosary73UserData', JSON.stringify(userData));
-        const gifterText = giftData.isAnonymous ? 'An anonymous benefactor' : (giftData.gifterName || 'A friend');
-        const durationText = getDurationText(giftData.plan);
-        const messageText = wasExtended ? 'Your existing subscription has been extended!' : 'Your subscription has been activated!';
+        let result;
+        try { result = await response.json(); } catch (e) { result = {}; }
+        if (!response.ok || !result || !result.success) {
+          throw new Error((result && result.error) || 'Failed to redeem gift code. Please try again.');
+        }
+        userData.subscriptionTier = 'gifted';
+        userData.subscriptionStatus = 'active';
+        userData.subscriptionEndDate = result.subscriptionEndDate;
+        userData.subscriptionSchemaVersion = 2;
+        userData.isGift = true;
+        if (result.plan) userData.subscriptionPlan = result.plan;
+        sessionStorage.setItem('rosary73UserData', JSON.stringify(userData));
+        const gifterText = result.gifterName || 'A friend';
+        const months = result.monthsAdded || 0;
+        const durationText = months + ' Month' + (months > 1 ? 's' : '');
+        const messageText = result.message || 'Your subscription has been activated!';
+        const expiry = result.subscriptionEndDate ? new Date(result.subscriptionEndDate).toLocaleDateString() : '';
         resultDiv.className = 'redeem-result success'; resultIcon.textContent = '✅';
-        resultText.innerHTML = `🎉 ${messageText}<br><br><strong>Gifted by:</strong> ${gifterText}<br><strong>Duration:</strong> ${durationText}<br><strong>New expiry:</strong> ${subscriptionEnd.toLocaleDateString()}<br><br>Enjoy your premium access!`;
+        resultText.innerHTML = `🎉 ${messageText}<br><br><strong>Gifted by:</strong> ${gifterText}<br><strong>Duration:</strong> ${durationText}<br><strong>New expiry:</strong> ${expiry}<br><br>Enjoy your premium access!`;
         codeInput.value = ''; updateUI(); showToast('Gift code redeemed successfully!', 'success');
       } catch (error) { resultDiv.className = 'redeem-result error'; resultIcon.textContent = '❌'; resultText.textContent = error.message;
       } finally { btn.disabled = false; btn.textContent = 'Redeem'; }
