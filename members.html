@@ -2479,7 +2479,7 @@
       if (code.length < 16) { resultDiv.className = 'redeem-result error'; resultIcon.textContent = '❌'; resultText.textContent = 'Please enter a valid gift code (R73GIFT-XXXXXXXX)'; return; }
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>';
-      resultDiv.style.display = 'none';
+      resultDiv.className = 'redeem-result';
       try {
         const REDEEM_GIFT_CODE_URL = 'https://us-central1-rosary--interact-app.cloudfunctions.net/redeemGiftCode';
         const response = await fetch(REDEEM_GIFT_CODE_URL, {
@@ -2507,7 +2507,7 @@
         resultDiv.className = 'redeem-result success'; resultIcon.textContent = '✅';
         resultText.innerHTML = `🎉 ${messageText}<br><br><strong>Gifted by:</strong> ${gifterText}<br><strong>Duration:</strong> ${durationText}<br><strong>New expiry:</strong> ${expiry}<br><br>Enjoy your premium access!`;
         codeInput.value = ''; updateUI(); showToast('Gift code redeemed successfully!', 'success');
-      } catch (error) { resultDiv.className = 'redeem-result error'; resultIcon.textContent = '❌'; resultText.textContent = error.message;
+      } catch (error) { resultDiv.className = 'redeem-result error'; resultIcon.textContent = '❌'; resultText.textContent = error.message; showToast(error.message, 'error');
       } finally { btn.disabled = false; btn.textContent = 'Redeem'; }
     }
 
