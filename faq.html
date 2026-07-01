@@ -75,6 +75,33 @@
             color: var(--primary-600);
         }
         
+        /* Promo Video */
+        .promo-video {
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+        
+        .promo-video .video-frame {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+            background: #000;
+        }
+        
+        .promo-video video {
+            width: 100%;
+            display: block;
+            background: #000;
+        }
+        
+        .promo-video .video-caption {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 14px;
+            font-size: 1rem;
+        }
+        
         /* FAQ Items */
         .faq-item {
             background: var(--bg-card);
@@ -253,6 +280,17 @@
     <section class="faq-section">
         <div class="container">
             <div class="faq-container">
+                
+                <!-- Promo Video -->
+                <div class="promo-video">
+                    <div class="video-frame">
+                        <video controls playsinline preload="metadata">
+                            <source src="videos/rosary73-promo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <p class="video-caption">73 souls, one rosary — see how Rosary73 unites the world in prayer.</p>
+                </div>
                 
                 <!-- Section Header -->
                 <div class="faq-section-header">
