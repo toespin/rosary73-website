@@ -83,16 +83,21 @@
         
         .promo-video .video-frame {
             position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
             border-radius: var(--radius-lg);
             overflow: hidden;
             box-shadow: 0 14px 40px rgba(0,0,0,0.18);
             background: #000;
         }
         
-        .promo-video video {
+        .promo-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            display: block;
-            background: #000;
+            height: 100%;
+            border: 0;
         }
         
         .promo-video .video-caption {
@@ -284,10 +289,7 @@
                 <!-- Promo Video -->
                 <div class="promo-video">
                     <div class="video-frame">
-                        <video controls playsinline preload="metadata">
-                            <source src="videos/rosary73-promo.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        <iframe src="https://www.youtube-nocookie.com/embed/YQY0xzXrMgg" title="Rosary73 promo video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                     <p class="video-caption">73 souls, one rosary — see how Rosary73 unites the world in prayer.</p>
                 </div>
