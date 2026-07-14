@@ -518,16 +518,6 @@
             </div>
           </div>
 
-          <div class="group-selector-container">
-            <label class="group-selector-label">Choose Group (Optional)</label>
-            <select id="group-selector" class="group-selector">
-              <option value="public">🌍 Public Rosary (Anyone can join)</option>
-            </select>
-            <div id="group-note" class="group-note info">
-              ℹ️ Public rosaries are visible to all Rosary73 users
-            </div>
-          </div>
-
           <div class="content-card">
             <h3 class="section-title">🙏 Prayer Intention</h3>
             <textarea 
@@ -616,7 +606,6 @@
       setupMysterySelection();
       setupIntentionInput();
       setupStartButton();
-      setupGroupSelector();
     });
 
     function initializeWithUserData() {
@@ -625,7 +614,6 @@
       checkRequirements();
       highlightTodaysMystery();
       updateSidebarForUser();
-      loadUserGroups();
       
       auth.onAuthStateChanged((user) => {
         if (user) currentUser = user;
@@ -646,7 +634,6 @@
           checkRequirements();
           highlightTodaysMystery();
           updateSidebarForUser();
-          loadUserGroups();
         } else {
           showLoginGate();
         }
@@ -672,117 +659,11 @@
       }
     }
 
-    async function loadUserGroups() {
-      const loadingEl = document.getElementById('groups-loading');
-      loadingEl.classList.remove('hidden');
-      
-      try {
-        const userId = currentUser?.uid || userData?.userId;
-        if (!userId) {
-          console.log('No userId for group loading');
-          loadingEl.classList.add('hidden');
-          return;
-        }
-        
-        console.log('Loading groups for user:', userId);
-        
-        const groupsSnapshot = await db.collection('groups')
-          .limit(200)
-          .get();
-        
-        console.log('Total groups found:', groupsSnapshot.size);
-        
-        userGroups = [];
-        
-        groupsSnapshot.forEach(doc => {
-          const data = doc.data();
-          
-          let isMember = false;
-          
-          if (data.memberIds && Array.isArray(data.memberIds)) {
-            isMember = data.memberIds.includes(userId);
-          }
-          if (!isMember && data.activeMembers && Array.isArray(data.activeMembers)) {
-            isMember = data.activeMembers.some(m => 
-              (typeof m === 'object' && m.userId === userId) || m === userId
-            );
-          }
-          if (!isMember && data.members) {
-            if (Array.isArray(data.members)) {
-              isMember = data.members.some(m => 
-                (typeof m === 'object' && m.userId === userId) || m === userId
-              );
-            } else if (typeof data.members === 'object') {
-              isMember = userId in data.members;
-            }
-          }
-          if (!isMember) {
-            isMember = data.createdBy === userId || 
-                       (data.adminIds && data.adminIds.includes(userId));
-          }
-          
-          if (isMember) {
-            console.log('User is member of:', data.name);
-            
-            const memberCount = data.activeMemberCount || 
-                               (data.activeMembers ? data.activeMembers.length : 0) ||
-                               (data.memberIds ? data.memberIds.length : 0) || 0;
-            
-            userGroups.push({
-              id: doc.id,
-              name: data.name || 'Unnamed Group',
-              memberCount: memberCount,
-              isActive: data.isActive !== false,
-              isAdmin: data.createdBy === userId || (data.adminIds && data.adminIds.includes(userId))
-            });
-          }
-        });
-        
-        console.log('User groups found:', userGroups.length, userGroups);
-        updateGroupSelector();
-      } catch (error) {
-        console.error('Error loading groups:', error);
-      } finally {
-        loadingEl.classList.add('hidden');
-      }
-    }
-
-    function updateGroupSelector() {
-      const selector = document.getElementById('group-selector');
-      
-      selector.innerHTML = '<option value="public">🌍 Public Rosary (Anyone can join)</option>';
-      
-      if (userGroups.length > 0) {
-        const separator = document.createElement('option');
-        separator.disabled = true;
-        separator.textContent = '── Your Groups ──';
-        selector.appendChild(separator);
-        
-        userGroups.forEach(group => {
-          const option = document.createElement('option');
-          option.value = group.id;
-          const activeLabel = group.isActive ? '' : ' (inactive)';
-          option.textContent = `👥 ${group.name} (${group.memberCount} members)${activeLabel}`;
-          selector.appendChild(option);
-        });
-      }
-    }
-
-    function setupGroupSelector() {
-      document.getElementById('group-selector').addEventListener('change', (e) => {
-        selectedGroup = e.target.value;
-        const note = document.getElementById('group-note');
-        
-        if (selectedGroup === 'public') {
-          note.className = 'group-note info';
-          note.textContent = 'ℹ️ Public rosaries are visible to all Rosary73 users';
-        } else {
-          const group = userGroups.find(g => g.id === selectedGroup);
-          note.className = 'group-note';
-          note.textContent = `🔐 Only members of "${group?.name}" can join this rosary`;
-        }
-      });
-    }
+    // Group features are app-only for now; the website group selector was
+    // removed (2026-07-14). These are no-ops so their call sites stay harmless
+    // and nothing queries the `groups` collection. Group rosary creation will
+    // return in a future website build.
+    async function loadUserGroups() { /* no-op: groups are app-only for now */ }
 
     function updateSidebarForUser() {
       if (!userData) return;
@@ -832,7 +713,6 @@
           checkRequirements();
           highlightTodaysMystery();
           updateSidebarForUser();
-          loadUserGroups();
         } catch (error) {
           document.getElementById('login-error').classList.remove('hidden');
           let errorMsg = error.message || 'Login failed';
@@ -992,8 +872,7 @@
     async function startRosary() {
       const btn = document.getElementById('start-btn');
       const intention = document.getElementById('intention-input').value.trim();
-      const groupValue = document.getElementById('group-selector').value;
-      
+
       if (!canStart || !selectedMystery || intention.length < 10) return;
       
       btn.disabled = true;
@@ -1006,10 +885,7 @@
         const rosaryId = `rosary_${Date.now()}`;
         let creedUrl = userData?.recordings?.creed || userData?.creedUrl || '';
         const creatorUsername = userData.username || 'Anonymous';
-        
-        const isGroupRosary = groupValue !== 'public';
-        const selectedGroupData = isGroupRosary ? userGroups.find(g => g.id === groupValue) : null;
-        
+
         const rosaryData = {
           rosaryId,
           creatorId: userId,
@@ -1024,11 +900,11 @@
           audioProcessing: false,
           stitchedAudioUrl: null,
           
-          groups: isGroupRosary ? [groupValue] : [],
-          isPublic: !isGroupRosary,
-          isGroupRosary: isGroupRosary,
-          groupId: isGroupRosary ? groupValue : null,
-          groupName: isGroupRosary ? selectedGroupData?.name : null,
+          groups: [],
+          isPublic: true,
+          isGroupRosary: false,
+          groupId: null,
+          groupName: null,
           
           numberingSystem: '1-73',
           hasCreatorRecording: !!creedUrl,
@@ -1043,15 +919,11 @@
           rosariesStarted: firebase.firestore.FieldValue.increment(1)
         }).catch(() => {});
         
-        console.log('✅ Rosary created:', rosaryId, isGroupRosary ? `for group ${selectedGroupData?.name}` : 'public');
-        
+        console.log('✅ Rosary created:', rosaryId, 'public');
+
         const successText = document.getElementById('success-text');
-        if (isGroupRosary) {
-          successText.innerHTML = `Your rosary for <strong>${selectedGroupData?.name}</strong> has been created. You are participant #1.<br>Only group members can join this rosary.`;
-        } else {
-          successText.innerHTML = 'Your rosary has been created. You are participant #1.<br><strong>72 more people</strong> can now join and pray with you.';
-        }
-        
+        successText.innerHTML = 'Your rosary has been created. You are participant #1.<br><strong>72 more people</strong> can now join and pray with you.';
+
         document.getElementById('success-modal').classList.remove('hidden');
       } catch (error) {
         console.error('Error creating rosary:', error);
