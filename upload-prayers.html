@@ -944,7 +944,22 @@
           ['recordings.' + prayerId]: downloadUrl,
           prayerCount: firebase.firestore.FieldValue.increment(userData && userData.recordings && userData.recordings[prayerId] ? 0 : 1)
         });
-        
+
+        // Also write to the app + stitcher canonical locations so the mobile
+        // app and the server-side audio stitcher pick up this (re-)recording.
+        // App reads Storage recordings/{uid}/{prayer}.m4a; the stitcher reads
+        // userRecordings/{uid}.recordings.{prayer}Recording. Without this the
+        // website copy stays isolated (users/{uid}/prayers + users/{uid}.recordings).
+        var appStorageRef = storage.ref('recordings/' + userId + '/' + prayerId + '.m4a');
+        await appStorageRef.put(file);
+        var appDownloadUrl = await appStorageRef.getDownloadURL();
+        var recObj = {};
+        recObj[prayerId + 'Recording'] = appDownloadUrl;
+        await db.collection('userRecordings').doc(userId).set({
+          recordings: recObj,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
         if (!userData.recordings) userData.recordings = {};
         if (!userData.recordings[prayerId]) {
           userData.prayerCount = (userData.prayerCount || 0) + 1;
