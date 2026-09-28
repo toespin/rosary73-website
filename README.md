@@ -25,14 +25,46 @@ rosary73-website/
 ├── contact.html       # Contact Form
 ├── terms.html         # Terms of Service
 ├── privacy.html       # Privacy Policy
+├── get/
+│   └── index.html     # Smart store redirect (rosary73.com/get)
 ├── css/
 │   ├── style.css      # Main stylesheet
 │   └── faq.css        # FAQ specific styles
 ├── js/
 │   └── main.js        # JavaScript functionality
 ├── images/            # Images and icons
+├── .nojekyll          # Disable Jekyll processing
 └── CNAME             # Custom domain
 ```
+
+## 🔗 Smart Download Link — `/get`
+
+`https://rosary73.com/get` is a single link that sends each visitor to the right
+store for their device. Use it in social bios (Instagram, TikTok), QR codes and
+any place that only allows one URL.
+
+Behaviour:
+
+| Device | Destination |
+|---|---|
+| iPhone / iPad | App Store — `id6753041495` |
+| Android | Google Play — `com.drekkitech.rosary73` |
+| Desktop / other | Branded card with both buttons |
+
+Notes:
+
+- iPadOS 13+ reports itself as a Mac, so detection also checks
+  `navigator.maxTouchPoints` to catch iPads.
+- Redirect uses `location.replace()` so the browser Back button returns the
+  visitor to where they came from, not to this page.
+- The page is marked `noindex, follow` — it is a redirect, not a landing page,
+  and should not compete with the homepage in search results.
+- Both store buttons are present in the HTML as a fallback, so the page still
+  works if JavaScript is disabled.
+- Source: `get/index.html`. Served at `/get` by GitHub Pages without a trailing
+  slash redirect.
+
+Verified working on iPhone and Android tablet, September 2026.
 
 ## 🛠 Setup & Development
 
@@ -104,20 +136,18 @@ To add Google Analytics:
 
 ## 🔄 Updates
 
-### Adding App Store Links
-When your app is live, update download buttons in `index.html`:
+### App Store Links (live)
+The app is live on both stores. Canonical URLs:
+
 ```html
 <!-- iOS App Store -->
-<a href="https://apps.apple.com/app/rosary73/id[YOUR_APP_ID]">
+<a href="https://apps.apple.com/app/id6753041495">
 
 <!-- Google Play Store -->
-<a href="https://play.google.com/store/apps/details?id=com.rosary73">
-```
+<a href="https://play.google.com/store/apps/details?id=com.drekkitech.rosary73">
 
-### TestFlight Beta Link
-Update the TestFlight link when available:
-```html
-<a href="https://testflight.apple.com/join/[YOUR_CODE]">
+<!-- Or, device-agnostic -->
+<a href="https://rosary73.com/get">
 ```
 
 ## 📱 Mobile App Repository
