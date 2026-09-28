@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Get Rosary73</title>
+<meta name="description" content="Download Rosary73 — 73 voices, one rosary. Free on iOS and Android.">
+<meta name="robots" content="noindex,follow">
+<meta property="og:title" content="Get Rosary73">
+<meta property="og:description" content="73 voices. One rosary. Free on iOS and Android.">
+<meta property="og:url" content="https://rosary73.com/get">
+<link rel="canonical" href="https://rosary73.com/get">
+<style>
+  :root{
+    --cream:#F6F0DF; --ink:#2A1C10; --brown:#8B4513; --tan:#C9A46B; --muted:#6B5B49;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px; text-align:center; line-height:1.5;
+  }
+  .wrap{max-width:420px;width:100%}
+  .bead{
+    width:92px;height:92px;border-radius:50%;margin:0 auto 22px;
+    background:radial-gradient(circle at 34% 28%, #D9B47E 0%, #C49A62 45%, #8B5E2F 100%);
+    box-shadow:0 6px 18px rgba(42,28,16,.22);
+    display:flex;align-items:center;justify-content:center;
+    font:600 34px/1 Georgia,"Times New Roman",serif;color:#4A3220;
+  }
+  h1{font:600 27px/1.3 Georgia,"Times New Roman",serif;margin:0 0 8px}
+  .sub{color:var(--muted);font-size:15px;margin:0 0 28px}
+  .status{font-size:14px;color:var(--muted);margin:0 0 22px}
+  a.btn{
+    display:block;padding:15px 20px;margin:10px 0;border-radius:14px;
+    text-decoration:none;font-size:16px;font-weight:600;
+    background:var(--brown);color:#FFF8EC;
+  }
+  a.btn.alt{background:transparent;color:var(--brown);border:1.5px solid var(--tan)}
+  .foot{margin-top:26px;font-size:13px}
+  .foot a{color:var(--muted)}
+  @media (prefers-color-scheme:dark){
+    body{background:#17120D;color:#F4E8D5}
+    .sub,.status{color:#A08E78}
+    a.btn.alt{color:#E0BE87}
+    .foot a{color:#A08E78}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bead">73</div>
+  <h1>73 voices. One rosary.</h1>
+  <p class="sub">Record a bead. Join a rosary already rising.</p>
+  <p class="status" id="status">Taking you to the store&hellip;</p>
+
+  <a class="btn" id="ios" href="https://apps.apple.com/app/id6753041495">Download for iPhone &amp; iPad</a>
+  <a class="btn alt" id="android" href="https://play.google.com/store/apps/details?id=com.drekkitech.rosary73">Download for Android</a>
+
+  <p class="foot"><a href="https://rosary73.com">rosary73.com</a></p>
+</div>
+
+<script>
+(function () {
+  var IOS = "https://apps.apple.com/app/id6753041495";
+  var AND = "https://play.google.com/store/apps/details?id=com.drekkitech.rosary73";
+  var ua  = navigator.userAgent || navigator.vendor || "";
+
+  // iPadOS 13+ reports as Mac; touch points disambiguate it.
+  var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+              (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/i.test(ua);
+
+  var target = isIOS ? IOS : (isAndroid ? AND : null);
+
+  if (target) {
+    // replace() so Back returns to where they came from, not this page
+    setTimeout(function () { location.replace(target); }, 350);
+  } else {
+    document.getElementById("status").textContent = "Choose your device:";
+  }
+})();
+</script>
+</body>
+</html>
