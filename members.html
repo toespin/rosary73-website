@@ -1255,7 +1255,7 @@
       <div class="sidebar-section">
         <div class="sidebar-section-title">My Content</div>
         <button class="sidebar-item" onclick="showSection('my-rosaries')" data-section="my-rosaries">
-          <span class="sidebar-item-icon">📿</span>
+          <span class="sidebar-item-icon">🌹</span>
           <span class="sidebar-item-text">My Rosaries</span>
         </button>
         <button class="sidebar-item" onclick="showSection('my-groups')" data-section="my-groups">
@@ -1393,7 +1393,7 @@
         <!-- My Rosaries Section - FULLY IMPLEMENTED -->
         <div class="section-panel" id="section-my-rosaries">
           <div class="section-header">
-            <h2>📿 My Rosaries</h2>
+            <h2>🌹 My Rosaries</h2>
             <div style="display: flex; gap: 10px;">
               <button class="btn btn-small btn-secondary" onclick="loadMyRosaries()">🔄 Refresh</button>
               <button class="close-section" onclick="showSection('dashboard')">×</button>
@@ -1426,7 +1426,7 @@
           
           <!-- Filter Tabs -->
           <div class="my-rosaries-tabs">
-            <button class="my-rosaries-tab active" data-filter="all" onclick="filterMyRosaries('all')">📿 All</button>
+            <button class="my-rosaries-tab active" data-filter="all" onclick="filterMyRosaries('all')">🌹 All</button>
             <button class="my-rosaries-tab" data-filter="started" onclick="filterMyRosaries('started')">⭐ Started</button>
             <button class="my-rosaries-tab" data-filter="joined" onclick="filterMyRosaries('joined')">🙏 Joined</button>
             <button class="my-rosaries-tab" data-filter="active" onclick="filterMyRosaries('active')">🟢 Active</button>
@@ -1444,7 +1444,7 @@
           
           <!-- Empty State -->
           <div class="my-rosaries-empty hidden" id="my-rosaries-empty">
-            <div class="my-rosaries-empty-icon">📿</div>
+            <div class="my-rosaries-empty-icon"><img src="images/rosary106.webp" alt="Rosary" style="width:120px;max-width:50vw;height:auto;"></div>
             <h3>No Rosaries Found</h3>
             <p>Start or join a rosary to see it here!</p>
             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
@@ -2310,7 +2310,7 @@
       emptyEl.classList.add('hidden');
       
       listEl.innerHTML = filtered.map(rosary => {
-        const mysteryIcon = MYSTERY_ICONS[rosary.mysteryType] || '📿';
+        const mysteryIcon = MYSTERY_ICONS[rosary.mysteryType] || '🌹';
         const mysteryName = rosary.mysteryType ? rosary.mysteryType.charAt(0).toUpperCase() + rosary.mysteryType.slice(1) : 'Unknown';
         const progress = ((rosary.participantCount || 1) / 73 * 100).toFixed(0);
         const isCompleted = rosary.status === 'completed';

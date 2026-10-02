@@ -454,7 +454,7 @@
     <div class="sidebar-section">
       <div class="sidebar-section-title">My Content</div>
       <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','my-rosaries')">
-        <span class="sidebar-item-icon">📿</span>
+        <span class="sidebar-item-icon">🌹</span>
         <span>My Rosaries</span>
       </a>
       <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','my-groups')">
@@ -535,7 +535,7 @@
         </div>
 
         <div class="filter-tabs">
-          <button class="filter-tab active" data-filter="all">📿 All Mysteries</button>
+          <button class="filter-tab active" data-filter="all">🌹 All Mysteries</button>
           <button class="filter-tab" data-filter="joyful">👶 Joyful</button>
           <button class="filter-tab" data-filter="sorrowful">✝️ Sorrowful</button>
           <button class="filter-tab" data-filter="glorious">👑 Glorious</button>
@@ -565,7 +565,7 @@
         <div class="rosary-list" id="rosary-list"></div>
 
         <div class="empty-state hidden" id="empty-state">
-          <div class="empty-state-icon">📿</div>
+          <div class="empty-state-icon"><img src="images/rosary106.webp" alt="Rosary" style="width:150px;max-width:60vw;height:auto;"></div>
           <h3>No Active Rosaries</h3>
           <p>Be the first to start a rosary!</p>
           <a href="start-rosary.html" class="btn btn-primary" style="margin-top: 20px;">Start a Rosary</a>
@@ -865,7 +865,7 @@
           }
         });
         
-        console.log(`📿 Loaded ${allRosaries.length} public rosaries: ${availableRosaries.length} available, ${joinedRosaries.length} already joined`);
+        console.log(`🌹 Loaded ${allRosaries.length} public rosaries: ${availableRosaries.length} available, ${joinedRosaries.length} already joined`);
         
         document.getElementById('stat-active').textContent = availableRosaries.length;
         document.getElementById('stat-joined').textContent = joinedRosaries.length;
@@ -914,7 +914,7 @@
       
       list.innerHTML = filtered.map(rosary => {
         const progress = ((rosary.participantCount || 1) / 73 * 100).toFixed(0);
-        const icon = mysteryIcons[rosary.mysteryType] || '📿';
+        const icon = mysteryIcons[rosary.mysteryType] || '🌹';
         
         return `
           <div class="rosary-card" data-id="${rosary.id}">

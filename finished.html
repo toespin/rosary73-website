@@ -440,7 +440,7 @@
     <div class="sidebar-section">
       <div class="sidebar-section-title">My Content</div>
       <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','my-rosaries')">
-        <span class="sidebar-item-icon">📿</span>
+        <span class="sidebar-item-icon">🌹</span>
         <span>My Rosaries</span>
       </a>
       <a href="members.html" class="sidebar-item" onclick="sessionStorage.setItem('openSection','my-groups')">
@@ -842,7 +842,7 @@
       
       emptyState.classList.add('hidden');
       list.innerHTML = filtered.map((rosary) => {
-        const icon = mysteryIcons[rosary.mysteryType] || '📿';
+        const icon = mysteryIcons[rosary.mysteryType] || '🌹';
         const hasAudio = !!rosary.stitchedAudioUrl;
         const audioUrl = hasAudio ? `${FUNCTIONS_URL}/streamAudio?rosaryId=${rosary.id}` : '';
         const isGroupRosary = rosary.isGroupRosary === true;
