@@ -339,6 +339,30 @@
     .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     
     .hidden { display: none !important; }
+
+    /* Success modal (styles were missing — modal rendered as unstyled text below the fold) */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background: var(--bg-darker);
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      padding: 36px 28px;
+      max-width: 440px; width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .modal-icon { font-size: 3rem; margin-bottom: 12px; }
+    .modal-title { color: var(--gold); font-size: 1.6rem; font-weight: 700; margin: 0 0 12px; }
+    .modal-text { color: rgba(255,255,255,0.85); font-size: 1rem; line-height: 1.6; margin: 0 0 24px; }
+    .modal-buttons { display: flex; flex-direction: column; gap: 12px; }
+    .modal-buttons .btn { width: 100%; text-align: center; text-decoration: none; }
+    .btn-secondary { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.85); }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
     
     /* Mobile */
     @media (max-width: 900px) {
@@ -924,6 +948,7 @@
         const successText = document.getElementById('success-text');
         successText.innerHTML = 'Your rosary has been created. You are participant #1.<br><strong>72 more people</strong> can now join and pray with you.';
 
+        btn.innerHTML = '✅ Rosary Started';
         document.getElementById('success-modal').classList.remove('hidden');
       } catch (error) {
         console.error('Error creating rosary:', error);
